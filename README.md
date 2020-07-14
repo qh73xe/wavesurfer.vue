@@ -1,5 +1,9 @@
 # wavesurfer.vue
 
+wavesurfer.vue は, [wavesurfer.js](https://github.com/katspaugh/wavesurfer.js) に対する vue.js 用のラッパーです.
+
+個人的によく利用するライブラリなので, 操作そのものを独立させるために独立したリポジトリ管理を行うことにしました.
+
 ## Project setup
 ```
 yarn install
