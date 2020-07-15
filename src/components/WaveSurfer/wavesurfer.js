@@ -303,7 +303,7 @@ export default class WaveSurfer extends util.Observer {
    * @example
    * console.log('Using wavesurfer.js ' + WaveSurfer.VERSION);
    */
-  static VERSION = __VERSION__; // eslint-disable-line no-undef
+  // static VERSION = __VERSION__; // eslint-disable-line no-undef
 
   /**
    * Functions in the `util` property are available as a prototype property to
@@ -346,8 +346,7 @@ export default class WaveSurfer extends util.Observer {
     this.container =
       "string" == typeof params.container
         ? document.querySelector(this.params.container)
-        : this.params.container;
-
+        : params.container;
     if (!this.container) {
       throw new Error("Container element not found");
     }

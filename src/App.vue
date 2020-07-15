@@ -1,19 +1,24 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view />
-  </div>
+  <v-app>
+    <w-navigation-drawer />
+    <w-app-bar />
+    <v-main>
+      <router-view />
+    </v-main>
+  </v-app>
 </template>
 
-<style lang="stylus">
-#app
-  font-family Avenir, Helvetica, Arial, sans-serif
-  -webkit-font-smoothing antialiased
-  -moz-osx-font-smoothing grayscale
-  text-align center
-  color #2c3e50
-  margin-top 60px
-</style>
+<script>
+import WAppBar from "./components/Base/WAppBar.vue";
+import WNavigationDrawer from "./components/Base/WNavigationDrawer.vue";
+
+export default {
+  name: "App",
+  components: {
+    WNavigationDrawer,
+    WAppBar
+  },
+
+  data: () => ({})
+};
+</script>
