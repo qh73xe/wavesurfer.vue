@@ -7,13 +7,23 @@
     </v-row>
     <v-row>
       <v-col>
+        <slot></slot>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
         <v-tabs v-model="tab" dark>
           <v-tab v-for="item in items" :key="item.tab">
             {{ item.tab }}
           </v-tab>
         </v-tabs>
         <v-tabs-items v-model="tab">
-          <v-tab-item v-for="item in items" :key="item.tab">
+          <v-tab-item
+            v-for="item in items"
+            :key="item.tab"
+            style="max-height: 400px"
+            class="overflow-y-auto"
+          >
             <w-code-heighlight v-if="item.tab == 'Template'">
               {{ template_string }}
             </w-code-heighlight>
@@ -25,11 +35,6 @@
             </w-code-heighlight>
           </v-tab-item>
         </v-tabs-items>
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col>
-        <slot></slot>
       </v-col>
     </v-row>
   </v-container>

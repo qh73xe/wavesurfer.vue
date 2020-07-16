@@ -6,7 +6,7 @@ import WaveSurfer from "./wavesurfer.js";
 export default {
   name: "WaveSurfer.vue",
   data: () => ({
-    wasesurfer: null,
+    wavesurfer: null,
     options: {}
   }),
   props: {
@@ -117,9 +117,16 @@ export default {
       }
     }
   },
+  watch: {
+    source(val, old_val) {
+      if (val != old_val) {
+        this.load(val);
+      }
+    }
+  },
   methods: {
     initWaveSurper: function() {
-      if (this.wasesurfer === null) {
+      if (this.wavesurfer === null) {
         this.$nextTick(() => {
           const options = {
             container: this.$refs.waveform,
@@ -161,7 +168,23 @@ export default {
             xhr: this.xhr
           };
           if (this.$refs.waveform) {
-            this.wasesurfer = WaveSurfer.create(options);
+            this.wavesurfer = WaveSurfer.create(options);
+            this.wavesurfer.on("audioprocess", this.onAudioprocess);
+            this.wavesurfer.on("dblclick", this.onDblClick);
+            this.wavesurfer.on("destroy", this.onDestoroy);
+            this.wavesurfer.on("error", this.onError);
+            this.wavesurfer.on("finish", this.onFinish);
+            this.wavesurfer.on("interaction", this.onInteraction);
+            this.wavesurfer.on("loading", this.onLoading);
+            this.wavesurfer.on("mute", this.onMute);
+            this.wavesurfer.on("pause", this.onPause);
+            this.wavesurfer.on("play", this.onPlay);
+            this.wavesurfer.on("ready", this.onReady);
+            this.wavesurfer.on("scroll", this.onScroll);
+            this.wavesurfer.on("seek", this.onSeek);
+            this.wavesurfer.on("volume", this.onVolume);
+            this.wavesurfer.on("waveform-ready", this.onWaveformReady);
+            this.wavesurfer.on("zoom", this.onZoom);
           }
           if (this.source) {
             this.load(this.source);
@@ -170,14 +193,62 @@ export default {
       }
     },
     runWaveSurfer: function(func, args = null) {
-      if (this.wasesurfer) {
+      if (this.wavesurfer) {
         if (args) {
-          return this.wasesurfer[func](...args);
+          return this.wavesurfer[func](...args);
         } else {
-          return this.wasesurfer[func]();
+          return this.wavesurfer[func]();
         }
       }
       return null;
+    },
+    onAudioprocess: function(e) {
+      this.$emit("audioprocess", e);
+    },
+    onDblclick: function(e) {
+      this.$emit("dblclick", e);
+    },
+    onDestroy: function(e) {
+      this.$emit("destroy", e);
+    },
+    onError: function(e) {
+      this.$emit("error", e);
+    },
+    onFinish: function(e) {
+      this.$emit("finish", e);
+    },
+    onInteraction: function(e) {
+      this.$emit("interaction", e);
+    },
+    onLoading: function(e) {
+      this.$emit("loading", e);
+    },
+    onMute: function(e) {
+      this.$emit("mute", e);
+    },
+    onPause: function(e) {
+      this.$emit("pause", e);
+    },
+    onPlay: function(e) {
+      this.$emit("play", e);
+    },
+    onReady: function(e) {
+      this.$emit("ready", e);
+    },
+    onScroll: function(e) {
+      this.$emit("scroll", e);
+    },
+    onSeek: function(e) {
+      this.$emit("seek", e);
+    },
+    onVolume: function(e) {
+      this.$emit("volume", e);
+    },
+    onZoom: function(e) {
+      this.$emit("zoom", e);
+    },
+    onWaveformReady: function(e) {
+      this.$emit("waveform-ready", e);
     },
     cancelAjax: function() {
       return this.runWaveSurfer("cancelAjax");

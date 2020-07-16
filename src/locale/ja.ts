@@ -135,6 +135,37 @@ export default {
         xhr:
           "XHR オプション. 例えば以下のような値になります: `{ cache: 'default', mode: 'cors', method: 'GET', credentials: 'same-origin', redirect: 'follow', referrer: 'client', headers: [ { key: 'Authorization', value: 'my-token' } ]}`"
       }
+    },
+    events: {
+      desc:
+        "`<wave-surfer>` コンポーネントから様々なプレーヤーイベントを受け取ることができます. ",
+      descs: {
+        audioprocess: "オーディオの再生中, またはシーク時に継続的に発火します.",
+        dblclick: "インスタンスがダブルクリックされた時に発火します.",
+        destroy: "インスタンスが破棄された際に発火します.",
+        error:
+          "エラー発生時に発火します. コールバックは `error message` (string) を受け取ります.",
+        finish: "音声再生が終了した場合に発火します.",
+        interaction: "`waveform` とのインタラクションが存在する際に発火します.",
+        loading:
+          "フェッチまたはドラッグアンドドロップを使用してロードするときに継続的に発火します. コールバックはロードの進行状況をパーセント[0..100] (integer) で受け取ります.",
+        mute:
+          "ミュート変更時に発火します. コールバックは新しいミュート状態 (boolean) を受け取ります.",
+        pause: "音声再生が停止した際に発火します.",
+        play: "音声再生が開始した際に発火します.",
+        ready:
+          "オーディオが読み込まれ, デコードされて, 波形が描画されます. これは, MediaElement を使用しているときに波形が描画される前に発火します. waveform-ready を参照してください.",
+        scroll:
+          "スクロールバーが移動した際に発火します. コールバックは `ScrollEvent` オブジェクトを受け取ります.",
+        seek:
+          "シーク時に発火します. コールバックは 進行状況 [0..1] (float) を受け取ります.",
+        volume:
+          "ボリューム変更時に発火します. コールバックは新しいボリューム (integer) を受け取ります.",
+        "waveform-ready":
+          "`MediaElement` バックエンドを使用している場合, 波形が描画された後に発火します. `WebAudio` バックエンドを使用している場合には, `ready` を使用できます.",
+        zoom:
+          "ズーム時に発火します. コールバックは `minPxPerSec` (integer) を受け取ります."
+      }
     }
   }
 };

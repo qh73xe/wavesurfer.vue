@@ -1,8 +1,5 @@
 <template>
-  <w-documentation-layout
-    :heading="heading"
-    :desc="$vuetify.lang.t('$vuetify.document.options.desc')"
-  >
+  <w-documentation-layout :heading="heading" :desc="$vuetify.lang.t(desc)">
     <v-data-table
       :headers="
         headers.map(x => {
@@ -21,20 +18,22 @@
 </template>
 <script>
 import WDocumentationLayout from "@/components/Base/WDocumentationLayout.vue";
+const locale = "$vuetify.document.options";
 export default {
   name: "Options.vue",
   components: {
     WDocumentationLayout
   },
   data: () => ({
-    locale: "$vuetify.document.options",
+    locale: locale,
     heading: "wavesurfer.vue/documentation/options",
+    desc: `${locale}.desc`,
     headers: [
-      { text: "$vuetify.document.options.headers.option", value: "option" },
-      { text: "$vuetify.document.options.headers.type", value: "type" },
-      { text: "$vuetify.document.options.headers.default", value: "default" },
+      { text: `${locale}.headers.option`, value: "option" },
+      { text: `${locale}.headers.type`, value: "type" },
+      { text: `${locale}.headers.default`, value: "default" },
       {
-        text: "$vuetify.document.options.headers.description",
+        text: `${locale}.headers.description`,
         value: "description"
       }
     ],

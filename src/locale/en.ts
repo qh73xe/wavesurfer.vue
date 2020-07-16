@@ -135,6 +135,34 @@ export default {
         xhr:
           "XHR options. For example: let xhr = { cache: 'default', mode: 'cors', method: 'GET', credentials: 'same-origin', redirect: 'follow', referrer: 'client', headers: [ { key: 'Authorization', value: 'my-token' } ]};"
       }
+    },
+    events: {
+      desc:
+        "You can receive various player events from the `<wave-surfer>` component.",
+      descs: {
+        audioprocess:
+          "Fires continuously as the audio plays. Also fires on seeking.",
+        dblclick: "When instance is double-clicked.",
+        destroy: "When instance is destroyed.",
+        error: "Occurs on error. Callback will receive (string) error message.",
+        finish: "When it finishes playing.",
+        interaction: "When there's interaction with the waveform.",
+        loading:
+          "Fires continuously when loading using fetch or drag'n'drop. Callback will receive (integer) loading progress in percents [0..100].",
+        mute:
+          "On mute change. Callback will receive (boolean) new mute status.",
+        pause: "When audio is paused.",
+        play: "When playback starts.",
+        ready:
+          "When audio is loaded, decoded and the waveform drawn. This fires before the waveform is drawn when using MediaElement, see waveform-ready.",
+        scroll:
+          "When the scrollbar is moved. Callback will receive a ScrollEvent object.",
+        seek: "On seeking. Callback will receive (float) progress [0..1].",
+        volume: "On volume change. Callback will receive (integer) new volume.",
+        "waveform-ready":
+          "Fires after the waveform is drawn when using the MediaElement backend. If you're using the WebAudio backend, you can use ready.",
+        zoom: "On zooming. Callback will receive (integer) minPxPerSec."
+      }
     }
   }
 };

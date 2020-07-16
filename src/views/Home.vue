@@ -13,6 +13,7 @@
               v-for="(links, key) in routes"
               :key="key"
               :prepend-icon="links.icon"
+              :value="true"
             >
               <template v-slot:activator>
                 <v-list-item-title>
@@ -32,25 +33,16 @@
         </v-card>
       </v-col>
     </v-row>
-    <v-row>
-      <v-col>
-        <w-code-heighlight>
-          {{ routes }}
-        </w-code-heighlight>
-      </v-col>
-    </v-row>
   </v-container>
 </template>
 
 <script>
 // @ is an alias to /src
 import WJumbotron from "@/components/Base/WJumbotron.vue";
-import WCodeHeighlight from "@/components/Base/WCodeHeighlight.vue";
 export default {
   name: "Home",
   components: {
-    WJumbotron,
-    WCodeHeighlight
+    WJumbotron
   },
   computed: {
     routes: function() {

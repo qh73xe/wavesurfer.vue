@@ -1,5 +1,7 @@
 import Options from "@/views/documentation/Options.vue";
 import Methods from "@/views/documentation/Methods.vue";
+
+import Events from "@/views/documentation/Events.vue";
 const basename = "docs";
 export default [
   {
@@ -13,5 +15,11 @@ export default [
     name: `${basename}-methods`,
     text: `Methods`,
     component: Methods
+  },
+  {
+    path: `/${basename}/events`,
+    name: `${basename}-events`,
+    text: `Events`,
+    component: Events
   }
 ];
