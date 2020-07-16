@@ -54,8 +54,8 @@
       "git add"
     ]
   },
-  "main": "lib/wave-furfer.umd.js",
-  "unpkg": "lib/wave-furfer.common.js",
+  "main": "dist/wave-furfer.umd.js",
+  "unpkg": "dist/wave-furfer.common.js",
   "browser": {
     "./sfc": "src/components/index.js"
   },
