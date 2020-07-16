@@ -1,3 +1,5 @@
 module.exports = {
-  transpileDependencies: ["vuetify"]
+  transpileDependencies: ["vuetify"],
+  publicPath: "/wavesurfer.vue/",
+  outputDir: "docs"
 };
