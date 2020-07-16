@@ -12,13 +12,13 @@ let routes = [
     name: "Home",
     text: "Home",
     component: Home
-  },
-  {
-    path: "/about",
-    name: "About",
-    text: "About",
-    component: () => import("../views/About.vue")
   }
+  // {
+  //   path: "/about",
+  //   name: "About",
+  //   text: "About",
+  //   component: () => import("../views/About.vue")
+  // }
 ];
 
 routes = routes.concat(docs);

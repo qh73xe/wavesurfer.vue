@@ -61,6 +61,10 @@ export default {
       currentPage: "Current Page, Page {0}"
     }
   },
+  home: {
+    desc:
+      "wavesurfer.vue is a vue.js wrapper for wavesurfer.js. It provides a customizable audio waveform visualization built on top of the Web Audio API and HTML5 Canvas."
+  },
   document: {
     options: {
       desc:

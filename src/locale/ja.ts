@@ -61,6 +61,10 @@ export default {
       currentPage: "現在のページ、ページ {0}"
     }
   },
+  home: {
+    desc:
+      "wavesurfer.vue は, wavesurfer.js に対する vue.js 用ラッパーです. \n Web Audio API および HTML5 Canvas の上に構築された, カスタマイズ可能な音声波形の視覚化を提供します."
+  },
   document: {
     options: {
       desc:

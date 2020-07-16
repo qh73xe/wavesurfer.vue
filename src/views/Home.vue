@@ -2,7 +2,17 @@
   <v-container class="grey lighten-2 fill-height" fluid>
     <v-row>
       <v-col>
-        <w-jumbotron heading="wavesurfer.vue/example/home" />
+        <w-jumbotron heading="wavesurfer.vue/home" />
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col class="text-center">
+        <p
+          v-for="text in $vuetify.lang.t('$vuetify.home.desc').split('\n')"
+          :key="text"
+        >
+          {{ text }}
+        </p>
       </v-col>
     </v-row>
     <v-row>
@@ -20,7 +30,11 @@
                   {{ key.toUpperCase() }}
                 </v-list-item-title>
               </template>
-              <v-list-item v-for="link in links.items" :key="link.name" link>
+              <v-list-item
+                v-for="link in links.items"
+                :key="link.name"
+                @click="$router.push({ path: link.path })"
+              >
                 <v-list-item-icon>
                   <v-icon>
                     {{ link.icon }}
