@@ -4,7 +4,7 @@
 <script>
 import WaveSurfer from "./wavesurfer.js";
 export default {
-  name: "WaveSurfer.vue",
+  name: "wave-surfer",
   data: () => ({
     wavesurfer: null,
     options: {}
