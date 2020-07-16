@@ -1647,8 +1647,8 @@ export default class WaveSurfer extends util.Observer {
    * @emits WaveSurfer#destroy
    */
   destroy() {
+    // this.fireEvent("destroy");
     this.destroyAllPlugins();
-    this.fireEvent("destroy");
     this.cancelAjax();
     this.clearTmpEvents();
     this.unAll();

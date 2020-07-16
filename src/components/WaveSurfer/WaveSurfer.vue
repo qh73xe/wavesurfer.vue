@@ -171,7 +171,6 @@ export default {
             this.wavesurfer = WaveSurfer.create(options);
             this.wavesurfer.on("audioprocess", this.onAudioprocess);
             this.wavesurfer.on("dblclick", this.onDblClick);
-            this.wavesurfer.on("destroy", this.onDestoroy);
             this.wavesurfer.on("error", this.onError);
             this.wavesurfer.on("finish", this.onFinish);
             this.wavesurfer.on("interaction", this.onInteraction);
@@ -254,7 +253,10 @@ export default {
       return this.runWaveSurfer("cancelAjax");
     },
     destroy: function() {
-      return this.runWaveSurfer("destroy");
+      const res = this.runWaveSurfer("destroy");
+      this.wavesurfer = null;
+      this.onDestroy();
+      return res;
     },
     empty: function() {
       return this.runWaveSurfer("empty");
@@ -394,6 +396,9 @@ export default {
   },
   mounted: function() {
     this.initWaveSurper();
+  },
+  beforeDestroy: function() {
+    this.destroy();
   }
 };
 </script>
