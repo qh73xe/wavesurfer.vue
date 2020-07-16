@@ -5,6 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "build:lib": "vue-cli-service build --target lib --name wave-furfer src/components/index.js",
     "test:unit": "vue-cli-service test:unit",
     "test:e2e": "vue-cli-service test:e2e",
     "lint": "vue-cli-service lint"
@@ -52,5 +53,18 @@
       "vue-cli-service lint",
       "git add"
     ]
-  }
+  },
+  "main": "lib/wave-furfer.umd.js",
+  "unpkg": "lib/wave-furfer.common.js",
+  "browser": {
+    "./sfc": "src/components/index.js"
+  },
+  "files": [
+    "dist/*",
+    "lib/*",
+    "src/*",
+    "public/*",
+    "*.json",
+    "*.js"
+  ]
 }
