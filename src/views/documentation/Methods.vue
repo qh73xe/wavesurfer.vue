@@ -1,6 +1,17 @@
 <template>
   <w-documentation-layout :heading="heading" :desc="desc">
-    <v-list two-line>
+    <v-list two-line v-if="search.length > 0">
+      <v-list-item
+        v-for="(item, key) in items.filter(x => ~x[0].indexOf(search))"
+        :key="key"
+      >
+        <v-list-item-content>
+          <v-list-item-title>{{ item[0] }}</v-list-item-title>
+          <v-list-item-subtitle>{{ item[1] }}</v-list-item-subtitle>
+        </v-list-item-content>
+      </v-list-item>
+    </v-list>
+    <v-list two-line v-else>
       <v-list-item v-for="(item, key) in items" :key="key">
         <v-list-item-content>
           <v-list-item-title>{{ item[0] }}</v-list-item-title>
@@ -138,7 +149,17 @@ export default {
         "Horizontally zooms the waveform in and out. The parameter is a number of horizontal pixels per second of audio. It also changes the parameter minPxPerSec and enables the scrollParent option."
       ]
     ]
-  })
+  }),
+  computed: {
+    search: {
+      get() {
+        return this.$store.state.app_bar.search;
+      },
+      set(val) {
+        this.$store.commit("app_bar/set_search", val);
+      }
+    }
+  }
 };
 </script>
 <style scoped></style>

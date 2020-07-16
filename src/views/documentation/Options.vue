@@ -14,6 +14,7 @@
       "
       :items="options"
       :items-per-page="-1"
+      :search="search"
       class="elevation-1"
     />
   </w-documentation-layout>
@@ -39,6 +40,16 @@ export default {
     ],
     options: []
   }),
+  computed: {
+    search: {
+      get() {
+        return this.$store.state.app_bar.search;
+      },
+      set(val) {
+        this.$store.commit("app_bar/set_search", val);
+      }
+    }
+  },
   mounted: function() {
     this.options = [
       {

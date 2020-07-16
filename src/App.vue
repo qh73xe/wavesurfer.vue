@@ -18,7 +18,6 @@ export default {
     WNavigationDrawer,
     WAppBar
   },
-
   data: () => ({})
 };
 </script>
