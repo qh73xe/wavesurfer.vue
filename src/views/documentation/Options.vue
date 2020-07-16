@@ -1,7 +1,17 @@
 <template>
-  <w-documentation-layout :heading="heading" :desc="desc">
+  <w-documentation-layout
+    :heading="heading"
+    :desc="$vuetify.lang.t('$vuetify.document.options.desc')"
+  >
     <v-data-table
-      :headers="headers"
+      :headers="
+        headers.map(x => {
+          return {
+            text: $vuetify.lang.t(x.text),
+            value: x.value
+          };
+        })
+      "
       :items="options"
       :items-per-page="-1"
       class="elevation-1"
@@ -16,259 +26,263 @@ export default {
     WDocumentationLayout
   },
   data: () => ({
+    locale: "$vuetify.document.options",
     heading: "wavesurfer.vue/documentation/options",
-    desc:
-      "This is the list of props you can pass to <wave-suefer /> to create an instance of the player.",
     headers: [
-      { text: "option", value: "option" },
-      { text: "type", value: "type" },
-      { text: "default", value: "default" },
-      { text: "description", value: "description" }
+      { text: "$vuetify.document.options.headers.option", value: "option" },
+      { text: "$vuetify.document.options.headers.type", value: "type" },
+      { text: "$vuetify.document.options.headers.default", value: "default" },
+      {
+        text: "$vuetify.document.options.headers.description",
+        value: "description"
+      }
     ],
-    options: [
+    options: []
+  }),
+  mounted: function() {
+    this.options = [
       {
         option: "audioRate",
         type: "float",
         default: "1",
-        description: "Speed at which to play audio. Lower number is slower."
+        description: this.$vuetify.lang.t(`${this.locale}.options.audioRate`)
       },
       {
         option: "audioContext",
         type: "object",
         default: "{}",
-        description:
-          "Use your own previously initialized AudioContext or leave blank."
+        description: this.$vuetify.lang.t(`${this.locale}.options.audioContext`)
       },
       {
         option: "audioScriptProcessor",
         type: "object",
         default: "{}",
-        description:
-          "Use your own previously initialized ScriptProcessorNode or leave blank."
+        description: this.$vuetify.lang.t(
+          `${this.locale}.options.audioScriptProcessor`
+        )
       },
       {
         option: "autoCenter",
         type: "boolean",
         default: "true",
-        description:
-          "If a scrollbar is present, center the waveform around the progress."
+        description: this.$vuetify.lang.t(`${this.locale}.options.autoCenter`)
       },
       {
         option: "backend",
         type: "string",
         default: "WebAudio",
-        description:
-          "WebAudio, MediaElement or MediaElementWebAudio. MediaElement is a fallback for unsupported browsers."
+        description: this.$vuetify.lang.t(`${this.locale}.options.backend`)
       },
       {
         option: "backgroundColor",
         type: "string",
         default: "none",
-        description: "Change background color of the waveform container."
+        description: this.$vuetify.lang.t(
+          `${this.locale}.options.backgroundColor`
+        )
       },
       {
         option: "barGap",
         type: "number",
         default: "none",
-        description:
-          "The optional spacing between bars of the wave, if not provided will be calculated in legacy format."
+        description: this.$vuetify.lang.t(`${this.locale}.options.barGap`)
       },
       {
         option: "barHeight",
         type: "number",
         default: "1",
-        description:
-          "Height of the waveform bars. Higher number than 1 will increase the waveform bar heights."
+        description: this.$vuetify.lang.t(`${this.locale}.options.barHeight`)
       },
       {
         option: "barMinHeight",
         type: "number",
         default: "null",
-        description:
-          "Minimum height to draw a waveform bar. Default behavior is to not draw a bar during silence."
+        description: this.$vuetify.lang.t(`${this.locale}.options.barMinHeight`)
       },
       {
         option: "barRadius",
         type: "number",
         default: "0",
-        description: "The radius that makes bars rounded."
+        description: this.$vuetify.lang.t(`${this.locale}.options.barRadius`)
       },
       {
         option: "barWidth",
         type: "number",
         default: "none",
-        description:
-          "If specified, the waveform will be drawn like this: \u2581\u2009\u2582\u2009\u2587\u2009\u2583\u2009\u2585\u2009\u2582"
+        description: this.$vuetify.lang.t(`${this.locale}.options.barWidth`)
       },
       {
         option: "closeAudioContext",
         type: "boolean",
         default: "false",
-        description:
-          "Close and nullify all audio contexts when the destroy method is called."
+        description: this.$vuetify.lang.t(
+          `${this.locale}.options.closeAudioContext`
+        )
       },
       {
         option: "cursorColor",
         type: "string",
         default: "#333",
-        description:
-          "The fill color of the cursor indicating the playhead position."
+        description: this.$vuetify.lang.t(`${this.locale}.options.cursorColor`)
       },
       {
         option: "cursorWidth",
         type: "integer",
         default: "1",
-        description: "Measured in pixels."
+        description: this.$vuetify.lang.t(`${this.locale}.options.cursorWidth`)
       },
       {
         option: "drawingContextAttributes",
         type: "object",
         default: "{desynchronized: true}",
-        description: "Specify canvas 2d drawing context attributes."
+        description: this.$vuetify.lang.t(
+          `${this.locale}.options.drawingContextAttributes`
+        )
       },
       {
         option: "fillParent",
         type: "boolean",
         default: "true",
-        description:
-          "Whether to fill the entire container or draw only according to minPxPerSec."
+        description: this.$vuetify.lang.t(`${this.locale}.options.fillParent`)
       },
       {
         option: "forceDecode",
         type: "boolean",
         default: "false",
-        description:
-          "Force decoding of audio using web audio when zooming to get a more detailed waveform."
+        description: this.$vuetify.lang.t(`${this.locale}.options.forceDecode`)
       },
       {
         option: "height",
         type: "integer",
         default: "128",
-        description: "The height of the waveform. Measured in pixels."
+        description: this.$vuetify.lang.t(`${this.locale}.options.height`)
       },
       {
         option: "hideScrollbar",
         type: "boolean",
         default: "false",
-        description:
-          "Whether to hide the horizontal scrollbar when one would normally be shown."
+        description: this.$vuetify.lang.t(
+          `${this.locale}.options.hideScrollbar`
+        )
       },
       {
         option: "interact",
         type: "boolean",
         default: "true",
-        description:
-          "Whether the mouse interaction will be enabled at initialization. You can switch this parameter at any time later on."
+        description: this.$vuetify.lang.t(`${this.locale}.options.interact`)
       },
       {
         option: "loopSelection",
         type: "boolean",
         default: "true",
-        description:
-          "(Use with regions plugin) Enable looping of selected regions."
+        description: this.$vuetify.lang.t(
+          `${this.locale}.options.loopSelection`
+        )
       },
       {
         option: "maxCanvasWidth",
         type: "integer",
         default: "4000",
-        description:
-          "Maximum width of a single canvas in pixels, excluding a small overlap (2 * pixelRatio, rounded up to the next even integer). If the waveform is longer than this value, additional canvases will be used to render the waveform, which is useful for very large waveforms that may be too wide for browsers to draw on a single canvas. This parameter is only applicable to the MultiCanvas renderer."
+        description: this.$vuetify.lang.t(
+          `${this.locale}.options.maxCanvasWidth`
+        )
       },
       {
         option: "mediaControls",
         type: "boolean",
         default: "false",
-        description:
-          "(Use with backend MediaElement) this enables the native controls for the media element."
+        description: this.$vuetify.lang.t(
+          `${this.locale}.options.mediaControls`
+        )
       },
       {
         option: "mediaType",
         type: "string",
         default: "audio",
-        description: "'audio' or 'video'. Only used with backend MediaElement."
+        description: this.$vuetify.lang.t(`${this.locale}.options.mediaType`)
       },
       {
         option: "minPxPerSec",
         type: "integer",
         default: "50",
-        description: "Minimum number of pixels per second of audio."
+        description: this.$vuetify.lang.t(`${this.locale}.options.minPxPerSec`)
       },
       {
         option: "normalize",
         type: "boolean",
         default: "false",
-        description: "If true, normalize by the maximum peak instead of 1.0."
+        description: this.$vuetify.lang.t(`${this.locale}.options.normalize`)
       },
       {
         option: "partialRender",
         type: "boolean",
         default: "false",
-        description:
-          "Use the PeakCache to improve rendering speed of large waveforms."
+        description: this.$vuetify.lang.t(
+          `${this.locale}.options.partialRender`
+        )
       },
       {
         option: "pixelRatio",
         type: "integer",
         default: "window.devicePixelRatio",
-        description: "Can be set to 1 for faster rendering."
+        description: this.$vuetify.lang.t(`${this.locale}.options.pixelRatio`)
       },
       {
         option: "progressColor",
         type: "string",
         default: "#555",
-        description:
-          "The fill color of the part of the waveform behind the cursor. When progressColor and waveColor are the same the progress wave is not rendered at all."
+        description: this.$vuetify.lang.t(
+          `${this.locale}.options.progressColor`
+        )
       },
       {
         option: "removeMediaElementOnDestroy",
         type: "boolean",
         default: "true",
-        description:
-          "Set to false to keep the media element in the DOM when the player is destroyed. This is useful when reusing an existing media element via the loadMediaElement method."
+        description: this.$vuetify.lang.t(
+          `${this.locale}.options.removeMediaElementOnDestroy`
+        )
       },
       {
         option: "responsive",
         type: "boolean or float",
         default: "false",
-        description:
-          "If set to true resize the waveform, when the window is resized. This is debounced with a 100ms timeout by default. If this parameter is a number it represents that timeout."
+        description: this.$vuetify.lang.t(`${this.locale}.options.responsive`)
       },
       {
         option: "scrollParent",
         type: "boolean",
         default: "false",
-        description:
-          "Whether to scroll the container with a lengthy waveform. Otherwise the waveform is shrunk to the container width (see fillParent)."
+        description: this.$vuetify.lang.t(`${this.locale}.options.scrollParent`)
       },
       {
         option: "skipLength",
         type: "float",
         default: "2",
-        description:
-          "Number of seconds to skip with the skipForward() and skipBackward() methods."
+        description: this.$vuetify.lang.t(`${this.locale}.options.skipLength`)
       },
       {
         option: "splitChannels",
         type: "boolean",
         default: "false",
-        description:
-          "Render with seperate waveforms for the channels of the audio."
+        description: this.$vuetify.lang.t(
+          `${this.locale}.options.splitChannels`
+        )
       },
       {
         option: "waveColor",
         type: "string",
         default: "#999",
-        description: "The fill color of the waveform after the cursor."
+        description: this.$vuetify.lang.t(`${this.locale}.options.waveColor`)
       },
       {
         option: "xhr",
         type: "Object",
         default: "{}",
-        description:
-          "XHR options. For example: let xhr = { cache: 'default', mode: 'cors', method: 'GET', credentials: 'same-origin', redirect: 'follow', referrer: 'client', headers: [ { key: 'Authorization', value: 'my-token' } ]};"
+        description: this.$vuetify.lang.t(`${this.locale}.options.xhr`)
       }
-    ]
-  })
+    ];
+  }
 };
 </script>
 
