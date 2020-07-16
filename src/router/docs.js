@@ -1,4 +1,5 @@
 import Options from "@/views/documentation/Options.vue";
+import Methods from "@/views/documentation/Methods.vue";
 const basename = "docs";
 export default [
   {
@@ -6,5 +7,11 @@ export default [
     name: `${basename}-option`,
     text: `Options`,
     component: Options
+  },
+  {
+    path: `/${basename}/methods`,
+    name: `${basename}-methods`,
+    text: `Methods`,
+    component: Methods
   }
 ];

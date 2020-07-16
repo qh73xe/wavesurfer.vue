@@ -18,6 +18,9 @@
         <v-btn dark icon color="primary" @click="play">
           <v-icon dark>mdi-play</v-icon>
         </v-btn>
+        <v-btn dark icon color="primary" @click="pause">
+          <v-icon dark>mdi-pause</v-icon>
+        </v-btn>
       </v-card-actions>
     </v-card>
   </w-example-layout>
@@ -44,6 +47,9 @@ export default {
         <v-btn dark icon color="primary" @click="play">
           <v-icon dark>mdi-play</v-icon>
         </v-btn>
+        <v-btn dark icon color="primary" @click="pause">
+          <v-icon dark>mdi-pause</v-icon>
+        </v-btn>
       </v-card-actions>
     </v-card>
     `,
@@ -62,6 +68,11 @@ export default {
         },
         play: function() {
           this.$refs.wavesurfer.play();
+        },
+        pause: function() {
+          if (this.$refs.wavesurfer) {
+            this.$refs.wavesurfer.pause();
+          }
         }
       }
     };
@@ -85,6 +96,11 @@ export default {
     play: function() {
       if (this.$refs.wavesurfer) {
         this.$refs.wavesurfer.play();
+      }
+    },
+    pause: function() {
+      if (this.$refs.wavesurfer) {
+        this.$refs.wavesurfer.pause();
       }
     }
   }

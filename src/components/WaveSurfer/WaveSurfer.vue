@@ -169,15 +169,156 @@ export default {
         });
       }
     },
-    load: function(source) {
+    runWaveSurfer: function(func, args = null) {
       if (this.wasesurfer) {
-        this.wasesurfer.load(source);
+        if (args) {
+          return this.wasesurfer[func](...args);
+        } else {
+          return this.wasesurfer[func]();
+        }
       }
+      return null;
     },
-    play: function() {
-      if (this.wasesurfer) {
-        this.wasesurfer.play();
-      }
+    cancelAjax: function() {
+      return this.runWaveSurfer("cancelAjax");
+    },
+    destroy: function() {
+      return this.runWaveSurfer("destroy");
+    },
+    empty: function() {
+      return this.runWaveSurfer("empty");
+    },
+    getActivePlugins: function() {
+      return this.runWaveSurfer("getActivePlugins");
+    },
+    getBackgroundColor: function() {
+      return this.runWaveSurfer("getBackgroundColor");
+    },
+    getCurrentTime: function() {
+      return this.runWaveSurfer("getCurrentTime");
+    },
+    getCursorColor: function() {
+      return this.runWaveSurfer("getCursorColor");
+    },
+    getDuration: function() {
+      return this.runWaveSurfer("getDuration");
+    },
+    getPlaybackRate: function() {
+      return this.runWaveSurfer("getPlaybackRate");
+    },
+    getProgressColor: function() {
+      return this.runWaveSurfer("getProgressColor");
+    },
+    getVolume: function() {
+      return this.runWaveSurfer("getVolume");
+    },
+    getMute: function() {
+      return this.runWaveSurfer("getMute");
+    },
+    getFilters: function() {
+      return this.runWaveSurfer("getFilters");
+    },
+    getWaveColor: function() {
+      return this.runWaveSurfer("getCurrentTime");
+    },
+    exportPCM(length, accuracy, noWindow, start) {
+      const args = [length, accuracy, noWindow, start];
+      return this.runWaveSurfer("exportPCM", args);
+    },
+    isPlaying: function() {
+      return this.runWaveSurfer("isPlaying");
+    },
+    load: function(url, peaks, preload) {
+      const args = [url, peaks, preload];
+      return this.runWaveSurfer("load", args);
+    },
+    loadBlob: function(url) {
+      const args = [url];
+      return this.runWaveSurfer("loadBlob", args);
+    },
+    on: function(eventName, callback) {
+      const args = [eventName, callback];
+      return this.runWaveSurfer("on", args);
+    },
+    un: function(eventName, callback) {
+      const args = [eventName, callback];
+      return this.runWaveSurfer("un", args);
+    },
+    unAll: function() {
+      return this.runWaveSurfer("unAll");
+    },
+    pause: function() {
+      return this.runWaveSurfer("pause");
+    },
+    play: function(start, end) {
+      const args = [start, end];
+      return this.runWaveSurfer("play", args);
+    },
+    playPause: function() {
+      return this.runWaveSurfer("playPause");
+    },
+    seekAndCenter: function(progress) {
+      return this.runWaveSurfer("seekAndCenter", [progress]);
+    },
+    seekTo: function(progress) {
+      return this.runWaveSurfer("seekTo", [progress]);
+    },
+    setBackgroundColor: function(color) {
+      return this.runWaveSurfer("setBackgroundColor", [color]);
+    },
+    setCursorColor: function(color) {
+      return this.runWaveSurfer("setCursorColor", [color]);
+    },
+    setHeight: function(height) {
+      return this.runWaveSurfer("setHeight", [height]);
+    },
+    setFilter: function(filters) {
+      return this.runWaveSurfer("setFilter", [filters]);
+    },
+    setPlaybackRate: function(rate) {
+      return this.runWaveSurfer("setPlaybackRate", [rate]);
+    },
+    setPlayEnd: function(position) {
+      return this.runWaveSurfer("setPlayEnd", [position]);
+    },
+    setVolume: function(newVolume) {
+      return this.runWaveSurfer("setVolume", [newVolume]);
+    },
+    setMute: function(mute) {
+      return this.runWaveSurfer("mute", [mute]);
+    },
+    setProgressColor: function(color) {
+      return this.runWaveSurfer("setProgressColor", [color]);
+    },
+    setWaveColor: function(color) {
+      return this.runWaveSurfer("setWaveColor", [color]);
+    },
+    skip: function(offset) {
+      return this.runWaveSurfer("skip", [offset]);
+    },
+    skipBackward: function() {
+      return this.runWaveSurfer("skipBackward");
+    },
+    skipForward: function() {
+      return this.runWaveSurfer("skipForward");
+    },
+    setSinkId: function(deviceId) {
+      return this.runWaveSurfer("setSinkId", [deviceId]);
+    },
+    stop: function() {
+      return this.runWaveSurfer("stop");
+    },
+    toggleMute: function() {
+      return this.runWaveSurfer("toggleMute");
+    },
+    toggleInteraction: function() {
+      return this.runWaveSurfer("toggleInteraction");
+    },
+    toggleScroll: function() {
+      return this.runWaveSurfer("toggleScroll");
+    },
+    zoom: function(pxPerSec) {
+      return this.runWaveSurfer("zoom", [pxPerSec]);
     }
   },
   mounted: function() {

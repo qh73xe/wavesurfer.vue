@@ -1,30 +1,24 @@
 <template>
-  <v-container class="grey lighten-2 fill-height" fluid>
-    <v-row>
-      <v-col>
-        <w-jumbotron
-          heading="wavesurfer.vue/documentation/options"
-          desc="This is the list of props you can pass to <wave-suefer /> to create an instance of the player."
-        />
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col>
-        <v-data-table
-          :headers="headers"
-          :items="options"
-          :items-per-page="-1"
-          class="elevation-1"
-        />
-      </v-col>
-    </v-row>
-  </v-container>
+  <w-documentation-layout :heading="heading" :desc="desc">
+    <v-data-table
+      :headers="headers"
+      :items="options"
+      :items-per-page="-1"
+      class="elevation-1"
+    />
+  </w-documentation-layout>
 </template>
 <script>
-import WJumbotron from "@/components/Base/WJumbotron.vue";
+import WDocumentationLayout from "@/components/Base/WDocumentationLayout.vue";
 export default {
   name: "Options.vue",
+  components: {
+    WDocumentationLayout
+  },
   data: () => ({
+    heading: "wavesurfer.vue/documentation/options",
+    desc:
+      "This is the list of props you can pass to <wave-suefer /> to create an instance of the player.",
     headers: [
       { text: "option", value: "option" },
       { text: "type", value: "type" },
@@ -274,10 +268,7 @@ export default {
           "XHR options. For example: let xhr = { cache: 'default', mode: 'cors', method: 'GET', credentials: 'same-origin', redirect: 'follow', referrer: 'client', headers: [ { key: 'Authorization', value: 'my-token' } ]};"
       }
     ]
-  }),
-  components: {
-    WJumbotron
-  }
+  })
 };
 </script>
 
