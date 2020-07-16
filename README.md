@@ -4,7 +4,36 @@ wavesurfer.vue は, [wavesurfer.js](https://github.com/katspaugh/wavesurfer.js) 
 
 個人的によく利用するライブラリなので, 操作そのものを独立させるために独立したリポジトリ管理を行うことにしました.
 
-- demo: https://qh73xe.github.io/wavesurfer.vue/
+- demo: [wavesurfer.vue](https://qh73xe.github.io/wavesurfer.vue/)
+
+
+## Quick start
+
+このライブラリを利用するには以下のコマンドを使用します:
+```
+$ yarn add https://github.com/qh73xe/wavesurfer.vue.git
+```
+
+その後, 以下のように `<wave-surfer>` コンポーネントを利用します:
+```
+<template>
+  <wave-surfer :source="source" />
+</template>
+
+<script>
+import WaveSurfer from "wavesurfer.vue";
+export default {
+  components: {
+    WaveSurfer
+  },
+  data: () => ({
+    source: "https://raw.githubusercontent.com/qh73xe/wavesurfer.vue/master/src/assets/media/demo.wav",
+  }),
+};
+</script>
+```
+
+詳細なデモや使用例に関しては, [wavesurfer.vue](https://qh73xe.github.io/wavesurfer.vue/) を参照してください.
 
 ## Project setup
 

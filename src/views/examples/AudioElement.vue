@@ -113,8 +113,9 @@ export default {
     </v-card>
     `,
     code: `
-    import WaveSurfer from "@/components/WaveSurfer/WaveSurfer.vue";
+    import WaveSurfer from "wavesurfer.vue";
     export default {
+      components: { WaveSurfer },
       data: () => ({
         source: null,
         snackbar: {
@@ -122,7 +123,6 @@ export default {
           text: ""
         },
       }),
-      components: { WaveSurfer },
       methods: {
         onFileChange: function(file) {
           const fr = new FileReader();
