@@ -27,7 +27,7 @@
         @destroy="onDestroy"
         @ready="onReady"
         :source="source"
-        :responsive="true"
+        responsive
       />
       <w-example-demo-card-actions :ws="$refs.wavesurfer" v-if="isReady" />
       <v-snackbar v-model="snackbar.show">
@@ -75,7 +75,7 @@ export default {
         ref="wavesurfer"
         v-if="source"
         :source="source"
-        :responsive="true"
+        responsive
         @play="onPlay"
         @pause="onPause"
         @destroy="onDestroy"

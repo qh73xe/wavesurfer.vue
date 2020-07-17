@@ -227,6 +227,9 @@ export default {
       For example, "barWidth" can change the value while playing audio, but "barRadius" and "height" do not.
       `
     },
+    splitChannels: {
+      desc: `If the "splitChannels" props is enabled, stereo sound sources will be split and displayed.`
+    },
     timeline: {
       desc: `Set the "showTimeLine" props to add a timeline for the audio waveform.`
     }

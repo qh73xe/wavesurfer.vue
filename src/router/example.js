@@ -1,6 +1,7 @@
 import AudioElement from "@/views/examples/AudioElement.vue";
 import VideoElement from "@/views/examples/VideoElement.vue";
 import Bars from "@/views/examples/Bars.vue";
+import SplitChannels from "@/views/examples/SplitChannels.vue";
 import Timeline from "@/views/examples/Timeline.vue";
 const basename = "example";
 export default [
@@ -21,6 +22,12 @@ export default [
     name: `${basename}-bars`,
     text: `Bars`,
     component: Bars
+  },
+  {
+    path: `/${basename}/split-cannels`,
+    name: `${basename}-split-cannels`,
+    text: `SplitChannels`,
+    component: SplitChannels
   },
   {
     path: `/${basename}/timeline`,

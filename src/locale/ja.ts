@@ -238,6 +238,9 @@ export default {
       "barRadius" や "height" はそうではありません.
       `
     },
+    splitChannels: {
+      desc: `splitChannels 属性を有効にするとステレオ音源を分割して表示します`
+    },
     timeline: {
       desc: `showTimeLine 属性を設定すると音声波形に時刻情報が付与されます.`
     }
