@@ -11,7 +11,20 @@ export default {
   }),
   props: {
     source: {
-      type: String,
+      validator: function(value) {
+        const value_type = typeof value;
+        if (value_type == "string") {
+          return true;
+        } else if (value_type == "object") {
+          const class_string = toString.call(value);
+          if (class_string == "[object HTMLVideoElement]") {
+            return true;
+          } else if (class_string == "[object HTMLAudioElement]") {
+            return true;
+          }
+        }
+        return false;
+      },
       default: ""
     },
     audioRate: {
@@ -119,6 +132,7 @@ export default {
   },
   watch: {
     source(val, old_val) {
+      console.log("watch-source", val);
       if (val != old_val) {
         this.load(val);
       }

@@ -171,5 +171,45 @@ export default {
           "ズーム時に発火します. コールバックは `minPxPerSec` (integer) を受け取ります."
       }
     }
+  },
+  example: {
+    audioElement: {
+      desc: `
+      音声ファイルは Base64 形式に変換し source 属性に渡してください.
+      <br />
+      source 属性は Base64 形式の他に HTML Audio Element, HTML Video Element
+      そして ファイルへの url をサポートします.
+      <br />
+      <br />
+      例では onFileChange 関数内でユーザから渡された音声ファイルを
+      base64 形式に変換し wave-surfer コンポーネントに渡しています
+      `
+    },
+    videoElement: {
+      desc: `
+      動画ファイルの場合 <wave-surfer> コンポーネントが提供するコントロールと
+      HTML Video Element が提供するコントロールを単一にする必要があります.
+      <br />
+      そのためには source 属性には, HTML Video Element そのものを渡す必要があります.
+      <br />
+      また backend 属性を "MediaElement" に指定する必要があります.
+      <br />
+      <br />
+      例では onFileChange 関数内でユーザから渡された動画ファイルを base64 化し
+      HTML Video Element に渡しています.
+      <br />
+      また HTML Video Element では loadeddata イベントを監視し
+      動画読み込みが終了したタイミングで
+      wave-surfer コンポーネント の source 属性を設定しています.
+      <br />
+      <br />
+      <b>HTML Video Element の src 属性を変更しても音声波形は再レンダされないことに注意してください.</b>
+      <br />
+      これは source 属性に渡している対象が HTML Video Element であるためです.
+      <br />
+      例では video element に v-if を設定し, source が変わるごとに
+      HTML Video Element そのものを再記述させています.
+      `
+    }
   }
 };

@@ -168,5 +168,34 @@ export default {
         zoom: "On zooming. Callback will receive (integer) minPxPerSec."
       }
     }
+  },
+  example: {
+    audioElement: {
+      desc: `
+      Convert the audio file to Base64 format and pass it in the source props at the wave-surfer component.
+      <br />
+      The source props also supports HTML Audio Element, HTML Video Element and url to file.
+      <br />
+      <br />
+      In the example below, the audio file passed from the user is converted to base64 format in the onFileChange function.
+      `
+    },
+    videoElement: {
+      desc: `
+      動画ファイルの場合 <wave-surfer> コンポーネントが提供するコントロールと
+      HTML Video Element が提供するコントロールを単一にする必要があります.
+      <br />
+      そのためには source 属性には, HTML Video Element そのものを渡す必要があります.
+      <br />
+      また backend 属性を "MediaElement" に指定する必要があります.
+      <br />
+      <br />
+      例では onFileChange 関数内でユーザから渡された動画ファイルを base64 化し
+      <video> に渡しています.
+      <br />
+      また <video> では loadeddata イベントを監視し 動画読み込みが終了したタイミングで
+      <wave-surfer> の source 属性を設定しています.
+      `
+    }
   }
 };

@@ -5,66 +5,58 @@
     :template_code="template"
     :script_code="code"
   >
-    <v-card class="mx-auto">
-      <v-system-bar color="primary darken-2" dark>
-        <v-spacer></v-spacer>
-        <v-icon>mdi-window-minimize</v-icon>
-        <v-icon>mdi-window-maximize</v-icon>
-        <v-icon>mdi-close</v-icon>
-      </v-system-bar>
-      <v-toolbar color="primary" dark>
-        <v-app-bar-nav-icon></v-app-bar-nav-icon>
-        <v-toolbar-title>wave-furser</v-toolbar-title>
-      </v-toolbar>
-      <v-card-text>
+    <template v-slot:desc>
+      <span
+        class="font-weight-light subtitle-1"
+        v-html="$vuetify.lang.t(`${locale}.desc`)"
+      />
+    </template>
+    <w-example-demo-card :title="card_title">
+      <template v-slot:input-form>
         <v-file-input
           accept="audio/*"
           label="audio file"
           @change="onFileChange"
         />
-      </v-card-text>
+      </template>
       <wave-surfer
+        ref="wavesurfer"
+        v-if="source"
         @play="onPlay"
         @pause="onPause"
         @destroy="onDestroy"
-        ref="wavesurfer"
-        v-if="source"
+        @ready="onReady"
         :source="source"
         :responsive="true"
       />
-      <v-card-actions v-if="source">
-        <v-btn dark icon color="primary" @click="skipBackward">
-          <v-icon dark>mdi-skip-backward</v-icon>
-        </v-btn>
-        <v-spacer />
-
-        <v-btn dark icon color="primary" @click="playPause">
-          <v-icon dark>mdi-play-pause</v-icon>
-        </v-btn>
-        <v-btn dark icon color="primary" @click="play">
-          <v-icon dark>mdi-play</v-icon>
-        </v-btn>
-        <v-btn dark icon color="primary" @click="pause">
-          <v-icon dark>mdi-pause</v-icon>
-        </v-btn>
-        <v-spacer />
-        <v-btn dark icon color="primary" @click="skipForward">
-          <v-icon dark>mdi-skip-forward</v-icon>
-        </v-btn>
-      </v-card-actions>
+      <w-example-demo-card-actions :ws="$refs.wavesurfer" v-if="isReady" />
       <v-snackbar v-model="snackbar.show">
         {{ snackbar.text }}
       </v-snackbar>
-    </v-card>
+    </w-example-demo-card>
   </w-example-layout>
 </template>
 
 <script>
 import WExampleLayout from "@/components/Base/WExampleLayout.vue";
+import WExampleDemoCard from "@/components/Base/WExampleDemoCard.vue";
+import WExampleDemoCardActions from "@/components/Base/WExampleDemoCardActions.vue";
 import WaveSurfer from "@/components/WaveSurfer/WaveSurfer.vue";
+
+const name = "audio-element";
+const locale = "$vuetify.example.audioElement";
 export default {
+  name: name,
+  components: {
+    WExampleLayout,
+    WExampleDemoCard,
+    WExampleDemoCardActions,
+    WaveSurfer
+  },
   data: () => ({
-    title: "wavesurfer.vue>example>audio-element",
+    locale: locale,
+    title: `wavesurfer.vue>example>${name}`,
+    card_title: `${name} demo`,
     desc: "How to load the audio.",
     snackbar: {
       show: false,
@@ -125,6 +117,7 @@ export default {
       }),
       methods: {
         onFileChange: function(file) {
+          this.source = null;
           const fr = new FileReader();
           fr.readAsDataURL(file);
           fr.addEventListener("load", () => {
@@ -169,23 +162,24 @@ export default {
       }
     };
     `,
-    source: null
+    source: null,
+    isReady: false
   }),
-  components: {
-    WExampleLayout,
-    WaveSurfer
-  },
   methods: {
     onFileChange: function(file) {
+      this.source = null;
       if (file) {
         const fr = new FileReader();
         fr.readAsDataURL(file);
         fr.addEventListener("load", () => {
           this.source = fr.result;
         });
-      } else {
-        this.source = null;
       }
+    },
+    onReady: function() {
+      this.isReady = true;
+      this.snackbar.text = "on ready";
+      this.snackbar.show = true;
     },
     onPlay: function() {
       this.snackbar.text = "on play";
@@ -198,31 +192,6 @@ export default {
     onDestroy: function() {
       this.snackbar.text = "on destroy";
       this.snackbar.show = true;
-    },
-    play: function() {
-      if (this.$refs.wavesurfer) {
-        this.$refs.wavesurfer.play();
-      }
-    },
-    pause: function() {
-      if (this.$refs.wavesurfer) {
-        this.$refs.wavesurfer.pause();
-      }
-    },
-    playPause: function() {
-      if (this.$refs.wavesurfer) {
-        this.$refs.wavesurfer.playPause();
-      }
-    },
-    skipBackward: function() {
-      if (this.$refs.wavesurfer) {
-        this.$refs.wavesurfer.skipBackward();
-      }
-    },
-    skipForward: function() {
-      if (this.$refs.wavesurfer) {
-        this.$refs.wavesurfer.skipForward();
-      }
     }
   }
 };

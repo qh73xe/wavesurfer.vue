@@ -10,6 +10,7 @@
         <slot></slot>
       </v-col>
     </v-row>
+
     <v-row>
       <v-col>
         <v-tabs v-model="tab" dark>
@@ -35,6 +36,13 @@
             </w-code-heighlight>
           </v-tab-item>
         </v-tabs-items>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
+        <v-alert class="mb-0" border="left">
+          <slot name="desc"></slot>
+        </v-alert>
       </v-col>
     </v-row>
   </v-container>
