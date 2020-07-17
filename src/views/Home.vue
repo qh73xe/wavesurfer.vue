@@ -7,36 +7,55 @@
     </v-row>
     <v-row>
       <v-col class="text-center">
-        <p
-          v-for="text in $vuetify.lang.t('$vuetify.home.desc').split('\n')"
-          :key="text"
+        <span
           class="font-weight-light subtitle-1 my-0"
-        >
-          {{ text }}
-        </p>
+          v-html="$vuetify.lang.t('$vuetify.home.desc')"
+        />
       </v-col>
     </v-row>
 
     <h3>Quick start</h3>
     <v-row>
       <v-col>
-        <p>To install this components, you can do so by typing:</p>
-
+        <span
+          class="font-weight-light subtitle-1 my-0"
+          v-html="$vuetify.lang.t('$vuetify.home.quickStart.install')"
+        />
         <w-code-heighlight>
           $ yarn add https://github.com/qh73xe/wavesurfer.vue.git
         </w-code-heighlight>
-
-        <p>
-          Use the &lt;wave-surfer&gt; components in your components as follows:
-        </p>
+        <span
+          class="font-weight-light subtitle-1 my-0"
+          v-html="$vuetify.lang.t('$vuetify.home.quickStart.example')"
+        />
         <w-code-heighlight>
           {{ code_string }}
         </w-code-heighlight>
-
-        <p>The result is as follows:</p>
+        <span
+          class="font-weight-light subtitle-1 my-0"
+          v-html="$vuetify.lang.t('$vuetify.home.quickStart.result')"
+        />
         <v-card>
           <wave-surfer :source="source" />
         </v-card>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
+        <span
+          class="font-weight-light subtitle-1 my-0"
+          v-html="$vuetify.lang.t('$vuetify.home.quickStart.next')"
+        />
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
+        <v-alert type="info">
+          <span
+            class="font-weight-light subtitle-1 my-0"
+            v-html="$vuetify.lang.t('$vuetify.home.quickStart.warning')"
+          />
+        </v-alert>
       </v-col>
     </v-row>
 

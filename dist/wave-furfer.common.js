@@ -3819,12 +3819,12 @@ if (typeof window !== 'undefined') {
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 var external_commonjs_vue_commonjs2_vue_root_Vue_default = /*#__PURE__*/__webpack_require__.n(external_commonjs_vue_commonjs2_vue_root_Vue_);
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"d7f3097c-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/WaveSurfer/WaveSurfer.vue?vue&type=template&id=96ca9746&scoped=true&
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"d7f3097c-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/WaveSurfer/WaveSurfer.vue?vue&type=template&id=78b8115c&scoped=true&
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('div',{ref:"waveform"}),_c('div',{ref:"timeline"})])}
 var staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/components/WaveSurfer/WaveSurfer.vue?vue&type=template&id=96ca9746&scoped=true&
+// CONCATENATED MODULE: ./src/components/WaveSurfer/WaveSurfer.vue?vue&type=template&id=78b8115c&scoped=true&
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.number.constructor.js
 var es_number_constructor = __webpack_require__("a9e3");
@@ -10633,15 +10633,119 @@ var timeline_TimelinePlugin = /*#__PURE__*/function () {
   },
   watch: {
     source: function source(val, old_val) {
-      console.log("watch-source", val);
-
       if (val != old_val) {
         this.load(val);
       }
+    },
+    audioRate: function audioRate(val, old_val) {
+      if (val != old_val) this.updateDrawer("audioRate", val);
+    },
+    autoCenter: function autoCenter(val, old_val) {
+      if (val != old_val) this.updateDrawer("autoCenter", val);
+    },
+    backgroundColor: function backgroundColor(val, old_val) {
+      if (val != old_val) this.updateDrawer("backgroundColor", val);
+    },
+    barGap: function barGap(val, old_val) {
+      if (val != old_val) this.updateDrawer("barGap", val);
+    },
+    barHeight: function barHeight(val, old_val) {
+      if (val != old_val) this.updateDrawer("barHeight", val);
+    },
+    barMinHeight: function barMinHeight(val, old_val) {
+      if (val != old_val) this.updateDrawer("barMinHeight", val);
+    },
+    barRadius: function barRadius(val, old_val) {
+      if (val != old_val) {
+        this.destroy();
+        this.initWaveSurfer();
+      }
+    },
+    barWidth: function barWidth(val, old_val) {
+      if (val != old_val) {
+        this.updateDrawer("barWidth", val);
+      }
+    },
+    closeAudioContext: function closeAudioContext(val, old_val) {
+      if (val != old_val) {
+        this.updateDrawer("closeAudioContext", val);
+      }
+    },
+    cursorColor: function cursorColor(val, old_val) {
+      if (val != old_val) this.updateDrawer("cursorColor", val);
+    },
+    cursorWidth: function cursorWidth(val, old_val) {
+      if (val != old_val) {
+        this.destroy();
+        this.initWaveSurfer();
+      }
+    },
+    fillParent: function fillParent(val, old_val) {
+      if (val != old_val) this.updateDrawer("fillParent", val);
+    },
+    forceDecode: function forceDecode(val, old_val) {
+      if (val != old_val) this.updateDrawer("forceDecode", val);
+    },
+    height: function height(val, old_val) {
+      if (val != old_val) {
+        this.destroy();
+        this.initWaveSurfer();
+      }
+    },
+    hideScrollbar: function hideScrollbar(val, old_val) {
+      if (val != old_val) this.updateDrawer("hideScrollbar", val);
+    },
+    interact: function interact(val, old_val) {
+      if (val != old_val) this.updateDrawer("interact", val);
+    },
+    loopSelection: function loopSelection(val, old_val) {
+      if (val != old_val) this.updateDrawer("loopSelection", val);
+    },
+    maxCanvasWidth: function maxCanvasWidth(val, old_val) {
+      if (val != old_val) this.updateDrawer("maxCanvasWidth", val);
+    },
+    mediaControls: function mediaControls(val, old_val) {
+      if (val != old_val) this.updateDrawer("mediaControls", val);
+    },
+    mediaType: function mediaType(val, old_val) {
+      if (val != old_val) this.updateDrawer("mediaType", val);
+    },
+    minPxPerSec: function minPxPerSec(val, old_val) {
+      if (val != old_val) this.updateDrawer("minPxPerSec", val);
+    },
+    normalize: function normalize(val, old_val) {
+      if (val != old_val) this.updateDrawer("normalize", val);
+    },
+    partialRender: function partialRender(val, old_val) {
+      if (val != old_val) this.updateDrawer("partialRender", val);
+    },
+    pixelRatio: function pixelRatio(val, old_val) {
+      if (val != old_val) this.updateDrawer("pixelRatio", val);
+    },
+    progressColor: function progressColor(val, old_val) {
+      if (val != old_val) this.updateDrawer("progressColor", val);
+    },
+    removeMediaElementOnDestroy: function removeMediaElementOnDestroy(val, old_val) {
+      if (val != old_val) this.updateDrawer("removeMediaElementOnDestroy", val);
+    },
+    responsive: function responsive(val, old_val) {
+      if (val != old_val) this.updateDrawer("responsive", val);
+    },
+    scrollParent: function scrollParent(val, old_val) {
+      if (val != old_val) this.updateDrawer("scrollParent", val);
+    },
+    skipLength: function skipLength(val, old_val) {
+      if (val != old_val) this.updateDrawer("skipLength", val);
+    },
+    splitChannels: function splitChannels(val, old_val) {
+      if (val != old_val) this.updateDrawer("splitChannels", val);
+    },
+    waveColor: function waveColor(val, old_val) {
+      if (val != old_val) this.updateDrawer("waveColor", val);
     }
   },
   methods: {
-    initWaveSurper: function initWaveSurper() {
+    initWaveSurfer: function initWaveSurfer() {
       var _this = this;
 
       if (this.wavesurfer === null) {
@@ -10730,6 +10834,12 @@ var timeline_TimelinePlugin = /*#__PURE__*/function () {
             _this.load(_this.source);
           }
         });
+      }
+    },
+    updateDrawer: function updateDrawer(key, val) {
+      if (this.wavesurfer) {
+        this.wavesurfer.params[key] = val;
+        this.wavesurfer.drawer.fireEvent("redraw");
       }
     },
     runWaveSurfer: function runWaveSurfer(func) {
@@ -10941,7 +11051,7 @@ var timeline_TimelinePlugin = /*#__PURE__*/function () {
     }
   },
   mounted: function mounted() {
-    this.initWaveSurper();
+    this.initWaveSurfer();
   },
   beforeDestroy: function beforeDestroy() {
     this.destroy();
@@ -11063,7 +11173,7 @@ var component = normalizeComponent(
   staticRenderFns,
   false,
   null,
-  "96ca9746",
+  "78b8115c",
   null
   
 )

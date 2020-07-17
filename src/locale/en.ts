@@ -62,8 +62,19 @@ export default {
     }
   },
   home: {
-    desc:
-      "wavesurfer.vue is a vue.js wrapper for wavesurfer.js. It provides a customizable audio waveform visualization built on top of the Web Audio API and HTML5 Canvas."
+    desc: `
+      <b>wavesurfer.vue</b> is a wrapper for <b><a href="https://wavesurfer-js.org/">wavesurfer.js</a></b> to use <b>vue.js</b>.
+      </br>
+      It provides a customizable audio waveform visualization built on <b>Web Audio API</b> and <b>HTML5 Canvas</b>.
+    `,
+    quickStart: {
+      install: "To install this components, you can do so by typing:",
+      example:
+        "Use the &lt;wave-surfer&gt; components in your components as follows:",
+      result: "The result is as follows:",
+      next: `For more information on how to use the &lt;wave-surfer&gt; component, see the following documents.`,
+      warning: `Please note that <code><a href="https://vuetifyjs.com">vuetify</a></code> is required to run the sample code.`
+    }
   },
   document: {
     options: {
@@ -201,6 +212,19 @@ export default {
       This is because what you are passing to the "source" props is a same HTML Video Element.
       <br />
       In the example, v-if is set for the video element, and the HTML Video Element itself is rewritten each time the source changes.
+      `
+    },
+    bars: {
+      desc: `
+      The props of the "wave-surfer" component are dynamically reflected.
+      </br>
+      In the example, the color and thickness of the waveform bar and cursor are changed.
+      You can also change the height of the waveform display area.
+      </br>
+      </br>
+      But note that some props require a complete redraw.
+      </br>
+      For example, "barWidth" can change the value while playing audio, but "barRadius" and "height" do not.
       `
     },
     timeline: {

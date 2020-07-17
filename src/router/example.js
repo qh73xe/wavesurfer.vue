@@ -1,5 +1,6 @@
 import AudioElement from "@/views/examples/AudioElement.vue";
 import VideoElement from "@/views/examples/VideoElement.vue";
+import Bars from "@/views/examples/Bars.vue";
 import Timeline from "@/views/examples/Timeline.vue";
 const basename = "example";
 export default [
@@ -14,6 +15,12 @@ export default [
     name: `${basename}-video-element`,
     text: `Video-Element`,
     component: VideoElement
+  },
+  {
+    path: `/${basename}/bars`,
+    name: `${basename}-bars`,
+    text: `Bars`,
+    component: Bars
   },
   {
     path: `/${basename}/timeline`,

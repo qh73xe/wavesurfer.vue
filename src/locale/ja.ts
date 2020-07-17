@@ -62,8 +62,19 @@ export default {
     }
   },
   home: {
-    desc:
-      "wavesurfer.vue は, wavesurfer.js に対する vue.js 用ラッパーです. \n Web Audio API および HTML5 Canvas の上に構築された, カスタマイズ可能な音声波形の視覚化を提供します."
+    desc: `
+      <b>wavesurfer.vue</b> は <b><a href="https://wavesurfer-js.org/">wavesurfer.js</a></b> を vue で使用するためのラッパーです.
+      </br>
+      <b>Web Audio API</b> および <b>HTML5 Canvas</b> の上に構築されたカスタマイズ可能な音声波形の視覚化を提供します.
+    `,
+    quickStart: {
+      install:
+        "本コンポーネントをインストールするには以下のコマンドを実行してください:",
+      example: "&lt;wave-surfer&gt; コンポーネントは以下のように使用します:",
+      result: "結果は以下のようになります:",
+      next: `&lt;wave-surfer&gt; コンポーネントの詳細な使用方法については以下のドキュメントを参照してください.`,
+      warning: `サンプルコード実施時には <code><a href="https://vuetifyjs.com/en/">vuetify</a></code> を導入する必要があることに注意してください.`
+    }
   },
   document: {
     options: {
@@ -211,6 +222,20 @@ export default {
       <br />
       例では video element に v-if を設定し, source が変わるごとに
       HTML Video Element そのものを再記述させています.
+      `
+    },
+    bars: {
+      desc: `
+      "wave-surfer" コンポーネントに渡す props は動的に反映されます.
+      </br>
+      例では波形の棒およびカーソルの色や太さを変更しています.
+      また波形表示領域の高さを変更できます.
+      </br>
+      </br>
+      ただし完全な再描画が必要になる props があることに注意してください.
+      </br>
+      例えば "barWidth" は音声を再生しながらでも値の変更が可能ですが
+      "barRadius" や "height" はそうではありません.
       `
     },
     timeline: {

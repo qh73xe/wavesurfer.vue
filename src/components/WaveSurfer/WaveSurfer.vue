@@ -140,14 +140,119 @@ export default {
   },
   watch: {
     source(val, old_val) {
-      console.log("watch-source", val);
       if (val != old_val) {
         this.load(val);
       }
+    },
+    audioRate(val, old_val) {
+      if (val != old_val) this.updateDrawer("audioRate", val);
+    },
+    autoCenter(val, old_val) {
+      if (val != old_val) this.updateDrawer("autoCenter", val);
+    },
+    backgroundColor(val, old_val) {
+      if (val != old_val) this.updateDrawer("backgroundColor", val);
+    },
+    barGap(val, old_val) {
+      if (val != old_val) this.updateDrawer("barGap", val);
+    },
+    barHeight(val, old_val) {
+      if (val != old_val) this.updateDrawer("barHeight", val);
+    },
+    barMinHeight(val, old_val) {
+      if (val != old_val) this.updateDrawer("barMinHeight", val);
+    },
+    barRadius(val, old_val) {
+      if (val != old_val) {
+        this.destroy();
+        this.initWaveSurfer();
+      }
+    },
+    barWidth(val, old_val) {
+      if (val != old_val) {
+        this.updateDrawer("barWidth", val);
+      }
+    },
+    closeAudioContext(val, old_val) {
+      if (val != old_val) {
+        this.updateDrawer("closeAudioContext", val);
+      }
+    },
+    cursorColor(val, old_val) {
+      if (val != old_val) this.updateDrawer("cursorColor", val);
+    },
+    cursorWidth(val, old_val) {
+      if (val != old_val) {
+        this.destroy();
+        this.initWaveSurfer();
+      }
+    },
+    fillParent(val, old_val) {
+      if (val != old_val) this.updateDrawer("fillParent", val);
+    },
+    forceDecode(val, old_val) {
+      if (val != old_val) this.updateDrawer("forceDecode", val);
+    },
+    height(val, old_val) {
+      if (val != old_val) {
+        this.destroy();
+        this.initWaveSurfer();
+      }
+    },
+    hideScrollbar(val, old_val) {
+      if (val != old_val) this.updateDrawer("hideScrollbar", val);
+    },
+    interact(val, old_val) {
+      if (val != old_val) this.updateDrawer("interact", val);
+    },
+    loopSelection(val, old_val) {
+      if (val != old_val) this.updateDrawer("loopSelection", val);
+    },
+    maxCanvasWidth(val, old_val) {
+      if (val != old_val) this.updateDrawer("maxCanvasWidth", val);
+    },
+    mediaControls(val, old_val) {
+      if (val != old_val) this.updateDrawer("mediaControls", val);
+    },
+    mediaType(val, old_val) {
+      if (val != old_val) this.updateDrawer("mediaType", val);
+    },
+    minPxPerSec(val, old_val) {
+      if (val != old_val) this.updateDrawer("minPxPerSec", val);
+    },
+    normalize(val, old_val) {
+      if (val != old_val) this.updateDrawer("normalize", val);
+    },
+    partialRender(val, old_val) {
+      if (val != old_val) this.updateDrawer("partialRender", val);
+    },
+    pixelRatio(val, old_val) {
+      if (val != old_val) this.updateDrawer("pixelRatio", val);
+    },
+    progressColor(val, old_val) {
+      if (val != old_val) this.updateDrawer("progressColor", val);
+    },
+    removeMediaElementOnDestroy(val, old_val) {
+      if (val != old_val) this.updateDrawer("removeMediaElementOnDestroy", val);
+    },
+    responsive(val, old_val) {
+      if (val != old_val) this.updateDrawer("responsive", val);
+    },
+    scrollParent(val, old_val) {
+      if (val != old_val) this.updateDrawer("scrollParent", val);
+    },
+    skipLength(val, old_val) {
+      if (val != old_val) this.updateDrawer("skipLength", val);
+    },
+    splitChannels(val, old_val) {
+      if (val != old_val) this.updateDrawer("splitChannels", val);
+    },
+    waveColor(val, old_val) {
+      if (val != old_val) this.updateDrawer("waveColor", val);
     }
   },
   methods: {
-    initWaveSurper: function() {
+    initWaveSurfer: function() {
       if (this.wavesurfer === null) {
         this.$nextTick(() => {
           const options = {
@@ -217,6 +322,12 @@ export default {
             this.load(this.source);
           }
         });
+      }
+    },
+    updateDrawer: function(key, val) {
+      if (this.wavesurfer) {
+        this.wavesurfer.params[key] = val;
+        this.wavesurfer.drawer.fireEvent("redraw");
       }
     },
     runWaveSurfer: function(func, args = null) {
@@ -423,7 +534,7 @@ export default {
     }
   },
   mounted: function() {
-    this.initWaveSurper();
+    this.initWaveSurfer();
   },
   beforeDestroy: function() {
     this.destroy();
