@@ -76,6 +76,8 @@ export default {
         description: "description"
       },
       options: {
+        source: "Media source converted to audio waveform.",
+        showTimeLine: "Whether to display the timeline.",
         audioRate: "Speed at which to play audio. Lower number is slower.",
         audioContext:
           "Use your own previously initialized AudioContext or leave blank.",
@@ -182,20 +184,27 @@ export default {
     },
     videoElement: {
       desc: `
-      動画ファイルの場合 <wave-surfer> コンポーネントが提供するコントロールと
-      HTML Video Element が提供するコントロールを単一にする必要があります.
+      For video files, the controls provided by the wave-surfer component and the controls provided by the HTML Video Element must be single.
       <br />
-      そのためには source 属性には, HTML Video Element そのものを渡す必要があります.
+      To do this, you need to pass the HTML Video Element itself in the "source" props.
       <br />
-      また backend 属性を "MediaElement" に指定する必要があります.
+      You also need to specify the "backend" props to "MediaElement".
       <br />
       <br />
-      例では onFileChange 関数内でユーザから渡された動画ファイルを base64 化し
-      <video> に渡しています.
+      In the example, the video file passed by the user is converted to base64 and passed to HTML Video Element in the onFileChange function.
       <br />
-      また <video> では loadeddata イベントを監視し 動画読み込みが終了したタイミングで
-      <wave-surfer> の source 属性を設定しています.
+      The "loadeddata" event of the HTML Video Element is watched, and sets the source props of the wave-surfer component when the video load finishes.
+      <br />
+      <br />
+      <b>Note that changing the src attribute of the HTML Video Element does not re-render the audio waveform.</b>
+      <br />
+      This is because what you are passing to the "source" props is a same HTML Video Element.
+      <br />
+      In the example, v-if is set for the video element, and the HTML Video Element itself is rewritten each time the source changes.
       `
+    },
+    timeline: {
+      desc: `Set the "showTimeLine" props to add a timeline for the audio waveform.`
     }
   }
 };

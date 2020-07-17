@@ -52,6 +52,18 @@ export default {
   mounted: function() {
     this.options = [
       {
+        option: "source",
+        type: "string or HTML Video Element or HTML Audio Element",
+        default: "''",
+        description: this.$vuetify.lang.t(`${this.locale}.options.source`)
+      },
+      {
+        option: "showTimeLine",
+        type: "boolean",
+        default: "false",
+        description: this.$vuetify.lang.t(`${this.locale}.options.showTimeLine`)
+      },
+      {
         option: "audioRate",
         type: "float",
         default: "1",

@@ -1,8 +1,12 @@
 <template>
-  <div ref="waveform" id="waveform"></div>
+  <div>
+    <div ref="waveform"></div>
+    <div ref="timeline"></div>
+  </div>
 </template>
 <script>
 import WaveSurfer from "./wavesurfer.js";
+import Timeline from "./plugin/timeline.js";
 export default {
   name: "wave-surfer",
   data: () => ({
@@ -26,6 +30,10 @@ export default {
         return false;
       },
       default: ""
+    },
+    showTimeLine: {
+      type: Boolean,
+      default: false
     },
     audioRate: {
       type: Number,
@@ -183,6 +191,12 @@ export default {
           };
           if (this.$refs.waveform) {
             this.wavesurfer = WaveSurfer.create(options);
+
+            if (this.showTimeLine) {
+              this.wavesurfer
+                .addPlugin(Timeline.create({ container: this.$refs.timeline }))
+                .initPlugin("timeline");
+            }
             this.wavesurfer.on("audioprocess", this.onAudioprocess);
             this.wavesurfer.on("dblclick", this.onDblClick);
             this.wavesurfer.on("error", this.onError);

@@ -1,5 +1,6 @@
 import AudioElement from "@/views/examples/AudioElement.vue";
 import VideoElement from "@/views/examples/VideoElement.vue";
+import Timeline from "@/views/examples/Timeline.vue";
 const basename = "example";
 export default [
   {
@@ -13,5 +14,11 @@ export default [
     name: `${basename}-video-element`,
     text: `Video-Element`,
     component: VideoElement
+  },
+  {
+    path: `/${basename}/timeline`,
+    name: `${basename}-timeline`,
+    text: `Timeline`,
+    component: Timeline
   }
 ];

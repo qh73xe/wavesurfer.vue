@@ -76,6 +76,8 @@ export default {
         description: "説明"
       },
       options: {
+        source: "音声波形に変換されるメディアソース",
+        showTimeLine: "タイムラインを表示するか否か",
         audioRate: "オーディオを再生する速度. 数値が小さいほど遅くなります.",
         audioContext:
           "初期化時に使用した独自の AudioContext または, null のままにします.",
@@ -187,10 +189,10 @@ export default {
     },
     videoElement: {
       desc: `
-      動画ファイルの場合 <wave-surfer> コンポーネントが提供するコントロールと
+      動画ファイルの場合 wave-surfer コンポーネントが提供するコントロールと
       HTML Video Element が提供するコントロールを単一にする必要があります.
       <br />
-      そのためには source 属性には, HTML Video Element そのものを渡す必要があります.
+      そのためには source 属性には HTML Video Element そのものを渡す必要があります.
       <br />
       また backend 属性を "MediaElement" に指定する必要があります.
       <br />
@@ -210,6 +212,9 @@ export default {
       例では video element に v-if を設定し, source が変わるごとに
       HTML Video Element そのものを再記述させています.
       `
+    },
+    timeline: {
+      desc: `showTimeLine 属性を設定すると音声波形に時刻情報が付与されます.`
     }
   }
 };
