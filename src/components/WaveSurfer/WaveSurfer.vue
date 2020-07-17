@@ -1,17 +1,21 @@
 <template>
   <div>
     <div ref="waveform"></div>
-    <div ref="timeline"></div>
+    <div ref="spectrogram" v-if="showSpectrogram"></div>
+    <div ref="timeline" v-if="showTimeLine"></div>
   </div>
 </template>
 <script>
 import WaveSurfer from "./wavesurfer.js";
 import Timeline from "./plugin/timeline.js";
+import Spectrogram from "./plugin/spectrogram/index.js";
+
 export default {
   name: "wave-surfer",
   data: () => ({
     wavesurfer: null,
-    options: {}
+    timeline: null,
+    spectrogram: null
   }),
   props: {
     source: {
@@ -35,6 +39,11 @@ export default {
       type: Boolean,
       default: false
     },
+    showSpectrogram: {
+      type: Boolean,
+      default: false
+    },
+
     audioRate: {
       type: Number,
       default: 1
@@ -298,10 +307,22 @@ export default {
             this.wavesurfer = WaveSurfer.create(options);
 
             if (this.showTimeLine) {
-              this.wavesurfer
-                .addPlugin(Timeline.create({ container: this.$refs.timeline }))
-                .initPlugin("timeline");
+              this.timeline = Timeline.create({
+                container: this.$refs.timeline
+              });
+              this.wavesurfer.addPlugin(this.timeline).initPlugin("timeline");
             }
+
+            if (this.showSpectrogram) {
+              this.spectrogram = Spectrogram.create({
+                labels: true,
+                container: this.$refs.spectrogram
+              });
+              this.wavesurfer
+                .addPlugin(this.spectrogram)
+                .initPlugin("spectrogram");
+            }
+
             this.wavesurfer.on("audioprocess", this.onAudioprocess);
             this.wavesurfer.on("dblclick", this.onDblClick);
             this.wavesurfer.on("error", this.onError);

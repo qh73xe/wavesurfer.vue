@@ -3,6 +3,7 @@ import VideoElement from "@/views/examples/VideoElement.vue";
 import Bars from "@/views/examples/Bars.vue";
 import SplitChannels from "@/views/examples/SplitChannels.vue";
 import Timeline from "@/views/examples/Timeline.vue";
+import Spectrogram from "@/views/examples/Spectrogram.vue";
 const basename = "example";
 export default [
   {
@@ -34,5 +35,11 @@ export default [
     name: `${basename}-timeline`,
     text: `Timeline`,
     component: Timeline
+  },
+  {
+    path: `/${basename}/spectrogram`,
+    name: `${basename}-spectrogram`,
+    text: `Spectrogram`,
+    component: Spectrogram
   }
 ];
