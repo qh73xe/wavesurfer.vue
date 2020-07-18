@@ -12,7 +12,6 @@ export default {
   directives: {
     escapeContent: {
       bind(el) {
-        console.log(el);
         const html = el.innerHTML;
         el.textContent = html;
       }

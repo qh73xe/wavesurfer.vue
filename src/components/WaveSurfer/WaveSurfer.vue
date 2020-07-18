@@ -11,13 +11,17 @@
 import WaveSurfer from "./wavesurfer.js";
 import Timeline from "./plugin/timeline.js";
 import Spectrogram from "./plugin/spectrogram/index.js";
+import Microphone from "./plugin/microphone/index.js";
 
 export default {
   name: "wave-surfer",
   data: () => ({
     wavesurfer: null,
     timeline: null,
-    spectrogram: null
+    spectrogram: null,
+    microphone: null,
+    audioChunks: [],
+    audioUrl: null
   }),
   props: {
     source: {
@@ -42,6 +46,10 @@ export default {
       default: false
     },
     showSpectrogram: {
+      type: Boolean,
+      default: false
+    },
+    rec: {
       type: Boolean,
       default: false
     },
@@ -331,6 +339,24 @@ export default {
             waveColor: this.waveColor,
             xhr: this.xhr
           };
+          if (this.rec) {
+            const isSafari = /^((?!chrome|android).)*safari/i.test(
+              navigator.userAgent
+            );
+            if (isSafari) {
+              const AudioContext =
+                window.AudioContext || window.webkitAudioContext;
+              options.audioContext = new AudioContext();
+              options.audioScriptProcessor = this.audioContext.createScriptProcessor(
+                1024,
+                1,
+                1
+              );
+            }
+            options.cursorWidth = 0;
+            options.interact = false;
+          }
+
           if (this.$refs.waveform) {
             this.wavesurfer = WaveSurfer.create(options);
             this.wavesurfer.on("audioprocess", this.onAudioprocess);
@@ -375,9 +401,39 @@ export default {
                 this.onSpectrogramRenderEnd
               );
             }
-          }
-          if (this.source) {
-            this.load(this.source);
+            if (this.rec) {
+              this.microphone = Microphone.create({
+                bufferSize: 4096,
+                numberOfInputChannels: 1,
+                numberOfOutputChannels: 1,
+                constraints: {
+                  video: false,
+                  audio: true
+                }
+              });
+              this.wavesurfer
+                .addPlugin(this.microphone)
+                .initPlugin("microphone");
+              this.wavesurfer.microphone.on("deviceReady", stream => {
+                const mediaRecorder = new MediaRecorder(stream);
+                mediaRecorder.start();
+                mediaRecorder.addEventListener("dataavailable", event => {
+                  this.audioChunks.push(event.data);
+                });
+                mediaRecorder.addEventListener("stop", () => {
+                  const audioBlob = new Blob(this.audioChunks);
+                  this.audioUrl = URL.createObjectURL(audioBlob);
+                  this.downloadWave();
+                });
+              });
+              this.wavesurfer.microphone.on("deviceError", code => {
+                console.warn("Device error: " + code);
+              });
+            } else {
+              if (this.source) {
+                this.load(this.source);
+              }
+            }
           }
         });
       }
@@ -595,6 +651,25 @@ export default {
     },
     zoom: function(pxPerSec) {
       return this.runWaveSurfer("zoom", [pxPerSec]);
+    },
+    recStart: function() {
+      if (this.rec) {
+        if (this.wavesurfer) this.wavesurfer.microphone.start();
+      }
+    },
+    recStop: function() {
+      if (this.rec) {
+        if (this.wavesurfer) {
+          if (this.wavesurfer.microphone.active)
+            this.wavesurfer.microphone.stop();
+        }
+      }
+    },
+    downloadWave: function() {
+      let link = document.createElement("a");
+      link.href = this.audioUrl;
+      link.download = "rec.wav";
+      link.click();
     }
   },
   mounted: function() {

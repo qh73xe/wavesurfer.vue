@@ -4,6 +4,7 @@ import Bars from "@/views/examples/Bars.vue";
 import SplitChannels from "@/views/examples/SplitChannels.vue";
 import Timeline from "@/views/examples/Timeline.vue";
 import Spectrogram from "@/views/examples/Spectrogram.vue";
+import Recording from "@/views/examples/Recording.vue";
 const basename = "example";
 export default [
   {
@@ -41,5 +42,11 @@ export default [
     name: `${basename}-spectrogram`,
     text: `Spectrogram`,
     component: Spectrogram
+  },
+  {
+    path: `/${basename}/recording`,
+    name: `${basename}-recording`,
+    text: `Recording`,
+    component: Recording
   }
 ];
