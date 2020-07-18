@@ -89,6 +89,7 @@ export default {
       options: {
         source: "Media source converted to audio waveform.",
         showTimeLine: "Whether to display the timeline.",
+        showSpectrogram: "Whether to display the spectrogram.",
         audioRate: "Speed at which to play audio. Lower number is slower.",
         audioContext:
           "Use your own previously initialized AudioContext or leave blank.",
@@ -119,6 +120,12 @@ export default {
           "Whether to fill the entire container or draw only according to minPxPerSec.",
         forceDecode:
           "Force decoding of audio using web audio when zooming to get a more detailed waveform.",
+        freqRate: `
+            Spectrogram display bandwidth ratio.
+            For monaural sound sources, "freqRate * 12" kHz is displayed.
+            For stereo sound sources, "freqRate * 24" kHz is displayed.
+            Note that this value works from 0.25 to 1 in steps of 0.25.
+        `,
         height: "The height of the waveform. Measured in pixels.",
         hideScrollbar:
           "Whether to hide the horizontal scrollbar when one would normally be shown.",
@@ -148,6 +155,7 @@ export default {
           "Number of seconds to skip with the skipForward() and skipBackward() methods.",
         splitChannels:
           "Render with seperate waveforms for the channels of the audio.",
+        targetChannel: "Channel for spectrum display",
         waveColor: "The fill color of the waveform after the cursor.",
         xhr:
           "XHR options. For example: let xhr = { cache: 'default', mode: 'cors', method: 'GET', credentials: 'same-origin', redirect: 'follow', referrer: 'client', headers: [ { key: 'Authorization', value: 'my-token' } ]};"

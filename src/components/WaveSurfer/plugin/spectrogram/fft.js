@@ -123,42 +123,36 @@ export default function FFT(bufferSize, sampleRate, windowFunc, alpha) {
 
   this.calculateSpectrum = function(buffer) {
     // Locally scope variables for speed up
-    var bufferSize = this.bufferSize,
-      cosTable = this.cosTable,
-      sinTable = this.sinTable,
-      reverseTable = this.reverseTable,
-      real = new Float32Array(bufferSize),
-      imag = new Float32Array(bufferSize),
-      bSi = 2 / this.bufferSize,
-      sqrt = Math.sqrt,
-      rval,
-      ival,
-      mag,
-      spectrum = new Float32Array(bufferSize / 2);
+    const bufferSize = this.bufferSize;
+    const cosTable = this.cosTable;
+    const sinTable = this.sinTable;
+    const reverseTable = this.reverseTable;
+    const bSi = 2 / this.bufferSize;
+    const sqrt = Math.sqrt;
+    const k = Math.floor(Math.log(bufferSize) / Math.LN2);
 
-    var k = Math.floor(Math.log(bufferSize) / Math.LN2);
+    let rval, ival, mag;
+    let imag = new Float32Array(bufferSize);
+    let real = new Float32Array(bufferSize);
+    let spectrum = new Float32Array(bufferSize / 2);
 
     if (Math.pow(2, k) !== bufferSize) {
       throw "Invalid buffer size, must be a power of 2.";
     }
     if (bufferSize !== buffer.length) {
-      throw "Supplied buffer is not the same size as defined FFT. FFT Size: " +
-        bufferSize +
-        " Buffer Size: " +
-        buffer.length;
+      const msg = [
+        "Supplied buffer is not the same size as defined FFT.",
+        `FFT Size: ${bufferSize} Buffer Size: ${buffer.length}`
+      ].join(" ");
+      throw msg;
     }
 
-    var halfSize = 1,
-      phaseShiftStepReal,
-      phaseShiftStepImag,
-      currentPhaseShiftReal,
-      currentPhaseShiftImag,
-      off,
-      tr,
-      ti,
-      tmpReal;
-
-    for (var i = 0; i < bufferSize; i++) {
+    let halfSize = 1;
+    let off, tmpReal;
+    let phaseShiftStepReal, phaseShiftStepImag;
+    let currentPhaseShiftReal, currentPhaseShiftImag;
+    let tr, ti;
+    for (let i = 0; i < bufferSize; i++) {
       real[i] = buffer[reverseTable[i]] * this.windowValues[reverseTable[i]];
       imag[i] = 0;
     }
@@ -170,9 +164,8 @@ export default function FFT(bufferSize, sampleRate, windowFunc, alpha) {
       currentPhaseShiftReal = 1;
       currentPhaseShiftImag = 0;
 
-      for (var fftStep = 0; fftStep < halfSize; fftStep++) {
-        var i = fftStep;
-
+      for (let fftStep = 0; fftStep < halfSize; fftStep++) {
+        let i = fftStep;
         while (i < bufferSize) {
           off = i + halfSize;
           tr =
@@ -198,15 +191,12 @@ export default function FFT(bufferSize, sampleRate, windowFunc, alpha) {
           tmpReal * phaseShiftStepImag +
           currentPhaseShiftImag * phaseShiftStepReal;
       }
-
       halfSize = halfSize << 1;
     }
-
-    for (var i = 0, N = bufferSize / 2; i < N; i++) {
+    for (let i = 0, N = bufferSize / 2; i < N; i++) {
       rval = real[i];
       ival = imag[i];
       mag = bSi * sqrt(rval * rval + ival * ival);
-
       if (mag > this.peak) {
         this.peakBand = i;
         this.peak = mag;
@@ -214,5 +204,90 @@ export default function FFT(bufferSize, sampleRate, windowFunc, alpha) {
       spectrum[i] = mag;
     }
     return spectrum;
+  };
+
+  this.async_calculateSpectrum = function(buffer) {
+    // Locally scope variables for speed up
+    return new Promise((resolve, reject) => {
+      const bufferSize = this.bufferSize;
+      const cosTable = this.cosTable;
+      const sinTable = this.sinTable;
+      const reverseTable = this.reverseTable;
+      const bSi = 2 / this.bufferSize;
+      const sqrt = Math.sqrt;
+      const k = Math.floor(Math.log(bufferSize) / Math.LN2);
+      let rval, ival, mag;
+      let imag = new Float32Array(bufferSize);
+      let real = new Float32Array(bufferSize);
+      let spectrum = new Float32Array(bufferSize / 2);
+
+      if (Math.pow(2, k) !== bufferSize) {
+        reject(new Error("Invalid buffer size, must be a power of 2."));
+      }
+      if (bufferSize !== buffer.length) {
+        const msg = [
+          "Supplied buffer is not the same size as defined FFT.",
+          `FFT Size: ${bufferSize} Buffer Size: ${buffer.length}`
+        ].join(" ");
+        reject(new Error(msg));
+      }
+      let halfSize = 1;
+      let off, tmpReal;
+      let phaseShiftStepReal, phaseShiftStepImag;
+      let currentPhaseShiftReal, currentPhaseShiftImag;
+      let tr, ti;
+      for (let i = 0; i < bufferSize; i++) {
+        real[i] = buffer[reverseTable[i]] * this.windowValues[reverseTable[i]];
+        imag[i] = 0;
+      }
+
+      while (halfSize < bufferSize) {
+        phaseShiftStepReal = cosTable[halfSize];
+        phaseShiftStepImag = sinTable[halfSize];
+
+        currentPhaseShiftReal = 1;
+        currentPhaseShiftImag = 0;
+
+        for (let fftStep = 0; fftStep < halfSize; fftStep++) {
+          let i = fftStep;
+          while (i < bufferSize) {
+            off = i + halfSize;
+            tr =
+              currentPhaseShiftReal * real[off] -
+              currentPhaseShiftImag * imag[off];
+            ti =
+              currentPhaseShiftReal * imag[off] +
+              currentPhaseShiftImag * real[off];
+
+            real[off] = real[i] - tr;
+            imag[off] = imag[i] - ti;
+            real[i] += tr;
+            imag[i] += ti;
+
+            i += halfSize << 1;
+          }
+
+          tmpReal = currentPhaseShiftReal;
+          currentPhaseShiftReal =
+            tmpReal * phaseShiftStepReal -
+            currentPhaseShiftImag * phaseShiftStepImag;
+          currentPhaseShiftImag =
+            tmpReal * phaseShiftStepImag +
+            currentPhaseShiftImag * phaseShiftStepReal;
+        }
+        halfSize = halfSize << 1;
+      }
+      for (let i = 0, N = bufferSize / 2; i < N; i++) {
+        rval = real[i];
+        ival = imag[i];
+        mag = bSi * sqrt(rval * rval + ival * ival);
+        if (mag > this.peak) {
+          this.peakBand = i;
+          this.peak = mag;
+        }
+        spectrum[i] = mag;
+      }
+      resolve(spectrum);
+    });
   };
 }

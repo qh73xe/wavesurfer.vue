@@ -9,6 +9,8 @@
     <v-toolbar color="primary" dark>
       <v-app-bar-nav-icon></v-app-bar-nav-icon>
       <v-toolbar-title>{{ title }}</v-toolbar-title>
+      <v-spacer />
+      <slot name="toolbar"></slot>
     </v-toolbar>
     <v-card-text>
       <slot name="input-form"></slot>

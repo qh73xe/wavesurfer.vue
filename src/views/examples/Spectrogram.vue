@@ -14,6 +14,9 @@
       -->
     </template>
     <w-example-demo-card :title="card_title">
+      <template v-slot:toolbar>
+        <v-switch class="mt-4" v-model="isScroll" label="scroll" />
+      </template>
       <template v-slot:input-form>
         <v-file-input
           accept="audio/*"
@@ -22,12 +25,51 @@
         />
         <v-row>
           <v-col>
-            <v-switch
-              v-model="isScroll"
-              :label="
-                `is scroll: {minPxPerSec: ${minPxPerSec}, scrollParent: ${scrollParent}}`
+            <v-select
+              v-model="targetChannel"
+              :items="[0, 1]"
+              label="target channel"
+            ></v-select>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col>
+            <v-slider
+              v-model="zoom"
+              @end="onZoomEnd"
+              append-icon="mdi-magnify-plus-cursor"
+              prepend-icon="mdi-magnify-minus-cursor"
+              step="100"
+              :min="0"
+              :max="500"
+              :thumb-size="24"
+              label="Zoom"
+            >
+              <template v-slot:thumb-label="{ value }">
+                {{ (value / 100).toFixed(1) }}
+              </template>
+            </v-slider>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col>
+            <v-slider
+              v-model="freqRate"
+              append-icon="mdi-magnify-plus-cursor"
+              prepend-icon="mdi-magnify-minus-cursor"
+              step="0.25"
+              :min="0.25"
+              :max="1"
+              :hint="
+                `モノラル音源の場合: ${freqRate * 12} kHz,
+                ステレオ音源の場合: ${freqRate * 24} kHz までを表示します`
               "
-            />
+              label="MaxFreq"
+            >
+              <template v-slot:thumb-label="{ value }">
+                {{ value }}
+              </template>
+            </v-slider>
           </v-col>
         </v-row>
       </template>
@@ -37,14 +79,26 @@
         :source="source"
         :minPxPerSec="minPxPerSec"
         :scrollParent="scrollParent"
+        :freqRate="freqRate"
+        :targetChannel="targetChannel"
         showSpectrogram
+        splitChannels
         normalize
         responsive
         @play="onPlay"
         @pause="onPause"
         @destroy="onDestroy"
         @ready="onReady"
-      />
+        @spectrogram-render-start="onSpectrogramRenderStart"
+        @spectrogram-render-end="onSpectrogramRenderEnd"
+      >
+        <v-progress-linear
+          v-if="isLoading"
+          color="light-blue"
+          height="10"
+          indeterminate
+        />
+      </wave-surfer>
       <w-example-demo-card-actions :ws="$refs.wavesurfer" v-if="isReady" />
       <v-snackbar v-model="snackbar.show">
         {{ snackbar.text }}
@@ -75,6 +129,10 @@ export default {
     card_title: `${name} demo`,
     desc: "How to show the spectrogram of audio file.",
     isScroll: true,
+    isLoading: false,
+    zoom: 0,
+    freqRate: 1,
+    targetChannel: 0,
     snackbar: {
       show: false,
       text: ""
@@ -204,6 +262,15 @@ export default {
           this.source = fr.result;
         });
       }
+    },
+    onZoomEnd: function(val) {
+      this.$refs.wavesurfer.zoom(Number(val));
+    },
+    onSpectrogramRenderEnd() {
+      this.isLoading = false;
+    },
+    onSpectrogramRenderStart() {
+      this.isLoading = true;
     },
     onReady: function() {
       this.isReady = true;

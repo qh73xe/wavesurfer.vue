@@ -64,6 +64,14 @@ export default {
         description: this.$vuetify.lang.t(`${this.locale}.options.showTimeLine`)
       },
       {
+        option: "showSpectrogram",
+        type: "boolean",
+        default: "false",
+        description: this.$vuetify.lang.t(
+          `${this.locale}.options.showSpectrogram`
+        )
+      },
+      {
         option: "audioRate",
         type: "float",
         default: "1",
@@ -172,6 +180,12 @@ export default {
         type: "boolean",
         default: "false",
         description: this.$vuetify.lang.t(`${this.locale}.options.forceDecode`)
+      },
+      {
+        option: "freqRate",
+        type: "number",
+        default: "1",
+        description: this.$vuetify.lang.t(`${this.locale}.options.freqRate`)
       },
       {
         option: "height",
@@ -289,6 +303,14 @@ export default {
         default: "false",
         description: this.$vuetify.lang.t(
           `${this.locale}.options.splitChannels`
+        )
+      },
+      {
+        option: "targetChannel",
+        type: "number",
+        default: "0",
+        description: this.$vuetify.lang.t(
+          `${this.locale}.options.targetChannel`
         )
       },
       {

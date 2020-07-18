@@ -1,7 +1,9 @@
 <template>
   <div>
-    <div ref="waveform"></div>
     <div ref="spectrogram" v-if="showSpectrogram"></div>
+    <div ref="waveform">
+      <slot></slot>
+    </div>
     <div ref="timeline" v-if="showTimeLine"></div>
   </div>
 </template>
@@ -43,7 +45,6 @@ export default {
       type: Boolean,
       default: false
     },
-
     audioRate: {
       type: Number,
       default: 1
@@ -114,9 +115,18 @@ export default {
       type: Boolean,
       default: false
     },
+    freqRate: {
+      type: Number,
+      default: 1
+    },
     height: {
       type: Number,
-      default: 128
+      default: function() {
+        if (this.showSpectrogram) {
+          return 64;
+        }
+        return 128;
+      }
     },
     hideScrollbar: {
       type: Boolean,
@@ -139,6 +149,7 @@ export default {
     scrollParent: { type: Boolean, default: false },
     skipLength: { type: Number, default: 2 },
     splitChannels: { type: Boolean, default: false },
+    targetChannel: { type: Number, default: 0 },
     waveColor: { type: String, default: "#999" },
     xhr: {
       type: Object,
@@ -202,6 +213,14 @@ export default {
     forceDecode(val, old_val) {
       if (val != old_val) this.updateDrawer("forceDecode", val);
     },
+    freqRate(val, old_val) {
+      if (this.showSpectrogram) {
+        if (val != old_val) {
+          this.spectrogram.params.freqRate = val;
+          this.wavesurfer.fireEvent("redraw");
+        }
+      }
+    },
     height(val, old_val) {
       if (val != old_val) {
         this.destroy();
@@ -256,6 +275,15 @@ export default {
     splitChannels(val, old_val) {
       if (val != old_val) this.updateDrawer("splitChannels", val);
     },
+    targetChannel(val, old_val) {
+      if (this.showSpectrogram) {
+        if (val != old_val) {
+          this.spectrogram.params.targetChannel = val;
+          this.wavesurfer.fireEvent("redraw");
+        }
+      }
+    },
+
     waveColor(val, old_val) {
       if (val != old_val) this.updateDrawer("waveColor", val);
     }
@@ -305,24 +333,6 @@ export default {
           };
           if (this.$refs.waveform) {
             this.wavesurfer = WaveSurfer.create(options);
-
-            if (this.showTimeLine) {
-              this.timeline = Timeline.create({
-                container: this.$refs.timeline
-              });
-              this.wavesurfer.addPlugin(this.timeline).initPlugin("timeline");
-            }
-
-            if (this.showSpectrogram) {
-              this.spectrogram = Spectrogram.create({
-                labels: true,
-                container: this.$refs.spectrogram
-              });
-              this.wavesurfer
-                .addPlugin(this.spectrogram)
-                .initPlugin("spectrogram");
-            }
-
             this.wavesurfer.on("audioprocess", this.onAudioprocess);
             this.wavesurfer.on("dblclick", this.onDblClick);
             this.wavesurfer.on("error", this.onError);
@@ -338,6 +348,33 @@ export default {
             this.wavesurfer.on("volume", this.onVolume);
             this.wavesurfer.on("waveform-ready", this.onWaveformReady);
             this.wavesurfer.on("zoom", this.onZoom);
+
+            if (this.showTimeLine) {
+              this.timeline = Timeline.create({
+                container: this.$refs.timeline
+              });
+              this.wavesurfer.addPlugin(this.timeline).initPlugin("timeline");
+            }
+
+            if (this.showSpectrogram) {
+              this.spectrogram = Spectrogram.create({
+                labels: true,
+                freqRate: this.freqRate,
+                targetChannel: this.targetChannel,
+                container: this.$refs.spectrogram
+              });
+              this.wavesurfer
+                .addPlugin(this.spectrogram)
+                .initPlugin("spectrogram");
+              this.wavesurfer.on(
+                "spectrogram-render-start",
+                this.onSpectrogramRenderStart
+              );
+              this.wavesurfer.on(
+                "spectrogram-render-end",
+                this.onSpectrogramRenderEnd
+              );
+            }
           }
           if (this.source) {
             this.load(this.source);
@@ -399,6 +436,12 @@ export default {
     },
     onSeek: function(e) {
       this.$emit("seek", e);
+    },
+    onSpectrogramRenderEnd(e) {
+      this.$emit("spectrogram-render-end", e);
+    },
+    onSpectrogramRenderStart(e) {
+      this.$emit("spectrogram-render-start", e);
     },
     onVolume: function(e) {
       this.$emit("volume", e);

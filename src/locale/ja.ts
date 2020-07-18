@@ -89,6 +89,7 @@ export default {
       options: {
         source: "音声波形に変換されるメディアソース",
         showTimeLine: "タイムラインを表示するか否か",
+        showSpectrogram: "スペクトログラムの表示を行うか否か",
         audioRate: "オーディオを再生する速度. 数値が小さいほど遅くなります.",
         audioContext:
           "初期化時に使用した独自の AudioContext または, null のままにします.",
@@ -118,6 +119,11 @@ export default {
           "コンテナ全体を満たすか, minPxPerSec に従ってのみ描画するか.",
         forceDecode:
           "ズーム時に Web オーディオを使用してオーディオを強制的にデコードし, より詳細な波形を取得します.",
+        freqRate: `
+            スペクトログラム表示比率.
+            表示される帯域は "freqRate * 12 * チャンネル数" kHz  までになります.
+            この値は, 0.25 から 1  まで 0.25 毎にしか機能しないことに注意してください.
+        `,
         height: "波形の高さ. ピクセル単位で測定されます.",
         hideScrollbar:
           "通常は表示されるときに水平スクロールバーを非表示にするかどうか.",
@@ -148,6 +154,7 @@ export default {
           "`skipForward()` および skipBackward() メソッドでスキップする秒数.",
         splitChannels:
           "オーディオのチャンネルごとに別々の波形でレンダリングします.",
+        targetChannel: "スペクトル表示チャンネル.",
         waveColor: "カーソルの後の波形の塗りつぶし色.",
         xhr:
           "XHR オプション. 例えば以下のような値になります: `{ cache: 'default', mode: 'cors', method: 'GET', credentials: 'same-origin', redirect: 'follow', referrer: 'client', headers: [ { key: 'Authorization', value: 'my-token' } ]}`"

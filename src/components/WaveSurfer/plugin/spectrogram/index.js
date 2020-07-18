@@ -1,6 +1,7 @@
 /* eslint-enable complexity, no-redeclare, no-var, one-var */
-
+import { log } from "@/decorators.js";
 import FFT from "./fft";
+const DEBUG = false;
 
 /**
  * @typedef {Object} SpectrogramPluginParams
@@ -166,6 +167,7 @@ export default class SpectrogramPlugin {
     }
     const wsParams = this.wavesurfer.params;
     this.wrapper = document.createElement("spectrogram");
+
     // if labels are active
     if (this.params.labels) {
       const labelsEl = (this.labelsEl = document.createElement("canvas"));
@@ -178,16 +180,6 @@ export default class SpectrogramPlugin {
         width: `${55 / this.pixelRatio}px`
       });
       this.wrapper.appendChild(labelsEl);
-      this.loadLabels(
-        "rgba(68,68,68,0.5)",
-        "12px",
-        "10px",
-        "",
-        "#fff",
-        "#f7f7f7",
-        "center",
-        "#specLabels"
-      );
     }
 
     this.drawer.style(this.wrapper, {
@@ -237,7 +229,18 @@ export default class SpectrogramPlugin {
     } else {
       this.getFrequencies(this.drawSpectrogram);
     }
-    this.wavesurfer.fireEvent("spectrogram-render-end");
+    if (this.params.labels) {
+      this.loadLabels(
+        "rgba(68,68,68,0.5)",
+        "12px",
+        "10px",
+        "",
+        "#fff",
+        "#f7f7f7",
+        "center",
+        "#specLabels"
+      );
+    }
   }
 
   updateCanvasStyle() {
@@ -248,42 +251,43 @@ export default class SpectrogramPlugin {
     this.canvas.style.width = width;
   }
 
-  drawSpectrogram(frequenciesData, vm) {
+  @log("spectrogram.drawerSpectrogram", DEBUG)
+  async drawSpectrogram(frequenciesData, vm) {
     const height = vm.height;
     const widthFactor = vm.wavesurfer.params.minPxPerSec / 100;
     const pixels = vm.resample(frequenciesData);
-    const heightFactor = vm.buffer ? 2 / vm.buffer.numberOfChannels : 1;
+    const heightFactor = vm.buffer ? 4 / vm.buffer.numberOfChannels : 4;
+    const freqRate = vm.params.freqRate || 1;
+
     let i;
     let j;
-
     vm.spectrCc.clearRect(0, 0, vm.width, height);
+
     for (i = 0; i < pixels.length; i++) {
-      for (j = 0; j < pixels[i].length; j++) {
+      for (j = 0; j < Math.round(pixels[i].length * freqRate); j++) {
         const colorMap = vm.colorMap[pixels[i][j]];
-        vm.spectrCc.fillStyle =
-          "rgba(" +
-          colorMap[0] * 256 +
-          ", " +
-          colorMap[1] * 256 +
-          ", " +
-          colorMap[2] * 256 +
-          "," +
-          colorMap[3] +
-          ")";
+        vm.spectrCc.fillStyle = `rgba(${colorMap[0] * 256}, ${colorMap[1] *
+          256}, ${colorMap[2] * 256}, ${colorMap[3]})`;
         vm.spectrCc.fillRect(
-          i * widthFactor,
-          height - j * heightFactor,
-          widthFactor,
-          heightFactor
+          Math.round(i * widthFactor),
+          Math.round(height - j * (heightFactor / freqRate)),
+          Math.round(widthFactor),
+          Math.round(heightFactor / freqRate)
         );
       }
     }
+    vm.wavesurfer.fireEvent("spectrogram-render-end");
   }
 
-  getFrequencies(callback) {
+  @log("spectrogram.getFrequencies", DEBUG)
+  async getFrequencies(callback) {
     const fftSamples = this.fftSamples;
     const buffer = (this.buffer = this.wavesurfer.backend.buffer);
-    const channelOne = buffer.getChannelData(0);
+    let targetChannel = 0;
+    if (buffer.numberOfChannels > 1) {
+      targetChannel = this.params.targetChannel || 0;
+    }
+    const channelOne = buffer.getChannelData(targetChannel);
     const sampleRate = buffer.sampleRate;
     const frequencies = [];
 
@@ -306,12 +310,10 @@ export default class SpectrogramPlugin {
         currentOffset,
         currentOffset + fftSamples
       );
-      const spectrum = fft.calculateSpectrum(segment);
-      const array = new Uint8Array(fftSamples / 2);
-      let j;
-      for (j = 0; j < fftSamples / 2; j++) {
-        array[j] = Math.max(-255, Math.log10(spectrum[j]) * 45);
-      }
+      const spectrum = await fft.async_calculateSpectrum(segment);
+      const array = spectrum.slice(0, Math.round(fftSamples / 2)).map(x => {
+        return Math.max(-255, Math.log10(x) * 45);
+      });
       frequencies.push(array);
       currentOffset += fftSamples - noverlap;
     }
@@ -335,6 +337,7 @@ export default class SpectrogramPlugin {
     return freq >= 1000 ? "KHz" : "Hz";
   }
 
+  @log("spectrogram.loadLabels", DEBUG)
   loadLabels(
     bgFill,
     fontSizeFreq,
@@ -344,7 +347,6 @@ export default class SpectrogramPlugin {
     textColorUnit,
     textAlign
   ) {
-    const frequenciesHeight = this.height;
     bgFill = bgFill || "rgba(68,68,68,0)";
     fontSizeFreq = fontSizeFreq || "12px";
     fontSizeUnit = fontSizeUnit || "10px";
@@ -352,9 +354,12 @@ export default class SpectrogramPlugin {
     textColorFreq = textColorFreq || "#fff";
     textColorUnit = textColorUnit || "#fff";
     textAlign = textAlign || "center";
+    const freqRate = this.params.freqRate || 1;
+    const heightFactor = this.buffer ? 2 / this.buffer.numberOfChannels : 4;
+
     const bgWidth = 55;
-    const getMaxY = frequenciesHeight || 512;
-    const labelIndex = 5 * (getMaxY / 256);
+    const getMaxY = this.height || 512;
+    const labelIndex = 5 * (getMaxY / (256 * freqRate));
     const freqStart = 0;
     const step =
       (this.wavesurfer.backend.ac.sampleRate / 2 - freqStart) / labelIndex;
@@ -376,12 +381,12 @@ export default class SpectrogramPlugin {
       ctx.textBaseline = "middle";
 
       const freq = freqStart + step * i;
-      const label = this.freqType(freq);
+      const label = this.freqType(freq / (2 * heightFactor));
       const units = this.unitType(freq);
       const yLabelOffset = 2;
+
       const x = 16;
       let y;
-
       if (i == 0) {
         y = getMaxY + i - 10;
         // unit label

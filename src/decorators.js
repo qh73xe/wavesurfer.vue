@@ -9,7 +9,7 @@ export function perf(key, func) {
   return res;
 }
 
-export function log(name) {
+export function log(name, isShow = false) {
   return function decorator(t, n, descriptor) {
     const original = descriptor.value;
     if (typeof original === "function") {
@@ -18,7 +18,7 @@ export function log(name) {
           const start = performance.now();
           const result = original.apply(this, args);
           const sec = (performance.now() - start) / 1000;
-          if (DEBUG) {
+          if (isShow) {
             console.log(name, `run: ${sec.toFixed(3)} sec`);
           }
           return result;
