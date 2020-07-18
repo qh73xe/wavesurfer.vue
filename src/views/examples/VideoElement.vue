@@ -93,7 +93,6 @@ export default {
         @play="onPlay"
         @pause="onPause"
         @destroy="onDestroy"
-        @ready="onReady"
         backend="MediaElement"
         :source="videoSource"
         :responsive="true"

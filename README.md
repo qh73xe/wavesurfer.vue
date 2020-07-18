@@ -4,7 +4,7 @@ wavesurfer.vue は, [wavesurfer.js](https://github.com/katspaugh/wavesurfer.js) 
 
 個人的によく利用するライブラリなので, 操作そのものを独立させるために独立したリポジトリ管理を行うことにしました.
 
-- demo: [wavesurfer.vue](https://qh73xe.github.io/wavesurfer.vue?version=bc3a139ed2b8182f51e082a4f862fa398ad423eb/)
+- demo: [wavesurfer.vue](https://qh73xe.github.io/wavesurfer.vue?version=ffeebc95b79d05c50e9983934d7eb7466a51db12/)
 
 ## Quick start
 

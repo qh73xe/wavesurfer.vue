@@ -145,17 +145,74 @@ export default {
           label="audio file"
           @change="onFileChange"
         />
+        <v-row>
+          <v-col>
+            <v-switch class="mt-4" v-model="isScroll" label="scroll" />
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col>
+            <v-select
+              v-model="targetChannel"
+              :items="[0, 1]"
+              label="target channel"
+            ></v-select>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col>
+            <v-slider
+              v-model="zoom"
+              @end="onZoomEnd"
+              append-icon="mdi-magnify-plus-cursor"
+              prepend-icon="mdi-magnify-minus-cursor"
+              step="100"
+              :min="0"
+              :max="500"
+              label="Zoom"
+            />
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col>
+            <v-slider
+              v-model="freqRate"
+              append-icon="mdi-magnify-plus-cursor"
+              prepend-icon="mdi-magnify-minus-cursor"
+              step="0.25"
+              :min="0.25"
+              :max="1"
+              label="MaxFreq"
+            />
+          </v-col>
+        </v-row>
+
       </v-card-text>
       <wave-surfer
         ref="wavesurfer"
         v-if="source"
         :source="source"
-        responsive
+        :minPxPerSec="minPxPerSec"
+        :scrollParent="scrollParent"
+        :freqRate="freqRate"
+        :targetChannel="targetChannel"
         showSpectrogram
+        splitChannels
+        normalize
+        responsive
         @play="onPlay"
         @pause="onPause"
         @destroy="onDestroy"
-      />
+        @spectrogram-render-start="onSpectrogramRenderStart"
+        @spectrogram-render-end="onSpectrogramRenderEnd"
+      >
+        <v-progress-linear
+          v-if="isLoading"
+          color="light-blue"
+          height="10"
+          indeterminate
+        />
+      </wave-surfer>
       <v-card-actions v-if="source">
         <v-btn dark icon color="primary" @click="skipBackward">
           <v-icon dark>mdi-skip-backward</v-icon>
@@ -186,11 +243,27 @@ export default {
       components: { WaveSurfer },
       data: () => ({
         source: null,
+        isScroll: true,
+        isLoading: false,
+        zoom: 0,
+        freqRate: 1,
+        targetChannel: 0,
         snackbar: {
           show: false,
           text: ""
         },
       }),
+      computed: {
+        minPxPerSec: function() {
+          if (this.isScroll) {
+            return 100;
+          }
+          return 50;
+        },
+        scrollParent: function() {
+          return this.isScroll;
+        }
+      },
       methods: {
         onFileChange: function(file) {
           this.source = null;
@@ -199,6 +272,15 @@ export default {
           fr.addEventListener("load", () => {
             this.source = fr.result;
           });
+        },
+        onZoomEnd: function(val) {
+          this.$refs.wavesurfer.zoom(Number(val));
+        },
+        onSpectrogramRenderEnd() {
+          this.isLoading = false;
+        },
+        onSpectrogramRenderStart() {
+          this.isLoading = true;
         },
         onPlay: function() {
           this.snackbar.text = "on play";
