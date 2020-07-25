@@ -195,13 +195,13 @@ export default {
   example: {
     audioElement: {
       desc: `
-      音声ファイルは Base64 形式に変換し source 属性に渡してください.
+      音声ファイルは Base64 形式に変換し <code>source</code> プロパティに渡してください.
       <br />
-      source 属性は Base64 形式の他に HTML Audio Element, HTML Video Element
+      <code>source</code> は Base64 形式の他に HTML Audio Element, HTML Video Element
       そして ファイルへの url をサポートします.
       <br />
       <br />
-      例では onFileChange 関数内でユーザから渡された音声ファイルを
+      例では <code>onFileChange</code> 関数内でユーザから渡された音声ファイルを
       base64 形式に変換し wave-surfer コンポーネントに渡しています
       `
     },
@@ -210,30 +210,30 @@ export default {
       動画ファイルの場合 wave-surfer コンポーネントが提供するコントロールと
       HTML Video Element が提供するコントロールを単一にする必要があります.
       <br />
-      そのためには source 属性には HTML Video Element そのものを渡す必要があります.
+      そのためには <code>source</code> プロパティには
+      HTML Video Element を渡す必要があることに注意してください.
       <br />
-      また backend 属性を "MediaElement" に指定する必要があります.
-      <br />
-      <br />
-      例では onFileChange 関数内でユーザから渡された動画ファイルを base64 化し
+      また <code>backend</code> プロパティを <code>"MediaElement"</code> に指定する必要があります.
+      <br /><br />
+      例では <code>onFileChange</code> 関数内でユーザから渡された動画ファイルを base64 化し
       HTML Video Element に渡しています.
       <br />
-      また HTML Video Element では loadeddata イベントを監視し
+      また HTML Video Element では <code>loadeddata</code> イベントを監視し
       動画読み込みが終了したタイミングで
-      wave-surfer コンポーネント の source 属性を設定しています.
+      wave-surfer コンポーネント の <code>source</code> を設定しています.
+      <br /><br />
+      <b>HTML Video Element の <code>src</code> を変更しても
+      音声波形は再レンダされないことに注意してください.</b>
       <br />
+      これは <code>source</code> に渡している対象が HTML Video Element であるためです.
       <br />
-      <b>HTML Video Element の src 属性を変更しても音声波形は再レンダされないことに注意してください.</b>
-      <br />
-      これは source 属性に渡している対象が HTML Video Element であるためです.
-      <br />
-      例では video element に v-if を設定し, source が変わるごとに
+      例では video element に <code>v-if</code> を設定し <code>source</code> が変わるごとに
       HTML Video Element そのものを再記述させています.
       `
     },
     bars: {
       desc: `
-      "wave-surfer" コンポーネントに渡す props は動的に反映されます.
+      <code>wave-surfer</code> コンポーネントに渡す各種プロパティは動的に反映されます.
       </br>
       例では波形の棒およびカーソルの色や太さを変更しています.
       また波形表示領域の高さを変更できます.
@@ -241,15 +241,47 @@ export default {
       </br>
       ただし完全な再描画が必要になる props があることに注意してください.
       </br>
-      例えば "barWidth" は音声を再生しながらでも値の変更が可能ですが
-      "barRadius" や "height" はそうではありません.
+      例えば <code>barWidth</code> は音声を再生しながらでも値の変更が可能ですが
+      <code>barRadius</code> や <code>height</code> はそうではありません.
       `
     },
     splitChannels: {
-      desc: `splitChannels 属性を有効にするとステレオ音源を分割して表示します`
+      desc: `<code>splitChannels</code> プロパティを有効にするとステレオ音源を分割して表示します`
     },
     timeline: {
-      desc: `showTimeLine 属性を設定すると音声波形に時刻情報が付与されます.`
+      desc: `<code>showTimeLine</code>  プロパティを設定すると音声波形に時刻情報が付与されます.`
+    },
+    recording: {
+      desc: `
+      <code>rec</code> プロパティを有効にすると ブラウザを経由しての音声録音が可能です.
+      録音されている音声波形はリアルタイムに音声波形に反映をされ,
+      収録停止後に録音された音声が出力されます.
+      </br></br>
+      この機能は現状実験的なものであることに注意をしてください.
+      </br></br>
+      他機能(例えばスペクトログラムの表示)との連携が一切考慮されていません.
+      </br>
+      また,出力される音声ファイルは ".wav" となっていますが wav 形式ではありません.
+      </br>
+      筆者の余裕と興味が出たタイミングで種々調整を行います.
+      `
+    },
+    spectrogram: {
+      desc: `
+      <code>showSpectrogram</code> props を有効にすることで,
+      音声スペクトログラムの表示が成されます.
+      </br></br>
+      この機能は本コンポーネントに最適化する形で改変されています.
+      </br>
+      オリジナルとは異なり FFT の処理の非同期化を行っており,
+      <code>zoom</code> 時にはスペクトログラムの再レンダを行うようになっています.
+      </br>
+      </br>
+      FFT の処理および, 結果の表示には多少の時間が掛かるため
+      ステレオ音源の場合, 1 ch 分の表示しか行わないことに注意をしてください.
+      </br>
+      計算および表示を行うチャンネルの指定は <code>targetChannel</code> props から行います.
+      `
     }
   }
 };

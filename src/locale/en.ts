@@ -235,11 +235,39 @@ export default {
       For example, "barWidth" can change the value while playing audio, but "barRadius" and "height" do not.
       `
     },
+    spectrogram: {
+      desc: `
+      If the "showSpectrogram" props is enabled, Audio Spectrogram was shown.
+      </br>
+      This feature is customized for this component.
+      Unlike the original, the FFT calculation is processed asynchronously.
+      In addition, the spectrogram is re-rendered when enlargement processing is performed.
+      </br>
+      Note that the FFT calculation takes some time,
+      so the spectrogram to be displayed is only one channel.
+      This is specified by the "targetChannel" props.
+      `
+    },
     splitChannels: {
       desc: `If the "splitChannels" props is enabled, stereo sound sources will be split and displayed.`
     },
     timeline: {
       desc: `Set the "showTimeLine" props to add a timeline for the audio waveform.`
+    },
+    recording: {
+      desc: `
+      Enable the <code>rec</code> property to enable voice recording via the browser.
+      The recorded sound waveform is reflected on the voice waveform in real time,
+      The recorded sound is output after recording is stopped.
+      </br></br>
+      Please note that this feature is currently experimental.
+      </br></br>
+      Coordination with other functions (e.g. spectrogram display) is not considered at all.
+      </br>
+      Also, the output audio file is ".wav", but it is not in wav format.
+      </br>
+      I will make various adjustments depending on my margin and timing when I am interested.
+      `
     }
   }
 };
