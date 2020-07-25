@@ -6,12 +6,10 @@
     :script_code="code"
   >
     <template v-slot:desc>
-      <!--
       <span
         class="font-weight-light subtitle-1"
         v-html="$vuetify.lang.t(`${locale}.desc`)"
       />
-      -->
     </template>
     <w-example-demo-card :title="card_title">
       <wave-surfer
