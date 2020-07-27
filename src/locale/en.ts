@@ -240,6 +240,17 @@ export default {
     },
     timeline: {
       desc: `Set the "showTimeLine" props to add a timeline for the audio waveform.`
+    },
+    pointline: {
+      desc: `
+      Point line is an original plugin for wavesurfer.js.
+      </br>
+      </br>
+      "points" props is an array of just some object that has "time" and "value" attr.
+      </br>
+      I don't define the meaning of "points".
+      So, You can use "points" props to display any f0s or amplitudes or senser values.
+      `
     }
   }
 };
