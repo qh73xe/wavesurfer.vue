@@ -256,13 +256,17 @@ export default class SpectrogramPlugin {
     const height = vm.height;
     const widthFactor = vm.wavesurfer.params.minPxPerSec / 100;
     const pixels = vm.resample(frequenciesData);
-    const heightFactor = vm.buffer ? 4 / vm.buffer.numberOfChannels : 4;
     const freqRate = vm.params.freqRate || 1;
+    let heightFactor = 4;
+    if (vm.buffer) {
+      if (vm.buffer.numberOfChannels) {
+        heightFactor = 4 / vm.buffer.numberOfChannels;
+      }
+    }
 
     let i;
     let j;
     vm.spectrCc.clearRect(0, 0, vm.width, height);
-
     for (i = 0; i < pixels.length; i++) {
       for (j = 0; j < Math.round(pixels[i].length * freqRate); j++) {
         const colorMap = vm.colorMap[pixels[i][j]];
@@ -283,19 +287,24 @@ export default class SpectrogramPlugin {
   async getFrequencies(callback) {
     const fftSamples = this.fftSamples;
     const buffer = (this.buffer = this.wavesurfer.backend.buffer);
-    let targetChannel = 0;
-    if (buffer.numberOfChannels > 1) {
-      targetChannel = this.params.targetChannel || 0;
-    }
-    const channelOne = buffer.getChannelData(targetChannel);
-    const sampleRate = buffer.sampleRate;
-    const frequencies = [];
-
     if (!buffer) {
       this.fireEvent("error", "Web Audio buffer is not available");
       return;
     }
 
+    let targetChannel = 0;
+    let channelOne;
+    let sampleRate;
+    if (buffer) {
+      if (buffer.numberOfChannels != null) {
+        if (buffer.numberOfChannels > 1) {
+          targetChannel = this.params.targetChannel || 0;
+        }
+      }
+      channelOne = buffer.getChannelData(targetChannel);
+      sampleRate = buffer.sampleRate;
+    }
+    const frequencies = [];
     let noverlap = this.noverlap;
     if (!noverlap) {
       const uniqueSamplesPerPx = buffer.length / this.canvas.width;
@@ -355,7 +364,13 @@ export default class SpectrogramPlugin {
     textColorUnit = textColorUnit || "#fff";
     textAlign = textAlign || "center";
     const freqRate = this.params.freqRate || 1;
-    const heightFactor = this.buffer ? 2 / this.buffer.numberOfChannels : 4;
+
+    let heightFactor = 4;
+    if (this.buffer) {
+      if (this.buffer.numberOfChannels) {
+        heightFactor = 2 / this.buffer.numberOfChannels;
+      }
+    }
 
     const bgWidth = 55;
     const getMaxY = this.height || 512;

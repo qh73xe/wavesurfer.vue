@@ -297,13 +297,22 @@ export default class MediaElement extends WebAudio {
    * @return {Promise} Result
    */
   play(start, end) {
-    this.seekTo(start);
+    if (end == undefined) {
+      end = this.getDuration();
+    }
+    if (start == undefined) {
+      const currentTime = Math.round(this.getDuration() * 1000) / 1000;
+      const endTime = Math.round(end * 1000) / 1000;
+      if (currentTime >= endTime) {
+        this.seekTo(0);
+      }
+    } else {
+      this.seekTo(start);
+    }
     const promise = this.media.play();
-    end && this.setPlayEnd(end);
-
+    this.setPlayEnd(end);
     return promise;
   }
-
   /**
    * Pauses the loaded audio.
    *
@@ -328,7 +337,6 @@ export default class MediaElement extends WebAudio {
    */
   setPlayEnd(end) {
     this.clearPlayEnd();
-
     this._onPlayEnd = time => {
       if (time >= end) {
         this.pause();

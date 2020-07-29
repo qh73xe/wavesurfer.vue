@@ -1,6 +1,10 @@
 <template>
   <div>
-    <div ref="spectrogram" v-if="showSpectrogram"></div>
+    <div
+      ref="spectrogram"
+      v-if="showSpectrogram"
+      v-show="isSpectrogramRendered"
+    ></div>
     <div ref="waveform">
       <slot></slot>
     </div>
@@ -21,6 +25,7 @@ export default {
     timeline: null,
     pointline: null,
     spectrogram: null,
+    isSpectrogramRendered: false,
     microphone: null,
     audioChunks: [],
     audioUrl: null
@@ -501,7 +506,6 @@ export default {
     updatePoint: function(id, point) {
       this.wavesurfer.pointline.updatePoint(id, point);
     },
-
     onAudioprocess: function(e) {
       this.$emit("audioprocess", e);
     },
@@ -542,9 +546,11 @@ export default {
       this.$emit("seek", e);
     },
     onSpectrogramRenderEnd(e) {
+      this.isSpectrogramRendered = true;
       this.$emit("spectrogram-render-end", e);
     },
     onSpectrogramRenderStart(e) {
+      this.isSpectrogramRendered = false;
       this.$emit("spectrogram-render-start", e);
     },
     onVolume: function(e) {
@@ -610,7 +616,10 @@ export default {
     },
     load: function(url, peaks, preload) {
       const args = [url, peaks, preload];
-      return this.runWaveSurfer("load", args);
+      const vm = this;
+      setTimeout(function() {
+        vm.runWaveSurfer("load", args);
+      }, 1);
     },
     loadBlob: function(url) {
       const args = [url];
