@@ -6,32 +6,34 @@
     :script_code="code"
   >
     <template v-slot:desc>
+      <!--
       <span
         class="font-weight-light subtitle-1"
         v-html="$vuetify.lang.t(`${locale}.desc`)"
       />
+      -->
     </template>
     <w-example-demo-card :title="card_title">
       <template v-slot:toolbar>
         <v-switch class="mt-4" v-model="isScroll" label="scroll" />
       </template>
       <template v-slot:input-form>
-        <v-file-input
-          accept="audio/*"
-          label="audio file"
-          @change="onFileChange"
-        />
         <v-row>
-          <v-col>
+          <v-col cols="12">
+            <v-file-input
+              accept="video/*"
+              label="video file"
+              @change="onFileChange"
+            />
+          </v-col>
+          <v-col cols="12">
             <v-select
               v-model="targetChannel"
               :items="[0, 1]"
               label="target channel"
             ></v-select>
           </v-col>
-        </v-row>
-        <v-row>
-          <v-col>
+          <v-col cols="12">
             <v-slider
               v-model="zoom"
               @end="onZoomEnd"
@@ -48,9 +50,7 @@
               </template>
             </v-slider>
           </v-col>
-        </v-row>
-        <v-row>
-          <v-col>
+          <v-col cols="12">
             <v-slider
               v-model="freqRate"
               append-icon="mdi-magnify-plus-cursor"
@@ -71,31 +71,34 @@
           </v-col>
         </v-row>
       </template>
+      <v-card-text v-if="source">
+        <v-row>
+          <v-col cols="3">
+            <video ref="video" :src="source" @loadeddata="onLoadedData" />
+          </v-col>
+        </v-row>
+      </v-card-text>
       <wave-surfer
         ref="wavesurfer"
-        v-if="source"
-        :source="source"
-        :minPxPerSec="minPxPerSec"
-        :scrollParent="scrollParent"
-        :freqRate="freqRate"
-        :targetChannel="targetChannel"
+        v-if="videoSource"
         showSpectrogram
         splitChannels
         normalize
         responsive
+        backend="MediaElement"
         @play="onPlay"
         @pause="onPause"
         @destroy="onDestroy"
         @ready="onReady"
         @spectrogram-render-start="onSpectrogramRenderStart"
         @spectrogram-render-end="onSpectrogramRenderEnd"
+        :source="videoSource"
+        :minPxPerSec="minPxPerSec"
+        :scrollParent="scrollParent"
+        :freqRate="freqRate"
+        :targetChannel="targetChannel"
       >
-        <v-progress-linear
-          v-if="isLoading"
-          color="light-blue"
-          height="10"
-          indeterminate
-        />
+        <v-progress-linear v-if="isLoading" indeterminate />
       </wave-surfer>
       <w-example-demo-card-actions :ws="$refs.wavesurfer" v-if="isReady" />
       <v-snackbar v-model="snackbar.show">
@@ -138,27 +141,22 @@ export default {
     template: `
     <v-card class="mx-auto">
       <v-card-text>
-        <v-file-input
-          accept="audio/*"
-          label="audio file"
-          @change="onFileChange"
-        />
         <v-row>
-          <v-col>
-            <v-switch class="mt-4" v-model="isScroll" label="scroll" />
+          <v-col cols="12">
+            <v-file-input
+              accept="video/*"
+              label="video file"
+              @change="onFileChange"
+            />
           </v-col>
-        </v-row>
-        <v-row>
-          <v-col>
+          <v-col cols="12">
             <v-select
               v-model="targetChannel"
               :items="[0, 1]"
               label="target channel"
             ></v-select>
           </v-col>
-        </v-row>
-        <v-row>
-          <v-col>
+          <v-col cols="12">
             <v-slider
               v-model="zoom"
               @end="onZoomEnd"
@@ -167,12 +165,15 @@ export default {
               step="100"
               :min="0"
               :max="500"
+              :thumb-size="24"
               label="Zoom"
-            />
+            >
+              <template v-slot:thumb-label="{ value }">
+                {{ (value / 100).toFixed(1) }}
+              </template>
+            </v-slider>
           </v-col>
-        </v-row>
-        <v-row>
-          <v-col>
+          <v-col cols="12">
             <v-slider
               v-model="freqRate"
               append-icon="mdi-magnify-plus-cursor"
@@ -181,35 +182,42 @@ export default {
               :min="0.25"
               :max="1"
               label="MaxFreq"
-            />
+            >
+              <template v-slot:thumb-label="{ value }">
+                {{ value }}
+              </template>
+            </v-slider>
           </v-col>
         </v-row>
-
+      </v-card-text>
+      <v-card-text v-if="source">
+        <v-row>
+          <v-col cols="3">
+            <video ref="video" :src="source" @loadeddata="onLoadedData" />
+          </v-col>
+        </v-row>
       </v-card-text>
       <wave-surfer
         ref="wavesurfer"
-        v-if="source"
-        :source="source"
-        :minPxPerSec="minPxPerSec"
-        :scrollParent="scrollParent"
-        :freqRate="freqRate"
-        :targetChannel="targetChannel"
+        v-if="videoSource"
         showSpectrogram
         splitChannels
         normalize
         responsive
+        backend="MediaElement"
         @play="onPlay"
         @pause="onPause"
         @destroy="onDestroy"
+        @ready="onReady"
         @spectrogram-render-start="onSpectrogramRenderStart"
         @spectrogram-render-end="onSpectrogramRenderEnd"
+        :source="videoSource"
+        :minPxPerSec="minPxPerSec"
+        :scrollParent="scrollParent"
+        :freqRate="freqRate"
+        :targetChannel="targetChannel"
       >
-        <v-progress-linear
-          v-if="isLoading"
-          color="light-blue"
-          height="10"
-          indeterminate
-        />
+        <v-progress-linear v-if="isLoading" indeterminate />
       </wave-surfer>
       <v-card-actions v-if="source">
         <v-btn dark icon color="primary" @click="skipBackward">
@@ -241,11 +249,11 @@ export default {
       components: { WaveSurfer },
       data: () => ({
         source: null,
-        isScroll: true,
         isLoading: false,
         zoom: 0,
         freqRate: 1,
         targetChannel: 0,
+        isScroll: true,
         snackbar: {
           show: false,
           text: ""
@@ -265,11 +273,19 @@ export default {
       methods: {
         onFileChange: function(file) {
           this.source = null;
-          const fr = new FileReader();
-          fr.readAsDataURL(file);
-          fr.addEventListener("load", () => {
-            this.source = fr.result;
-          });
+          if (file) {
+            const fr = new FileReader();
+            fr.readAsDataURL(file);
+            fr.addEventListener("load", () => {
+              this.source = fr.result;
+            });
+          }
+        },
+        onLoadedData: function() {
+          const vm = this;
+          setTimeout(function() {
+            vm.videoSource = vm.$refs.video;
+          }, 1);
         },
         onZoomEnd: function(val) {
           const vm = this;
@@ -283,6 +299,11 @@ export default {
         onSpectrogramRenderStart() {
           this.isLoading = true;
         },
+        onReady: function() {
+          this.isReady = true;
+          this.snackbar.text = "on ready";
+          this.snackbar.show = true;
+        },
         onPlay: function() {
           this.snackbar.text = "on play";
           this.snackbar.show = true;
@@ -294,7 +315,7 @@ export default {
         onDestroy: function() {
           this.snackbar.text = "on destroy";
           this.snackbar.show = true;
-        },
+        }
         play: function() {
           this.$refs.wavesurfer.play();
         },
@@ -322,6 +343,7 @@ export default {
     };
     `,
     source: null,
+    videoSource: null,
     isReady: false
   }),
   computed: {
@@ -345,6 +367,12 @@ export default {
           this.source = fr.result;
         });
       }
+    },
+    onLoadedData: function() {
+      const vm = this;
+      setTimeout(function() {
+        vm.videoSource = vm.$refs.video;
+      }, 1);
     },
     onZoomEnd: function(val) {
       const vm = this;

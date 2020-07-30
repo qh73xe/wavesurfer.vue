@@ -251,6 +251,17 @@ export default {
     timeline: {
       desc: `<code>showTimeLine</code>  プロパティを設定すると音声波形に時刻情報が付与されます.`
     },
+    pointline: {
+      desc: `
+      Point line プラグインはこのライブラリ独自の wavesurfer.js 用プラグインです.
+      </br>
+      このプラグインを有効にするには "showPointLine" プロパティを true にします.
+      </br>
+      "points" プロパティは "time" および "value" 属性を持つ単なる配列です.
+      </br>
+      "points" プロパティの意味は定義しません.
+      例えば F0 や パワー あるいは何かのセンサーを値を waveform と共に表示をしたい際に利用できます.  `
+    },
     recording: {
       desc: `
       <code>rec</code> プロパティを有効にすると ブラウザを経由しての音声録音が可能です.
@@ -263,8 +274,7 @@ export default {
       </br>
       また,出力される音声ファイルは ".wav" となっていますが wav 形式ではありません.
       </br>
-      筆者の余裕と興味が出たタイミングで種々調整を行います.
-      `
+      筆者の余裕と興味が出たタイミングで種々調整を行います.`
     },
     spectrogram: {
       desc: `

@@ -1,24 +1,31 @@
 <template>
   <div>
-    <div ref="spectrogram" v-if="showSpectrogram"></div>
+    <div
+      ref="spectrogram"
+      v-if="showSpectrogram"
+      v-show="isSpectrogramRendered"
+    ></div>
     <div ref="waveform">
       <slot></slot>
     </div>
     <div ref="timeline" v-if="showTimeLine"></div>
+    <div ref="pointline" v-if="showPointLine"></div>
   </div>
 </template>
 <script>
 import WaveSurfer from "./wavesurfer.js";
 import Timeline from "./plugin/timeline.js";
+import Pointline from "./plugin/pointline.js";
 import Spectrogram from "./plugin/spectrogram/index.js";
 import Microphone from "./plugin/microphone/index.js";
-
 export default {
   name: "wave-surfer",
   data: () => ({
     wavesurfer: null,
     timeline: null,
+    pointline: null,
     spectrogram: null,
+    isSpectrogramRendered: false,
     microphone: null,
     audioChunks: [],
     audioUrl: null
@@ -42,6 +49,10 @@ export default {
       default: ""
     },
     showTimeLine: {
+      type: Boolean,
+      default: false
+    },
+    showPointLine: {
       type: Boolean,
       default: false
     },
@@ -150,6 +161,20 @@ export default {
     partialRender: { type: Boolean, default: false },
     pixelRatio: { type: Number, default: 1 },
     progressColor: { type: String, default: "#555" },
+    pointWidth: { type: Number, default: 1 },
+    points: {
+      validator: function(value) {
+        if (Array.isArray(value)) {
+          for (const obj of value) {
+            if (!("time" in obj)) return false;
+            if (!("value" in obj)) return false;
+          }
+          return true;
+        }
+        return false;
+      },
+      default: () => []
+    },
     removeMediaElementOnDestroy: { type: Boolean, default: true },
     responsive: {
       default: false
@@ -374,7 +399,6 @@ export default {
             this.wavesurfer.on("volume", this.onVolume);
             this.wavesurfer.on("waveform-ready", this.onWaveformReady);
             this.wavesurfer.on("zoom", this.onZoom);
-
             if (this.showTimeLine) {
               this.timeline = Timeline.create({
                 container: this.$refs.timeline
@@ -401,6 +425,25 @@ export default {
                 this.onSpectrogramRenderEnd
               );
             }
+
+            if (this.showPointLine) {
+              this.pointline = Pointline.create({
+                container: this.$refs.pointline,
+                points: this.points,
+                pointWidth: this.pointWidth
+              });
+              this.wavesurfer.addPlugin(this.pointline).initPlugin("pointline");
+              this.wavesurfer.pointline.on("addPoint", point => {
+                this.$emit("addPoint", point);
+              });
+              this.wavesurfer.pointline.on("updatePoint", point => {
+                this.$emit("updatePoint", point);
+              });
+              this.wavesurfer.pointline.on("deletePoint", point => {
+                this.$emit("deletePoint", point);
+              });
+            }
+
             if (this.rec) {
               this.microphone = Microphone.create({
                 bufferSize: 4096,
@@ -427,7 +470,7 @@ export default {
                 });
               });
               this.wavesurfer.microphone.on("deviceError", code => {
-                console.warn("Device error: " + code);
+                this.$emit("deviceError", code);
               });
             } else {
               if (this.source) {
@@ -453,6 +496,15 @@ export default {
         }
       }
       return null;
+    },
+    addPoint: function(point) {
+      this.wavesurfer.pointline.addPoint(point);
+    },
+    deletePoint: function(id) {
+      this.wavesurfer.pointline.deletePoint(id);
+    },
+    updatePoint: function(id, point) {
+      this.wavesurfer.pointline.updatePoint(id, point);
     },
     onAudioprocess: function(e) {
       this.$emit("audioprocess", e);
@@ -494,9 +546,11 @@ export default {
       this.$emit("seek", e);
     },
     onSpectrogramRenderEnd(e) {
+      this.isSpectrogramRendered = true;
       this.$emit("spectrogram-render-end", e);
     },
     onSpectrogramRenderStart(e) {
+      this.isSpectrogramRendered = false;
       this.$emit("spectrogram-render-start", e);
     },
     onVolume: function(e) {
@@ -562,7 +616,10 @@ export default {
     },
     load: function(url, peaks, preload) {
       const args = [url, peaks, preload];
-      return this.runWaveSurfer("load", args);
+      const vm = this;
+      setTimeout(function() {
+        vm.runWaveSurfer("load", args);
+      }, 1);
     },
     loadBlob: function(url) {
       const args = [url];
