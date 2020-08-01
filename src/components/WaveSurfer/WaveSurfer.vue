@@ -4,18 +4,20 @@
       ref="spectrogram"
       v-if="showSpectrogram"
       v-show="isSpectrogramRendered"
-    ></div>
+    />
     <div ref="waveform">
       <slot></slot>
     </div>
-    <div ref="timeline" v-if="showTimeLine"></div>
-    <div ref="pointline" v-if="showPointLine"></div>
+    <div ref="timeline" v-if="showTimeLine" />
+    <div ref="pointline" v-if="showPointLine" />
+    <div ref="textgrid" v-if="showTextGrid" />
   </div>
 </template>
 <script>
 import WaveSurfer from "./wavesurfer.js";
 import Timeline from "./plugin/timeline.js";
 import Pointline from "./plugin/pointline.js";
+import Textgrid from "./plugin/textgrid.js";
 import Spectrogram from "./plugin/spectrogram/index.js";
 import Microphone from "./plugin/microphone/index.js";
 export default {
@@ -25,6 +27,7 @@ export default {
     timeline: null,
     pointline: null,
     spectrogram: null,
+    textGrid: null,
     isSpectrogramRendered: false,
     microphone: null,
     audioChunks: [],
@@ -47,6 +50,10 @@ export default {
         return false;
       },
       default: ""
+    },
+    showTextGrid: {
+      type: Boolean,
+      default: false
     },
     showTimeLine: {
       type: Boolean,
@@ -425,7 +432,12 @@ export default {
                 this.onSpectrogramRenderEnd
               );
             }
-
+            if (this.showTextGrid) {
+              this.textgrid = Textgrid.create({
+                container: this.$refs.textgrid
+              });
+              this.wavesurfer.addPlugin(this.textgrid).initPlugin("textgrid");
+            }
             if (this.showPointLine) {
               this.pointline = Pointline.create({
                 container: this.$refs.pointline,

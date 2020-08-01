@@ -6,6 +6,7 @@ import Timeline from "@/views/examples/Timeline.vue";
 import Pointline from "@/views/examples/Pointline.vue";
 import Spectrogram from "@/views/examples/Spectrogram.vue";
 import VideoSpectrogram from "@/views/examples/VideoSpectrogram.vue";
+import TextGrid from "@/views/examples/TextGrid.vue";
 import Recording from "@/views/examples/Recording.vue";
 const basename = "example";
 export default [
@@ -14,12 +15,6 @@ export default [
     name: `${basename}-audio-element`,
     text: `Audio-Element`,
     component: AudioElement
-  },
-  {
-    path: `/${basename}/video-element`,
-    name: `${basename}-video-element`,
-    text: `Video-Element`,
-    component: VideoElement
   },
   {
     path: `/${basename}/bars`,
@@ -46,10 +41,22 @@ export default [
     component: Pointline
   },
   {
+    path: `/${basename}/textgrid`,
+    name: `${basename}-textgrid`,
+    text: `TextGrid`,
+    component: TextGrid
+  },
+  {
     path: `/${basename}/spectrogram`,
     name: `${basename}-spectrogram`,
     text: `Spectrogram`,
     component: Spectrogram
+  },
+  {
+    path: `/${basename}/video-element`,
+    name: `${basename}-video-element`,
+    text: `Video-Element`,
+    component: VideoElement
   },
   {
     path: `/${basename}/video-spectrogram`,

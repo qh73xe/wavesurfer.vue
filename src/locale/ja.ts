@@ -262,6 +262,16 @@ export default {
       "points" プロパティの意味は定義しません.
       例えば F0 や パワー あるいは何かのセンサーを値を waveform と共に表示をしたい際に利用できます.  `
     },
+    textgrid: {
+      headline: `
+      TextGrid 形式は praat で使用されるアノテーションファイル形式です.
+      </br>
+      <code>wave-surfer</code>コンポーネントでは praat と同様に視覚的に
+      多層化された転記機能を提供します.
+      </br>
+      また TextGrid 形式ファイルのインポートおよびエクスポートを支援します.
+      `
+    },
     recording: {
       desc: `
       <code>rec</code> プロパティを有効にすると ブラウザを経由しての音声録音が可能です.

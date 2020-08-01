@@ -265,6 +265,15 @@ export default {
       So, You can use "points" props to display any f0s or amplitudes or senser values.
       `
     },
+    textgrid: {
+      headline: `
+        TextGrid format is a transcription file format used by praat.
+        </br>
+        <code>wave-surfer</code> component provides visually layered transcription functionality similar to praat.
+        </br>
+        And this component also supports the import and export of TextGrid format files.
+        `
+    },
     recording: {
       desc: `
       Enable the <code>rec</code> property to enable voice recording via the browser.
