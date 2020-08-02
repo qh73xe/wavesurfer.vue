@@ -1,8 +1,10 @@
+import io from "@/io/index.js";
 /**
  * @typedef {Object} TextgridPluginParams
  * @desc Extends the `WavesurferParams` wavesurfer was initialised with
  * @property {!string|HTMLElement} container CSS selector or HTML element where the textgrid should be drawn. This is the only required parameter.
- * @property {string} color='#c0c0c0' The colour of the notches
+ * @property {string} color='#000' The colour of the notches
+ * @property {string} activeColor='#c0c0c0' The colour of the notches
  * @property {string} fontColor='#000' The colour of the labels next to the notches
  * @property {?number} zoomDebounce A debounce timeout to increase rendering
  * performance for large files
@@ -66,7 +68,6 @@ export default class TextgridPlugin {
    * @returns {void}
    */
   _onRedraw = () => this.render();
-
   _onReady = () => {
     const ws = this.wavesurfer;
     this.drawer = ws.drawer;
@@ -81,15 +82,6 @@ export default class TextgridPlugin {
     ws.on("redraw", this._onRedraw);
     ws.on("zoom", this._onZoom);
     this.render();
-  };
-
-  /**
-   * @param {object} e Click event
-   */
-  _onWrapperClick = e => {
-    e.preventDefault();
-    const relX = "offsetX" in e ? e.offsetX : e.layerX;
-    this.fireEvent("click", relX / this.wrapper.scrollWidth || 0);
   };
 
   /**
@@ -116,8 +108,9 @@ export default class TextgridPlugin {
       {},
       {
         height: 50,
-        color: "#c0c0c0",
         fontColor: "#000",
+        color: "#000",
+        activeColor: "#FF6D00",
         fontFamily: "Arial",
         fontSize: 15,
         zoomDebounce: false,
@@ -127,15 +120,15 @@ export default class TextgridPlugin {
             values: [
               { time: 1, text: "test:interval:1" },
               { time: 1.1, text: "test:interval:2" },
-              { time: 2, text: "test:interval:3" }
+              { time: 2, text: "テスト:インターバル:3" }
             ]
           },
           point: {
             type: "point",
             values: [
-              { time: 2, text: "p1" },
-              { time: 3.1, text: "p2" },
-              { time: 4, text: "p3" }
+              { time: 2, text: "test:point:1" },
+              { time: 3.1, text: "test:2" },
+              { time: 4, text: "テスト:3" }
             ]
           }
         }
@@ -148,6 +141,10 @@ export default class TextgridPlugin {
     this.pixelRatio = null;
     this.maxCanvasWidth = null;
     this.maxCanvasElementWidth = null;
+    this.current = {
+      key: null,
+      item: null
+    };
     /**
      * This event handler has to be in the constructor function because it
      * relies on the debounce function which is only available after
@@ -190,7 +187,10 @@ export default class TextgridPlugin {
       this._onScroll
     );
     if (this.wrapper && this.wrapper.parentNode) {
-      this.wrapper.removeEventListener("click", this._onWrapperClick);
+      for (const key in this.params.tiers) {
+        const canvas = this.params.tiers[key].canvas;
+        canvas.removeEventListener("dblclick", canvas.onDblClick);
+      }
       this.wrapper.parentNode.removeChild(this.wrapper);
       this.wrapper = null;
     }
@@ -205,7 +205,6 @@ export default class TextgridPlugin {
     this.wrapper = this.container.appendChild(
       document.createElement("textgrid")
     );
-    this.wrapper.addEventListener("click", this._onWrapperClick);
   }
 
   /**
@@ -256,6 +255,40 @@ export default class TextgridPlugin {
         "border-top": `solid 1px ${this.params.color}`,
         "border-bottom": `solid 1px ${this.params.color}`
       });
+
+      const vm = this;
+      this.params.tiers[key].onClick = function(e) {
+        e.preventDefault();
+        const time = vm.event2time(e);
+        const item = { key: key, time: time };
+        let canditates = vm.params.tiers[key].values.filter(x => {
+          return x.time > time;
+        });
+        canditates.sort((a, b) => a.time - b.time);
+        const currentItem = canditates[0];
+        if (currentItem) {
+          vm.current.key = key;
+          vm.current.item = currentItem;
+          item.item = currentItem;
+          vm.render();
+        }
+        vm.wavesurfer.fireEvent("textgrid-click", item);
+      };
+
+      this.params.tiers[key].onDblClick = function(e) {
+        e.preventDefault();
+        const time = vm.event2time(e);
+        const item = { key: key, time: time };
+        vm.wavesurfer.fireEvent("textgrid-dblclick", item);
+      };
+
+      canvas.addEventListener("click", this.params.tiers[key].onClick, false);
+      canvas.addEventListener(
+        "dblclick",
+        this.params.tiers[key].onDblClick,
+        false
+      );
+
       this.params.tiers[key].canvas = canvas;
 
       const label = this.wrapper.appendChild(document.createElement("canvas"));
@@ -321,65 +354,117 @@ export default class TextgridPlugin {
     if (duration <= 0) {
       return;
     }
-
-    const wsParams = this.wavesurfer.params;
     const width =
-      wsParams.fillParent && !wsParams.scrollParent
+      this.wsParams.fillParent && !this.wsParams.scrollParent
         ? this.drawer.getWidth()
-        : this.drawer.wrapper.scrollWidth * wsParams.pixelRatio;
-    const height = this.params.height * this.pixelRatio;
+        : this.drawer.wrapper.scrollWidth * this.wsParams.pixelRatio;
     const pixelsPerSecond = width / duration;
 
     // build an array of position data with index, second and pixel data,
     // this is then used multiple times below
     const values = this.params.tiers[key].values;
-    values.sort((a, b) => {
-      a.time - b.time;
-    });
-
+    values.sort((a, b) => a.time - b.time);
     const positioning = [];
     let i = 0;
     for (const x of values) {
       const curPixel = pixelsPerSecond * x.time;
-      const prePixel = i == 0 ? 0 : pixelsPerSecond * values[i - 1].time;
+      const preSec = i == 0 ? 0 : values[i - 1].time;
+      const prePixel = i == 0 ? 0 : pixelsPerSecond * preSec;
       positioning.push([x.time, curPixel, prePixel, x.text]);
       i++;
     }
 
     // iterate over each position
+    if (this.params.tiers[key].type == "interval") {
+      this.renderIntervalTier(key, positioning);
+    } else if (this.params.tiers[key].type == "point") {
+      this.renderPointTier(key, positioning);
+    } else {
+      this.wavesurfer.fireEvent("error", "tier.type is 'interval' or 'point'");
+    }
+  }
+
+  renderIntervalTier(key, positioning) {
+    const height = this.params.height * this.pixelRatio;
+    this.fillRect(key, 0, 0, 1, height);
     const renderPositions = cb => {
       positioning.forEach(pos => {
         cb(pos[0], pos[1], pos[2], pos[3]);
       });
     };
-
     // render labels
-    this.setFillStyles(key, this.params.color);
-    this.setFillStyles(key, this.params.fontColor);
-    this.fillRect(key, 0, 0, 1, height);
     renderPositions((curSeconds, curPixel, prePixel, text) => {
+      // 現在クリック時の表示箇所を強調
+      if (this.current.item) {
+        if (this.current.item.time == curSeconds) {
+          this.setFillStyles(key, this.params.activeColor);
+          const canvas = this.params.tiers[key].canvas;
+          canvas
+            .getContext("2d")
+            .fillRect(prePixel, 0, curPixel - prePixel, canvas.height);
+        }
+        this.setFillStyles(key, this.params.color);
+        this.setFillStyles(key, this.params.fontColor);
+      }
       this.fillRect(key, curPixel, 0, 1, height);
-
       // 文字表示が可能な場合文字を表示
       if (text) {
-        let fontSize = this.params.fontSize * wsParams.pixelRatio;
+        let fontSize = this.params.fontSize * this.wsParams.pixelRatio;
+        const textLength = this.getStrLength(text);
         const pixels = curPixel - prePixel;
-        const textPiexels = fontSize * text.length;
+        const textPiexels = fontSize * textLength;
         if (pixels < textPiexels) {
-          fontSize = Math.round(pixels / text.length);
+          fontSize = Math.round(pixels / textLength);
           this.setFonts(key, `${fontSize}px ${this.params.fontFamily}`);
         }
-
         this.setFonts(key, `${fontSize}px ${this.params.fontFamily}`);
         this.fillText(
           key,
           text,
-          Math.round((prePixel + curPixel) / 2) - fontSize * text.length * 0.25,
+          Math.round((prePixel + curPixel) / 2) - fontSize * textLength * 0.25,
           height + fontSize / 2
         );
       }
     });
   }
+
+  renderPointTier(key, positioning) {
+    const height = this.params.height * this.pixelRatio;
+    const renderPositions = cb => {
+      positioning.forEach(pos => {
+        cb(pos[0], pos[1], pos[2], pos[3]);
+      });
+    };
+    // render labels
+    renderPositions((curSeconds, curPixel, prePixel, text) => {
+      // 現在クリック時の表示箇所を強調
+      if (this.current.item) {
+        if (this.current.item.time == curSeconds) {
+          this.setFillStyles(key, this.params.activeColor);
+          this.fillRect(key, curPixel, 0, 3, Math.round(height / 2));
+        } else {
+          this.setFillStyles(key, this.params.color);
+          this.fillRect(key, curPixel, 0, 1, Math.round(height / 2));
+        }
+      } else {
+        this.setFillStyles(key, this.params.color);
+        this.fillRect(key, curPixel, 0, 1, Math.round(height / 2));
+      }
+      // 文字表示が可能な場合文字を表示
+      if (text) {
+        const textLength = this.getStrLength(text);
+        let fontSize = this.params.fontSize * this.wsParams.pixelRatio;
+        this.setFonts(key, `${fontSize}px ${this.params.fontFamily}`);
+        this.fillText(
+          key,
+          text,
+          Math.round(curPixel - (fontSize * textLength) / 4),
+          Math.round(height * 2 - fontSize)
+        );
+      }
+    });
+  }
+
   renderLabel(key) {
     const bgWidth = this.params.fontSize;
     const bgFill = `rgba(${[0, 0, 0, 0.5]})`;
@@ -457,7 +542,6 @@ export default class TextgridPlugin {
         );
     }
   }
-
   /**
    * Fill a given text on the canvas
    *
@@ -479,5 +563,96 @@ export default class TextgridPlugin {
       context.fillText(text, x, y / 2);
     }
     xOffset += canvasWidth;
+  }
+
+  /**
+   * 全角半角を考慮して文字列のカウントを行う
+   *
+   * @param {string} str String for counting.
+   */
+  getStrLength(str) {
+    let count = 0;
+    for (var i = 0; i < str.length; i++) {
+      const chr = str.charCodeAt(i);
+      if (
+        (chr >= 0x00 && chr < 0x81) ||
+        chr === 0xf8f0 ||
+        (chr >= 0xff61 && chr < 0xffa0) ||
+        (chr >= 0xf8f1 && chr < 0xf8f4)
+      ) {
+        count += 1; //半角文字の場合は1を加算
+      } else {
+        //それ以外の文字の場合は2を加算
+        count += 2;
+      }
+    }
+    return count;
+  }
+  event2time(e) {
+    const relX = "offsetX" in e ? e.offsetX : e.layerX;
+    const duration = this.wavesurfer.backend.getDuration();
+    if (duration <= 0) return;
+    const width =
+      this.wsParams.fillParent && !this.wsParams.scrollParent
+        ? this.drawer.getWidth()
+        : this.drawer.wrapper.scrollWidth * this.wsParams.pixelRatio;
+    const pixelsPerSecond = width / duration;
+    return relX / pixelsPerSecond;
+  }
+
+  addTier(key, type) {
+    this.params.tiers[key] = {
+      type: type,
+      values: []
+    };
+    this.render();
+  }
+  deleteTier(key) {
+    if (key in this.params.tiers) {
+      this.removeCanvas(key);
+      delete this.params.tiers[key];
+      this.render();
+    }
+  }
+  updateTier(key, obj) {
+    if (key in this.params.tiers) {
+      if ("name" in obj) {
+        const type = "type" in obj ? obj.type : this.params.tiers[key].type;
+        this.addTier(obj.name, type);
+        this.deleteTier(key);
+      } else if ("type" in obj) {
+        this.params.tiers[key].type = obj.type;
+        this.render();
+      }
+    }
+  }
+
+  addTierValue(key, obj) {
+    if (key in this.params.tiers) {
+      this.params.tiers[key].values.push(obj);
+      this.render();
+    }
+  }
+  setTierValueText(key, time, text) {
+    if (key in this.params.tiers) {
+      const idx = this.params.tiers[key].values.findIndex(x => x.time == time);
+      if (idx > -1) {
+        this.params.tiers[key].values[idx].text = text;
+        this.render();
+      }
+    }
+  }
+  loadTextGrid(file) {
+    const fr = new FileReader();
+    fr.readAsText(file);
+    fr.addEventListener("load", () => {
+      io.textgrid.load(fr.result);
+    });
+  }
+  dumpTextGrid() {
+    const duration = this.ws.getDuration();
+    const tiers = this.params.tiers;
+    const string = io.textgrid.dump(duration, tiers);
+    console.log(string);
   }
 }

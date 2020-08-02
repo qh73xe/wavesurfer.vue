@@ -10,6 +10,7 @@
     </div>
     <div ref="timeline" v-if="showTimeLine" />
     <div ref="pointline" v-if="showPointLine" />
+    <slot name="textform"></slot>
     <div ref="textgrid" v-if="showTextGrid" />
   </div>
 </template>
@@ -190,6 +191,21 @@ export default {
     skipLength: { type: Number, default: 2 },
     splitChannels: { type: Boolean, default: false },
     targetChannel: { type: Number, default: 0 },
+    tiers: {
+      validator: function(value) {
+        if (
+          value !== null &&
+          typeof value === "object" &&
+          value.constructor === Object
+        ) {
+          return true;
+        }
+        return false;
+      },
+      default: () => {
+        return {};
+      }
+    },
     waveColor: { type: String, default: "#999" },
     xhr: {
       type: Object,
@@ -434,9 +450,12 @@ export default {
             }
             if (this.showTextGrid) {
               this.textgrid = Textgrid.create({
-                container: this.$refs.textgrid
+                container: this.$refs.textgrid,
+                tiers: this.tiers
               });
               this.wavesurfer.addPlugin(this.textgrid).initPlugin("textgrid");
+              this.wavesurfer.on("textgrid-dblclick", this.onTextGridDblClick);
+              this.wavesurfer.on("textgrid-click", this.onTextGridClick);
             }
             if (this.showPointLine) {
               this.pointline = Pointline.create({
@@ -518,6 +537,24 @@ export default {
     updatePoint: function(id, point) {
       this.wavesurfer.pointline.updatePoint(id, point);
     },
+    addTier: function(key, type) {
+      this.wavesurfer.textgrid.addTier(key, type);
+    },
+    updateTier: function(key, obj) {
+      this.wavesurfer.textgrid.updateTier(key, obj);
+    },
+    deleteTier: function(key) {
+      this.wavesurfer.textgrid.deleteTier(key);
+    },
+    addTierValue: function(key, obj) {
+      this.wavesurfer.textgrid.addTierValue(key, obj);
+    },
+    setTierValueText: function(key, time, text) {
+      this.wavesurfer.textgrid.setTierValueText(key, time, text);
+    },
+    loadTextGrid: function(file) {
+      this.wavesurfer.textgrid.loadTextGrid(file);
+    },
     onAudioprocess: function(e) {
       this.$emit("audioprocess", e);
     },
@@ -556,6 +593,12 @@ export default {
     },
     onSeek: function(e) {
       this.$emit("seek", e);
+    },
+    onTextGridClick(e) {
+      this.$emit("textgrid-click", e);
+    },
+    onTextGridDblClick(e) {
+      this.$emit("textgrid-dblclick", e);
     },
     onSpectrogramRenderEnd(e) {
       this.isSpectrogramRendered = true;
