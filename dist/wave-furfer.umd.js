@@ -9299,12 +9299,12 @@ if (typeof window !== 'undefined') {
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 var external_commonjs_vue_commonjs2_vue_root_Vue_default = /*#__PURE__*/__webpack_require__.n(external_commonjs_vue_commonjs2_vue_root_Vue_);
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"d7f3097c-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/WaveSurfer/WaveSurfer.vue?vue&type=template&id=84e5d68e&scoped=true&
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[(_vm.showSpectrogram)?_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.isSpectrogramRendered),expression:"isSpectrogramRendered"}],ref:"spectrogram"}):_vm._e(),_c('div',{ref:"waveform"},[_vm._t("default")],2),(_vm.showTimeLine)?_c('div',{ref:"timeline"}):_vm._e(),(_vm.showPointLine)?_c('div',{ref:"pointline"}):_vm._e()])}
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"d7f3097c-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/WaveSurfer/WaveSurfer.vue?vue&type=template&id=3cf2314a&scoped=true&
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[(_vm.showSpectrogram)?_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.isSpectrogramRendered),expression:"isSpectrogramRendered"}],ref:"spectrogram"}):_vm._e(),_c('div',{ref:"waveform"},[_vm._t("default")],2),(_vm.showTimeLine)?_c('div',{ref:"timeline"}):_vm._e(),(_vm.showPointLine)?_c('div',{ref:"pointline"}):_vm._e(),_vm._t("textform"),(_vm.showTextGrid)?_c('div',{ref:"textgrid"}):_vm._e()],2)}
 var staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/components/WaveSurfer/WaveSurfer.vue?vue&type=template&id=84e5d68e&scoped=true&
+// CONCATENATED MODULE: ./src/components/WaveSurfer/WaveSurfer.vue?vue&type=template&id=3cf2314a&scoped=true&
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.iterator.js
 var es_array_iterator = __webpack_require__("e260");
@@ -15399,7 +15399,11 @@ var wavesurfer_WaveSurfer = /*#__PURE__*/function (_util$Observer) {
 _defineProperty(wavesurfer_WaveSurfer, "util", util_namespaceObject);
 
 
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.object.assign.js
+var es_object_assign = __webpack_require__("cca6");
+
 // CONCATENATED MODULE: ./src/components/WaveSurfer/plugin/timeline.js
+
 
 
 
@@ -16000,9 +16004,6 @@ var timeline_TimelinePlugin = /*#__PURE__*/function () {
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.find-index.js
 var es_array_find_index = __webpack_require__("c740");
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.object.assign.js
-var es_object_assign = __webpack_require__("cca6");
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.regexp.exec.js
 var es_regexp_exec = __webpack_require__("ac1f");
@@ -16724,6 +16725,840 @@ var pointline_PointlinePlugin = (_dec = log("pointline.create", pointline_DEBUG)
 
   return PointlinePlugin;
 }(), _temp), (_applyDecoratedDescriptor(_class, "create", [_dec], Object.getOwnPropertyDescriptor(_class, "create"), _class), _applyDecoratedDescriptor(_class.prototype, "init", [_dec2], Object.getOwnPropertyDescriptor(_class.prototype, "init"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "destroy", [_dec3], Object.getOwnPropertyDescriptor(_class.prototype, "destroy"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "createWrapper", [_dec4], Object.getOwnPropertyDescriptor(_class.prototype, "createWrapper"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "render", [_dec5], Object.getOwnPropertyDescriptor(_class.prototype, "render"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "genUuid", [_dec6], Object.getOwnPropertyDescriptor(_class.prototype, "genUuid"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "addPoint", [_dec7], Object.getOwnPropertyDescriptor(_class.prototype, "addPoint"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "updatePoint", [_dec8], Object.getOwnPropertyDescriptor(_class.prototype, "updatePoint"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "deletePoint", [_dec9], Object.getOwnPropertyDescriptor(_class.prototype, "deletePoint"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "addCanvas", [_dec10], Object.getOwnPropertyDescriptor(_class.prototype, "addCanvas"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "removeCanvas", [_dec11], Object.getOwnPropertyDescriptor(_class.prototype, "removeCanvas"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "updateCanvases", [_dec12], Object.getOwnPropertyDescriptor(_class.prototype, "updateCanvases"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "updateCanvasesPositioning", [_dec13], Object.getOwnPropertyDescriptor(_class.prototype, "updateCanvasesPositioning"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "renderCanvases", [_dec14], Object.getOwnPropertyDescriptor(_class.prototype, "renderCanvases"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "setFillStyles", [_dec15], Object.getOwnPropertyDescriptor(_class.prototype, "setFillStyles"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "fillRect", [_dec16], Object.getOwnPropertyDescriptor(_class.prototype, "fillRect"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "defaultFormatTimeCallback", [_dec17], Object.getOwnPropertyDescriptor(_class.prototype, "defaultFormatTimeCallback"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "defaultTimeInterval", [_dec18], Object.getOwnPropertyDescriptor(_class.prototype, "defaultTimeInterval"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "defaultPrimaryLabelInterval", [_dec19], Object.getOwnPropertyDescriptor(_class.prototype, "defaultPrimaryLabelInterval"), _class.prototype)), _class));
+
+// CONCATENATED MODULE: ./src/io/index.js
+
+
+
+
+
+
+
+
+
+var dumpPointTier = function dumpPointTier(values) {
+  var lines = [];
+
+  for (var i in values) {
+    lines.push("        points [".concat(i + 1, "]:"));
+    lines.push("            number = ".concat(values[i].time, " "));
+    lines.push("            mark = \"".concat(values[i].text, "\" "));
+  }
+
+  return lines;
+};
+
+var dumpIntervalTier = function dumpIntervalTier(values) {
+  var lines = [];
+
+  for (var i in values) {
+    lines.push("        intervals [".concat(i + 1, "]:"));
+
+    if (i == 0) {
+      lines.push("            xmin = 0 ");
+    } else {
+      lines.push("            xmin = ".concat(values[i - 1].time, " "));
+    }
+
+    lines.push("            xmax = ".concat(values[i].time, " "));
+    lines.push("            text = \"".concat(values[i].text, "\" "));
+  }
+
+  return lines;
+};
+
+var textgrid = {
+  load: function load(text) {
+    var lines = text.split("\n");
+    console.log(lines);
+  },
+  dump: function dump(duration, tiers) {
+    var lines = ['File type = "ooTextFile"', 'Object class = "TextGrid"', "", "xmin = 0 ", "xmax = ".concat(duration, " "), "tiers? <exists> ", "size = ".concat(Object.keys(tiers).length, " "), "item []: "];
+    var i = 1;
+
+    for (var key in tiers) {
+      lines.push("    item [".concat(i, "]:"));
+
+      if (tiers[key].type == "interval") {
+        lines.push('        class = "TextTier"');
+      } else {
+        lines.push('        class = "IntervalTier"');
+      }
+
+      lines.push("        name = \"".concat(key, "\" "));
+      lines.push("        xmax = ".concat(duration, " "));
+
+      if (tiers[key].type == "interval") {
+        lines.push("        intervals: size = ".concat(tiers[key].values.length, " "));
+        lines.concat(dumpIntervalTier(tiers[key].values));
+      } else {
+        lines.push("        points: size = ".concat(tiers[key].values.length, " "));
+        lines.concat(dumpPointTier(tiers[key].values));
+      }
+
+      i++;
+    }
+
+    return lines.join("\n");
+  }
+};
+/* harmony default export */ var io = ({
+  textgrid: textgrid
+});
+// CONCATENATED MODULE: ./src/components/WaveSurfer/plugin/textgrid.js
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/**
+ * @typedef {Object} TextgridPluginParams
+ * @desc Extends the `WavesurferParams` wavesurfer was initialised with
+ * @property {!string|HTMLElement} container CSS selector or HTML element where the textgrid should be drawn. This is the only required parameter.
+ * @property {string} color='#000' The colour of the notches
+ * @property {string} activeColor='#c0c0c0' The colour of the notches
+ * @property {string} fontColor='#000' The colour of the labels next to the notches
+ * @property {?number} zoomDebounce A debounce timeout to increase rendering
+ * performance for large files
+ * @property {string} fontFamily='Arial'
+ * @property {number} fontSize=10 Font size of labels in pixels
+ * @property {?boolean} deferInit Set to true to manually call `initPlugin('textgrid')`
+ */
+
+/**
+ * Adds a textgrid to the waveform.
+ *
+ * @implements {PluginClass}
+ * @extends {Observer}
+ * @example
+ * // es6
+ * import TextgridPlugin from 'wavesurfer.textgrid.js';
+ *
+ * // commonjs
+ * var TextgridPlugin = require('wavesurfer.textgrid.js');
+ *
+ * // if you are using <script> tags
+ * var TextgridPlugin = window.WaveSurfer.textgrid;
+ *
+ * // ... initialising wavesurfer with the plugin
+ * var wavesurfer = WaveSurfer.create({
+ *   // wavesurfer options ...
+ *   plugins: [
+ *     TextgridPlugin.create({
+ *       // plugin options ...
+ *     })
+ *   ]
+ * });
+ */
+
+var textgrid_TextgridPlugin = /*#__PURE__*/function () {
+  _createClass(TextgridPlugin, null, [{
+    key: "create",
+
+    /**
+     * Textgrid plugin definition factory
+     *
+     * This function must be used to create a plugin definition which can be
+     * used by wavesurfer to correctly instantiate the plugin.
+     *
+     * @param  {TextgridPluginParams} params parameters use to initialise the plugin
+     * @return {PluginDefinition} an object representing the plugin
+     */
+    value: function create(params) {
+      return {
+        name: "textgrid",
+        deferInit: params && params.deferInit ? params.deferInit : false,
+        params: params,
+        instance: TextgridPlugin
+      };
+    } // event handlers
+
+  }]);
+
+  /**
+   * Creates an instance of TextgridPlugin.
+   *
+   * You probably want to use TextgridPlugin.create()
+   *
+   * @param {TextgridPluginParams} params Plugin parameters
+   * @param {object} ws Wavesurfer instance
+   */
+  function TextgridPlugin(params, _ws) {
+    var _this = this;
+
+    _classCallCheck(this, TextgridPlugin);
+
+    _defineProperty(this, "_onScroll", function () {
+      if (_this.wrapper && _this.drawer.wrapper) {
+        _this.wrapper.scrollLeft = _this.drawer.wrapper.scrollLeft;
+      }
+    });
+
+    _defineProperty(this, "_onRedraw", function () {
+      return _this.render();
+    });
+
+    _defineProperty(this, "_onReady", function () {
+      var ws = _this.wavesurfer;
+      _this.drawer = ws.drawer;
+      _this.pixelRatio = ws.drawer.params.pixelRatio;
+      _this.maxCanvasWidth = ws.drawer.maxCanvasWidth || ws.drawer.width;
+      _this.maxCanvasElementWidth = ws.drawer.maxCanvasElementWidth || Math.round(_this.maxCanvasWidth / _this.pixelRatio); // add listeners
+
+      ws.drawer.wrapper.addEventListener("scroll", _this._onScroll);
+      ws.on("redraw", _this._onRedraw);
+      ws.on("zoom", _this._onZoom);
+
+      _this.render();
+    });
+
+    this.container = "string" == typeof params.container ? document.querySelector(params.container) : params.container;
+
+    if (!this.container) {
+      throw new Error("No container for wavesurfer textgrid");
+    }
+
+    this.wavesurfer = _ws;
+    this.util = _ws.util;
+    this.params = Object.assign({}, {
+      height: 50,
+      fontColor: "#000",
+      color: "#000",
+      activeColor: "#FF6D00",
+      fontFamily: "Arial",
+      fontSize: 15,
+      zoomDebounce: false,
+      tiers: {
+        IPU: {
+          type: "interval",
+          values: [{
+            time: 1,
+            text: "test:interval:1"
+          }, {
+            time: 1.1,
+            text: "test:interval:2"
+          }, {
+            time: 2,
+            text: "テスト:インターバル:3"
+          }]
+        },
+        point: {
+          type: "point",
+          values: [{
+            time: 2,
+            text: "test:point:1"
+          }, {
+            time: 3.1,
+            text: "test:2"
+          }, {
+            time: 4,
+            text: "テスト:3"
+          }]
+        }
+      }
+    }, params);
+    this.wrapper = null;
+    this.drawer = null;
+    this.pixelRatio = null;
+    this.maxCanvasWidth = null;
+    this.maxCanvasElementWidth = null;
+    this.current = {
+      key: null,
+      item: null
+    };
+    /**
+     * This event handler has to be in the constructor function because it
+     * relies on the debounce function which is only available after
+     * instantiation
+     *
+     * Use a debounced function if `params.zoomDebounce` is defined
+     *
+     * @returns {void}
+     */
+
+    this._onZoom = this.params.zoomDebounce ? this.wavesurfer.util.debounce(function () {
+      return _this.render();
+    }, this.params.zoomDebounce) : function () {
+      return _this.render();
+    };
+  }
+  /**
+   * Initialisation function used by the plugin API
+   */
+
+
+  _createClass(TextgridPlugin, [{
+    key: "init",
+    value: function init() {
+      // Check if ws is ready
+      if (this.wavesurfer.isReady) {
+        this._onReady();
+      } else {
+        this.wavesurfer.once("ready", this._onReady);
+      }
+    }
+    /**
+     * Destroy function used by the plugin API
+     */
+
+  }, {
+    key: "destroy",
+    value: function destroy() {
+      this.unAll();
+      this.wavesurfer.un("redraw", this._onRedraw);
+      this.wavesurfer.un("zoom", this._onZoom);
+      this.wavesurfer.un("ready", this._onReady);
+      this.wavesurfer.drawer.wrapper.removeEventListener("scroll", this._onScroll);
+
+      if (this.wrapper && this.wrapper.parentNode) {
+        for (var key in this.params.tiers) {
+          var canvas = this.params.tiers[key].canvas;
+          canvas.removeEventListener("dblclick", canvas.onDblClick);
+        }
+
+        this.wrapper.parentNode.removeChild(this.wrapper);
+        this.wrapper = null;
+      }
+    }
+    /**
+     * Create a textgrid element to wrap the canvas drawn by this plugin
+     *
+     */
+
+  }, {
+    key: "createWrapper",
+    value: function createWrapper() {
+      this.container.innerHTML = "";
+      this.wrapper = this.container.appendChild(document.createElement("textgrid"));
+    }
+    /**
+     * Render the textgrid (also updates the already rendered textgrid)
+     *
+     */
+
+  }, {
+    key: "render",
+    value: function render() {
+      this.wsParams = this.wavesurfer.params;
+
+      if (!this.wrapper) {
+        this.createWrapper();
+      } // ラッパーのスタイルを調整
+
+
+      this.util.style(this.wrapper, {
+        display: "block",
+        position: "relative",
+        userSelect: "none",
+        webkitUserSelect: "none",
+        height: "".concat(this.params.height * Object.keys(this.params.tiers).length, "px")
+      });
+
+      if (this.wsParams.fillParent || this.wsParams.scrollParent) {
+        this.util.style(this.wrapper, {
+          width: "100%",
+          overflowX: "hidden",
+          overflowY: "hidden"
+        });
+      }
+
+      var i = 0;
+
+      for (var key in this.params.tiers) {
+        this.updateCanvas(key, i);
+        this.updateCanvasPositioning(key);
+        this.renderCanvas(key);
+        this.renderLabel(key);
+        i++;
+      }
+    }
+    /**
+     * Add new textgrid canvas
+     *
+     */
+
+  }, {
+    key: "addCanvas",
+    value: function addCanvas(key, i) {
+      if (this.params.tiers[key].canvas == undefined) {
+        var canvas = this.wrapper.appendChild(document.createElement("canvas"));
+        this.util.style(canvas, {
+          position: "absolute",
+          zIndex: 3,
+          top: "".concat(i * this.params.height, "px"),
+          "border-top": "solid 1px ".concat(this.params.color),
+          "border-bottom": "solid 1px ".concat(this.params.color)
+        });
+        var vm = this;
+
+        this.params.tiers[key].onClick = function (e) {
+          e.preventDefault();
+          var time = vm.event2time(e);
+          var item = {
+            key: key,
+            time: time
+          };
+          var canditates = vm.params.tiers[key].values.filter(function (x) {
+            return x.time > time;
+          });
+          canditates.sort(function (a, b) {
+            return a.time - b.time;
+          });
+          var currentItem = canditates[0];
+
+          if (currentItem) {
+            vm.current.key = key;
+            vm.current.item = currentItem;
+            item.item = currentItem;
+            vm.render();
+          }
+
+          vm.wavesurfer.fireEvent("textgrid-click", item);
+        };
+
+        this.params.tiers[key].onDblClick = function (e) {
+          e.preventDefault();
+          var time = vm.event2time(e);
+          var item = {
+            key: key,
+            time: time
+          };
+          vm.wavesurfer.fireEvent("textgrid-dblclick", item);
+        };
+
+        canvas.addEventListener("click", this.params.tiers[key].onClick, false);
+        canvas.addEventListener("dblclick", this.params.tiers[key].onDblClick, false);
+        this.params.tiers[key].canvas = canvas;
+        var label = this.wrapper.appendChild(document.createElement("canvas"));
+        label.classList.add("tier-labels");
+        this.drawer.style(label, {
+          position: "absolute",
+          top: "".concat(i * this.params.height, "px"),
+          zIndex: 4,
+          width: "${this.params.fontSize + 4}px"
+        });
+        this.params.tiers[key].label = label;
+      }
+    }
+    /**
+     * Remove textgrid canvas
+     *
+     */
+
+  }, {
+    key: "removeCanvas",
+    value: function removeCanvas(key) {
+      var canvas = this.params.tiers[key].canvas;
+      canvas.parentElement.removeChild(canvas);
+    }
+  }, {
+    key: "updateCanvas",
+    value: function updateCanvas(key, i) {
+      // if (this.params.tiers[key].canvas != undefined) {
+      //   this.removeCanvas();
+      // }
+      this.addCanvas(key, i);
+    }
+    /**
+     * Update the dimensions and positioning style for all the textgrid canvas
+     */
+
+  }, {
+    key: "updateCanvasPositioning",
+    value: function updateCanvasPositioning(key) {
+      var canvas = this.params.tiers[key].canvas; // cache length for performance
+
+      var canvasesLength = 1; // canvas width is the max element width, or if it is the last the
+      // required width
+
+      var canvasWidth = 0 === canvasesLength - 1 ? this.drawer.wrapper.scrollWidth - this.maxCanvasElementWidth * (canvasesLength - 1) : this.maxCanvasElementWidth; // set dimensions and style
+
+      canvas.width = canvasWidth * this.pixelRatio; // on certain pixel ratios the canvas appears cut off at the bottom,
+      // therefore leave 1px extra
+
+      canvas.height = (this.params.height + 1) * this.pixelRatio;
+      this.util.style(canvas, {
+        width: "".concat(canvasWidth, "px"),
+        height: "".concat(this.params.height, "px"),
+        left: "".concat(0 * this.maxCanvasElementWidth, "px")
+      });
+    }
+    /**
+     * Render the textgrid labels and notches
+     *
+     */
+
+  }, {
+    key: "renderCanvas",
+    value: function renderCanvas(key) {
+      var duration = this.wavesurfer.backend.getDuration();
+
+      if (duration <= 0) {
+        return;
+      }
+
+      var width = this.wsParams.fillParent && !this.wsParams.scrollParent ? this.drawer.getWidth() : this.drawer.wrapper.scrollWidth * this.wsParams.pixelRatio;
+      var pixelsPerSecond = width / duration; // build an array of position data with index, second and pixel data,
+      // this is then used multiple times below
+
+      var values = this.params.tiers[key].values;
+      values.sort(function (a, b) {
+        return a.time - b.time;
+      });
+      var positioning = [];
+      var i = 0;
+
+      var _iterator = _createForOfIteratorHelper(values),
+          _step;
+
+      try {
+        for (_iterator.s(); !(_step = _iterator.n()).done;) {
+          var x = _step.value;
+          var curPixel = pixelsPerSecond * x.time;
+          var preSec = i == 0 ? 0 : values[i - 1].time;
+          var prePixel = i == 0 ? 0 : pixelsPerSecond * preSec;
+          positioning.push([x.time, curPixel, prePixel, x.text]);
+          i++;
+        } // iterate over each position
+
+      } catch (err) {
+        _iterator.e(err);
+      } finally {
+        _iterator.f();
+      }
+
+      if (this.params.tiers[key].type == "interval") {
+        this.renderIntervalTier(key, positioning);
+      } else if (this.params.tiers[key].type == "point") {
+        this.renderPointTier(key, positioning);
+      } else {
+        this.wavesurfer.fireEvent("error", "tier.type is 'interval' or 'point'");
+      }
+    }
+  }, {
+    key: "renderIntervalTier",
+    value: function renderIntervalTier(key, positioning) {
+      var _this2 = this;
+
+      var height = this.params.height * this.pixelRatio;
+      this.fillRect(key, 0, 0, 1, height);
+
+      var renderPositions = function renderPositions(cb) {
+        positioning.forEach(function (pos) {
+          cb(pos[0], pos[1], pos[2], pos[3]);
+        });
+      }; // render labels
+
+
+      renderPositions(function (curSeconds, curPixel, prePixel, text) {
+        // 現在クリック時の表示箇所を強調
+        if (_this2.current.item) {
+          if (_this2.current.item.time == curSeconds) {
+            _this2.setFillStyles(key, _this2.params.activeColor);
+
+            var canvas = _this2.params.tiers[key].canvas;
+            canvas.getContext("2d").fillRect(prePixel, 0, curPixel - prePixel, canvas.height);
+          }
+
+          _this2.setFillStyles(key, _this2.params.color);
+
+          _this2.setFillStyles(key, _this2.params.fontColor);
+        }
+
+        _this2.fillRect(key, curPixel, 0, 1, height); // 文字表示が可能な場合文字を表示
+
+
+        if (text) {
+          var fontSize = _this2.params.fontSize * _this2.wsParams.pixelRatio;
+
+          var textLength = _this2.getStrLength(text);
+
+          var pixels = curPixel - prePixel;
+          var textPiexels = fontSize * textLength;
+
+          if (pixels < textPiexels) {
+            fontSize = Math.round(pixels / textLength);
+
+            _this2.setFonts(key, "".concat(fontSize, "px ").concat(_this2.params.fontFamily));
+          }
+
+          _this2.setFonts(key, "".concat(fontSize, "px ").concat(_this2.params.fontFamily));
+
+          _this2.fillText(key, text, Math.round((prePixel + curPixel) / 2) - fontSize * textLength * 0.25, height + fontSize / 2);
+        }
+      });
+    }
+  }, {
+    key: "renderPointTier",
+    value: function renderPointTier(key, positioning) {
+      var _this3 = this;
+
+      var height = this.params.height * this.pixelRatio;
+
+      var renderPositions = function renderPositions(cb) {
+        positioning.forEach(function (pos) {
+          cb(pos[0], pos[1], pos[2], pos[3]);
+        });
+      }; // render labels
+
+
+      renderPositions(function (curSeconds, curPixel, prePixel, text) {
+        // 現在クリック時の表示箇所を強調
+        if (_this3.current.item) {
+          if (_this3.current.item.time == curSeconds) {
+            _this3.setFillStyles(key, _this3.params.activeColor);
+
+            _this3.fillRect(key, curPixel, 0, 3, Math.round(height / 2));
+          } else {
+            _this3.setFillStyles(key, _this3.params.color);
+
+            _this3.fillRect(key, curPixel, 0, 1, Math.round(height / 2));
+          }
+        } else {
+          _this3.setFillStyles(key, _this3.params.color);
+
+          _this3.fillRect(key, curPixel, 0, 1, Math.round(height / 2));
+        } // 文字表示が可能な場合文字を表示
+
+
+        if (text) {
+          var textLength = _this3.getStrLength(text);
+
+          var fontSize = _this3.params.fontSize * _this3.wsParams.pixelRatio;
+
+          _this3.setFonts(key, "".concat(fontSize, "px ").concat(_this3.params.fontFamily));
+
+          _this3.fillText(key, text, Math.round(curPixel - fontSize * textLength / 4), Math.round(height * 2 - fontSize));
+        }
+      });
+    }
+  }, {
+    key: "renderLabel",
+    value: function renderLabel(key) {
+      var bgWidth = this.params.fontSize;
+      var bgFill = "rgba(".concat([0, 0, 0, 0.5], ")");
+      var label = this.params.tiers[key].label;
+      var ctx = label.getContext("2d");
+      label.height = this.params.tiers[key].canvas.height;
+      label.width = bgWidth;
+      ctx.fillStyle = bgFill;
+      ctx.fillRect(0, 0, label.width, label.height);
+      ctx.fill();
+      var textColor = "#fff";
+      var fontSize = 15;
+      var fontType = "Helvetica";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.font = "".concat(fontSize, "px ").concat(fontType);
+      ctx.fillStyle = textColor;
+
+      for (var i in key) {
+        var str = key[i];
+        ctx.fillText(str, fontSize / 2, i * fontSize + 10);
+      }
+    }
+    /**
+     * Set the canvas fill style
+     *
+     * @param {DOMString|CanvasGradient|CanvasPattern} fillStyle Fill style to
+     * use
+     */
+
+  }, {
+    key: "setFillStyles",
+    value: function setFillStyles(key, fillStyle) {
+      var canvas = this.params.tiers[key].canvas;
+      canvas.getContext("2d").fillStyle = fillStyle;
+    }
+    /**
+     * Set the canvas font
+     *
+     * @param {DOMString} font Font to use
+     */
+
+  }, {
+    key: "setFonts",
+    value: function setFonts(key, font) {
+      var canvas = this.params.tiers[key].canvas;
+      canvas.getContext("2d").font = font;
+    }
+    /**
+     * Draw a rectangle on the canvas
+     *
+     * (it figures out the offset for each canvas)
+     *
+     * @param {number} x X-position
+     * @param {number} y Y-position
+     * @param {number} width Width
+     * @param {number} height Height
+     */
+
+  }, {
+    key: "fillRect",
+    value: function fillRect(key, x, y, width, height) {
+      var canvas = this.params.tiers[key].canvas;
+      var leftOffset = 0;
+      var intersection = {
+        x1: Math.max(x, 0),
+        y1: y,
+        x2: Math.min(x + width, canvas.width),
+        y2: y + height
+      };
+
+      if (intersection.x1 < intersection.x2) {
+        canvas.getContext("2d").fillRect(intersection.x1 - leftOffset, intersection.y1, intersection.x2 - intersection.x1, intersection.y2 - intersection.y1);
+      }
+    }
+    /**
+     * Fill a given text on the canvas
+     *
+     * @param {string} text Text to render
+     * @param {number} x X-position
+     * @param {number} y Y-position
+     */
+
+  }, {
+    key: "fillText",
+    value: function fillText(key, text, x, y) {
+      var textWidth;
+      var xOffset = 0;
+      var canvas = this.params.tiers[key].canvas;
+      var context = canvas.getContext("2d");
+      var canvasWidth = context.canvas.width;
+
+      if (xOffset > x + textWidth) {
+        return;
+      }
+
+      if (xOffset + canvasWidth > x) {
+        textWidth = context.measureText(text).width;
+        context.fillText(text, x, y / 2);
+      }
+
+      xOffset += canvasWidth;
+    }
+    /**
+     * 全角半角を考慮して文字列のカウントを行う
+     *
+     * @param {string} str String for counting.
+     */
+
+  }, {
+    key: "getStrLength",
+    value: function getStrLength(str) {
+      var count = 0;
+
+      for (var i = 0; i < str.length; i++) {
+        var chr = str.charCodeAt(i);
+
+        if (chr >= 0x00 && chr < 0x81 || chr === 0xf8f0 || chr >= 0xff61 && chr < 0xffa0 || chr >= 0xf8f1 && chr < 0xf8f4) {
+          count += 1; //半角文字の場合は1を加算
+        } else {
+          //それ以外の文字の場合は2を加算
+          count += 2;
+        }
+      }
+
+      return count;
+    }
+  }, {
+    key: "event2time",
+    value: function event2time(e) {
+      var relX = "offsetX" in e ? e.offsetX : e.layerX;
+      var duration = this.wavesurfer.backend.getDuration();
+      if (duration <= 0) return;
+      var width = this.wsParams.fillParent && !this.wsParams.scrollParent ? this.drawer.getWidth() : this.drawer.wrapper.scrollWidth * this.wsParams.pixelRatio;
+      var pixelsPerSecond = width / duration;
+      return relX / pixelsPerSecond;
+    }
+  }, {
+    key: "addTier",
+    value: function addTier(key, type) {
+      this.params.tiers[key] = {
+        type: type,
+        values: []
+      };
+      this.render();
+    }
+  }, {
+    key: "deleteTier",
+    value: function deleteTier(key) {
+      if (key in this.params.tiers) {
+        this.removeCanvas(key);
+        delete this.params.tiers[key];
+        this.render();
+      }
+    }
+  }, {
+    key: "updateTier",
+    value: function updateTier(key, obj) {
+      if (key in this.params.tiers) {
+        if ("name" in obj) {
+          var type = "type" in obj ? obj.type : this.params.tiers[key].type;
+          this.addTier(obj.name, type);
+          this.deleteTier(key);
+        } else if ("type" in obj) {
+          this.params.tiers[key].type = obj.type;
+          this.render();
+        }
+      }
+    }
+  }, {
+    key: "addTierValue",
+    value: function addTierValue(key, obj) {
+      if (key in this.params.tiers) {
+        this.params.tiers[key].values.push(obj);
+        this.render();
+      }
+    }
+  }, {
+    key: "setTierValueText",
+    value: function setTierValueText(key, time, text) {
+      if (key in this.params.tiers) {
+        var idx = this.params.tiers[key].values.findIndex(function (x) {
+          return x.time == time;
+        });
+
+        if (idx > -1) {
+          this.params.tiers[key].values[idx].text = text;
+          this.render();
+        }
+      }
+    }
+  }, {
+    key: "loadTextGrid",
+    value: function loadTextGrid(file) {
+      var fr = new FileReader();
+      fr.readAsText(file);
+      fr.addEventListener("load", function () {
+        io.textgrid.load(fr.result);
+      });
+    }
+  }, {
+    key: "dumpTextGrid",
+    value: function dumpTextGrid() {
+      var duration = this.ws.getDuration();
+      var tiers = this.params.tiers;
+      var string = io.textgrid.dump(duration, tiers);
+      console.log(string);
+    }
+  }]);
+
+  return TextgridPlugin;
+}();
+
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.math.log10.js
 var es_math_log10 = __webpack_require__("6b93");
@@ -18202,6 +19037,9 @@ var microphone_MicrophonePlugin = /*#__PURE__*/function () {
 //
 //
 //
+//
+//
+
 
 
 
@@ -18215,6 +19053,7 @@ var microphone_MicrophonePlugin = /*#__PURE__*/function () {
       timeline: null,
       pointline: null,
       spectrogram: null,
+      textGrid: null,
       isSpectrogramRendered: false,
       microphone: null,
       audioChunks: [],
@@ -18241,6 +19080,10 @@ var microphone_MicrophonePlugin = /*#__PURE__*/function () {
         return false;
       },
       default: ""
+    },
+    showTextGrid: {
+      type: Boolean,
+      default: false
     },
     showTimeLine: {
       type: Boolean,
@@ -18447,6 +19290,18 @@ var microphone_MicrophonePlugin = /*#__PURE__*/function () {
     targetChannel: {
       type: Number,
       default: 0
+    },
+    tiers: {
+      validator: function validator(value) {
+        if (value !== null && _typeof(value) === "object" && value.constructor === Object) {
+          return true;
+        }
+
+        return false;
+      },
+      default: function _default() {
+        return {};
+      }
     },
     waveColor: {
       type: String,
@@ -18703,6 +19558,19 @@ var microphone_MicrophonePlugin = /*#__PURE__*/function () {
               _this.wavesurfer.on("spectrogram-render-end", _this.onSpectrogramRenderEnd);
             }
 
+            if (_this.showTextGrid) {
+              _this.textgrid = textgrid_TextgridPlugin.create({
+                container: _this.$refs.textgrid,
+                tiers: _this.tiers
+              });
+
+              _this.wavesurfer.addPlugin(_this.textgrid).initPlugin("textgrid");
+
+              _this.wavesurfer.on("textgrid-dblclick", _this.onTextGridDblClick);
+
+              _this.wavesurfer.on("textgrid-click", _this.onTextGridClick);
+            }
+
             if (_this.showPointLine) {
               _this.pointline = pointline_PointlinePlugin.create({
                 container: _this.$refs.pointline,
@@ -18794,6 +19662,24 @@ var microphone_MicrophonePlugin = /*#__PURE__*/function () {
     updatePoint: function updatePoint(id, point) {
       this.wavesurfer.pointline.updatePoint(id, point);
     },
+    addTier: function addTier(key, type) {
+      this.wavesurfer.textgrid.addTier(key, type);
+    },
+    updateTier: function updateTier(key, obj) {
+      this.wavesurfer.textgrid.updateTier(key, obj);
+    },
+    deleteTier: function deleteTier(key) {
+      this.wavesurfer.textgrid.deleteTier(key);
+    },
+    addTierValue: function addTierValue(key, obj) {
+      this.wavesurfer.textgrid.addTierValue(key, obj);
+    },
+    setTierValueText: function setTierValueText(key, time, text) {
+      this.wavesurfer.textgrid.setTierValueText(key, time, text);
+    },
+    loadTextGrid: function loadTextGrid(file) {
+      this.wavesurfer.textgrid.loadTextGrid(file);
+    },
     onAudioprocess: function onAudioprocess(e) {
       this.$emit("audioprocess", e);
     },
@@ -18832,6 +19718,12 @@ var microphone_MicrophonePlugin = /*#__PURE__*/function () {
     },
     onSeek: function onSeek(e) {
       this.$emit("seek", e);
+    },
+    onTextGridClick: function onTextGridClick(e) {
+      this.$emit("textgrid-click", e);
+    },
+    onTextGridDblClick: function onTextGridDblClick(e) {
+      this.$emit("textgrid-dblclick", e);
     },
     onSpectrogramRenderEnd: function onSpectrogramRenderEnd(e) {
       this.isSpectrogramRendered = true;
@@ -19139,7 +20031,7 @@ var component = normalizeComponent(
   staticRenderFns,
   false,
   null,
-  "84e5d68e",
+  "3cf2314a",
   null
   
 )

@@ -114,33 +114,16 @@ export default class TextgridPlugin {
         fontFamily: "Arial",
         fontSize: 15,
         zoomDebounce: false,
-        tiers: {
-          IPU: {
-            type: "interval",
-            values: [
-              { time: 1, text: "test:interval:1" },
-              { time: 1.1, text: "test:interval:2" },
-              { time: 2, text: "テスト:インターバル:3" }
-            ]
-          },
-          point: {
-            type: "point",
-            values: [
-              { time: 2, text: "test:point:1" },
-              { time: 3.1, text: "test:2" },
-              { time: 4, text: "テスト:3" }
-            ]
-          }
-        }
+        tiers: {}
       },
       params
     );
-
     this.wrapper = null;
     this.drawer = null;
     this.pixelRatio = null;
     this.maxCanvasWidth = null;
     this.maxCanvasElementWidth = null;
+    this.tiers = this.params.tiers;
     this.current = {
       key: null,
       item: null
@@ -187,8 +170,8 @@ export default class TextgridPlugin {
       this._onScroll
     );
     if (this.wrapper && this.wrapper.parentNode) {
-      for (const key in this.params.tiers) {
-        const canvas = this.params.tiers[key].canvas;
+      for (const key in this.tiers) {
+        const canvas = this.tiers[key].canvas;
         canvas.removeEventListener("dblclick", canvas.onDblClick);
       }
       this.wrapper.parentNode.removeChild(this.wrapper);
@@ -222,7 +205,7 @@ export default class TextgridPlugin {
       position: "relative",
       userSelect: "none",
       webkitUserSelect: "none",
-      height: `${this.params.height * Object.keys(this.params.tiers).length}px`
+      height: `${this.params.height * Object.keys(this.tiers).length}px`
     });
     if (this.wsParams.fillParent || this.wsParams.scrollParent) {
       this.util.style(this.wrapper, {
@@ -232,7 +215,7 @@ export default class TextgridPlugin {
       });
     }
     let i = 0;
-    for (const key in this.params.tiers) {
+    for (const key in this.tiers) {
       this.updateCanvas(key, i);
       this.updateCanvasPositioning(key);
       this.renderCanvas(key);
@@ -246,7 +229,7 @@ export default class TextgridPlugin {
    *
    */
   addCanvas(key, i) {
-    if (this.params.tiers[key].canvas == undefined) {
+    if (this.tiers[key].canvas == undefined) {
       const canvas = this.wrapper.appendChild(document.createElement("canvas"));
       this.util.style(canvas, {
         position: "absolute",
@@ -257,11 +240,11 @@ export default class TextgridPlugin {
       });
 
       const vm = this;
-      this.params.tiers[key].onClick = function(e) {
+      this.tiers[key].onClick = function(e) {
         e.preventDefault();
         const time = vm.event2time(e);
         const item = { key: key, time: time };
-        let canditates = vm.params.tiers[key].values.filter(x => {
+        let canditates = vm.tiers[key].values.filter(x => {
           return x.time > time;
         });
         canditates.sort((a, b) => a.time - b.time);
@@ -275,21 +258,17 @@ export default class TextgridPlugin {
         vm.wavesurfer.fireEvent("textgrid-click", item);
       };
 
-      this.params.tiers[key].onDblClick = function(e) {
+      this.tiers[key].onDblClick = function(e) {
         e.preventDefault();
         const time = vm.event2time(e);
         const item = { key: key, time: time };
         vm.wavesurfer.fireEvent("textgrid-dblclick", item);
       };
 
-      canvas.addEventListener("click", this.params.tiers[key].onClick, false);
-      canvas.addEventListener(
-        "dblclick",
-        this.params.tiers[key].onDblClick,
-        false
-      );
+      canvas.addEventListener("click", this.tiers[key].onClick, false);
+      canvas.addEventListener("dblclick", this.tiers[key].onDblClick, false);
 
-      this.params.tiers[key].canvas = canvas;
+      this.tiers[key].canvas = canvas;
 
       const label = this.wrapper.appendChild(document.createElement("canvas"));
       label.classList.add("tier-labels");
@@ -299,7 +278,7 @@ export default class TextgridPlugin {
         zIndex: 4,
         width: "${this.params.fontSize + 4}px"
       });
-      this.params.tiers[key].label = label;
+      this.tiers[key].label = label;
     }
   }
 
@@ -308,7 +287,7 @@ export default class TextgridPlugin {
    *
    */
   removeCanvas(key) {
-    const canvas = this.params.tiers[key].canvas;
+    const canvas = this.tiers[key].canvas;
     canvas.parentElement.removeChild(canvas);
   }
 
@@ -323,7 +302,7 @@ export default class TextgridPlugin {
    * Update the dimensions and positioning style for all the textgrid canvas
    */
   updateCanvasPositioning(key) {
-    const canvas = this.params.tiers[key].canvas;
+    const canvas = this.tiers[key].canvas;
     // cache length for performance
     const canvasesLength = 1;
     // canvas width is the max element width, or if it is the last the
@@ -362,7 +341,7 @@ export default class TextgridPlugin {
 
     // build an array of position data with index, second and pixel data,
     // this is then used multiple times below
-    const values = this.params.tiers[key].values;
+    const values = this.tiers[key].values;
     values.sort((a, b) => a.time - b.time);
     const positioning = [];
     let i = 0;
@@ -375,9 +354,9 @@ export default class TextgridPlugin {
     }
 
     // iterate over each position
-    if (this.params.tiers[key].type == "interval") {
+    if (this.tiers[key].type == "interval") {
       this.renderIntervalTier(key, positioning);
-    } else if (this.params.tiers[key].type == "point") {
+    } else if (this.tiers[key].type == "point") {
       this.renderPointTier(key, positioning);
     } else {
       this.wavesurfer.fireEvent("error", "tier.type is 'interval' or 'point'");
@@ -398,7 +377,7 @@ export default class TextgridPlugin {
       if (this.current.item) {
         if (this.current.item.time == curSeconds) {
           this.setFillStyles(key, this.params.activeColor);
-          const canvas = this.params.tiers[key].canvas;
+          const canvas = this.tiers[key].canvas;
           canvas
             .getContext("2d")
             .fillRect(prePixel, 0, curPixel - prePixel, canvas.height);
@@ -469,9 +448,9 @@ export default class TextgridPlugin {
     const bgWidth = this.params.fontSize;
     const bgFill = `rgba(${[0, 0, 0, 0.5]})`;
 
-    const label = this.params.tiers[key].label;
+    const label = this.tiers[key].label;
     const ctx = label.getContext("2d");
-    label.height = this.params.tiers[key].canvas.height;
+    label.height = this.tiers[key].canvas.height;
     label.width = bgWidth;
     ctx.fillStyle = bgFill;
     ctx.fillRect(0, 0, label.width, label.height);
@@ -497,7 +476,7 @@ export default class TextgridPlugin {
    * use
    */
   setFillStyles(key, fillStyle) {
-    const canvas = this.params.tiers[key].canvas;
+    const canvas = this.tiers[key].canvas;
     canvas.getContext("2d").fillStyle = fillStyle;
   }
 
@@ -507,7 +486,7 @@ export default class TextgridPlugin {
    * @param {DOMString} font Font to use
    */
   setFonts(key, font) {
-    const canvas = this.params.tiers[key].canvas;
+    const canvas = this.tiers[key].canvas;
     canvas.getContext("2d").font = font;
   }
 
@@ -522,7 +501,7 @@ export default class TextgridPlugin {
    * @param {number} height Height
    */
   fillRect(key, x, y, width, height) {
-    const canvas = this.params.tiers[key].canvas;
+    const canvas = this.tiers[key].canvas;
     const leftOffset = 0;
     const intersection = {
       x1: Math.max(x, 0),
@@ -552,7 +531,7 @@ export default class TextgridPlugin {
   fillText(key, text, x, y) {
     let textWidth;
     let xOffset = 0;
-    const canvas = this.params.tiers[key].canvas;
+    const canvas = this.tiers[key].canvas;
     const context = canvas.getContext("2d");
     const canvasWidth = context.canvas.width;
     if (xOffset > x + textWidth) {
@@ -601,58 +580,78 @@ export default class TextgridPlugin {
   }
 
   addTier(key, type) {
-    this.params.tiers[key] = {
+    this.tiers[key] = {
       type: type,
       values: []
     };
     this.render();
+    this.wavesurfer.fireEvent("texgrid-update", this.tiers);
   }
   deleteTier(key) {
-    if (key in this.params.tiers) {
+    if (key in this.tiers) {
       this.removeCanvas(key);
-      delete this.params.tiers[key];
+      delete this.tiers[key];
       this.render();
     }
+    this.wavesurfer.fireEvent("textgrid-update", this.tiers);
   }
   updateTier(key, obj) {
-    if (key in this.params.tiers) {
+    if (key in this.tiers) {
       if ("name" in obj) {
-        const type = "type" in obj ? obj.type : this.params.tiers[key].type;
+        const type = "type" in obj ? obj.type : this.tiers[key].type;
         this.addTier(obj.name, type);
         this.deleteTier(key);
       } else if ("type" in obj) {
-        this.params.tiers[key].type = obj.type;
+        this.tiers[key].type = obj.type;
         this.render();
       }
+      this.wavesurfer.fireEvent("textgrid-update", this.tiers);
     }
   }
-
   addTierValue(key, obj) {
-    if (key in this.params.tiers) {
-      this.params.tiers[key].values.push(obj);
+    if (key in this.tiers) {
+      this.tiers[key].values.push(obj);
       this.render();
+      this.wavesurfer.fireEvent("textgrid-update", this.tiers);
     }
   }
   setTierValueText(key, time, text) {
-    if (key in this.params.tiers) {
-      const idx = this.params.tiers[key].values.findIndex(x => x.time == time);
+    if (key in this.tiers) {
+      const idx = this.tiers[key].values.findIndex(x => x.time == time);
       if (idx > -1) {
-        this.params.tiers[key].values[idx].text = text;
+        this.tiers[key].values[idx].text = text;
         this.render();
+        this.wavesurfer.fireEvent("textgrid-update", this.tiers);
       }
     }
   }
   loadTextGrid(file) {
     const fr = new FileReader();
+    const vm = this;
     fr.readAsText(file);
     fr.addEventListener("load", () => {
-      io.textgrid.load(fr.result);
+      vm.tiers = io.textgrid.load(fr.result);
+      vm.render();
+      vm.wavesurfer.fireEvent("textgrid-update", vm.tiers);
     });
   }
   dumpTextGrid() {
-    const duration = this.ws.getDuration();
-    const tiers = this.params.tiers;
-    const string = io.textgrid.dump(duration, tiers);
-    console.log(string);
+    const duration = this.wavesurfer.backend.getDuration();
+    const tiers = this.tiers;
+    const content = io.textgrid.dump(duration, tiers);
+    return content;
+  }
+  downloadTextGrid(filename) {
+    const content = this.dumpTextGrid();
+    const blob = new Blob([content], { type: "text/plain" });
+    const downloadLink = document.createElement("a");
+    downloadLink.download = filename;
+    downloadLink.href = URL.createObjectURL(blob);
+    downloadLink.dataset.downloadurl = [
+      "text/plain",
+      downloadLink.download,
+      downloadLink.href
+    ].join(":");
+    downloadLink.click();
   }
 }

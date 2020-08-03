@@ -51,9 +51,9 @@
         @ready="onReady"
         @textgrid-dblclick="onDblclick"
         @textgrid-click="onClick"
+        @textgrid-update="onTextGridUpdate"
         showTimeLine
         showTextGrid
-        :tiers="tiers"
         :source="source"
         :responsive="true"
       >
@@ -77,7 +77,7 @@
         background-color="red lighten-2"
         dark
       >
-        <v-tab v-for="(tier, key) in Object.keys(this.tiers)" :key="key">
+        <v-tab v-for="(tier, key) in tabs" :key="key">
           {{ tier }}
         </v-tab>
         <v-dialog v-model="tierDialog.show" persistent max-width="600px">
@@ -199,7 +199,11 @@
         </v-data-table>
         <pre> {{ currentTier.values }} </pre>
       </v-tabs-items>
-
+      <v-card-actions v-if="tabs.length > 0">
+        <v-btn @click="downloadTextGrid" color="primary" block rounded dark>
+          Download TextGrid
+        </v-btn>
+      </v-card-actions>
       <v-snackbar v-model="snackbar.show">
         {{ snackbar.text }}
       </v-snackbar>
@@ -224,7 +228,7 @@ export default {
   },
   data: () => ({
     source: null,
-    tiers: {},
+    textgrid: {},
     current: {
       text: null,
       time: null,
@@ -247,6 +251,7 @@ export default {
       name: "",
       type: "interval"
     },
+    tabs: [],
     headers: [
       { text: "time", value: "time" },
       { text: "text", value: "text" },
@@ -267,8 +272,8 @@ export default {
       if (val === null) {
         (this.currentTier.name = ""), (this.currentTier.values = []);
       } else {
-        this.currentTier.name = Object.keys(this.tiers)[val];
-        this.currentTier.values = this.tiers[this.currentTier.name].values;
+        this.currentTier.name = Object.keys(this.textgrid)[val];
+        this.currentTier.values = this.textgrid[this.currentTier.name].values;
       }
     }
   },
@@ -321,15 +326,18 @@ export default {
     removeValue(value) {
       console.log(value);
     },
+    downloadTextGrid: function() {
+      const filename = "test.TextGrid";
+      this.$refs.wavesurfer.downloadTextGrid(filename);
+    },
     onTextGridFileChange: function(file) {
       if (file) {
         this.$refs.wavesurfer.loadTextGrid(file);
       }
     },
-
     onFileChange: function(file) {
       this.source = null;
-      this.tiers = {};
+      this.textgrid = {};
       this.currentTier = {
         name: null,
         values: []
@@ -385,6 +393,10 @@ export default {
         this.current.text = obj.item.text;
         this.current.time = obj.item.time;
       }
+    },
+    onTextGridUpdate: function(textgrid) {
+      this.textgrid = textgrid;
+      this.tabs = Object.keys(this.textgrid);
     }
   }
 };

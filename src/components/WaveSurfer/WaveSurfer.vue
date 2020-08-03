@@ -191,21 +191,6 @@ export default {
     skipLength: { type: Number, default: 2 },
     splitChannels: { type: Boolean, default: false },
     targetChannel: { type: Number, default: 0 },
-    tiers: {
-      validator: function(value) {
-        if (
-          value !== null &&
-          typeof value === "object" &&
-          value.constructor === Object
-        ) {
-          return true;
-        }
-        return false;
-      },
-      default: () => {
-        return {};
-      }
-    },
     waveColor: { type: String, default: "#999" },
     xhr: {
       type: Object,
@@ -450,12 +435,12 @@ export default {
             }
             if (this.showTextGrid) {
               this.textgrid = Textgrid.create({
-                container: this.$refs.textgrid,
-                tiers: this.tiers
+                container: this.$refs.textgrid
               });
               this.wavesurfer.addPlugin(this.textgrid).initPlugin("textgrid");
               this.wavesurfer.on("textgrid-dblclick", this.onTextGridDblClick);
               this.wavesurfer.on("textgrid-click", this.onTextGridClick);
+              this.wavesurfer.on("textgrid-update", this.onTextGridUpdate);
             }
             if (this.showPointLine) {
               this.pointline = Pointline.create({
@@ -555,6 +540,9 @@ export default {
     loadTextGrid: function(file) {
       this.wavesurfer.textgrid.loadTextGrid(file);
     },
+    downloadTextGrid: function(filename) {
+      this.wavesurfer.textgrid.downloadTextGrid(filename);
+    },
     onAudioprocess: function(e) {
       this.$emit("audioprocess", e);
     },
@@ -599,6 +587,9 @@ export default {
     },
     onTextGridDblClick(e) {
       this.$emit("textgrid-dblclick", e);
+    },
+    onTextGridUpdate(textgrid) {
+      this.$emit("textgrid-update", textgrid);
     },
     onSpectrogramRenderEnd(e) {
       this.isSpectrogramRendered = true;
