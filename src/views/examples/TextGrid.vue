@@ -564,9 +564,15 @@ export default {
           this.closeValueDialog();
         },
         editValue(value) {
-          this.valueDialog.text = value.text;
-          this.valueDialog.time = value.time;
-          this.valueDialog.show = true;
+          const idx = this.textgrid[this.current.key].values.findIndex(
+            x => x.time == value.time
+          );
+          if (idx > -1){
+            this.current.idx = idx;
+            this.valueDialog.text = value.text;
+            this.valueDialog.time = value.time;
+            this.valueDialog.show = true;
+          }
         },
         saveTierValue: function() {
           const key = this.current.key;
@@ -717,9 +723,15 @@ export default {
       this.closeValueDialog();
     },
     editValue(value) {
-      this.valueDialog.text = value.text;
-      this.valueDialog.time = value.time;
-      this.valueDialog.show = true;
+      const idx = this.textgrid[this.current.key].values.findIndex(
+        x => x.time == value.time
+      );
+      if (idx > -1) {
+        this.current.idx = idx;
+        this.valueDialog.text = value.text;
+        this.valueDialog.time = value.time;
+        this.valueDialog.show = true;
+      }
     },
     saveTierValue: function() {
       const key = this.current.key;
