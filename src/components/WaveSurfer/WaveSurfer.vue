@@ -441,6 +441,10 @@ export default {
               this.wavesurfer.on("textgrid-dblclick", this.onTextGridDblClick);
               this.wavesurfer.on("textgrid-click", this.onTextGridClick);
               this.wavesurfer.on("textgrid-update", this.onTextGridUpdate);
+              this.wavesurfer.on(
+                "textgrid-current-update",
+                this.onTextGridCurrentUpdate
+              );
             }
             if (this.showPointLine) {
               this.pointline = Pointline.create({
@@ -534,8 +538,11 @@ export default {
     addTierValue: function(key, obj) {
       this.wavesurfer.textgrid.addTierValue(key, obj);
     },
-    setTierValueText: function(key, time, text) {
-      this.wavesurfer.textgrid.setTierValueText(key, time, text);
+    setTierValue: function(key, idx, text) {
+      this.wavesurfer.textgrid.setTierValue(key, idx, text);
+    },
+    deleteTierValue: function(key, idx) {
+      this.wavesurfer.textgrid.deleteTierValue(key, idx);
     },
     loadTextGrid: function(file) {
       this.wavesurfer.textgrid.loadTextGrid(file);
@@ -590,6 +597,9 @@ export default {
     },
     onTextGridUpdate(textgrid) {
       this.$emit("textgrid-update", textgrid);
+    },
+    onTextGridCurrentUpdate(current) {
+      this.$emit("textgrid-current-update", current);
     },
     onSpectrogramRenderEnd(e) {
       this.isSpectrogramRendered = true;

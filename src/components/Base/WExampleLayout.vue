@@ -10,7 +10,6 @@
         <slot></slot>
       </v-col>
     </v-row>
-
     <v-row>
       <v-col>
         <v-tabs v-model="tab" dark>

@@ -61,6 +61,9 @@ export default {
       currentPage: "現在のページ、ページ {0}"
     }
   },
+  wExampleHelpDialog: {
+    headline: "デモの操作方法"
+  },
   home: {
     desc: `
       <b>wavesurfer.vue</b> は <b><a href="https://wavesurfer-js.org/">wavesurfer.js</a></b> を vue で使用するためのラッパーです.
@@ -270,6 +273,71 @@ export default {
       多層化された転記機能を提供します.
       </br>
       また TextGrid 形式ファイルのインポートおよびエクスポートを支援します.
+      `,
+      help: `
+      まずは音声ファイルを選択します.
+      </br>
+      サンプルの音声ファイルは /src/assets/media/demo.wav に置いてあります.
+      あるいは任意の wav ファイルまたは mp3 ファイルを使用できます.
+      </br></br>
+      音声ファイルの読み込みに成功すると音声波形とアノテーション管理用コンポーネントが表示されます.
+      </br></br>
+      アノテーション管理用コンポーネントのプラスボタンを押すと新規 TIER 作成ダイアログが表示されます. フォームに従い情報を入力した後で SAVE ボタンを押してください.
+      </br></br>
+      TIER の作成に成功するとアノテーションコンポーネントが音声波形の下に表示されます.
+      またアノテーション管理用コンポーネントには新規追加された TIER がテーブルとして表示されます.
+      </br></br>
+      アノテーションコンポーネントの任意の箇所をダブルクリックすることでアノテーションを行うことができます.
+      またアノテーションコンポーネントの上にあるテキスト入力欄に文字を入力し ENTER を押すと文字情報を記録することができます.
+      </br></br>
+      これらの操作はアノテーション管理用コンポーネントに表示されたテーブルからでも実行可能です.
+      </br></br>
+      既存の textgrid と書かれたインプットフォームをクリックすることで TextGrid ファイルを読み込むことも可能です.
+      </br></br>
+      最後に DOWNLOAD TEXTGRID と書かれたボタンをクリックすることでアノテーション結果を TextGrid 形式でダウンロードすることが可能です.
+      `,
+      desc: `
+      基本的にこのコンポーネントとのデータのやり取りはリアクティブではないことに注意してください.
+      </br></br>
+      アノテーション領域の変更はこのコンポーネントが提供するいくつかのメソッドを使用して行います.
+      また, アノテーション領域のステータスはこのコンポーネントが発火させるイベントを通して
+      取得します.
+      </br></br>
+      showTextGrid を使用時には以下のメソッドを使用可能です.
+      <ul>
+        <li>
+        addTier(key, type): アノテーション領域に新規TIER を作成.
+        </li>
+        <li>
+        deleteTier(key): 指定の TIER を削除
+        </li>
+        <li>
+        addTierValue(key, obj): 指定 TIER にアノテーションオブジェクトを追加
+        </li>
+        <li>
+        setTierValueText(key, index, obj): 指定 TIER のアノテーションオブジェクトを変更
+        </li>
+        <li>
+        deleteTierValue(key, index): 指定 TIER のアノテーションオブジェクトを削除
+        </li>
+        <li>
+        downloadTextGrid(filename): 現在のアノテーション結果を TextGrid ファイルとして保存
+        </li>
+        <li>
+        loadTextGrid(file): TextGrid ファイルをアノテーション領域に表示
+        </li>
+      </ul>
+      </br></br>
+      showTextGrid を使用時には以下のイベントが発生します.
+      <ul>
+      <li>textgrid-dblclick: アノテーション領域がダブルクリックされた際に発火.発火時にはダブルクリックされた地点の時刻情報および空のテキスト情報が渡される.</li>
+      <li>textgrid-click:アノテーション領域がクリックされた際に発火.発火時にはクリック地点に最も近いアノテーションオブジェクトが渡される</li>
+      <li>textgrid-update: textgrid が変更された場合に発火.変更後の全ての textgrid 情
+      報が渡される</li>
+      <li>textgrid-current-update:
+      選択されたアノテーションオブジェクトが変更された場合に発火.現在選択されている TIER の Key および選択されているアノテーションオブジェクトが渡される
+      </li>
+      </ul>
       `
     },
     recording: {

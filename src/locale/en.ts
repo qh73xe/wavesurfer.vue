@@ -61,6 +61,9 @@ export default {
       currentPage: "Current Page, Page {0}"
     }
   },
+  wExampleHelpDialog: {
+    headline: "How to use this demo"
+  },
   home: {
     desc: `
       <b>wavesurfer.vue</b> is a wrapper for <b><a href="https://wavesurfer-js.org/">wavesurfer.js</a></b> to use <b>vue.js</b>.
@@ -272,7 +275,64 @@ export default {
         <code>wave-surfer</code> component provides visually layered transcription functionality similar to praat.
         </br>
         And this component also supports the import and export of TextGrid format files.
-        `
+        `,
+      desc: `
+      Please note that data exchange with this component is not reactive.
+      </br>
+      You can change the annotation area using several methods and get the annotation area status from some events.
+      </br></br>
+      You can use the following methods when using showTextGrid.
+      <ul>
+        <li>addTier(key, type): Create a new TIER in the annotation area.</li>
+        <li>deleteTier(key): Delete specified TIER</li>
+        <li>addTierValue(key, obj): Add annotation object to specified TIER</li>
+        <li>setTierValueText(key, index, obj): Change annotation object of specified TIER</li>
+        <li>deleteTierValue(key, index): Delete the annotation object of the specified TIER</li>
+        <li>downloadTextGrid(filename): Save current annotation as a TextGrid file</li>
+        <li>loadTextGrid(file): Display TextGrid file in annotation area</li>
+      </ul>
+      </br>
+      The following events occur when using showTextGrid.
+      <ul>
+      <li>textgrid-dblclick: Fired when the annotation area is double-clicked. When fired, the time information of the double-clicked point and empty text information are passed.</li>
+      <li>textgrid-click: When fired, the annotation object closest to the click point is passed</li>
+      <li>textgrid-update: Fired when the textgrid has changed. All changed textgrid information is passed</li>
+      <li>textgrid-current-update: Fired when the selected annotation object has changed, passing the Key of the currently selected TIER and the selected annotation object.</li>
+      </ul>
+      `,
+      help: `
+      First, select same audio file.
+      </br>
+      A sample audio file is located at /src/assets/media/demo.wav.
+      </br>
+      Alternatively you can use any wav or mp3 file.
+      </br>
+      </br>
+      When your audio file is successfully read, the audio waveform and the annotation management component are displayed.
+      </br>
+      </br>
+      Click the plus button on the annotation management component to display the new TIER creation dialog.
+      </br>
+      After filling in the information according to the form, press the SAVE button.
+      </br>
+      If the TIER is created successfully, the annotation component will be displayed below the audio waveform.
+      </br>
+      The added TIER is displayed as a table in the annotation management component.
+      </br>
+      </br>
+      You can annotate by double-clicking anywhere on the annotation component.
+      </br>
+      You can also record characters by entering characters in the text input field above the annotation component and pressing ENTER.
+      </br>
+      </br>
+      These operations can also be executed from the table displayed in the annotation management component.
+      </br>
+      </br>
+      You can also load a TextGrid file by clicking on the existing input form labeled textgrid.
+      </br>
+      </br>
+      Finally, click the button labeled DOWNLOAD TEXTGRID to download the annotation results in TextGrid format.
+      `
     },
     recording: {
       desc: `

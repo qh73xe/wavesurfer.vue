@@ -7,7 +7,6 @@
       <v-icon>mdi-close</v-icon>
     </v-system-bar>
     <v-toolbar color="primary" dark>
-      <v-app-bar-nav-icon></v-app-bar-nav-icon>
       <v-toolbar-title>{{ title }}</v-toolbar-title>
       <v-spacer />
       <slot name="toolbar"></slot>

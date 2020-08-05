@@ -2704,6 +2704,26 @@ module.exports = !!Object.getOwnPropertySymbols && !fails(function () {
 
 /***/ }),
 
+/***/ "498a":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var $ = __webpack_require__("23e7");
+var $trim = __webpack_require__("58a8").trim;
+var forcedStringTrimMethod = __webpack_require__("c8d2");
+
+// `String.prototype.trim` method
+// https://tc39.github.io/ecma262/#sec-string.prototype.trim
+$({ target: 'String', proto: true, forced: forcedStringTrimMethod('trim') }, {
+  trim: function trim() {
+    return $trim(this);
+  }
+});
+
+
+/***/ }),
+
 /***/ "4ae1":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -7593,6 +7613,25 @@ module.exports = g;
 
 /***/ }),
 
+/***/ "c8d2":
+/***/ (function(module, exports, __webpack_require__) {
+
+var fails = __webpack_require__("d039");
+var whitespaces = __webpack_require__("5899");
+
+var non = '\u200B\u0085\u180E';
+
+// check that a method works with the correct list
+// of whitespaces and has a correct name
+module.exports = function (METHOD_NAME) {
+  return fails(function () {
+    return !!whitespaces[METHOD_NAME]() || non[METHOD_NAME]() != non || whitespaces[METHOD_NAME].name !== METHOD_NAME;
+  });
+};
+
+
+/***/ }),
+
 /***/ "c975":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -9299,15 +9338,12 @@ if (typeof window !== 'undefined') {
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 var external_commonjs_vue_commonjs2_vue_root_Vue_default = /*#__PURE__*/__webpack_require__.n(external_commonjs_vue_commonjs2_vue_root_Vue_);
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"d7f3097c-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/WaveSurfer/WaveSurfer.vue?vue&type=template&id=3cf2314a&scoped=true&
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"d7f3097c-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/WaveSurfer/WaveSurfer.vue?vue&type=template&id=6b70233f&scoped=true&
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[(_vm.showSpectrogram)?_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.isSpectrogramRendered),expression:"isSpectrogramRendered"}],ref:"spectrogram"}):_vm._e(),_c('div',{ref:"waveform"},[_vm._t("default")],2),(_vm.showTimeLine)?_c('div',{ref:"timeline"}):_vm._e(),(_vm.showPointLine)?_c('div',{ref:"pointline"}):_vm._e(),_vm._t("textform"),(_vm.showTextGrid)?_c('div',{ref:"textgrid"}):_vm._e()],2)}
 var staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/components/WaveSurfer/WaveSurfer.vue?vue&type=template&id=3cf2314a&scoped=true&
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.iterator.js
-var es_array_iterator = __webpack_require__("e260");
+// CONCATENATED MODULE: ./src/components/WaveSurfer/WaveSurfer.vue?vue&type=template&id=6b70233f&scoped=true&
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.number.constructor.js
 var es_number_constructor = __webpack_require__("a9e3");
@@ -16726,7 +16762,20 @@ var pointline_PointlinePlugin = (_dec = log("pointline.create", pointline_DEBUG)
   return PointlinePlugin;
 }(), _temp), (_applyDecoratedDescriptor(_class, "create", [_dec], Object.getOwnPropertyDescriptor(_class, "create"), _class), _applyDecoratedDescriptor(_class.prototype, "init", [_dec2], Object.getOwnPropertyDescriptor(_class.prototype, "init"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "destroy", [_dec3], Object.getOwnPropertyDescriptor(_class.prototype, "destroy"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "createWrapper", [_dec4], Object.getOwnPropertyDescriptor(_class.prototype, "createWrapper"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "render", [_dec5], Object.getOwnPropertyDescriptor(_class.prototype, "render"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "genUuid", [_dec6], Object.getOwnPropertyDescriptor(_class.prototype, "genUuid"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "addPoint", [_dec7], Object.getOwnPropertyDescriptor(_class.prototype, "addPoint"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "updatePoint", [_dec8], Object.getOwnPropertyDescriptor(_class.prototype, "updatePoint"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "deletePoint", [_dec9], Object.getOwnPropertyDescriptor(_class.prototype, "deletePoint"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "addCanvas", [_dec10], Object.getOwnPropertyDescriptor(_class.prototype, "addCanvas"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "removeCanvas", [_dec11], Object.getOwnPropertyDescriptor(_class.prototype, "removeCanvas"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "updateCanvases", [_dec12], Object.getOwnPropertyDescriptor(_class.prototype, "updateCanvases"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "updateCanvasesPositioning", [_dec13], Object.getOwnPropertyDescriptor(_class.prototype, "updateCanvasesPositioning"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "renderCanvases", [_dec14], Object.getOwnPropertyDescriptor(_class.prototype, "renderCanvases"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "setFillStyles", [_dec15], Object.getOwnPropertyDescriptor(_class.prototype, "setFillStyles"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "fillRect", [_dec16], Object.getOwnPropertyDescriptor(_class.prototype, "fillRect"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "defaultFormatTimeCallback", [_dec17], Object.getOwnPropertyDescriptor(_class.prototype, "defaultFormatTimeCallback"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "defaultTimeInterval", [_dec18], Object.getOwnPropertyDescriptor(_class.prototype, "defaultTimeInterval"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "defaultPrimaryLabelInterval", [_dec19], Object.getOwnPropertyDescriptor(_class.prototype, "defaultPrimaryLabelInterval"), _class.prototype)), _class));
 
-// CONCATENATED MODULE: ./src/io/index.js
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.string.match.js
+var es_string_match = __webpack_require__("466d");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.string.trim.js
+var es_string_trim = __webpack_require__("498a");
+
+// CONCATENATED MODULE: ./src/io/textgrid.js
+
+
+
+
+
+
+
 
 
 
@@ -16740,7 +16789,7 @@ var dumpPointTier = function dumpPointTier(values) {
   var lines = [];
 
   for (var i in values) {
-    lines.push("        points [".concat(i + 1, "]:"));
+    lines.push("        points [".concat(Number(i) + 1, "]:"));
     lines.push("            number = ".concat(values[i].time, " "));
     lines.push("            mark = \"".concat(values[i].text, "\" "));
   }
@@ -16748,29 +16797,130 @@ var dumpPointTier = function dumpPointTier(values) {
   return lines;
 };
 
-var dumpIntervalTier = function dumpIntervalTier(values) {
+var dumpIntervalTier = function dumpIntervalTier(values, duration) {
   var lines = [];
 
   for (var i in values) {
-    lines.push("        intervals [".concat(i + 1, "]:"));
+    lines.push("        intervals [".concat(Number(i) + 1, "]:"));
 
     if (i == 0) {
       lines.push("            xmin = 0 ");
     } else {
-      lines.push("            xmin = ".concat(values[i - 1].time, " "));
+      lines.push("            xmin = ".concat(values[Number(i) - 1].time, " "));
     }
 
-    lines.push("            xmax = ".concat(values[i].time, " "));
+    if (i == values.length - 1) {
+      lines.push("            xmax = ".concat(duration, " "));
+    } else {
+      lines.push("            xmax = ".concat(values[i].time, " "));
+    }
+
     lines.push("            text = \"".concat(values[i].text, "\" "));
   }
 
   return lines;
 };
 
-var textgrid = {
+var getItemIndex = function getItemIndex(lines) {
+  var indexes = [];
+  var itemSize = 0;
+
+  for (var i in lines) {
+    if (lines[i].match(/^\s{4}item.+/)) {
+      indexes.push({
+        start: Number(i) + 1,
+        end: null
+      });
+
+      if (itemSize > 0) {
+        indexes[itemSize - 1].end = Number(i);
+      }
+
+      itemSize++;
+    }
+  }
+
+  indexes[itemSize - 1].end = lines.length;
+  return indexes;
+};
+
+var parsePointTier = function parsePointTier(lines) {
+  var name = lines[1].split("=")[1].trim().slice(1).slice(0, -1);
+  var values = [];
+
+  for (var i in lines) {
+    if (~lines[i].indexOf("number")) {
+      var number = parseFloat(lines[i].split("=")[1].trim());
+      var mark = lines[Number(i) + 1].split("=")[1].trim().slice(1).slice(0, -1);
+      values.push({
+        time: number,
+        text: mark
+      });
+    }
+  }
+
+  return {
+    name: name,
+    values: values,
+    type: "point"
+  };
+};
+
+var parseIntervalTier = function parseIntervalTier(lines) {
+  var name = lines[1].split("=")[1].trim().slice(1).slice(0, -1);
+  var values = [];
+
+  for (var i in lines) {
+    if (~lines[i].indexOf("text")) {
+      var text = lines[Number(i)].split("=")[1].trim().slice(1).slice(0, -1);
+      var xmax = parseFloat(lines[Number(i) - 1].split("=")[1].trim());
+      values.push({
+        time: xmax,
+        text: text
+      });
+    }
+  }
+
+  return {
+    name: name,
+    values: values,
+    type: "interval"
+  };
+};
+
+/* harmony default export */ var textgrid = ({
   load: function load(text) {
     var lines = text.split("\n");
-    console.log(lines);
+    var itemLines = getItemIndex(lines).map(function (range) {
+      return lines.slice(range.start, range.end);
+    });
+    var items = itemLines.map(function (lines) {
+      if (~lines[0].indexOf("TextTier")) {
+        return parsePointTier(lines);
+      } else if (~lines[0].indexOf("IntervalTier")) {
+        return parseIntervalTier(lines);
+      }
+    });
+    var result = {};
+
+    var _iterator = _createForOfIteratorHelper(items),
+        _step;
+
+    try {
+      for (_iterator.s(); !(_step = _iterator.n()).done;) {
+        var item = _step.value;
+        result[item.name] = {
+          type: item.type,
+          values: item.values
+        };
+      }
+    } catch (err) {
+      _iterator.e(err);
+    } finally {
+      _iterator.f();
+    }
+
+    return result;
   },
   dump: function dump(duration, tiers) {
     var lines = ['File type = "ooTextFile"', 'Object class = "TextGrid"', "", "xmin = 0 ", "xmax = ".concat(duration, " "), "tiers? <exists> ", "size = ".concat(Object.keys(tiers).length, " "), "item []: "];
@@ -16780,20 +16930,30 @@ var textgrid = {
       lines.push("    item [".concat(i, "]:"));
 
       if (tiers[key].type == "interval") {
-        lines.push('        class = "TextTier"');
-      } else {
         lines.push('        class = "IntervalTier"');
+      } else {
+        lines.push('        class = "TextTier"');
       }
 
       lines.push("        name = \"".concat(key, "\" "));
+      lines.push("        xmin = 0 ");
       lines.push("        xmax = ".concat(duration, " "));
 
-      if (tiers[key].type == "interval") {
-        lines.push("        intervals: size = ".concat(tiers[key].values.length, " "));
-        lines.concat(dumpIntervalTier(tiers[key].values));
-      } else {
+      if (tiers[key].type == "point") {
         lines.push("        points: size = ".concat(tiers[key].values.length, " "));
-        lines.concat(dumpPointTier(tiers[key].values));
+        lines = lines.concat(dumpPointTier(tiers[key].values));
+      } else if (tiers[key].type == "interval") {
+        var values = tiers[key].values;
+
+        if (values[values.length - 1].time < duration) {
+          values.push({
+            text: "",
+            time: duration
+          });
+        }
+
+        lines.push("        intervals: size = ".concat(values.length, " "));
+        lines = lines.concat(dumpIntervalTier(values, duration));
       }
 
       i++;
@@ -16801,11 +16961,15 @@ var textgrid = {
 
     return lines.join("\n");
   }
-};
+});
+// CONCATENATED MODULE: ./src/io/index.js
+
 /* harmony default export */ var io = ({
   textgrid: textgrid
 });
 // CONCATENATED MODULE: ./src/components/WaveSurfer/plugin/textgrid.js
+
+
 
 
 
@@ -16940,43 +17104,18 @@ var textgrid_TextgridPlugin = /*#__PURE__*/function () {
       fontFamily: "Arial",
       fontSize: 15,
       zoomDebounce: false,
-      tiers: {
-        IPU: {
-          type: "interval",
-          values: [{
-            time: 1,
-            text: "test:interval:1"
-          }, {
-            time: 1.1,
-            text: "test:interval:2"
-          }, {
-            time: 2,
-            text: "テスト:インターバル:3"
-          }]
-        },
-        point: {
-          type: "point",
-          values: [{
-            time: 2,
-            text: "test:point:1"
-          }, {
-            time: 3.1,
-            text: "test:2"
-          }, {
-            time: 4,
-            text: "テスト:3"
-          }]
-        }
-      }
+      tiers: {}
     }, params);
     this.wrapper = null;
     this.drawer = null;
     this.pixelRatio = null;
     this.maxCanvasWidth = null;
     this.maxCanvasElementWidth = null;
+    this.tiers = this.params.tiers;
     this.current = {
       key: null,
-      item: null
+      item: null,
+      index: null
     };
     /**
      * This event handler has to be in the constructor function because it
@@ -17023,8 +17162,8 @@ var textgrid_TextgridPlugin = /*#__PURE__*/function () {
       this.wavesurfer.drawer.wrapper.removeEventListener("scroll", this._onScroll);
 
       if (this.wrapper && this.wrapper.parentNode) {
-        for (var key in this.params.tiers) {
-          var canvas = this.params.tiers[key].canvas;
+        for (var key in this.tiers) {
+          var canvas = this.tiers[key].canvas;
           canvas.removeEventListener("dblclick", canvas.onDblClick);
         }
 
@@ -17063,7 +17202,7 @@ var textgrid_TextgridPlugin = /*#__PURE__*/function () {
         position: "relative",
         userSelect: "none",
         webkitUserSelect: "none",
-        height: "".concat(this.params.height * Object.keys(this.params.tiers).length, "px")
+        height: "".concat(this.params.height * Object.keys(this.tiers).length, "px")
       });
 
       if (this.wsParams.fillParent || this.wsParams.scrollParent) {
@@ -17076,7 +17215,7 @@ var textgrid_TextgridPlugin = /*#__PURE__*/function () {
 
       var i = 0;
 
-      for (var key in this.params.tiers) {
+      for (var key in this.tiers) {
         this.updateCanvas(key, i);
         this.updateCanvasPositioning(key);
         this.renderCanvas(key);
@@ -17092,7 +17231,7 @@ var textgrid_TextgridPlugin = /*#__PURE__*/function () {
   }, {
     key: "addCanvas",
     value: function addCanvas(key, i) {
-      if (this.params.tiers[key].canvas == undefined) {
+      if (this.tiers[key].canvas == undefined) {
         var canvas = this.wrapper.appendChild(document.createElement("canvas"));
         this.util.style(canvas, {
           position: "absolute",
@@ -17103,14 +17242,14 @@ var textgrid_TextgridPlugin = /*#__PURE__*/function () {
         });
         var vm = this;
 
-        this.params.tiers[key].onClick = function (e) {
+        this.tiers[key].onClick = function (e) {
           e.preventDefault();
           var time = vm.event2time(e);
           var item = {
             key: key,
             time: time
           };
-          var canditates = vm.params.tiers[key].values.filter(function (x) {
+          var canditates = vm.tiers[key].values.filter(function (x) {
             return x.time > time;
           });
           canditates.sort(function (a, b) {
@@ -17120,15 +17259,14 @@ var textgrid_TextgridPlugin = /*#__PURE__*/function () {
 
           if (currentItem) {
             vm.current.key = key;
-            vm.current.item = currentItem;
-            item.item = currentItem;
+            vm.setCurrent(key, item);
             vm.render();
           }
 
           vm.wavesurfer.fireEvent("textgrid-click", item);
         };
 
-        this.params.tiers[key].onDblClick = function (e) {
+        this.tiers[key].onDblClick = function (e) {
           e.preventDefault();
           var time = vm.event2time(e);
           var item = {
@@ -17138,9 +17276,9 @@ var textgrid_TextgridPlugin = /*#__PURE__*/function () {
           vm.wavesurfer.fireEvent("textgrid-dblclick", item);
         };
 
-        canvas.addEventListener("click", this.params.tiers[key].onClick, false);
-        canvas.addEventListener("dblclick", this.params.tiers[key].onDblClick, false);
-        this.params.tiers[key].canvas = canvas;
+        canvas.addEventListener("click", this.tiers[key].onClick, false);
+        canvas.addEventListener("dblclick", this.tiers[key].onDblClick, false);
+        this.tiers[key].canvas = canvas;
         var label = this.wrapper.appendChild(document.createElement("canvas"));
         label.classList.add("tier-labels");
         this.drawer.style(label, {
@@ -17149,7 +17287,7 @@ var textgrid_TextgridPlugin = /*#__PURE__*/function () {
           zIndex: 4,
           width: "${this.params.fontSize + 4}px"
         });
-        this.params.tiers[key].label = label;
+        this.tiers[key].label = label;
       }
     }
     /**
@@ -17160,7 +17298,7 @@ var textgrid_TextgridPlugin = /*#__PURE__*/function () {
   }, {
     key: "removeCanvas",
     value: function removeCanvas(key) {
-      var canvas = this.params.tiers[key].canvas;
+      var canvas = this.tiers[key].canvas;
       canvas.parentElement.removeChild(canvas);
     }
   }, {
@@ -17178,7 +17316,7 @@ var textgrid_TextgridPlugin = /*#__PURE__*/function () {
   }, {
     key: "updateCanvasPositioning",
     value: function updateCanvasPositioning(key) {
-      var canvas = this.params.tiers[key].canvas; // cache length for performance
+      var canvas = this.tiers[key].canvas; // cache length for performance
 
       var canvasesLength = 1; // canvas width is the max element width, or if it is the last the
       // required width
@@ -17213,7 +17351,7 @@ var textgrid_TextgridPlugin = /*#__PURE__*/function () {
       var pixelsPerSecond = width / duration; // build an array of position data with index, second and pixel data,
       // this is then used multiple times below
 
-      var values = this.params.tiers[key].values;
+      var values = this.tiers[key].values;
       values.sort(function (a, b) {
         return a.time - b.time;
       });
@@ -17239,9 +17377,9 @@ var textgrid_TextgridPlugin = /*#__PURE__*/function () {
         _iterator.f();
       }
 
-      if (this.params.tiers[key].type == "interval") {
+      if (this.tiers[key].type == "interval") {
         this.renderIntervalTier(key, positioning);
-      } else if (this.params.tiers[key].type == "point") {
+      } else if (this.tiers[key].type == "point") {
         this.renderPointTier(key, positioning);
       } else {
         this.wavesurfer.fireEvent("error", "tier.type is 'interval' or 'point'");
@@ -17264,11 +17402,11 @@ var textgrid_TextgridPlugin = /*#__PURE__*/function () {
 
       renderPositions(function (curSeconds, curPixel, prePixel, text) {
         // 現在クリック時の表示箇所を強調
-        if (_this2.current.item) {
+        if (_this2.current.key == key && _this2.current.item) {
           if (_this2.current.item.time == curSeconds) {
             _this2.setFillStyles(key, _this2.params.activeColor);
 
-            var canvas = _this2.params.tiers[key].canvas;
+            var canvas = _this2.tiers[key].canvas;
             canvas.getContext("2d").fillRect(prePixel, 0, curPixel - prePixel, canvas.height);
           }
 
@@ -17316,7 +17454,7 @@ var textgrid_TextgridPlugin = /*#__PURE__*/function () {
 
       renderPositions(function (curSeconds, curPixel, prePixel, text) {
         // 現在クリック時の表示箇所を強調
-        if (_this3.current.item) {
+        if (_this3.current.key == key && _this3.current.item) {
           if (_this3.current.item.time == curSeconds) {
             _this3.setFillStyles(key, _this3.params.activeColor);
 
@@ -17349,9 +17487,9 @@ var textgrid_TextgridPlugin = /*#__PURE__*/function () {
     value: function renderLabel(key) {
       var bgWidth = this.params.fontSize;
       var bgFill = "rgba(".concat([0, 0, 0, 0.5], ")");
-      var label = this.params.tiers[key].label;
+      var label = this.tiers[key].label;
       var ctx = label.getContext("2d");
-      label.height = this.params.tiers[key].canvas.height;
+      label.height = this.tiers[key].canvas.height;
       label.width = bgWidth;
       ctx.fillStyle = bgFill;
       ctx.fillRect(0, 0, label.width, label.height);
@@ -17379,7 +17517,7 @@ var textgrid_TextgridPlugin = /*#__PURE__*/function () {
   }, {
     key: "setFillStyles",
     value: function setFillStyles(key, fillStyle) {
-      var canvas = this.params.tiers[key].canvas;
+      var canvas = this.tiers[key].canvas;
       canvas.getContext("2d").fillStyle = fillStyle;
     }
     /**
@@ -17391,7 +17529,7 @@ var textgrid_TextgridPlugin = /*#__PURE__*/function () {
   }, {
     key: "setFonts",
     value: function setFonts(key, font) {
-      var canvas = this.params.tiers[key].canvas;
+      var canvas = this.tiers[key].canvas;
       canvas.getContext("2d").font = font;
     }
     /**
@@ -17408,7 +17546,7 @@ var textgrid_TextgridPlugin = /*#__PURE__*/function () {
   }, {
     key: "fillRect",
     value: function fillRect(key, x, y, width, height) {
-      var canvas = this.params.tiers[key].canvas;
+      var canvas = this.tiers[key].canvas;
       var leftOffset = 0;
       var intersection = {
         x1: Math.max(x, 0),
@@ -17434,7 +17572,7 @@ var textgrid_TextgridPlugin = /*#__PURE__*/function () {
     value: function fillText(key, text, x, y) {
       var textWidth;
       var xOffset = 0;
-      var canvas = this.params.tiers[key].canvas;
+      var canvas = this.tiers[key].canvas;
       var context = canvas.getContext("2d");
       var canvasWidth = context.canvas.width;
 
@@ -17448,6 +17586,22 @@ var textgrid_TextgridPlugin = /*#__PURE__*/function () {
       }
 
       xOffset += canvasWidth;
+    }
+  }, {
+    key: "setCurrent",
+    value: function setCurrent(key, item) {
+      var _this4 = this;
+
+      this.current.key = key;
+      this.current.item = item;
+
+      if (item) {
+        this.current.index = this.tiers[key].values.findIndex(function (x) {
+          return x.time == _this4.current.item.time;
+        });
+      }
+
+      this.wavesurfer.fireEvent("textgrid-current-update", this.current);
     }
     /**
      * 全角半角を考慮して文字列のカウントを行う
@@ -17486,79 +17640,123 @@ var textgrid_TextgridPlugin = /*#__PURE__*/function () {
   }, {
     key: "addTier",
     value: function addTier(key, type) {
-      this.params.tiers[key] = {
+      this.tiers[key] = {
         type: type,
         values: []
       };
       this.render();
+      this.setCurrent(key, null);
+      this.wavesurfer.fireEvent("textgrid-update", this.tiers);
     }
   }, {
     key: "deleteTier",
     value: function deleteTier(key) {
-      if (key in this.params.tiers) {
+      if (key in this.tiers) {
         this.removeCanvas(key);
-        delete this.params.tiers[key];
+        delete this.tiers[key];
+        this.setCurrent(null, null);
         this.render();
       }
+
+      this.wavesurfer.fireEvent("textgrid-update", this.tiers);
     }
   }, {
     key: "updateTier",
     value: function updateTier(key, obj) {
-      if (key in this.params.tiers) {
+      if (key in this.tiers) {
         if ("name" in obj) {
-          var type = "type" in obj ? obj.type : this.params.tiers[key].type;
+          var type = "type" in obj ? obj.type : this.tiers[key].type;
+          var values = this.tiers[key];
           this.addTier(obj.name, type);
+          this.tiers[obj.name].values = values;
+          this.setCurrent(obj.name, values[0]);
+          this.wavesurfer.fireEvent("textgrid-current-update", this.current);
           this.deleteTier(key);
         } else if ("type" in obj) {
-          this.params.tiers[key].type = obj.type;
-          this.render();
+          this.tiers[key].type = obj.type;
+          this.setCurrent(key, this.tiers[key].values[0]);
         }
+
+        this.render();
+        this.wavesurfer.fireEvent("textgrid-update", this.tiers);
       }
     }
   }, {
     key: "addTierValue",
     value: function addTierValue(key, obj) {
-      if (key in this.params.tiers) {
-        this.params.tiers[key].values.push(obj);
+      if (key in this.tiers) {
+        this.tiers[key].values.push(obj);
+        this.setCurrent(key, obj);
         this.render();
+        this.wavesurfer.fireEvent("textgrid-update", this.tiers);
       }
     }
   }, {
-    key: "setTierValueText",
-    value: function setTierValueText(key, time, text) {
-      if (key in this.params.tiers) {
-        var idx = this.params.tiers[key].values.findIndex(function (x) {
-          return x.time == time;
-        });
-
+    key: "setTierValue",
+    value: function setTierValue(key, idx, object) {
+      this.tiers[key].values[idx] = object;
+      this.setCurrent(key, this.tiers[key].values[idx]);
+      this.render();
+      this.wavesurfer.fireEvent("textgrid-update", this.tiers);
+    }
+  }, {
+    key: "deleteTierValue",
+    value: function deleteTierValue(key, idx) {
+      if (key in this.tiers) {
         if (idx > -1) {
-          this.params.tiers[key].values[idx].text = text;
+          this.tiers[key].values.splice(idx, 1);
+          this.setCurrent(key, null);
           this.render();
+          this.wavesurfer.fireEvent("textgrid-update", this.tiers);
         }
       }
     }
   }, {
     key: "loadTextGrid",
     value: function loadTextGrid(file) {
+      var _this5 = this;
+
       var fr = new FileReader();
+      var vm = this;
       fr.readAsText(file);
       fr.addEventListener("load", function () {
-        io.textgrid.load(fr.result);
+        vm.tiers = io.textgrid.load(fr.result);
+        var keys = Object.keys(_this5.tiers);
+        vm.setCurrent(keys[0], _this5.tiers[keys[0]].values[0]);
+        vm.wavesurfer.fireEvent("textgrid-current-update", vm.current);
+        vm.render();
+        vm.wavesurfer.fireEvent("textgrid-update", vm.tiers);
       });
     }
   }, {
     key: "dumpTextGrid",
     value: function dumpTextGrid() {
-      var duration = this.ws.getDuration();
-      var tiers = this.params.tiers;
-      var string = io.textgrid.dump(duration, tiers);
-      console.log(string);
+      var duration = this.wavesurfer.backend.getDuration();
+      var tiers = this.tiers;
+      var content = io.textgrid.dump(duration, tiers);
+      return content;
+    }
+  }, {
+    key: "downloadTextGrid",
+    value: function downloadTextGrid(filename) {
+      var content = this.dumpTextGrid();
+      var blob = new Blob([content], {
+        type: "text/plain"
+      });
+      var downloadLink = document.createElement("a");
+      downloadLink.download = filename;
+      downloadLink.href = URL.createObjectURL(blob);
+      downloadLink.dataset.downloadurl = ["text/plain", downloadLink.download, downloadLink.href].join(":");
+      downloadLink.click();
     }
   }]);
 
   return TextgridPlugin;
 }();
 
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.iterator.js
+var es_array_iterator = __webpack_require__("e260");
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.math.log10.js
 var es_math_log10 = __webpack_require__("6b93");
@@ -18583,9 +18781,6 @@ var spectrogram_SpectrogramPlugin = (spectrogram_dec = log("spectrogram.drawerSp
   return SpectrogramPlugin;
 }(), (_applyDecoratedDescriptor(spectrogram_class.prototype, "drawSpectrogram", [spectrogram_dec], Object.getOwnPropertyDescriptor(spectrogram_class.prototype, "drawSpectrogram"), spectrogram_class.prototype), _applyDecoratedDescriptor(spectrogram_class.prototype, "getFrequencies", [spectrogram_dec2], Object.getOwnPropertyDescriptor(spectrogram_class.prototype, "getFrequencies"), spectrogram_class.prototype), _applyDecoratedDescriptor(spectrogram_class.prototype, "loadLabels", [spectrogram_dec3], Object.getOwnPropertyDescriptor(spectrogram_class.prototype, "loadLabels"), spectrogram_class.prototype)), spectrogram_class));
 
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.string.match.js
-var es_string_match = __webpack_require__("466d");
-
 // CONCATENATED MODULE: ./src/components/WaveSurfer/plugin/microphone/index.js
 
 
@@ -19022,7 +19217,6 @@ var microphone_MicrophonePlugin = /*#__PURE__*/function () {
 
 
 
-
 //
 //
 //
@@ -19291,18 +19485,6 @@ var microphone_MicrophonePlugin = /*#__PURE__*/function () {
       type: Number,
       default: 0
     },
-    tiers: {
-      validator: function validator(value) {
-        if (value !== null && _typeof(value) === "object" && value.constructor === Object) {
-          return true;
-        }
-
-        return false;
-      },
-      default: function _default() {
-        return {};
-      }
-    },
     waveColor: {
       type: String,
       default: "#999"
@@ -19560,8 +19742,7 @@ var microphone_MicrophonePlugin = /*#__PURE__*/function () {
 
             if (_this.showTextGrid) {
               _this.textgrid = textgrid_TextgridPlugin.create({
-                container: _this.$refs.textgrid,
-                tiers: _this.tiers
+                container: _this.$refs.textgrid
               });
 
               _this.wavesurfer.addPlugin(_this.textgrid).initPlugin("textgrid");
@@ -19569,6 +19750,10 @@ var microphone_MicrophonePlugin = /*#__PURE__*/function () {
               _this.wavesurfer.on("textgrid-dblclick", _this.onTextGridDblClick);
 
               _this.wavesurfer.on("textgrid-click", _this.onTextGridClick);
+
+              _this.wavesurfer.on("textgrid-update", _this.onTextGridUpdate);
+
+              _this.wavesurfer.on("textgrid-current-update", _this.onTextGridCurrentUpdate);
             }
 
             if (_this.showPointLine) {
@@ -19674,11 +19859,17 @@ var microphone_MicrophonePlugin = /*#__PURE__*/function () {
     addTierValue: function addTierValue(key, obj) {
       this.wavesurfer.textgrid.addTierValue(key, obj);
     },
-    setTierValueText: function setTierValueText(key, time, text) {
-      this.wavesurfer.textgrid.setTierValueText(key, time, text);
+    setTierValue: function setTierValue(key, idx, text) {
+      this.wavesurfer.textgrid.setTierValue(key, idx, text);
+    },
+    deleteTierValue: function deleteTierValue(key, idx) {
+      this.wavesurfer.textgrid.deleteTierValue(key, idx);
     },
     loadTextGrid: function loadTextGrid(file) {
       this.wavesurfer.textgrid.loadTextGrid(file);
+    },
+    downloadTextGrid: function downloadTextGrid(filename) {
+      this.wavesurfer.textgrid.downloadTextGrid(filename);
     },
     onAudioprocess: function onAudioprocess(e) {
       this.$emit("audioprocess", e);
@@ -19724,6 +19915,12 @@ var microphone_MicrophonePlugin = /*#__PURE__*/function () {
     },
     onTextGridDblClick: function onTextGridDblClick(e) {
       this.$emit("textgrid-dblclick", e);
+    },
+    onTextGridUpdate: function onTextGridUpdate(textgrid) {
+      this.$emit("textgrid-update", textgrid);
+    },
+    onTextGridCurrentUpdate: function onTextGridCurrentUpdate(current) {
+      this.$emit("textgrid-current-update", current);
     },
     onSpectrogramRenderEnd: function onSpectrogramRenderEnd(e) {
       this.isSpectrogramRendered = true;
@@ -20031,7 +20228,7 @@ var component = normalizeComponent(
   staticRenderFns,
   false,
   null,
-  "3cf2314a",
+  "6b70233f",
   null
   
 )
