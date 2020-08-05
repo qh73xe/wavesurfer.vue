@@ -7494,21 +7494,6 @@ module.exports = function (it) {
 
 /***/ }),
 
-/***/ "cca6":
-/***/ (function(module, exports, __webpack_require__) {
-
-var $ = __webpack_require__("23e7");
-var assign = __webpack_require__("60da");
-
-// `Object.assign` method
-// https://tc39.github.io/ecma262/#sec-object.assign
-$({ target: 'Object', stat: true, forced: Object.assign !== assign }, {
-  assign: assign
-});
-
-
-/***/ }),
-
 /***/ "cd26":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8624,9 +8609,6 @@ var staticRenderFns = []
 
 
 // CONCATENATED MODULE: ./src/components/WaveSurfer/WaveSurfer.vue?vue&type=template&id=6b70233f&scoped=true&
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.iterator.js
-var es_array_iterator = __webpack_require__("e260");
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.number.constructor.js
 var es_number_constructor = __webpack_require__("a9e3");
@@ -14714,11 +14696,7 @@ var wavesurfer_WaveSurfer = /*#__PURE__*/function (_util$Observer) {
 _defineProperty(wavesurfer_WaveSurfer, "util", util_namespaceObject);
 
 
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.object.assign.js
-var es_object_assign = __webpack_require__("cca6");
-
 // CONCATENATED MODULE: ./src/components/WaveSurfer/plugin/timeline.js
-
 
 
 
@@ -16063,7 +16041,6 @@ var es_string_trim = __webpack_require__("498a");
 
 
 
-
 var dumpPointTier = function dumpPointTier(values) {
   var lines = [];
 
@@ -16247,8 +16224,6 @@ var parseIntervalTier = function parseIntervalTier(lines) {
   textgrid: textgrid
 });
 // CONCATENATED MODULE: ./src/components/WaveSurfer/plugin/textgrid.js
-
-
 
 
 
@@ -18486,7 +18461,6 @@ var microphone_MicrophonePlugin = /*#__PURE__*/function () {
 
 
 // CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/WaveSurfer/WaveSurfer.vue?vue&type=script&lang=js&
-
 
 
 
