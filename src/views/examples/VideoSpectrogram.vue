@@ -249,6 +249,7 @@ export default {
       components: { WaveSurfer },
       data: () => ({
         source: null,
+        videoSource: null,
         isLoading: false,
         zoom: 0,
         freqRate: 1,
@@ -257,7 +258,7 @@ export default {
         snackbar: {
           show: false,
           text: ""
-        },
+        }
       }),
       computed: {
         minPxPerSec: function() {
@@ -315,7 +316,7 @@ export default {
         onDestroy: function() {
           this.snackbar.text = "on destroy";
           this.snackbar.show = true;
-        }
+        },
         play: function() {
           this.$refs.wavesurfer.play();
         },
