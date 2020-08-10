@@ -264,12 +264,9 @@ export default class TextgridPlugin {
         const item = { key: key, time: time };
         vm.wavesurfer.fireEvent("textgrid-dblclick", item);
       };
-
       canvas.addEventListener("click", this.tiers[key].onClick, false);
       canvas.addEventListener("dblclick", this.tiers[key].onDblClick, false);
-
       this.tiers[key].canvas = canvas;
-
       const label = this.wrapper.appendChild(document.createElement("canvas"));
       label.classList.add("tier-labels");
       this.drawer.style(label, {

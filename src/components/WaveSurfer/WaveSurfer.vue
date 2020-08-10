@@ -142,10 +142,6 @@ export default {
       type: Boolean,
       default: false
     },
-    freqRate: {
-      type: Number,
-      default: 1
-    },
     height: {
       type: Number,
       default: function() {
@@ -169,20 +165,6 @@ export default {
     partialRender: { type: Boolean, default: false },
     pixelRatio: { type: Number, default: 1 },
     progressColor: { type: String, default: "#555" },
-    pointWidth: { type: Number, default: 1 },
-    points: {
-      validator: function(value) {
-        if (Array.isArray(value)) {
-          for (const obj of value) {
-            if (!("time" in obj)) return false;
-            if (!("value" in obj)) return false;
-          }
-          return true;
-        }
-        return false;
-      },
-      default: () => []
-    },
     removeMediaElementOnDestroy: { type: Boolean, default: true },
     responsive: {
       default: false
@@ -197,6 +179,42 @@ export default {
       default: function() {
         return {};
       }
+    },
+    // Spectrogram Plugin
+    freqRate: {
+      type: Number,
+      default: 1
+    },
+    freqFontSize: {
+      type: Number,
+      default: 12
+    },
+    unitFontSize: {
+      type: Number,
+      default: 10
+    },
+    showFreqLabel: {
+      type: Boolean,
+      default: false
+    },
+    spectrogramHeight: {
+      type: Number,
+      default: 256
+    },
+    // Point Plugin
+    pointWidth: { type: Number, default: 1 },
+    points: {
+      validator: function(value) {
+        if (Array.isArray(value)) {
+          for (const obj of value) {
+            if (!("time" in obj)) return false;
+            if (!("value" in obj)) return false;
+          }
+          return true;
+        }
+        return false;
+      },
+      default: () => []
     }
   },
   watch: {
@@ -330,10 +348,145 @@ export default {
     }
   },
   methods: {
+    initWaveSurferEvent: function() {
+      if (this.wavesurfer) {
+        this.wavesurfer.on("audioprocess", this.onAudioprocess);
+        this.wavesurfer.on("dblclick", this.onDblClick);
+        this.wavesurfer.on("error", this.onError);
+        this.wavesurfer.on("finish", this.onFinish);
+        this.wavesurfer.on("interaction", this.onInteraction);
+        this.wavesurfer.on("loading", this.onLoading);
+        this.wavesurfer.on("mute", this.onMute);
+        this.wavesurfer.on("pause", this.onPause);
+        this.wavesurfer.on("play", this.onPlay);
+        this.wavesurfer.on("ready", this.onReady);
+        this.wavesurfer.on("scroll", this.onScroll);
+        this.wavesurfer.on("seek", this.onSeek);
+        this.wavesurfer.on("volume", this.onVolume);
+        this.wavesurfer.on("waveform-ready", this.onWaveformReady);
+        this.wavesurfer.on("zoom", this.onZoom);
+      }
+    },
+    initRecOptions: function(options) {
+      if (this.rec) {
+        const isSafari = /^((?!chrome|android).)*safari/i.test(
+          navigator.userAgent
+        );
+        if (isSafari) {
+          const AudioContext = window.AudioContext || window.webkitAudioContext;
+          options.audioContext = new AudioContext();
+          options.audioScriptProcessor = this.audioContext.createScriptProcessor(
+            1024,
+            1,
+            1
+          );
+        }
+        options.cursorWidth = 0;
+        options.interact = false;
+      }
+      return options;
+    },
+    initTileLinePlugin: function() {
+      if (this.showTimeLine) {
+        this.timeline = Timeline.create({
+          container: this.$refs.timeline
+        });
+        this.wavesurfer.addPlugin(this.timeline).initPlugin("timeline");
+      }
+    },
+    initSpectrogramPlugin: function() {
+      if (this.showSpectrogram) {
+        this.spectrogram = Spectrogram.create({
+          labels: this.showFreqLabel,
+          canvasHeight: this.spectrogramHeight,
+          freqRate: this.freqRate,
+          freqFontSize: this.freqFontSize,
+          unitFontSize: this.unitFontSize,
+          targetChannel: this.targetChannel,
+          container: this.$refs.spectrogram
+        });
+        this.wavesurfer.addPlugin(this.spectrogram).initPlugin("spectrogram");
+        this.wavesurfer.on(
+          "spectrogram-render-start",
+          this.onSpectrogramRenderStart
+        );
+        this.wavesurfer.on(
+          "spectrogram-render-end",
+          this.onSpectrogramRenderEnd
+        );
+      }
+    },
+    initTextGridPlugin: function() {
+      if (this.showTextGrid) {
+        this.textgrid = Textgrid.create({
+          container: this.$refs.textgrid
+        });
+        this.wavesurfer.addPlugin(this.textgrid).initPlugin("textgrid");
+        this.wavesurfer.on("textgrid-dblclick", this.onTextGridDblClick);
+        this.wavesurfer.on("textgrid-click", this.onTextGridClick);
+        this.wavesurfer.on("textgrid-update", this.onTextGridUpdate);
+        this.wavesurfer.on(
+          "textgrid-current-update",
+          this.onTextGridCurrentUpdate
+        );
+      }
+    },
+    initPointLinePlugin: function() {
+      if (this.showPointLine) {
+        this.pointline = Pointline.create({
+          container: this.$refs.pointline,
+          points: this.points,
+          pointWidth: this.pointWidth
+        });
+        this.wavesurfer.addPlugin(this.pointline).initPlugin("pointline");
+        this.wavesurfer.pointline.on("addPoint", point => {
+          this.$emit("addPoint", point);
+        });
+        this.wavesurfer.pointline.on("updatePoint", point => {
+          this.$emit("updatePoint", point);
+        });
+        this.wavesurfer.pointline.on("deletePoint", point => {
+          this.$emit("deletePoint", point);
+        });
+      }
+    },
+    initRecPlugin: function() {
+      if (this.rec) {
+        this.microphone = Microphone.create({
+          bufferSize: 4096,
+          numberOfInputChannels: 1,
+          numberOfOutputChannels: 1,
+          constraints: {
+            video: false,
+            audio: true
+          }
+        });
+        this.wavesurfer.addPlugin(this.microphone).initPlugin("microphone");
+        this.wavesurfer.microphone.on("deviceReady", stream => {
+          const mediaRecorder = new MediaRecorder(stream);
+          mediaRecorder.start();
+          mediaRecorder.addEventListener("dataavailable", event => {
+            this.audioChunks.push(event.data);
+          });
+          mediaRecorder.addEventListener("stop", () => {
+            const audioBlob = new Blob(this.audioChunks);
+            this.audioUrl = URL.createObjectURL(audioBlob);
+            this.downloadWave();
+          });
+        });
+        this.wavesurfer.microphone.on("deviceError", code => {
+          this.$emit("deviceError", code);
+        });
+      } else {
+        if (this.source) {
+          this.load(this.source);
+        }
+      }
+    },
     initWaveSurfer: function() {
       if (this.wavesurfer === null) {
         this.$nextTick(() => {
-          const options = {
+          let options = {
             container: this.$refs.waveform,
             audioRate: this.audioRate,
             audioContext: this.audioContext,
@@ -372,131 +525,16 @@ export default {
             waveColor: this.waveColor,
             xhr: this.xhr
           };
-          if (this.rec) {
-            const isSafari = /^((?!chrome|android).)*safari/i.test(
-              navigator.userAgent
-            );
-            if (isSafari) {
-              const AudioContext =
-                window.AudioContext || window.webkitAudioContext;
-              options.audioContext = new AudioContext();
-              options.audioScriptProcessor = this.audioContext.createScriptProcessor(
-                1024,
-                1,
-                1
-              );
-            }
-            options.cursorWidth = 0;
-            options.interact = false;
-          }
+          options = this.initRecOptions(options);
 
           if (this.$refs.waveform) {
             this.wavesurfer = WaveSurfer.create(options);
-            this.wavesurfer.on("audioprocess", this.onAudioprocess);
-            this.wavesurfer.on("dblclick", this.onDblClick);
-            this.wavesurfer.on("error", this.onError);
-            this.wavesurfer.on("finish", this.onFinish);
-            this.wavesurfer.on("interaction", this.onInteraction);
-            this.wavesurfer.on("loading", this.onLoading);
-            this.wavesurfer.on("mute", this.onMute);
-            this.wavesurfer.on("pause", this.onPause);
-            this.wavesurfer.on("play", this.onPlay);
-            this.wavesurfer.on("ready", this.onReady);
-            this.wavesurfer.on("scroll", this.onScroll);
-            this.wavesurfer.on("seek", this.onSeek);
-            this.wavesurfer.on("volume", this.onVolume);
-            this.wavesurfer.on("waveform-ready", this.onWaveformReady);
-            this.wavesurfer.on("zoom", this.onZoom);
-            if (this.showTimeLine) {
-              this.timeline = Timeline.create({
-                container: this.$refs.timeline
-              });
-              this.wavesurfer.addPlugin(this.timeline).initPlugin("timeline");
-            }
-
-            if (this.showSpectrogram) {
-              this.spectrogram = Spectrogram.create({
-                labels: true,
-                freqRate: this.freqRate,
-                targetChannel: this.targetChannel,
-                container: this.$refs.spectrogram
-              });
-              this.wavesurfer
-                .addPlugin(this.spectrogram)
-                .initPlugin("spectrogram");
-              this.wavesurfer.on(
-                "spectrogram-render-start",
-                this.onSpectrogramRenderStart
-              );
-              this.wavesurfer.on(
-                "spectrogram-render-end",
-                this.onSpectrogramRenderEnd
-              );
-            }
-            if (this.showTextGrid) {
-              this.textgrid = Textgrid.create({
-                container: this.$refs.textgrid
-              });
-              this.wavesurfer.addPlugin(this.textgrid).initPlugin("textgrid");
-              this.wavesurfer.on("textgrid-dblclick", this.onTextGridDblClick);
-              this.wavesurfer.on("textgrid-click", this.onTextGridClick);
-              this.wavesurfer.on("textgrid-update", this.onTextGridUpdate);
-              this.wavesurfer.on(
-                "textgrid-current-update",
-                this.onTextGridCurrentUpdate
-              );
-            }
-            if (this.showPointLine) {
-              this.pointline = Pointline.create({
-                container: this.$refs.pointline,
-                points: this.points,
-                pointWidth: this.pointWidth
-              });
-              this.wavesurfer.addPlugin(this.pointline).initPlugin("pointline");
-              this.wavesurfer.pointline.on("addPoint", point => {
-                this.$emit("addPoint", point);
-              });
-              this.wavesurfer.pointline.on("updatePoint", point => {
-                this.$emit("updatePoint", point);
-              });
-              this.wavesurfer.pointline.on("deletePoint", point => {
-                this.$emit("deletePoint", point);
-              });
-            }
-
-            if (this.rec) {
-              this.microphone = Microphone.create({
-                bufferSize: 4096,
-                numberOfInputChannels: 1,
-                numberOfOutputChannels: 1,
-                constraints: {
-                  video: false,
-                  audio: true
-                }
-              });
-              this.wavesurfer
-                .addPlugin(this.microphone)
-                .initPlugin("microphone");
-              this.wavesurfer.microphone.on("deviceReady", stream => {
-                const mediaRecorder = new MediaRecorder(stream);
-                mediaRecorder.start();
-                mediaRecorder.addEventListener("dataavailable", event => {
-                  this.audioChunks.push(event.data);
-                });
-                mediaRecorder.addEventListener("stop", () => {
-                  const audioBlob = new Blob(this.audioChunks);
-                  this.audioUrl = URL.createObjectURL(audioBlob);
-                  this.downloadWave();
-                });
-              });
-              this.wavesurfer.microphone.on("deviceError", code => {
-                this.$emit("deviceError", code);
-              });
-            } else {
-              if (this.source) {
-                this.load(this.source);
-              }
-            }
+            this.initWaveSurferEvent();
+            this.initTileLinePlugin();
+            this.initSpectrogramPlugin();
+            this.initTextGridPlugin();
+            this.initPointLinePlugin();
+            this.initRecPlugin();
           }
         });
       }

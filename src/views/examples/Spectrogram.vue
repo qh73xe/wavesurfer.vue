@@ -83,6 +83,9 @@
         splitChannels
         normalize
         responsive
+        :spectrogramHeight="100"
+        :freqFontSize="12"
+        :unitFontSize="10"
         @play="onPlay"
         @pause="onPause"
         @destroy="onDestroy"

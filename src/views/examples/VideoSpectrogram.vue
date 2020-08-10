@@ -82,6 +82,8 @@
         ref="wavesurfer"
         v-if="videoSource"
         showSpectrogram
+        showFreqLabel
+        :spectrogramHeight="150"
         splitChannels
         normalize
         responsive
@@ -201,6 +203,7 @@ export default {
         ref="wavesurfer"
         v-if="videoSource"
         showSpectrogram
+        showFreqLabel
         splitChannels
         normalize
         responsive

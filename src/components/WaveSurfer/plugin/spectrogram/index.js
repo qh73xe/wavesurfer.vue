@@ -91,7 +91,6 @@ export default class SpectrogramPlugin {
     };
     this._onReady = () => {
       const drawer = (this.drawer = ws.drawer);
-
       this.container =
         "string" == typeof params.container
           ? document.querySelector(params.container)
@@ -122,6 +121,7 @@ export default class SpectrogramPlugin {
       this.pixelRatio = this.params.pixelRatio || ws.params.pixelRatio;
       this.fftSamples = this.params.fftSamples || ws.params.fftSamples || 512;
       this.height = this.fftSamples / 2;
+      this.canvasHeight = this.params.canvasHeight || this.height;
       this.noverlap = params.noverlap;
       this.windowFunc = params.windowFunc;
       this.alpha = params.alpha;
@@ -168,6 +168,7 @@ export default class SpectrogramPlugin {
     const wsParams = this.wavesurfer.params;
     this.wrapper = document.createElement("spectrogram");
 
+    const canvasHeight = this.canvasHeight || this.height / this.pixelRatio;
     // if labels are active
     if (this.params.labels) {
       const labelsEl = (this.labelsEl = document.createElement("canvas"));
@@ -176,7 +177,7 @@ export default class SpectrogramPlugin {
         left: 0,
         position: "absolute",
         zIndex: 3,
-        height: `${this.height / this.pixelRatio}px`,
+        height: `${canvasHeight}px`,
         width: `${55 / this.pixelRatio}px`
       });
       this.wrapper.appendChild(labelsEl);
@@ -187,7 +188,7 @@ export default class SpectrogramPlugin {
       position: "relative",
       userSelect: "none",
       webkitUserSelect: "none",
-      height: `${this.height / this.pixelRatio}px`
+      height: `${canvasHeight}px`
     });
 
     if (wsParams.fillParent || wsParams.scrollParent) {
@@ -230,10 +231,13 @@ export default class SpectrogramPlugin {
       this.getFrequencies(this.drawSpectrogram);
     }
     if (this.params.labels) {
+      // TODO フォントサイズを変更可能にする
+      const freqFontSize = this.params.freqFontSize || 12;
+      const unitFontSize = this.params.unitFontSize || 10;
       this.loadLabels(
         "rgba(68,68,68,0.5)",
-        "12px",
-        "10px",
+        `${freqFontSize}px`,
+        `${unitFontSize}px`,
         "",
         "#fff",
         "#f7f7f7",
@@ -247,7 +251,7 @@ export default class SpectrogramPlugin {
     this.width = this.drawer.width;
     const width = Math.round(this.width / this.pixelRatio) + "px";
     this.canvas.width = this.width;
-    this.canvas.height = this.height;
+    this.canvas.height = this.canvasHeight || this.height;
     this.canvas.style.width = width;
   }
 
@@ -364,21 +368,18 @@ export default class SpectrogramPlugin {
     textColorUnit = textColorUnit || "#fff";
     textAlign = textAlign || "center";
     const freqRate = this.params.freqRate || 1;
-
     let heightFactor = 4;
     if (this.buffer) {
       if (this.buffer.numberOfChannels) {
         heightFactor = 2 / this.buffer.numberOfChannels;
       }
     }
-
     const bgWidth = 55;
     const getMaxY = this.height || 512;
     const labelIndex = 5 * (getMaxY / (256 * freqRate));
     const freqStart = 0;
     const step =
       (this.wavesurfer.backend.ac.sampleRate / 2 - freqStart) / labelIndex;
-
     // prepare canvas element for labels
     const ctx = this.labelsEl.getContext("2d");
     this.labelsEl.height = this.height;
