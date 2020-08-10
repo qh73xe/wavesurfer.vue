@@ -90,9 +90,13 @@ export default {
         description: "説明"
       },
       options: {
-        source: "音声波形に変換されるメディアソース",
-        showTimeLine: "タイムラインを表示するか否か",
-        showSpectrogram: "スペクトログラムの表示を行うか否か",
+        source: "音声波形に変換されるメディアソース.",
+        showTextGrid: "転記記述層を表示するか否か.",
+        showTimeLine: "タイムラインを表示するか否か.",
+        showPointLine: "ポイントラインを表示するか否か.",
+        showSpectrogram: "スペクトログラムの表示を行うか否か.",
+        showFreqLabel: "スペクトログラム表示時に周波数ラベルを表示するか否か.",
+        rec: "録音モードを実施するか否か.この機能は実験的です.",
         audioRate: "オーディオを再生する速度. 数値が小さいほど遅くなります.",
         audioContext:
           "初期化時に使用した独自の AudioContext または, null のままにします.",
@@ -160,7 +164,12 @@ export default {
         targetChannel: "スペクトル表示チャンネル.",
         waveColor: "カーソルの後の波形の塗りつぶし色.",
         xhr:
-          "XHR オプション. 例えば以下のような値になります: `{ cache: 'default', mode: 'cors', method: 'GET', credentials: 'same-origin', redirect: 'follow', referrer: 'client', headers: [ { key: 'Authorization', value: 'my-token' } ]}`"
+          "XHR オプション. 例えば以下のような値になります: `{ cache: 'default', mode: 'cors', method: 'GET', credentials: 'same-origin', redirect: 'follow', referrer: 'client', headers: [ { key: 'Authorization', value: 'my-token' } ]}`",
+        freqFontSize: "スペクトログラム表示時の周波数軸フォントサイズ.",
+        unitFontSize: "スペクトログラム表示時の周波数軸単位フォントサイズ.",
+        spectrogramHeight: "スペクトログラム表示時のキャンバスの高さ.",
+        pointWidth: "ポイントライン表示時のポイント幅.",
+        points: "ポイントライン表示時のポイントオブジェクトが格納されたアレイ.."
       }
     },
     events: {

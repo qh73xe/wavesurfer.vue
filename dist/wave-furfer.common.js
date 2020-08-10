@@ -9329,12 +9329,12 @@ if (typeof window !== 'undefined') {
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 var external_commonjs_vue_commonjs2_vue_root_Vue_default = /*#__PURE__*/__webpack_require__.n(external_commonjs_vue_commonjs2_vue_root_Vue_);
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"d7f3097c-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/WaveSurfer/WaveSurfer.vue?vue&type=template&id=10ab2931&scoped=true&
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"d7f3097c-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/WaveSurfer/WaveSurfer.vue?vue&type=template&id=749a1563&scoped=true&
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[(_vm.showSpectrogram)?_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.isSpectrogramRendered),expression:"isSpectrogramRendered"}],ref:"spectrogram"}):_vm._e(),_c('div',{ref:"waveform"},[_vm._t("default")],2),(_vm.showTimeLine)?_c('div',{ref:"timeline"}):_vm._e(),(_vm.showPointLine)?_c('div',{ref:"pointline"}):_vm._e(),_vm._t("textform"),(_vm.showTextGrid)?_c('div',{ref:"textgrid"}):_vm._e()],2)}
 var staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/components/WaveSurfer/WaveSurfer.vue?vue&type=template&id=10ab2931&scoped=true&
+// CONCATENATED MODULE: ./src/components/WaveSurfer/WaveSurfer.vue?vue&type=template&id=749a1563&scoped=true&
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.number.constructor.js
 var es_number_constructor = __webpack_require__("a9e3");
@@ -19287,6 +19287,10 @@ var microphone_MicrophonePlugin = /*#__PURE__*/function () {
       type: Boolean,
       default: false
     },
+    showFreqLabel: {
+      type: Boolean,
+      default: false
+    },
     rec: {
       type: Boolean,
       default: false
@@ -19428,6 +19432,7 @@ var microphone_MicrophonePlugin = /*#__PURE__*/function () {
       default: true
     },
     responsive: {
+      type: Boolean,
       default: false
     },
     scrollParent: {
@@ -19468,10 +19473,6 @@ var microphone_MicrophonePlugin = /*#__PURE__*/function () {
     unitFontSize: {
       type: Number,
       default: 10
-    },
-    showFreqLabel: {
-      type: Boolean,
-      default: false
     },
     spectrogramHeight: {
       type: Number,
@@ -20243,7 +20244,7 @@ var component = normalizeComponent(
   staticRenderFns,
   false,
   null,
-  "10ab2931",
+  "749a1563",
   null
   
 )

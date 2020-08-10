@@ -68,6 +68,10 @@ export default {
       type: Boolean,
       default: false
     },
+    showFreqLabel: {
+      type: Boolean,
+      default: false
+    },
     rec: {
       type: Boolean,
       default: false
@@ -167,6 +171,7 @@ export default {
     progressColor: { type: String, default: "#555" },
     removeMediaElementOnDestroy: { type: Boolean, default: true },
     responsive: {
+      type: Boolean,
       default: false
     },
     scrollParent: { type: Boolean, default: false },
@@ -192,10 +197,6 @@ export default {
     unitFontSize: {
       type: Number,
       default: 10
-    },
-    showFreqLabel: {
-      type: Boolean,
-      default: false
     },
     spectrogramHeight: {
       type: Number,

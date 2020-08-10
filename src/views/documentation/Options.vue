@@ -50,282 +50,264 @@ export default {
     }
   },
   mounted: function() {
-    this.options = [
+    const options = [
       {
         option: "source",
         type: "string or HTML Video Element or HTML Audio Element",
-        default: "''",
-        description: this.$vuetify.lang.t(`${this.locale}.options.source`)
+        default: "''"
+      },
+      {
+        option: "showTextGrid",
+        type: "boolean",
+        default: "false"
       },
       {
         option: "showTimeLine",
         type: "boolean",
-        default: "false",
-        description: this.$vuetify.lang.t(`${this.locale}.options.showTimeLine`)
+        default: "false"
+      },
+      {
+        option: "showPointLine",
+        type: "boolean",
+        default: "false"
       },
       {
         option: "showSpectrogram",
         type: "boolean",
-        default: "false",
-        description: this.$vuetify.lang.t(
-          `${this.locale}.options.showSpectrogram`
-        )
+        default: "false"
+      },
+      {
+        option: "showFreqLabel",
+        type: "boolean",
+        default: "false"
+      },
+      {
+        option: "rec",
+        type: "boolean",
+        default: "false"
       },
       {
         option: "audioRate",
         type: "float",
-        default: "1",
-        description: this.$vuetify.lang.t(`${this.locale}.options.audioRate`)
+        default: "1"
       },
       {
         option: "audioContext",
         type: "object",
-        default: "{}",
-        description: this.$vuetify.lang.t(`${this.locale}.options.audioContext`)
+        default: "{}"
       },
       {
         option: "audioScriptProcessor",
         type: "object",
-        default: "{}",
-        description: this.$vuetify.lang.t(
-          `${this.locale}.options.audioScriptProcessor`
-        )
+        default: "{}"
       },
       {
         option: "autoCenter",
         type: "boolean",
-        default: "true",
-        description: this.$vuetify.lang.t(`${this.locale}.options.autoCenter`)
+        default: "true"
       },
       {
         option: "backend",
         type: "string",
-        default: "WebAudio",
-        description: this.$vuetify.lang.t(`${this.locale}.options.backend`)
+        default: "WebAudio"
       },
       {
         option: "backgroundColor",
         type: "string",
-        default: "none",
-        description: this.$vuetify.lang.t(
-          `${this.locale}.options.backgroundColor`
-        )
+        default: "none"
       },
       {
         option: "barGap",
         type: "number",
-        default: "none",
-        description: this.$vuetify.lang.t(`${this.locale}.options.barGap`)
+        default: "none"
       },
       {
         option: "barHeight",
         type: "number",
-        default: "1",
-        description: this.$vuetify.lang.t(`${this.locale}.options.barHeight`)
+        default: "1"
       },
       {
         option: "barMinHeight",
         type: "number",
-        default: "null",
-        description: this.$vuetify.lang.t(`${this.locale}.options.barMinHeight`)
+        default: "null"
       },
       {
         option: "barRadius",
         type: "number",
-        default: "0",
-        description: this.$vuetify.lang.t(`${this.locale}.options.barRadius`)
+        default: "0"
       },
       {
         option: "barWidth",
         type: "number",
-        default: "none",
-        description: this.$vuetify.lang.t(`${this.locale}.options.barWidth`)
+        default: "none"
       },
       {
         option: "closeAudioContext",
         type: "boolean",
-        default: "false",
-        description: this.$vuetify.lang.t(
-          `${this.locale}.options.closeAudioContext`
-        )
+        default: "false"
       },
       {
         option: "cursorColor",
         type: "string",
-        default: "#333",
-        description: this.$vuetify.lang.t(`${this.locale}.options.cursorColor`)
+        default: "#333"
       },
       {
         option: "cursorWidth",
         type: "integer",
-        default: "1",
-        description: this.$vuetify.lang.t(`${this.locale}.options.cursorWidth`)
+        default: "1"
       },
       {
         option: "drawingContextAttributes",
         type: "object",
-        default: "{desynchronized: true}",
-        description: this.$vuetify.lang.t(
-          `${this.locale}.options.drawingContextAttributes`
-        )
+        default: "{desynchronized: true}"
       },
       {
         option: "fillParent",
         type: "boolean",
-        default: "true",
-        description: this.$vuetify.lang.t(`${this.locale}.options.fillParent`)
+        default: "true"
       },
       {
         option: "forceDecode",
         type: "boolean",
-        default: "false",
-        description: this.$vuetify.lang.t(`${this.locale}.options.forceDecode`)
-      },
-      {
-        option: "freqRate",
-        type: "number",
-        default: "1",
-        description: this.$vuetify.lang.t(`${this.locale}.options.freqRate`)
+        default: "false"
       },
       {
         option: "height",
         type: "integer",
-        default: "128",
-        description: this.$vuetify.lang.t(`${this.locale}.options.height`)
+        default: "128"
       },
       {
         option: "hideScrollbar",
         type: "boolean",
-        default: "false",
-        description: this.$vuetify.lang.t(
-          `${this.locale}.options.hideScrollbar`
-        )
+        default: "false"
       },
       {
         option: "interact",
         type: "boolean",
-        default: "true",
-        description: this.$vuetify.lang.t(`${this.locale}.options.interact`)
+        default: "true"
       },
       {
         option: "loopSelection",
         type: "boolean",
-        default: "true",
-        description: this.$vuetify.lang.t(
-          `${this.locale}.options.loopSelection`
-        )
+        default: "true"
       },
       {
         option: "maxCanvasWidth",
         type: "integer",
-        default: "4000",
-        description: this.$vuetify.lang.t(
-          `${this.locale}.options.maxCanvasWidth`
-        )
+        default: "4000"
       },
       {
         option: "mediaControls",
         type: "boolean",
-        default: "false",
-        description: this.$vuetify.lang.t(
-          `${this.locale}.options.mediaControls`
-        )
+        default: "false"
       },
       {
         option: "mediaType",
         type: "string",
-        default: "audio",
-        description: this.$vuetify.lang.t(`${this.locale}.options.mediaType`)
+        default: "audio"
       },
       {
         option: "minPxPerSec",
         type: "integer",
-        default: "50",
-        description: this.$vuetify.lang.t(`${this.locale}.options.minPxPerSec`)
+        default: "50"
       },
       {
         option: "normalize",
         type: "boolean",
-        default: "false",
-        description: this.$vuetify.lang.t(`${this.locale}.options.normalize`)
+        default: "false"
       },
       {
         option: "partialRender",
         type: "boolean",
-        default: "false",
-        description: this.$vuetify.lang.t(
-          `${this.locale}.options.partialRender`
-        )
+        default: "false"
       },
       {
         option: "pixelRatio",
         type: "integer",
-        default: "window.devicePixelRatio",
-        description: this.$vuetify.lang.t(`${this.locale}.options.pixelRatio`)
+        default: "window.devicePixelRatio"
       },
       {
         option: "progressColor",
         type: "string",
-        default: "#555",
-        description: this.$vuetify.lang.t(
-          `${this.locale}.options.progressColor`
-        )
+        default: "#555"
       },
       {
         option: "removeMediaElementOnDestroy",
         type: "boolean",
-        default: "true",
-        description: this.$vuetify.lang.t(
-          `${this.locale}.options.removeMediaElementOnDestroy`
-        )
+        default: "true"
       },
       {
         option: "responsive",
         type: "boolean or float",
-        default: "false",
-        description: this.$vuetify.lang.t(`${this.locale}.options.responsive`)
+        default: "false"
       },
       {
         option: "scrollParent",
         type: "boolean",
-        default: "false",
-        description: this.$vuetify.lang.t(`${this.locale}.options.scrollParent`)
+        default: "false"
       },
       {
         option: "skipLength",
         type: "float",
-        default: "2",
-        description: this.$vuetify.lang.t(`${this.locale}.options.skipLength`)
+        default: "2"
       },
       {
         option: "splitChannels",
         type: "boolean",
-        default: "false",
-        description: this.$vuetify.lang.t(
-          `${this.locale}.options.splitChannels`
-        )
+        default: "false"
       },
       {
         option: "targetChannel",
         type: "number",
-        default: "0",
-        description: this.$vuetify.lang.t(
-          `${this.locale}.options.targetChannel`
-        )
+        default: "0"
       },
       {
         option: "waveColor",
         type: "string",
-        default: "#999",
-        description: this.$vuetify.lang.t(`${this.locale}.options.waveColor`)
+        default: "#999"
       },
       {
         option: "xhr",
         type: "Object",
-        default: "{}",
-        description: this.$vuetify.lang.t(`${this.locale}.options.xhr`)
+        default: "{}"
+      },
+      {
+        option: "freqRate",
+        type: "Number",
+        default: 1
+      },
+      {
+        option: "freqFontSize",
+        type: "Number",
+        default: 12
+      },
+      {
+        option: "unitFontSize",
+        type: "Number",
+        default: 10
+      },
+      {
+        option: "spectrogramHeight",
+        type: "Number",
+        default: 256
+      },
+      {
+        option: "pointWidth",
+        type: "Number",
+        default: 1
+      },
+      {
+        option: "points",
+        type: "Array",
+        default: []
       }
     ];
+    this.options = options.map(x => {
+      x.description = this.$vuetify.lang.t(
+        `${this.locale}.options.${x.option}`
+      );
+      return x;
+    });
   }
 };
 </script>

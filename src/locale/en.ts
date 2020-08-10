@@ -91,8 +91,14 @@ export default {
       },
       options: {
         source: "Media source converted to audio waveform.",
+        showTextGrid: "Whether to display the transcription tiers.",
         showTimeLine: "Whether to display the timeline.",
+        showPointLine: "Whether to display the pointline.",
         showSpectrogram: "Whether to display the spectrogram.",
+        showFreqLabel:
+          "Whether to display the frequency label when using showSpectrogram option.",
+        rec:
+          "Whether to execute the recording mode.This feature is experimental.",
         audioRate: "Speed at which to play audio. Lower number is slower.",
         audioContext:
           "Use your own previously initialized AudioContext or leave blank.",
@@ -161,7 +167,14 @@ export default {
         targetChannel: "Channel for spectrum display",
         waveColor: "The fill color of the waveform after the cursor.",
         xhr:
-          "XHR options. For example: let xhr = { cache: 'default', mode: 'cors', method: 'GET', credentials: 'same-origin', redirect: 'follow', referrer: 'client', headers: [ { key: 'Authorization', value: 'my-token' } ]};"
+          "XHR options. For example: let xhr = { cache: 'default', mode: 'cors', method: 'GET', credentials: 'same-origin', redirect: 'follow', referrer: 'client', headers: [ { key: 'Authorization', value: 'my-token' } ]};",
+        freqFontSize:
+          "The font size of the frequency label when displaying the audio spectrogram.",
+        unitFontSize:
+          "Font size for frequency label unit when displaying audio spectrogram.",
+        spectrogramHeight: "Canvas height when displaying audio spectrogram.",
+        pointWidth: "The width of the point when the point line is displayed.",
+        points: "The point object array displayed on the point line."
       }
     },
     events: {
