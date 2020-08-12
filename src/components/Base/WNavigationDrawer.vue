@@ -22,7 +22,7 @@
             v-for="(child, i) in item.children"
             :key="i"
             link
-            @click="$router.push({ name: child.name })"
+            @click="to(child.name)"
           >
             <v-list-item-action>
               <v-icon>{{ child.icon }}</v-icon>
@@ -34,12 +34,7 @@
             </v-list-item-content>
           </v-list-item>
         </v-list-group>
-        <v-list-item
-          v-else
-          :key="item.text"
-          link
-          @click="$router.push({ name: item.name })"
-        >
+        <v-list-item v-else :key="item.text" link @click="to(item.name)">
           <v-list-item-action>
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-action>
@@ -64,6 +59,13 @@ export default {
       { icon: "mdi-xml", text: "Example", children: [] }
     ]
   }),
+  methods: {
+    to: function(name) {
+      if (name != this.$route.name) {
+        this.$router.push({ name: name });
+      }
+    }
+  },
   computed: {
     drawer: {
       get() {

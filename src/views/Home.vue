@@ -109,7 +109,7 @@ export default {
   },
   data: () => ({
     source:
-      "https://raw.githubusercontent.com/qh73xe/wavesurfer.vue/master/src/assets/media/demo.wav",
+      "https://raw.githubusercontent.com/qh73xe/wavesurfer.vue/master/misc/demo.wav",
     /* eslint-disable no-useless-escape */
     code: `
     <template>
@@ -123,7 +123,7 @@ export default {
         WaveSurfer
       },
       data: () => ({
-        source: "https://raw.githubusercontent.com/qh73xe/wavesurfer.vue/master/src/assets/media/demo.wav",
+        source: "https://raw.githubusercontent.com/qh73xe/wavesurfer.vue/master/misc/demo.wav"
       }),
     };
     <\/script>

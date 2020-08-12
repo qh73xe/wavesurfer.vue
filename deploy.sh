@@ -1,5 +1,4 @@
 #!/usr/bin/env sh
-
 # abort on errors
 set -e
 
@@ -21,4 +20,8 @@ git commit -m 'deploy-page'
 
 # if you are deploying to https://<USERNAME>.github.io/<REPO>
 git push -f git@github.com:qh73xe/wavesurfer.vue.git master:gh-pages
+
+# build lib
+cd ..
+yarn build:lib
 cd -

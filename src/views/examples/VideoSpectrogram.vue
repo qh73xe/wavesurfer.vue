@@ -39,28 +39,29 @@
               @end="onZoomEnd"
               append-icon="mdi-magnify-plus-cursor"
               prepend-icon="mdi-magnify-minus-cursor"
-              step="100"
-              :min="0"
-              :max="500"
+              step="1"
+              :min="1"
+              :max="5"
               :thumb-size="24"
               label="Zoom"
             >
               <template v-slot:thumb-label="{ value }">
-                {{ (value / 100).toFixed(1) }}
+                {{ `x ${value}` }}
               </template>
             </v-slider>
           </v-col>
           <v-col cols="12">
             <v-slider
-              v-model="freqRate"
+              v-model="freqRateVal"
+              @end="onFreqRateEnd"
               append-icon="mdi-magnify-plus-cursor"
               prepend-icon="mdi-magnify-minus-cursor"
               step="0.25"
               :min="0.25"
               :max="1"
               :hint="
-                `モノラル音源の場合: ${freqRate * 12} kHz,
-                ステレオ音源の場合: ${freqRate * 24} kHz までを表示します`
+                `モノラル音源の場合: ${freqRateVal * 12} kHz,
+                ステレオ音源の場合: ${freqRateVal * 24} kHz までを表示します`
               "
               label="MaxFreq"
             >
@@ -133,7 +134,8 @@ export default {
     desc: "How to show the spectrogram of audio file.",
     isScroll: true,
     isLoading: false,
-    zoom: 0,
+    zoom: 1,
+    freqRateVal: 1,
     freqRate: 1,
     targetChannel: 0,
     snackbar: {
@@ -164,20 +166,21 @@ export default {
               @end="onZoomEnd"
               append-icon="mdi-magnify-plus-cursor"
               prepend-icon="mdi-magnify-minus-cursor"
-              step="100"
+              step="1"
               :min="0"
-              :max="500"
+              :max="5"
               :thumb-size="24"
               label="Zoom"
             >
               <template v-slot:thumb-label="{ value }">
-                {{ (value / 100).toFixed(1) }}
+              x {{ value }}
               </template>
             </v-slider>
           </v-col>
           <v-col cols="12">
             <v-slider
-              v-model="freqRate"
+              v-model="freqRateVal"
+              @end="onFreqRateEnd"
               append-icon="mdi-magnify-plus-cursor"
               prepend-icon="mdi-magnify-minus-cursor"
               step="0.25"
@@ -254,8 +257,9 @@ export default {
         source: null,
         videoSource: null,
         isLoading: false,
-        zoom: 0,
+        zoom: 1,
         freqRate: 1,
+        freqRateVal: 1,
         targetChannel: 0,
         isScroll: true,
         snackbar: {
@@ -291,10 +295,18 @@ export default {
             vm.videoSource = vm.$refs.video;
           }, 1);
         },
+        onFreqRateEnd: function(val) {
+          const vm = this;
+          setTimeout(function() {
+            vm.freqRate = val
+          }, 1);
+        },
         onZoomEnd: function(val) {
           const vm = this;
           setTimeout(function() {
-            vm.$refs.wavesurfer.zoom(Number(val));
+            if (vm.$refs.wavesurfer){
+              vm.$refs.wavesurfer.zoom(Number(val) * 100);
+            }
           }, 1);
         },
         onSpectrogramRenderEnd() {
@@ -378,10 +390,18 @@ export default {
         vm.videoSource = vm.$refs.video;
       }, 1);
     },
+    onFreqRateEnd: function(val) {
+      const vm = this;
+      setTimeout(function() {
+        vm.freqRate = val;
+      }, 1);
+    },
     onZoomEnd: function(val) {
       const vm = this;
       setTimeout(function() {
-        vm.$refs.wavesurfer.zoom(Number(val));
+        if (vm.$refs.wavesurfer) {
+          vm.$refs.wavesurfer.zoom(Number(val) * 100);
+        }
       }, 1);
     },
     onSpectrogramRenderEnd() {
