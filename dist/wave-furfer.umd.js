@@ -9345,6 +9345,9 @@ var staticRenderFns = []
 
 // CONCATENATED MODULE: ./src/components/WaveSurfer/WaveSurfer.vue?vue&type=template&id=749a1563&scoped=true&
 
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.iterator.js
+var es_array_iterator = __webpack_require__("e260");
+
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.number.constructor.js
 var es_number_constructor = __webpack_require__("a9e3");
 
@@ -9536,11 +9539,17 @@ var es_array_join = __webpack_require__("a15b");
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.map.js
 var es_array_map = __webpack_require__("d81d");
 
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.object.assign.js
+var es_object_assign = __webpack_require__("cca6");
+
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.object.get-own-property-names.js
 var es_object_get_own_property_names = __webpack_require__("7039");
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.object.keys.js
 var es_object_keys = __webpack_require__("b64b");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.promise.js
+var es_promise = __webpack_require__("e6cf");
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/web.dom-collections.for-each.js
 var web_dom_collections_for_each = __webpack_require__("159b");
@@ -10123,6 +10132,7 @@ function preventClick(values) {
 }
 /* eslint-enable */
 // CONCATENATED MODULE: ./src/components/WaveSurfer/util/fetch.js
+
 
 
 
@@ -10839,6 +10849,7 @@ var es_array_fill = __webpack_require__("cb29");
 
 
 
+
 /**
  * @since 3.0.0
  */
@@ -11212,6 +11223,8 @@ var drawer_canvasentry_CanvasEntry = /*#__PURE__*/function () {
 
 
 // CONCATENATED MODULE: ./src/components/WaveSurfer/drawer.multicanvas.js
+
+
 
 
 
@@ -11833,6 +11846,7 @@ var drawer_multicanvas_MultiCanvas = /*#__PURE__*/function (_Drawer) {
 var es_array_reduce = __webpack_require__("13d5");
 
 // CONCATENATED MODULE: ./src/components/WaveSurfer/webaudio.js
+
 
 
 
@@ -12691,9 +12705,6 @@ var webaudio_WebAudio = /*#__PURE__*/function (_util$Observer) {
 
 _defineProperty(webaudio_WebAudio, "scriptBufferSize", 256);
 
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.promise.js
-var es_promise = __webpack_require__("e6cf");
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.object.get-own-property-descriptor.js
 var es_object_get_own_property_descriptor = __webpack_require__("e439");
@@ -13554,6 +13565,8 @@ var mediaelement_webaudio_MediaElementWebAudio = /*#__PURE__*/function (_MediaEl
 
 
 // CONCATENATED MODULE: ./src/components/WaveSurfer/wavesurfer.js
+
+
 
 
 
@@ -15435,9 +15448,6 @@ var wavesurfer_WaveSurfer = /*#__PURE__*/function (_util$Observer) {
 _defineProperty(wavesurfer_WaveSurfer, "util", util_namespaceObject);
 
 
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.object.assign.js
-var es_object_assign = __webpack_require__("cca6");
-
 // CONCATENATED MODULE: ./src/components/WaveSurfer/plugin/timeline.js
 
 
@@ -16762,9 +16772,6 @@ var pointline_PointlinePlugin = (_dec = log("pointline.create", pointline_DEBUG)
   return PointlinePlugin;
 }(), _temp), (_applyDecoratedDescriptor(_class, "create", [_dec], Object.getOwnPropertyDescriptor(_class, "create"), _class), _applyDecoratedDescriptor(_class.prototype, "init", [_dec2], Object.getOwnPropertyDescriptor(_class.prototype, "init"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "destroy", [_dec3], Object.getOwnPropertyDescriptor(_class.prototype, "destroy"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "createWrapper", [_dec4], Object.getOwnPropertyDescriptor(_class.prototype, "createWrapper"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "render", [_dec5], Object.getOwnPropertyDescriptor(_class.prototype, "render"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "genUuid", [_dec6], Object.getOwnPropertyDescriptor(_class.prototype, "genUuid"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "addPoint", [_dec7], Object.getOwnPropertyDescriptor(_class.prototype, "addPoint"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "updatePoint", [_dec8], Object.getOwnPropertyDescriptor(_class.prototype, "updatePoint"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "deletePoint", [_dec9], Object.getOwnPropertyDescriptor(_class.prototype, "deletePoint"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "addCanvas", [_dec10], Object.getOwnPropertyDescriptor(_class.prototype, "addCanvas"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "removeCanvas", [_dec11], Object.getOwnPropertyDescriptor(_class.prototype, "removeCanvas"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "updateCanvases", [_dec12], Object.getOwnPropertyDescriptor(_class.prototype, "updateCanvases"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "updateCanvasesPositioning", [_dec13], Object.getOwnPropertyDescriptor(_class.prototype, "updateCanvasesPositioning"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "renderCanvases", [_dec14], Object.getOwnPropertyDescriptor(_class.prototype, "renderCanvases"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "setFillStyles", [_dec15], Object.getOwnPropertyDescriptor(_class.prototype, "setFillStyles"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "fillRect", [_dec16], Object.getOwnPropertyDescriptor(_class.prototype, "fillRect"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "defaultFormatTimeCallback", [_dec17], Object.getOwnPropertyDescriptor(_class.prototype, "defaultFormatTimeCallback"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "defaultTimeInterval", [_dec18], Object.getOwnPropertyDescriptor(_class.prototype, "defaultTimeInterval"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "defaultPrimaryLabelInterval", [_dec19], Object.getOwnPropertyDescriptor(_class.prototype, "defaultPrimaryLabelInterval"), _class.prototype)), _class));
 
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.iterator.js
-var es_array_iterator = __webpack_require__("e260");
-
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.string.match.js
 var es_string_match = __webpack_require__("466d");
 
@@ -16972,6 +16979,8 @@ var parseIntervalTier = function parseIntervalTier(lines) {
   textgrid: textgrid
 });
 // CONCATENATED MODULE: ./src/components/WaveSurfer/plugin/textgrid.js
+
+
 
 
 
@@ -17911,6 +17920,8 @@ var es_typed_array_uint32_array = __webpack_require__("fb2c");
 
 
 
+
+
 /* eslint-disable complexity, no-redeclare, no-var, one-var */
 
 /**
@@ -18192,6 +18203,7 @@ function FFT(bufferSize, sampleRate, windowFunc, alpha) {
   };
 }
 // CONCATENATED MODULE: ./src/components/WaveSurfer/plugin/spectrogram/index.js
+
 
 
 
@@ -18795,6 +18807,7 @@ var spectrogram_SpectrogramPlugin = (spectrogram_dec = log("spectrogram.drawerSp
 
 
 
+
 /**
  * @typedef {Object} MicrophonePluginParams
  * @property {MediaStreamConstraints} constraints The constraints parameter is a
@@ -19214,6 +19227,7 @@ var microphone_MicrophonePlugin = /*#__PURE__*/function () {
 
 
 // CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/WaveSurfer/WaveSurfer.vue?vue&type=script&lang=js&
+
 
 
 
