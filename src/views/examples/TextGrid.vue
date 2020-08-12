@@ -55,6 +55,7 @@
         @pause="onPause"
         @destroy="onDestroy"
         @ready="onReady"
+        @error="onError"
         @textgrid-dblclick="onDblclick"
         @textgrid-click="onClick"
         @textgrid-update="onTextGridUpdate"
@@ -509,15 +510,12 @@ export default {
       watch: {
         tab: function(val) {
           if (val === null) {
-            (this.current.key = ""), (this.current.values = []);
+            this.current.key = "";
+            this.current.values = [];
           } else {
             this.current.key = Object.keys(this.textgrid)[val];
-            const values = this.textgrid[this.current.key].values;
-            this.current.values = values
-            if (this.current.idx==null){
-              if (values.length > 0){
-                this.current.idx = 0
-              }
+            if (this.textgrid[this.current.key]) {
+              this.current.values = this.textgrid[this.current.key].values;
             }
           }
         }
@@ -623,7 +621,28 @@ export default {
           }
         },
         onFileChange: function(file) {
-          this.source = null;
+          this.source = null
+          this.textgrid = {}
+          this.current = {
+            key: null,
+            text: null,
+            time: null,
+            idx: null,
+            values: []
+          },
+          this.isReady = false
+          this.tab = null
+          this.valueDialog = {
+            show: false,
+            text: "",
+            time: 0
+          }
+          this.tierDialog: {
+            show: false,
+            name: "",
+            type: "interval"
+          }
+          this.tabs: [],
           const fr = new FileReader();
           fr.readAsDataURL(file);
           fr.addEventListener("load", () => {
@@ -658,6 +677,15 @@ export default {
         onTextGridCurrentUpdate: function(current) {
           this.current.key = current.key;
           this.current.idx = current.index;
+
+          // update tab
+          const tabIdx = this.tabs.findIndex(x => {
+            return x == current.key;
+          });
+          if (tabIdx > -1) {
+            this.tab = tabIdx;
+          }
+
           if (current.item) {
             this.current.time = current.item.time;
             this.current.text = current.item.text;
@@ -673,10 +701,13 @@ export default {
   watch: {
     tab: function(val) {
       if (val === null) {
-        (this.current.key = ""), (this.current.values = []);
+        this.current.key = "";
+        this.current.values = [];
       } else {
         this.current.key = Object.keys(this.textgrid)[val];
-        this.current.values = this.textgrid[this.current.key].values;
+        if (this.textgrid[this.current.key]) {
+          this.current.values = this.textgrid[this.current.key].values;
+        }
       }
     }
   },
@@ -762,12 +793,24 @@ export default {
       this.isReady = false;
       this.zoom = 0;
       this.tab = null;
-      this.valueDialog.show = false;
-      this.valueDialog.text = "";
-      this.valueDialog.time = 0;
-      this.tierDialog.show = false;
-      this.tierDialog.name = "";
-      this.tierDialog.type = "interval";
+      this.current = {
+        key: null,
+        text: null,
+        time: null,
+        idx: null,
+        values: []
+      };
+      this.valueDialog = {
+        show: false,
+        text: "",
+        time: 0
+      };
+      this.tierDialog = {
+        show: false,
+        name: "",
+        type: "interval"
+      };
+      this.tabs = [];
       if (file) {
         const fr = new FileReader();
         fr.readAsDataURL(file);
@@ -782,6 +825,10 @@ export default {
     onReady: function() {
       this.isReady = true;
       this.snackbar.text = "on ready";
+      this.snackbar.show = true;
+    },
+    onError: function(msg) {
+      this.snackbar.text = `error: ${msg}`;
       this.snackbar.show = true;
     },
     onPlay: function() {
@@ -817,6 +864,12 @@ export default {
     },
     onTextGridCurrentUpdate: function(current) {
       this.current.key = current.key;
+      const tabIdx = this.tabs.findIndex(x => {
+        return x == current.key;
+      });
+      if (tabIdx > -1) {
+        this.tab = tabIdx;
+      }
       this.current.idx = current.index;
       if (current.item) {
         this.current.time = current.item.time;

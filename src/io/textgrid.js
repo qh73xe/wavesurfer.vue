@@ -81,7 +81,11 @@ const parseIntervalTier = function(lines) {
       values.push({ time: xmax, text: text });
     }
   }
-  return { name: name, values: values, type: "interval" };
+  return {
+    name: name,
+    values: values,
+    type: "interval"
+  };
 };
 
 export default {

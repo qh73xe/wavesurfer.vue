@@ -9302,6 +9302,8 @@ __webpack_require__.d(util_namespaceObject, "ajax", function() { return ajax; })
 __webpack_require__.d(util_namespaceObject, "getId", function() { return getId; });
 __webpack_require__.d(util_namespaceObject, "max", function() { return max_max; });
 __webpack_require__.d(util_namespaceObject, "min", function() { return min_min; });
+__webpack_require__.d(util_namespaceObject, "round", function() { return round; });
+__webpack_require__.d(util_namespaceObject, "distance", function() { return distance; });
 __webpack_require__.d(util_namespaceObject, "Observer", function() { return observer_Observer; });
 __webpack_require__.d(util_namespaceObject, "style", function() { return style_style; });
 __webpack_require__.d(util_namespaceObject, "requestAnimationFrame", function() { return request_animation_frame; });
@@ -10036,6 +10038,15 @@ function min_min(values) {
   });
   return smallest;
 }
+// CONCATENATED MODULE: ./src/components/WaveSurfer/util/round.js
+function round(value, significant) {
+  var tmp = Math.pow(10, significant);
+  return Math.Round(value * tmp) / tmp;
+}
+// CONCATENATED MODULE: ./src/components/WaveSurfer/util/distance.js
+function distance(a, b) {
+  return Math.abs(a - b);
+}
 // CONCATENATED MODULE: ./src/components/WaveSurfer/util/style.js
 
 
@@ -10360,6 +10371,8 @@ function fetchFile(options) {
   return instance;
 }
 // CONCATENATED MODULE: ./src/components/WaveSurfer/util/index.js
+
+
 
 
 
@@ -16793,7 +16806,6 @@ var es_string_trim = __webpack_require__("498a");
 
 
 
-
 var dumpPointTier = function dumpPointTier(values) {
   var lines = [];
 
@@ -16977,7 +16989,6 @@ var parseIntervalTier = function parseIntervalTier(lines) {
   textgrid: textgrid
 });
 // CONCATENATED MODULE: ./src/components/WaveSurfer/plugin/textgrid.js
-
 
 
 
@@ -17250,18 +17261,25 @@ var textgrid_TextgridPlugin = /*#__PURE__*/function () {
           top: "".concat(i * this.params.height, "px"),
           "border-top": "solid 1px ".concat(this.params.color),
           "border-bottom": "solid 1px ".concat(this.params.color)
-        });
+        }); // add canvas events
+
         var vm = this;
 
         this.tiers[key].onClick = function (e) {
-          e.preventDefault();
+          e.preventDefault(); // seek to click point
+
+          var progress = vm.event2progress(e);
+          vm.wavesurfer.seekTo(progress); // fire event
+
           var time = vm.event2time(e);
-          var item = {
+          var payload = {
             key: key,
             time: time
           };
+          vm.wavesurfer.fireEvent("textgrid-click", payload); // set curent item
+
           var canditates = vm.tiers[key].values.filter(function (x) {
-            return x.time > time;
+            return x.time >= time;
           });
           canditates.sort(function (a, b) {
             return a.time - b.time;
@@ -17269,12 +17287,9 @@ var textgrid_TextgridPlugin = /*#__PURE__*/function () {
           var currentItem = canditates[0];
 
           if (currentItem) {
-            vm.current.key = key;
-            vm.setCurrent(key, item);
+            vm.setCurrent(key, currentItem);
             vm.render();
           }
-
-          vm.wavesurfer.fireEvent("textgrid-click", item);
         };
 
         this.tiers[key].onDblClick = function (e) {
@@ -17285,11 +17300,74 @@ var textgrid_TextgridPlugin = /*#__PURE__*/function () {
             time: time
           };
           vm.wavesurfer.fireEvent("textgrid-dblclick", item);
+        }; // dragging handlers.
+
+
+        this.tiers[key].isDraging = false;
+        this.tiers[key].dragingItemIdx = null;
+        var timer;
+
+        var draggingMousemove = function draggingMousemove(e) {
+          canvas.style.cursor = "grabbing";
+          clearTimeout(timer);
+          timer = setTimeout(function () {
+            var idx = vm.tiers[key].dragingItemIdx;
+
+            if (vm.tiers[key].values[idx]) {
+              vm.tiers[key].values[idx].time = vm.event2time(e);
+              vm.setCurrent(vm.tiers[key].values[idx]);
+              vm.render();
+            }
+          }, 50);
+        };
+
+        var draggingMousedown = function draggingMousedown() {
+          vm.tiers[key].isDraging = true;
+          canvas.style.cursor = "grabbing";
+          canvas.addEventListener("mousemove", draggingMousemove);
+        };
+
+        var draggingMouseup = function draggingMouseup() {
+          vm.tiers[key].isDraging = false;
+          vm.tiers[key].dragingItemIdx = null;
+          canvas.style.cursor = "grab";
+          canvas.removeEventListener("mousedown", draggingMousedown);
+          canvas.removeEventListener("mousemove", draggingMousemove);
+          canvas.removeEventListener("mouseup", draggingMouseup);
+          vm.wavesurfer.fireEvent("textgrid-update", vm.tiers);
+        }; // default mousemove
+
+
+        this.tiers[key].onMouseMove = function (e) {
+          e.preventDefault();
+          var duration = vm.wavesurfer.backend.getDuration();
+          var pixelsPerSecond = canvas.width / duration;
+          var relX = "offsetX" in e ? e.offsetX : e.layerX;
+
+          if (!vm.tiers[key].isDraging) {
+            vm.tiers[key].dragingItemIdx = vm.tiers[key].values.findIndex(function (x) {
+              return distance(relX, x.time * pixelsPerSecond) < 1;
+            });
+          }
+
+          if (vm.tiers[key].dragingItemIdx > -1) {
+            canvas.style.cursor = "grab";
+            canvas.addEventListener("mousedown", draggingMousedown, false);
+            canvas.addEventListener("mouseup", draggingMouseup, false);
+          } else {
+            if (!vm.tiers[key].isDraging) {
+              canvas.style.cursor = "default";
+              vm.tiers[key].dragingItemIdx = null;
+            }
+          }
         };
 
         canvas.addEventListener("click", this.tiers[key].onClick, false);
         canvas.addEventListener("dblclick", this.tiers[key].onDblClick, false);
-        this.tiers[key].canvas = canvas;
+        canvas.addEventListener("mousemove", this.tiers[key].onMouseMove, false); // set a canvas in this.tiers
+
+        this.tiers[key].canvas = canvas; // set lavel of a canvas
+
         var label = this.wrapper.appendChild(document.createElement("canvas"));
         label.classList.add("tier-labels");
         this.drawer.style(label, {
@@ -17639,25 +17717,37 @@ var textgrid_TextgridPlugin = /*#__PURE__*/function () {
       return count;
     }
   }, {
+    key: "event2progress",
+    value: function event2progress(e) {
+      var relX = "offsetX" in e ? e.offsetX : e.layerX;
+      var width = this.wsParams.fillParent && !this.wsParams.scrollParent ? this.drawer.getWidth() : this.drawer.wrapper.scrollWidth * this.wsParams.pixelRatio;
+      return relX / width;
+    }
+  }, {
     key: "event2time",
     value: function event2time(e) {
-      var relX = "offsetX" in e ? e.offsetX : e.layerX;
       var duration = this.wavesurfer.backend.getDuration();
-      if (duration <= 0) return;
-      var width = this.wsParams.fillParent && !this.wsParams.scrollParent ? this.drawer.getWidth() : this.drawer.wrapper.scrollWidth * this.wsParams.pixelRatio;
-      var pixelsPerSecond = width / duration;
-      return relX / pixelsPerSecond;
+      var progress = this.event2progress(e);
+      return progress * duration;
     }
   }, {
     key: "addTier",
     value: function addTier(key, type) {
-      this.tiers[key] = {
-        type: type,
-        values: []
-      };
-      this.render();
-      this.setCurrent(key, null);
-      this.wavesurfer.fireEvent("textgrid-update", this.tiers);
+      if (key in this.tiers) {
+        this.wavesurfer.fireEvent("error", "Duplicate tier name (".concat(key, ")"));
+      } else {
+        var values = type == "interval" ? [{
+          text: "",
+          time: this.wavesurfer.getDuration()
+        }] : [];
+        this.tiers[key] = {
+          type: type,
+          values: values
+        };
+        this.render();
+        this.setCurrent(key, null);
+        this.wavesurfer.fireEvent("textgrid-update", this.tiers);
+      }
     }
   }, {
     key: "deleteTier",
@@ -17733,6 +17823,16 @@ var textgrid_TextgridPlugin = /*#__PURE__*/function () {
       fr.addEventListener("load", function () {
         vm.tiers = io.textgrid.load(fr.result);
         var keys = Object.keys(_this5.tiers);
+
+        for (var key in _this5.tiers) {
+          if (vm.tiers[key].type == "interval") {
+            vm.tiers[key].values.push({
+              text: "",
+              time: vm.wavesurfer.getDuration()
+            });
+          }
+        }
+
         vm.setCurrent(keys[0], _this5.tiers[keys[0]].values[0]);
         vm.wavesurfer.fireEvent("textgrid-current-update", vm.current);
         vm.render();

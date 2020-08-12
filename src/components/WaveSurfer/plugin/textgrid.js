@@ -1,4 +1,5 @@
 import io from "@/io/index.js";
+import { distance } from "../util";
 /**
  * @typedef {Object} TextgridPluginParams
  * @desc Extends the `WavesurferParams` wavesurfer was initialised with
@@ -240,22 +241,29 @@ export default class TextgridPlugin {
         "border-bottom": `solid 1px ${this.params.color}`
       });
 
+      // add canvas events
       const vm = this;
       this.tiers[key].onClick = function(e) {
         e.preventDefault();
+        // seek to click point
+        const progress = vm.event2progress(e);
+        vm.wavesurfer.seekTo(progress);
+
+        // fire event
         const time = vm.event2time(e);
-        const item = { key: key, time: time };
+        const payload = { key: key, time: time };
+        vm.wavesurfer.fireEvent("textgrid-click", payload);
+
+        // set curent item
         let canditates = vm.tiers[key].values.filter(x => {
-          return x.time > time;
+          return x.time >= time;
         });
         canditates.sort((a, b) => a.time - b.time);
         const currentItem = canditates[0];
         if (currentItem) {
-          vm.current.key = key;
-          vm.setCurrent(key, item);
+          vm.setCurrent(key, currentItem);
           vm.render();
         }
-        vm.wavesurfer.fireEvent("textgrid-click", item);
       };
 
       this.tiers[key].onDblClick = function(e) {
@@ -264,9 +272,72 @@ export default class TextgridPlugin {
         const item = { key: key, time: time };
         vm.wavesurfer.fireEvent("textgrid-dblclick", item);
       };
+
+      // dragging handlers.
+      this.tiers[key].isDraging = false;
+      this.tiers[key].dragingItemIdx = null;
+
+      let timer;
+      const draggingMousemove = function(e) {
+        canvas.style.cursor = "grabbing";
+        clearTimeout(timer);
+        timer = setTimeout(function() {
+          const idx = vm.tiers[key].dragingItemIdx;
+          if (vm.tiers[key].values[idx]) {
+            vm.tiers[key].values[idx].time = vm.event2time(e);
+            vm.setCurrent(vm.tiers[key].values[idx]);
+            vm.render();
+          }
+        }, 50);
+      };
+      const draggingMousedown = function() {
+        vm.tiers[key].isDraging = true;
+        canvas.style.cursor = "grabbing";
+        canvas.addEventListener("mousemove", draggingMousemove);
+      };
+      const draggingMouseup = function() {
+        vm.tiers[key].isDraging = false;
+        vm.tiers[key].dragingItemIdx = null;
+        canvas.style.cursor = "grab";
+        canvas.removeEventListener("mousedown", draggingMousedown);
+        canvas.removeEventListener("mousemove", draggingMousemove);
+        canvas.removeEventListener("mouseup", draggingMouseup);
+        vm.wavesurfer.fireEvent("textgrid-update", vm.tiers);
+      };
+
+      // default mousemove
+      this.tiers[key].onMouseMove = function(e) {
+        e.preventDefault();
+        const duration = vm.wavesurfer.backend.getDuration();
+        const pixelsPerSecond = canvas.width / duration;
+        const relX = "offsetX" in e ? e.offsetX : e.layerX;
+
+        if (!vm.tiers[key].isDraging) {
+          vm.tiers[key].dragingItemIdx = vm.tiers[key].values.findIndex(x => {
+            return distance(relX, x.time * pixelsPerSecond) < 1;
+          });
+        }
+
+        if (vm.tiers[key].dragingItemIdx > -1) {
+          canvas.style.cursor = "grab";
+          canvas.addEventListener("mousedown", draggingMousedown, false);
+          canvas.addEventListener("mouseup", draggingMouseup, false);
+        } else {
+          if (!vm.tiers[key].isDraging) {
+            canvas.style.cursor = "default";
+            vm.tiers[key].dragingItemIdx = null;
+          }
+        }
+      };
+
       canvas.addEventListener("click", this.tiers[key].onClick, false);
       canvas.addEventListener("dblclick", this.tiers[key].onDblClick, false);
+      canvas.addEventListener("mousemove", this.tiers[key].onMouseMove, false);
+
+      // set a canvas in this.tiers
       this.tiers[key].canvas = canvas;
+
+      // set lavel of a canvas
       const label = this.wrapper.appendChild(document.createElement("canvas"));
       label.classList.add("tier-labels");
       this.drawer.style(label, {
@@ -574,26 +645,36 @@ export default class TextgridPlugin {
     }
     return count;
   }
-  event2time(e) {
+  event2progress(e) {
     const relX = "offsetX" in e ? e.offsetX : e.layerX;
-    const duration = this.wavesurfer.backend.getDuration();
-    if (duration <= 0) return;
     const width =
       this.wsParams.fillParent && !this.wsParams.scrollParent
         ? this.drawer.getWidth()
         : this.drawer.wrapper.scrollWidth * this.wsParams.pixelRatio;
-    const pixelsPerSecond = width / duration;
-    return relX / pixelsPerSecond;
+    return relX / width;
+  }
+  event2time(e) {
+    const duration = this.wavesurfer.backend.getDuration();
+    const progress = this.event2progress(e);
+    return progress * duration;
   }
 
   addTier(key, type) {
-    this.tiers[key] = {
-      type: type,
-      values: []
-    };
-    this.render();
-    this.setCurrent(key, null);
-    this.wavesurfer.fireEvent("textgrid-update", this.tiers);
+    if (key in this.tiers) {
+      this.wavesurfer.fireEvent("error", `Duplicate tier name (${key})`);
+    } else {
+      const values =
+        type == "interval"
+          ? [{ text: "", time: this.wavesurfer.getDuration() }]
+          : [];
+      this.tiers[key] = {
+        type: type,
+        values: values
+      };
+      this.render();
+      this.setCurrent(key, null);
+      this.wavesurfer.fireEvent("textgrid-update", this.tiers);
+    }
   }
   deleteTier(key) {
     if (key in this.tiers) {
@@ -653,6 +734,14 @@ export default class TextgridPlugin {
     fr.addEventListener("load", () => {
       vm.tiers = io.textgrid.load(fr.result);
       const keys = Object.keys(this.tiers);
+      for (const key in this.tiers) {
+        if (vm.tiers[key].type == "interval") {
+          vm.tiers[key].values.push({
+            text: "",
+            time: vm.wavesurfer.getDuration()
+          });
+        }
+      }
       vm.setCurrent(keys[0], this.tiers[keys[0]].values[0]);
       vm.wavesurfer.fireEvent("textgrid-current-update", vm.current);
       vm.render();
