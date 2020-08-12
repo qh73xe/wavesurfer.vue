@@ -3,11 +3,10 @@
     <div
       ref="spectrogram"
       v-if="showSpectrogram"
-      v-show="isSpectrogramRendered"
+      v-show="!isSpectrogramRendering"
     />
-    <div ref="waveform">
-      <slot></slot>
-    </div>
+    <slot></slot>
+    <div ref="waveform" v-show="!isSpectrogramRendering"></div>
     <div ref="timeline" v-if="showTimeLine" />
     <div ref="pointline" v-if="showPointLine" />
     <slot name="textform"></slot>
@@ -29,10 +28,11 @@ export default {
     pointline: null,
     spectrogram: null,
     textGrid: null,
-    isSpectrogramRendered: false,
     microphone: null,
     audioChunks: [],
-    audioUrl: null
+    audioUrl: null,
+    isSpectrogramRendering: false,
+    isMouseEntered: false
   }),
   props: {
     source: {
@@ -640,13 +640,13 @@ export default {
     onTextGridCurrentUpdate(current) {
       this.$emit("textgrid-current-update", current);
     },
-    onSpectrogramRenderEnd(e) {
-      this.isSpectrogramRendered = true;
-      this.$emit("spectrogram-render-end", e);
-    },
     onSpectrogramRenderStart(e) {
-      this.isSpectrogramRendered = false;
+      this.isSpectrogramRendering = true;
       this.$emit("spectrogram-render-start", e);
+    },
+    onSpectrogramRenderEnd(e) {
+      this.isSpectrogramRendering = false;
+      this.$emit("spectrogram-render-end", e);
     },
     onVolume: function(e) {
       this.$emit("volume", e);

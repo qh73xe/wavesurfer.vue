@@ -253,15 +253,28 @@ export default {
     },
     spectrogram: {
       desc: `
-      If the "showSpectrogram" props is enabled, Audio Spectrogram was shown.
+      If the <code>showSpectrogram</code> props is enabled, Audio Spectrogram was shown.
       </br>
       This feature is customized for this component.
       Unlike the original, the FFT calculation is processed asynchronously.
-      In addition, the spectrogram is re-rendered when enlargement processing is performed.
+      In addition, the spectrogram is re-rendered when <code>zoom</code> processing is performed.
       </br>
       Note that the FFT calculation takes some time,
       so the spectrogram to be displayed is only one channel.
-      This is specified by the "targetChannel" props.
+      This is specified by the <code>targetChannel</code> props.
+      </br>
+      </br>
+      <h3>EVENTS</h3>
+      The spectrogram rendering takes longer than the audio waveform rendering.
+      Note that the following events have been set to keep track of
+      which was rendered the spectrogram or not:
+      <ul>
+      <li>spectrogram-render-start: Fire when the spectrogram rendering was started.
+      <li>spectrogram-render-end: Fire when the spectrogram rendering was ended.
+      </ul>
+      </br>
+      In the sample code, <code>spectrogram-render-end</code> event was used
+      to display the video only when the spectrogram rendering has finished.
       `
     },
     splitChannels: {

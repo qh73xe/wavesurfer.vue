@@ -6,12 +6,10 @@
     :script_code="code"
   >
     <template v-slot:desc>
-      <!--
       <span
         class="font-weight-light subtitle-1"
         v-html="$vuetify.lang.t(`${locale}.desc`)"
       />
-      -->
     </template>
     <w-example-demo-card :title="card_title">
       <template v-slot:toolbar>
@@ -75,7 +73,12 @@
       <v-card-text v-if="source">
         <v-row>
           <v-col cols="3">
-            <video ref="video" :src="source" @loadeddata="onLoadedData" />
+            <video
+              ref="video"
+              v-show="!isLoading"
+              :src="source"
+              @loadeddata="onLoadedData"
+            />
           </v-col>
         </v-row>
       </v-card-text>
@@ -92,7 +95,6 @@
         @play="onPlay"
         @pause="onPause"
         @destroy="onDestroy"
-        @ready="onReady"
         @spectrogram-render-start="onSpectrogramRenderStart"
         @spectrogram-render-end="onSpectrogramRenderEnd"
         :source="videoSource"
@@ -135,8 +137,8 @@ export default {
     isScroll: true,
     isLoading: false,
     zoom: 1,
-    freqRateVal: 1,
-    freqRate: 1,
+    freqRateVal: 0.5,
+    freqRate: 0.5,
     targetChannel: 0,
     snackbar: {
       show: false,
@@ -198,7 +200,7 @@ export default {
       <v-card-text v-if="source">
         <v-row>
           <v-col cols="3">
-            <video ref="video" :src="source" @loadeddata="onLoadedData" />
+            <video ref="video" v-show="!isLoading" :src="source" @loadeddata="onLoadedData" />
           </v-col>
         </v-row>
       </v-card-text>
@@ -214,7 +216,6 @@ export default {
         @play="onPlay"
         @pause="onPause"
         @destroy="onDestroy"
-        @ready="onReady"
         @spectrogram-render-start="onSpectrogramRenderStart"
         @spectrogram-render-end="onSpectrogramRenderEnd"
         :source="videoSource"
@@ -258,8 +259,8 @@ export default {
         videoSource: null,
         isLoading: false,
         zoom: 1,
-        freqRate: 1,
-        freqRateVal: 1,
+        freqRate: 0.5,
+        freqRateVal: 0.5,
         targetChannel: 0,
         isScroll: true,
         snackbar: {
@@ -285,6 +286,7 @@ export default {
             const fr = new FileReader();
             fr.readAsDataURL(file);
             fr.addEventListener("load", () => {
+              this.isLoading = true
               this.source = fr.result;
             });
           }
@@ -311,9 +313,7 @@ export default {
         },
         onSpectrogramRenderEnd() {
           this.isLoading = false;
-        },
-        onSpectrogramRenderStart() {
-          this.isLoading = true;
+          this.onReady();
         },
         onReady: function() {
           this.isReady = true;
@@ -376,10 +376,12 @@ export default {
   methods: {
     onFileChange: function(file) {
       this.source = null;
+      this.showVideo = false;
       if (file) {
         const fr = new FileReader();
         fr.readAsDataURL(file);
         fr.addEventListener("load", () => {
+          this.isLoading = true;
           this.source = fr.result;
         });
       }
@@ -404,11 +406,12 @@ export default {
         }
       }, 1);
     },
-    onSpectrogramRenderEnd() {
-      this.isLoading = false;
-    },
     onSpectrogramRenderStart() {
       this.isLoading = true;
+    },
+    onSpectrogramRenderEnd() {
+      this.isLoading = false;
+      this.onReady();
     },
     onReady: function() {
       this.isReady = true;

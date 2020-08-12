@@ -378,6 +378,19 @@ export default {
       ステレオ音源の場合, 1 ch 分の表示しか行わないことに注意をしてください.
       </br>
       計算および表示を行うチャンネルの指定は <code>targetChannel</code> props から行います.
+      </br>
+      </br>
+      <h3>EVENTS</h3>
+      スペクトログラムの表示は音声波形の表示よりも時間がかかります.
+      </br>
+      スペクトログラムの表示状態を把握するために以下のイベントが設定されていることに注意してください:
+      <ul>
+      <li>spectrogram-render-start: スペクトログラムのレンダ開始時に発火</li>
+      <li>spectrogram-render-end: スペクトログラムのレンが終了時に発火</li>
+      </ul>
+      </br>
+      上記サンプルコードでは <code>spectrogram-render-end</code> を監視し
+      スペクトログラムのレンダが終了した際にのみビデオを表示するようにしています.
       `
     }
   }

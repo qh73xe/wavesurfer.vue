@@ -9329,15 +9329,12 @@ if (typeof window !== 'undefined') {
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 var external_commonjs_vue_commonjs2_vue_root_Vue_default = /*#__PURE__*/__webpack_require__.n(external_commonjs_vue_commonjs2_vue_root_Vue_);
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"d7f3097c-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/WaveSurfer/WaveSurfer.vue?vue&type=template&id=749a1563&scoped=true&
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[(_vm.showSpectrogram)?_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.isSpectrogramRendered),expression:"isSpectrogramRendered"}],ref:"spectrogram"}):_vm._e(),_c('div',{ref:"waveform"},[_vm._t("default")],2),(_vm.showTimeLine)?_c('div',{ref:"timeline"}):_vm._e(),(_vm.showPointLine)?_c('div',{ref:"pointline"}):_vm._e(),_vm._t("textform"),(_vm.showTextGrid)?_c('div',{ref:"textgrid"}):_vm._e()],2)}
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"d7f3097c-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/WaveSurfer/WaveSurfer.vue?vue&type=template&id=6980f950&scoped=true&
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[(_vm.showSpectrogram)?_c('div',{directives:[{name:"show",rawName:"v-show",value:(!_vm.isSpectrogramRendering),expression:"!isSpectrogramRendering"}],ref:"spectrogram"}):_vm._e(),_vm._t("default"),_c('div',{directives:[{name:"show",rawName:"v-show",value:(!_vm.isSpectrogramRendering),expression:"!isSpectrogramRendering"}],ref:"waveform"}),(_vm.showTimeLine)?_c('div',{ref:"timeline"}):_vm._e(),(_vm.showPointLine)?_c('div',{ref:"pointline"}):_vm._e(),_vm._t("textform"),(_vm.showTextGrid)?_c('div',{ref:"textgrid"}):_vm._e()],2)}
 var staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/components/WaveSurfer/WaveSurfer.vue?vue&type=template&id=749a1563&scoped=true&
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.iterator.js
-var es_array_iterator = __webpack_require__("e260");
+// CONCATENATED MODULE: ./src/components/WaveSurfer/WaveSurfer.vue?vue&type=template&id=6980f950&scoped=true&
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.number.constructor.js
 var es_number_constructor = __webpack_require__("a9e3");
@@ -9530,17 +9527,11 @@ var es_array_join = __webpack_require__("a15b");
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.map.js
 var es_array_map = __webpack_require__("d81d");
 
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.object.assign.js
-var es_object_assign = __webpack_require__("cca6");
-
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.object.get-own-property-names.js
 var es_object_get_own_property_names = __webpack_require__("7039");
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.object.keys.js
 var es_object_keys = __webpack_require__("b64b");
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.promise.js
-var es_promise = __webpack_require__("e6cf");
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/web.dom-collections.for-each.js
 var web_dom_collections_for_each = __webpack_require__("159b");
@@ -10122,6 +10113,9 @@ function preventClick(values) {
   document.body.addEventListener("click", preventClickHandler, true);
 }
 /* eslint-enable */
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.promise.js
+var es_promise = __webpack_require__("e6cf");
+
 // CONCATENATED MODULE: ./src/components/WaveSurfer/util/fetch.js
 
 
@@ -10367,6 +10361,9 @@ function fetchFile(options) {
 
 
 
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.iterator.js
+var es_array_iterator = __webpack_require__("e260");
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.some.js
 var es_array_some = __webpack_require__("45fc");
@@ -13579,8 +13576,6 @@ var mediaelement_webaudio_MediaElementWebAudio = /*#__PURE__*/function (_MediaEl
 
 
 
-
-
 /*
  * This work is licensed under a BSD-3-Clause License.
  */
@@ -15438,6 +15433,9 @@ var wavesurfer_WaveSurfer = /*#__PURE__*/function (_util$Observer) {
 
 _defineProperty(wavesurfer_WaveSurfer, "util", util_namespaceObject);
 
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.object.assign.js
+var es_object_assign = __webpack_require__("cca6");
 
 // CONCATENATED MODULE: ./src/components/WaveSurfer/plugin/timeline.js
 
@@ -18232,8 +18230,7 @@ function FFT(bufferSize, sampleRate, windowFunc, alpha) {
 
 
 
-
-var spectrogram_dec, spectrogram_dec2, spectrogram_dec3, spectrogram_class;
+var spectrogram_dec, spectrogram_dec2, spectrogram_dec3, spectrogram_dec4, spectrogram_dec5, spectrogram_dec6, spectrogram_dec7, spectrogram_dec8, spectrogram_dec9, spectrogram_dec10, spectrogram_dec11, spectrogram_dec12, spectrogram_dec13, spectrogram_class;
 
 /* eslint-enable complexity, no-redeclare, no-var, one-var */
 
@@ -18289,7 +18286,7 @@ var spectrogram_DEBUG = false;
  * });
  */
 
-var spectrogram_SpectrogramPlugin = (spectrogram_dec = log("spectrogram.drawerSpectrogram", spectrogram_DEBUG), spectrogram_dec2 = log("spectrogram.getFrequencies", spectrogram_DEBUG), spectrogram_dec3 = log("spectrogram.loadLabels", spectrogram_DEBUG), (spectrogram_class = /*#__PURE__*/function () {
+var spectrogram_SpectrogramPlugin = (spectrogram_dec = log("spectrogram.create", spectrogram_DEBUG), spectrogram_dec2 = log("spectrogram.init", spectrogram_DEBUG), spectrogram_dec3 = log("spectrogram.destroy", spectrogram_DEBUG), spectrogram_dec4 = log("spectrogram.createWrapper", spectrogram_DEBUG), spectrogram_dec5 = log("spectrogram._wrapperClickHandler", spectrogram_DEBUG), spectrogram_dec6 = log("spectrogram._wrapperScrollHandler", spectrogram_DEBUG), spectrogram_dec7 = log("spectrogram.createCanvas", spectrogram_DEBUG), spectrogram_dec8 = log("spectrogram.render", spectrogram_DEBUG), spectrogram_dec9 = log("spectrogram.updateCanvasStyle", spectrogram_DEBUG), spectrogram_dec10 = log("spectrogram.drawerSpectrogram", spectrogram_DEBUG), spectrogram_dec11 = log("spectrogram.getFrequencies", spectrogram_DEBUG), spectrogram_dec12 = log("spectrogram.loadLabels", spectrogram_DEBUG), spectrogram_dec13 = log("spectrogram.resample", spectrogram_DEBUG), (spectrogram_class = /*#__PURE__*/function () {
   _createClass(SpectrogramPlugin, null, [{
     key: "create",
 
@@ -18325,16 +18322,16 @@ var spectrogram_SpectrogramPlugin = (spectrogram_dec = log("spectrogram.drawerSp
     this.util = ws.util;
     this.frequenciesDataUrl = params.frequenciesDataUrl;
 
-    this._onScroll = function (e) {
-      _this.updateScroll(e);
-    };
-
     this._onRender = function () {
       _this.render();
     };
 
+    this._onWrapperScroll = function (e) {
+      _this._wrapperScrollHandler(e);
+    };
+
     this._onWrapperClick = function (e) {
-      _this._wrapperClickHandler(e);
+      _this._wrapperClickHandler(e, ws);
     };
 
     this._onReady = function () {
@@ -18384,7 +18381,7 @@ var spectrogram_SpectrogramPlugin = (spectrogram_dec = log("spectrogram.drawerSp
 
       _this.render();
 
-      drawer.wrapper.addEventListener("scroll", _this._onScroll);
+      drawer.wrapper.addEventListener("scroll", _this._onWrapperScroll);
       ws.on("redraw", _this._onRender);
     };
   }
@@ -18463,10 +18460,19 @@ var spectrogram_SpectrogramPlugin = (spectrogram_dec = log("spectrogram.drawerSp
     }
   }, {
     key: "_wrapperClickHandler",
-    value: function _wrapperClickHandler(event) {
+    value: function _wrapperClickHandler(event, ws) {
       event.preventDefault();
       var relX = "offsetX" in event ? event.offsetX : event.layerX;
-      this.fireEvent("click", relX / this.width || 0);
+      var progress = relX / this.width || 0;
+      ws.seekTo(progress);
+      this.fireEvent("click", progress);
+    }
+  }, {
+    key: "_wrapperScrollHandler",
+    value: function _wrapperScrollHandler(e) {
+      if (this.wrapper) {
+        this.wrapper.scrollLeft = e.target.scrollLeft;
+      }
     }
   }, {
     key: "createCanvas",
@@ -18492,7 +18498,6 @@ var spectrogram_SpectrogramPlugin = (spectrogram_dec = log("spectrogram.drawerSp
       }
 
       if (this.params.labels) {
-        // TODO フォントサイズを変更可能にする
         var freqFontSize = this.params.freqFontSize || 12;
         var unitFontSize = this.params.unitFontSize || 10;
         this.loadLabels("rgba(68,68,68,0.5)", "".concat(freqFontSize, "px"), "".concat(unitFontSize, "px"), "", "#fff", "#f7f7f7", "center", "#specLabels");
@@ -18730,13 +18735,6 @@ var spectrogram_SpectrogramPlugin = (spectrogram_dec = log("spectrogram.drawerSp
       }
     }
   }, {
-    key: "updateScroll",
-    value: function updateScroll(e) {
-      if (this.wrapper) {
-        this.wrapper.scrollLeft = e.target.scrollLeft;
-      }
-    }
-  }, {
     key: "resample",
     value: function resample(oldMatrix) {
       var widthFactor = this.wavesurfer.params.minPxPerSec / 100;
@@ -18787,7 +18785,7 @@ var spectrogram_SpectrogramPlugin = (spectrogram_dec = log("spectrogram.drawerSp
   }]);
 
   return SpectrogramPlugin;
-}(), (_applyDecoratedDescriptor(spectrogram_class.prototype, "drawSpectrogram", [spectrogram_dec], Object.getOwnPropertyDescriptor(spectrogram_class.prototype, "drawSpectrogram"), spectrogram_class.prototype), _applyDecoratedDescriptor(spectrogram_class.prototype, "getFrequencies", [spectrogram_dec2], Object.getOwnPropertyDescriptor(spectrogram_class.prototype, "getFrequencies"), spectrogram_class.prototype), _applyDecoratedDescriptor(spectrogram_class.prototype, "loadLabels", [spectrogram_dec3], Object.getOwnPropertyDescriptor(spectrogram_class.prototype, "loadLabels"), spectrogram_class.prototype)), spectrogram_class));
+}(), (_applyDecoratedDescriptor(spectrogram_class, "create", [spectrogram_dec], Object.getOwnPropertyDescriptor(spectrogram_class, "create"), spectrogram_class), _applyDecoratedDescriptor(spectrogram_class.prototype, "init", [spectrogram_dec2], Object.getOwnPropertyDescriptor(spectrogram_class.prototype, "init"), spectrogram_class.prototype), _applyDecoratedDescriptor(spectrogram_class.prototype, "destroy", [spectrogram_dec3], Object.getOwnPropertyDescriptor(spectrogram_class.prototype, "destroy"), spectrogram_class.prototype), _applyDecoratedDescriptor(spectrogram_class.prototype, "createWrapper", [spectrogram_dec4], Object.getOwnPropertyDescriptor(spectrogram_class.prototype, "createWrapper"), spectrogram_class.prototype), _applyDecoratedDescriptor(spectrogram_class.prototype, "_wrapperClickHandler", [spectrogram_dec5], Object.getOwnPropertyDescriptor(spectrogram_class.prototype, "_wrapperClickHandler"), spectrogram_class.prototype), _applyDecoratedDescriptor(spectrogram_class.prototype, "_wrapperScrollHandler", [spectrogram_dec6], Object.getOwnPropertyDescriptor(spectrogram_class.prototype, "_wrapperScrollHandler"), spectrogram_class.prototype), _applyDecoratedDescriptor(spectrogram_class.prototype, "createCanvas", [spectrogram_dec7], Object.getOwnPropertyDescriptor(spectrogram_class.prototype, "createCanvas"), spectrogram_class.prototype), _applyDecoratedDescriptor(spectrogram_class.prototype, "render", [spectrogram_dec8], Object.getOwnPropertyDescriptor(spectrogram_class.prototype, "render"), spectrogram_class.prototype), _applyDecoratedDescriptor(spectrogram_class.prototype, "updateCanvasStyle", [spectrogram_dec9], Object.getOwnPropertyDescriptor(spectrogram_class.prototype, "updateCanvasStyle"), spectrogram_class.prototype), _applyDecoratedDescriptor(spectrogram_class.prototype, "drawSpectrogram", [spectrogram_dec10], Object.getOwnPropertyDescriptor(spectrogram_class.prototype, "drawSpectrogram"), spectrogram_class.prototype), _applyDecoratedDescriptor(spectrogram_class.prototype, "getFrequencies", [spectrogram_dec11], Object.getOwnPropertyDescriptor(spectrogram_class.prototype, "getFrequencies"), spectrogram_class.prototype), _applyDecoratedDescriptor(spectrogram_class.prototype, "loadLabels", [spectrogram_dec12], Object.getOwnPropertyDescriptor(spectrogram_class.prototype, "loadLabels"), spectrogram_class.prototype), _applyDecoratedDescriptor(spectrogram_class.prototype, "resample", [spectrogram_dec13], Object.getOwnPropertyDescriptor(spectrogram_class.prototype, "resample"), spectrogram_class.prototype)), spectrogram_class));
 
 // CONCATENATED MODULE: ./src/components/WaveSurfer/plugin/microphone/index.js
 
@@ -19226,8 +19224,6 @@ var microphone_MicrophonePlugin = /*#__PURE__*/function () {
 
 
 
-
-//
 //
 //
 //
@@ -19258,10 +19254,11 @@ var microphone_MicrophonePlugin = /*#__PURE__*/function () {
       pointline: null,
       spectrogram: null,
       textGrid: null,
-      isSpectrogramRendered: false,
       microphone: null,
       audioChunks: [],
-      audioUrl: null
+      audioUrl: null,
+      isSpectrogramRendering: false,
+      isMouseEntered: false
     };
   },
   props: {
@@ -19952,13 +19949,13 @@ var microphone_MicrophonePlugin = /*#__PURE__*/function () {
     onTextGridCurrentUpdate: function onTextGridCurrentUpdate(current) {
       this.$emit("textgrid-current-update", current);
     },
-    onSpectrogramRenderEnd: function onSpectrogramRenderEnd(e) {
-      this.isSpectrogramRendered = true;
-      this.$emit("spectrogram-render-end", e);
-    },
     onSpectrogramRenderStart: function onSpectrogramRenderStart(e) {
-      this.isSpectrogramRendered = false;
+      this.isSpectrogramRendering = true;
       this.$emit("spectrogram-render-start", e);
+    },
+    onSpectrogramRenderEnd: function onSpectrogramRenderEnd(e) {
+      this.isSpectrogramRendering = false;
+      this.$emit("spectrogram-render-end", e);
     },
     onVolume: function onVolume(e) {
       this.$emit("volume", e);
@@ -20258,7 +20255,7 @@ var component = normalizeComponent(
   staticRenderFns,
   false,
   null,
-  "749a1563",
+  "6980f950",
   null
   
 )

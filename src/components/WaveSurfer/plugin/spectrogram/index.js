@@ -62,6 +62,7 @@ export default class SpectrogramPlugin {
    * @param  {SpectrogramPluginParams} params Parameters used to initialise the plugin
    * @return {PluginDefinition} An object representing the plugin.
    */
+  @log("spectrogram.create", DEBUG)
   static create(params) {
     return {
       name: "spectrogram",
@@ -80,14 +81,14 @@ export default class SpectrogramPlugin {
     this.util = ws.util;
 
     this.frequenciesDataUrl = params.frequenciesDataUrl;
-    this._onScroll = e => {
-      this.updateScroll(e);
-    };
     this._onRender = () => {
       this.render();
     };
+    this._onWrapperScroll = e => {
+      this._wrapperScrollHandler(e);
+    };
     this._onWrapperClick = e => {
-      this._wrapperClickHandler(e);
+      this._wrapperClickHandler(e, ws);
     };
     this._onReady = () => {
       const drawer = (this.drawer = ws.drawer);
@@ -129,12 +130,12 @@ export default class SpectrogramPlugin {
       this.createWrapper();
       this.createCanvas();
       this.render();
-
-      drawer.wrapper.addEventListener("scroll", this._onScroll);
+      drawer.wrapper.addEventListener("scroll", this._onWrapperScroll);
       ws.on("redraw", this._onRender);
     };
   }
 
+  @log("spectrogram.init", DEBUG)
   init() {
     // Check if wavesurfer is ready
     if (this.wavesurfer.isReady) {
@@ -144,6 +145,7 @@ export default class SpectrogramPlugin {
     }
   }
 
+  @log("spectrogram.destroy", DEBUG)
   destroy() {
     this.unAll();
     this.wavesurfer.un("ready", this._onReady);
@@ -160,6 +162,7 @@ export default class SpectrogramPlugin {
     }
   }
 
+  @log("spectrogram.createWrapper", DEBUG)
   createWrapper() {
     const prevSpectrogram = this.container.querySelector("spectrogram");
     if (prevSpectrogram) {
@@ -199,16 +202,26 @@ export default class SpectrogramPlugin {
       });
     }
     this.container.appendChild(this.wrapper);
-
     this.wrapper.addEventListener("click", this._onWrapperClick);
   }
 
-  _wrapperClickHandler(event) {
+  @log("spectrogram._wrapperClickHandler", DEBUG)
+  _wrapperClickHandler(event, ws) {
     event.preventDefault();
     const relX = "offsetX" in event ? event.offsetX : event.layerX;
-    this.fireEvent("click", relX / this.width || 0);
+    const progress = relX / this.width || 0;
+    ws.seekTo(progress);
+    this.fireEvent("click", progress);
   }
 
+  @log("spectrogram._wrapperScrollHandler", DEBUG)
+  _wrapperScrollHandler(e) {
+    if (this.wrapper) {
+      this.wrapper.scrollLeft = e.target.scrollLeft;
+    }
+  }
+
+  @log("spectrogram.createCanvas", DEBUG)
   createCanvas() {
     const canvas = (this.canvas = this.wrapper.appendChild(
       document.createElement("canvas")
@@ -222,6 +235,7 @@ export default class SpectrogramPlugin {
     });
   }
 
+  @log("spectrogram.render", DEBUG)
   render() {
     this.updateCanvasStyle();
     this.wavesurfer.fireEvent("spectrogram-render-start");
@@ -231,7 +245,6 @@ export default class SpectrogramPlugin {
       this.getFrequencies(this.drawSpectrogram);
     }
     if (this.params.labels) {
-      // TODO フォントサイズを変更可能にする
       const freqFontSize = this.params.freqFontSize || 12;
       const unitFontSize = this.params.unitFontSize || 10;
       this.loadLabels(
@@ -247,6 +260,7 @@ export default class SpectrogramPlugin {
     }
   }
 
+  @log("spectrogram.updateCanvasStyle", DEBUG)
   updateCanvasStyle() {
     this.width = this.drawer.width;
     const width = Math.round(this.width / this.pixelRatio) + "px";
@@ -426,13 +440,7 @@ export default class SpectrogramPlugin {
       }
     }
   }
-
-  updateScroll(e) {
-    if (this.wrapper) {
-      this.wrapper.scrollLeft = e.target.scrollLeft;
-    }
-  }
-
+  @log("spectrogram.resample", DEBUG)
   resample(oldMatrix) {
     const widthFactor = this.wavesurfer.params.minPxPerSec / 100;
     const columnsNumber = this.width / widthFactor;
