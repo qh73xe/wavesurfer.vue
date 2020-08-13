@@ -216,6 +216,11 @@ export default {
         return false;
       },
       default: () => []
+    },
+    // TextGrid Plugin
+    playingOffset: {
+      type: Number,
+      default: 1
     }
   },
   watch: {
@@ -313,6 +318,15 @@ export default {
     },
     partialRender(val, old_val) {
       if (val != old_val) this.updateDrawer("partialRender", val);
+    },
+    playingOffset(val, old_val) {
+      if (val != old_val) {
+        if (this.wavesurfer) {
+          if (this.wavesurfer) {
+            this.wavesurfer.textgrid.params.playingOffset = val;
+          }
+        }
+      }
     },
     pixelRatio(val, old_val) {
       if (val != old_val) this.updateDrawer("pixelRatio", val);
@@ -420,7 +434,8 @@ export default {
     initTextGridPlugin: function() {
       if (this.showTextGrid) {
         this.textgrid = Textgrid.create({
-          container: this.$refs.textgrid
+          container: this.$refs.textgrid,
+          playingOffset: this.playingOffset
         });
         this.wavesurfer.addPlugin(this.textgrid).initPlugin("textgrid");
         this.wavesurfer.on("textgrid-dblclick", this.onTextGridDblClick);
@@ -582,6 +597,9 @@ export default {
     },
     deleteTierValue: function(key, idx) {
       this.wavesurfer.textgrid.deleteTierValue(key, idx);
+    },
+    playTextGrid: function(key, idx) {
+      this.wavesurfer.textgrid.play(key, idx);
     },
     loadTextGrid: function(file) {
       this.wavesurfer.textgrid.loadTextGrid(file);

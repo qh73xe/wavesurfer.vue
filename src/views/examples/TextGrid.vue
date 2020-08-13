@@ -24,6 +24,7 @@
           label="textgrid"
           @change="onTextGridFileChange"
         />
+
         <v-slider
           v-if="source"
           v-model="zoom"
@@ -190,6 +191,9 @@
             </v-toolbar>
           </template>
           <template v-slot:item.actions="{ item }">
+            <v-icon small class="mr-2" @click="playTextGrid(item)">
+              mdi-play
+            </v-icon>
             <v-icon small class="mr-2" @click="editValue(item)">
               mdi-pencil
             </v-icon>
@@ -753,6 +757,15 @@ export default {
       }
       this.closeValueDialog();
     },
+    playTextGrid(value) {
+      const key = this.current.key;
+      const idx = this.textgrid[this.current.key].values.findIndex(
+        x => x.time == value.time
+      );
+      if (idx > -1) {
+        this.$refs.wavesurfer.playTextGrid(key, idx);
+      }
+    },
     editValue(value) {
       const idx = this.textgrid[this.current.key].values.findIndex(
         x => x.time == value.time
@@ -827,8 +840,8 @@ export default {
       this.snackbar.text = "on ready";
       this.snackbar.show = true;
     },
-    onError: function(msg) {
-      this.snackbar.text = `error: ${msg}`;
+    onError: function(e) {
+      this.snackbar.text = `error: ${e.message}`;
       this.snackbar.show = true;
     },
     onPlay: function() {

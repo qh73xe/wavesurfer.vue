@@ -174,7 +174,8 @@ export default {
           "Font size for frequency label unit when displaying audio spectrogram.",
         spectrogramHeight: "Canvas height when displaying audio spectrogram.",
         pointWidth: "The width of the point when the point line is displayed.",
-        points: "The point object array displayed on the point line."
+        points: "The point object array displayed on the point line.",
+        playingOffset: "The offset time when playing point tier object."
       }
     },
     events: {

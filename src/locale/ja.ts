@@ -169,7 +169,8 @@ export default {
         unitFontSize: "スペクトログラム表示時の周波数軸単位フォントサイズ.",
         spectrogramHeight: "スペクトログラム表示時のキャンバスの高さ.",
         pointWidth: "ポイントライン表示時のポイント幅.",
-        points: "ポイントライン表示時のポイントオブジェクトが格納されたアレイ.."
+        points: "ポイントライン表示時のポイントオブジェクトが格納されたアレイ.",
+        playingOffset: "ポイント層再生時のオフセットタイム."
       }
     },
     events: {

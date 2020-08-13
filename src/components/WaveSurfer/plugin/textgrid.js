@@ -1,5 +1,7 @@
 import io from "@/io/index.js";
 import { distance } from "../util";
+import { log } from "@/decorators.js";
+const DEBUG = false;
 /**
  * @typedef {Object} TextgridPluginParams
  * @desc Extends the `WavesurferParams` wavesurfer was initialised with
@@ -49,6 +51,7 @@ export default class TextgridPlugin {
    * @param  {TextgridPluginParams} params parameters use to initialise the plugin
    * @return {PluginDefinition} an object representing the plugin
    */
+  @log("textgrid.create", DEBUG)
   static create(params) {
     return {
       name: "textgrid",
@@ -114,6 +117,7 @@ export default class TextgridPlugin {
         activeColor: "#FF6D00",
         fontFamily: "Arial",
         fontSize: 15,
+        playingOffset: 1,
         zoomDebounce: false,
         tiers: {}
       },
@@ -427,7 +431,10 @@ export default class TextgridPlugin {
     } else if (this.tiers[key].type == "point") {
       this.renderPointTier(key, positioning);
     } else {
-      this.wavesurfer.fireEvent("error", "tier.type is 'interval' or 'point'");
+      this.wavesurfer.fireEvent(
+        "error",
+        new Error("tier.type is 'interval' or 'point'")
+      );
     }
   }
 
@@ -659,9 +666,63 @@ export default class TextgridPlugin {
     return progress * duration;
   }
 
+  // DECORATOR FUNCTIONS
+  saveKeyInTier(key, fn) {
+    if (key in this.tiers) {
+      fn();
+    } else {
+      this.wavesurfer.fireEvent("error", new Error("${key} is not in tiers"));
+    }
+  }
+  saveKeyIdxInTier(key, idx, fn) {
+    if (key in this.tiers) {
+      let item = null;
+      try {
+        item = this.tiers[key].values[idx];
+      } catch (e) {
+        this.wavesurfer.fireEvent("error", e);
+      } finally {
+        if (item != null) {
+          fn();
+        }
+      }
+    } else {
+      this.wavesurfer.fireEvent("error", new Error("${idx} is not in ${key}"));
+    }
+  }
+
+  // PLAY
+  @log("textgrid.play", DEBUG)
+  play(key, idx) {
+    const vm = this;
+    this.saveKeyIdxInTier(key, idx, () => {
+      const duration = vm.wavesurfer.getDuration();
+      let startTime = null;
+      let endTime = null;
+      const item = vm.tiers[key].values[idx];
+      if (vm.tiers[key].type == "point") {
+        startTime = Math.max(item.time - vm.params.playingOffset, 0);
+        endTime = Math.min(item.time + vm.params.playingOffset, duration);
+      } else {
+        if (idx == 0) {
+          startTime = 0;
+        } else {
+          startTime = vm.tiers[key].values[idx - 1].time;
+        }
+        endTime = item.time;
+      }
+      vm.wavesurfer.play(startTime, endTime);
+    });
+  }
+
+  // TIER CONTROL FUNCTIONS
+  @log("textgrid.addTier", DEBUG)
   addTier(key, type) {
     if (key in this.tiers) {
-      this.wavesurfer.fireEvent("error", `Duplicate tier name (${key})`);
+      this.wavesurfer.fireEvent(
+        "error",
+        new Error(`Duplicate tier name (${key})`)
+      );
     } else {
       const values =
         type == "interval"
@@ -676,57 +737,75 @@ export default class TextgridPlugin {
       this.wavesurfer.fireEvent("textgrid-update", this.tiers);
     }
   }
+
+  @log("textgrid.deleteTier", DEBUG)
   deleteTier(key) {
-    if (key in this.tiers) {
-      this.removeCanvas(key);
-      delete this.tiers[key];
-      this.setCurrent(null, null);
-      this.render();
-    }
-    this.wavesurfer.fireEvent("textgrid-update", this.tiers);
+    const vm = this;
+    this.saveKeyInTier(key, () => {
+      vm.removeCanvas(key);
+      delete vm.tiers[key];
+      vm.setCurrent(null, null);
+      vm.wavesurfer.fireEvent("textgrid-update", vm.tiers);
+      vm.render();
+    });
   }
+
+  @log("textgrid.updateTier", DEBUG)
   updateTier(key, obj) {
-    if (key in this.tiers) {
+    const vm = this;
+    this.saveKeyInTier(key, () => {
       if ("name" in obj) {
-        const type = "type" in obj ? obj.type : this.tiers[key].type;
-        const values = this.tiers[key];
-        this.addTier(obj.name, type);
-        this.tiers[obj.name].values = values;
-        this.setCurrent(obj.name, values[0]);
-        this.wavesurfer.fireEvent("textgrid-current-update", this.current);
-        this.deleteTier(key);
+        const type = "type" in obj ? obj.type : vm.tiers[key].type;
+        const values = vm.tiers[key];
+        vm.addTier(obj.name, type);
+        vm.tiers[obj.name].values = values;
+        vm.setCurrent(obj.name, values[0]);
+        vm.wavesurfer.fireEvent("textgrid-current-update", vm.current);
+        vm.deleteTier(key);
       } else if ("type" in obj) {
-        this.tiers[key].type = obj.type;
-        this.setCurrent(key, this.tiers[key].values[0]);
+        vm.tiers[key].type = obj.type;
+        vm.setCurrent(key, vm.tiers[key].values[0]);
       }
-      this.render();
-      this.wavesurfer.fireEvent("textgrid-update", this.tiers);
-    }
+      vm.render();
+      vm.wavesurfer.fireEvent("textgrid-update", vm.tiers);
+    });
   }
+
+  // TIER ITEM CONTROL FUNCTIONS
+  @log("textgrid.addTierValue", DEBUG)
   addTierValue(key, obj) {
-    if (key in this.tiers) {
-      this.tiers[key].values.push(obj);
-      this.setCurrent(key, obj);
-      this.render();
-      this.wavesurfer.fireEvent("textgrid-update", this.tiers);
-    }
+    const vm = this;
+    this.saveKeyInTier(key, () => {
+      vm.tiers[key].values.push(obj);
+      vm.setCurrent(key, obj);
+      vm.render();
+      vm.wavesurfer.fireEvent("textgrid-update", this.tiers);
+    });
   }
+
+  @log("textgrid.setTierValue", true)
   setTierValue(key, idx, object) {
-    this.tiers[key].values[idx] = object;
-    this.setCurrent(key, this.tiers[key].values[idx]);
-    this.render();
-    this.wavesurfer.fireEvent("textgrid-update", this.tiers);
+    const vm = this;
+    this.saveKeyIdxInTier(key, idx, () => {
+      vm.tiers[key].values[idx] = object;
+      vm.setCurrent(key, vm.tiers[key].values[idx]);
+      vm.render();
+      vm.wavesurfer.fireEvent("textgrid-update", vm.tiers);
+    });
   }
+
+  @log("textgrid.deleteTierValue", DEBUG)
   deleteTierValue(key, idx) {
-    if (key in this.tiers) {
-      if (idx > -1) {
-        this.tiers[key].values.splice(idx, 1);
-        this.setCurrent(key, null);
-        this.render();
-        this.wavesurfer.fireEvent("textgrid-update", this.tiers);
-      }
-    }
+    const vm = this;
+    this.saveKeyIdxInTier(key, idx, () => {
+      vm.tiers[key].values.splice(idx, 1);
+      vm.setCurrent(key, null);
+      vm.render();
+      vm.wavesurfer.fireEvent("textgrid-update", vm.tiers);
+    });
   }
+
+  // file io
   loadTextGrid(file) {
     const fr = new FileReader();
     const vm = this;

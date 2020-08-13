@@ -9331,12 +9331,12 @@ if (typeof window !== 'undefined') {
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 var external_commonjs_vue_commonjs2_vue_root_Vue_default = /*#__PURE__*/__webpack_require__.n(external_commonjs_vue_commonjs2_vue_root_Vue_);
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"d7f3097c-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/WaveSurfer/WaveSurfer.vue?vue&type=template&id=6980f950&scoped=true&
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"d7f3097c-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/WaveSurfer/WaveSurfer.vue?vue&type=template&id=5a519bc8&scoped=true&
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[(_vm.showSpectrogram)?_c('div',{directives:[{name:"show",rawName:"v-show",value:(!_vm.isSpectrogramRendering),expression:"!isSpectrogramRendering"}],ref:"spectrogram"}):_vm._e(),_vm._t("default"),_c('div',{directives:[{name:"show",rawName:"v-show",value:(!_vm.isSpectrogramRendering),expression:"!isSpectrogramRendering"}],ref:"waveform"}),(_vm.showTimeLine)?_c('div',{ref:"timeline"}):_vm._e(),(_vm.showPointLine)?_c('div',{ref:"pointline"}):_vm._e(),_vm._t("textform"),(_vm.showTextGrid)?_c('div',{ref:"textgrid"}):_vm._e()],2)}
 var staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/components/WaveSurfer/WaveSurfer.vue?vue&type=template&id=6980f950&scoped=true&
+// CONCATENATED MODULE: ./src/components/WaveSurfer/WaveSurfer.vue?vue&type=template&id=5a519bc8&scoped=true&
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.number.constructor.js
 var es_number_constructor = __webpack_require__("a9e3");
@@ -17000,6 +17000,13 @@ var parseIntervalTier = function parseIntervalTier(lines) {
 
 
 
+
+var textgrid_dec, textgrid_dec2, textgrid_dec3, textgrid_dec4, textgrid_dec5, textgrid_dec6, textgrid_dec7, textgrid_dec8, textgrid_class, textgrid_temp;
+
+
+
+
+var textgrid_DEBUG = false;
 /**
  * @typedef {Object} TextgridPluginParams
  * @desc Extends the `WavesurferParams` wavesurfer was initialised with
@@ -17040,7 +17047,7 @@ var parseIntervalTier = function parseIntervalTier(lines) {
  * });
  */
 
-var textgrid_TextgridPlugin = /*#__PURE__*/function () {
+var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DEBUG), textgrid_dec2 = log("textgrid.play", textgrid_DEBUG), textgrid_dec3 = log("textgrid.addTier", textgrid_DEBUG), textgrid_dec4 = log("textgrid.deleteTier", textgrid_DEBUG), textgrid_dec5 = log("textgrid.updateTier", textgrid_DEBUG), textgrid_dec6 = log("textgrid.addTierValue", textgrid_DEBUG), textgrid_dec7 = log("textgrid.setTierValue", true), textgrid_dec8 = log("textgrid.deleteTierValue", textgrid_DEBUG), (textgrid_class = (textgrid_temp = /*#__PURE__*/function () {
   _createClass(TextgridPlugin, null, [{
     key: "create",
 
@@ -17116,6 +17123,7 @@ var textgrid_TextgridPlugin = /*#__PURE__*/function () {
       activeColor: "#FF6D00",
       fontFamily: "Arial",
       fontSize: 15,
+      playingOffset: 1,
       zoomDebounce: false,
       tiers: {}
     }, params);
@@ -17462,7 +17470,7 @@ var textgrid_TextgridPlugin = /*#__PURE__*/function () {
       } else if (this.tiers[key].type == "point") {
         this.renderPointTier(key, positioning);
       } else {
-        this.wavesurfer.fireEvent("error", "tier.type is 'interval' or 'point'");
+        this.wavesurfer.fireEvent("error", new Error("tier.type is 'interval' or 'point'"));
       }
     }
   }, {
@@ -17720,12 +17728,69 @@ var textgrid_TextgridPlugin = /*#__PURE__*/function () {
       var duration = this.wavesurfer.backend.getDuration();
       var progress = this.event2progress(e);
       return progress * duration;
+    } // DECORATOR FUNCTIONS
+
+  }, {
+    key: "saveKeyInTier",
+    value: function saveKeyInTier(key, fn) {
+      if (key in this.tiers) {
+        fn();
+      } else {
+        this.wavesurfer.fireEvent("error", new Error("${key} is not in tiers"));
+      }
     }
+  }, {
+    key: "saveKeyIdxInTier",
+    value: function saveKeyIdxInTier(key, idx, fn) {
+      if (key in this.tiers) {
+        var item = null;
+
+        try {
+          item = this.tiers[key].values[idx];
+        } catch (e) {
+          this.wavesurfer.fireEvent("error", e);
+        } finally {
+          if (item != null) {
+            fn();
+          }
+        }
+      } else {
+        this.wavesurfer.fireEvent("error", new Error("${idx} is not in ${key}"));
+      }
+    } // PLAY
+
+  }, {
+    key: "play",
+    value: function play(key, idx) {
+      var vm = this;
+      this.saveKeyIdxInTier(key, idx, function () {
+        var duration = vm.wavesurfer.getDuration();
+        var startTime = null;
+        var endTime = null;
+        var item = vm.tiers[key].values[idx];
+
+        if (vm.tiers[key].type == "point") {
+          startTime = Math.max(item.time - vm.params.playingOffset, 0);
+          endTime = Math.min(item.time + vm.params.playingOffset, duration);
+        } else {
+          if (idx == 0) {
+            startTime = 0;
+          } else {
+            startTime = vm.tiers[key].values[idx - 1].time;
+          }
+
+          endTime = item.time;
+        }
+
+        vm.wavesurfer.play(startTime, endTime);
+      });
+    } // TIER CONTROL FUNCTIONS
+
   }, {
     key: "addTier",
     value: function addTier(key, type) {
       if (key in this.tiers) {
-        this.wavesurfer.fireEvent("error", "Duplicate tier name (".concat(key, ")"));
+        this.wavesurfer.fireEvent("error", new Error("Duplicate tier name (".concat(key, ")")));
       } else {
         var values = type == "interval" ? [{
           text: "",
@@ -17743,79 +17808,87 @@ var textgrid_TextgridPlugin = /*#__PURE__*/function () {
   }, {
     key: "deleteTier",
     value: function deleteTier(key) {
-      if (key in this.tiers) {
-        this.removeCanvas(key);
-        delete this.tiers[key];
-        this.setCurrent(null, null);
-        this.render();
-      }
-
-      this.wavesurfer.fireEvent("textgrid-update", this.tiers);
+      var vm = this;
+      this.saveKeyInTier(key, function () {
+        vm.removeCanvas(key);
+        delete vm.tiers[key];
+        vm.setCurrent(null, null);
+        vm.wavesurfer.fireEvent("textgrid-update", vm.tiers);
+        vm.render();
+      });
     }
   }, {
     key: "updateTier",
     value: function updateTier(key, obj) {
-      if (key in this.tiers) {
+      var vm = this;
+      this.saveKeyInTier(key, function () {
         if ("name" in obj) {
-          var type = "type" in obj ? obj.type : this.tiers[key].type;
-          var values = this.tiers[key];
-          this.addTier(obj.name, type);
-          this.tiers[obj.name].values = values;
-          this.setCurrent(obj.name, values[0]);
-          this.wavesurfer.fireEvent("textgrid-current-update", this.current);
-          this.deleteTier(key);
+          var type = "type" in obj ? obj.type : vm.tiers[key].type;
+          var values = vm.tiers[key];
+          vm.addTier(obj.name, type);
+          vm.tiers[obj.name].values = values;
+          vm.setCurrent(obj.name, values[0]);
+          vm.wavesurfer.fireEvent("textgrid-current-update", vm.current);
+          vm.deleteTier(key);
         } else if ("type" in obj) {
-          this.tiers[key].type = obj.type;
-          this.setCurrent(key, this.tiers[key].values[0]);
+          vm.tiers[key].type = obj.type;
+          vm.setCurrent(key, vm.tiers[key].values[0]);
         }
 
-        this.render();
-        this.wavesurfer.fireEvent("textgrid-update", this.tiers);
-      }
-    }
+        vm.render();
+        vm.wavesurfer.fireEvent("textgrid-update", vm.tiers);
+      });
+    } // TIER ITEM CONTROL FUNCTIONS
+
   }, {
     key: "addTierValue",
     value: function addTierValue(key, obj) {
-      if (key in this.tiers) {
-        this.tiers[key].values.push(obj);
-        this.setCurrent(key, obj);
-        this.render();
-        this.wavesurfer.fireEvent("textgrid-update", this.tiers);
-      }
+      var _this5 = this;
+
+      var vm = this;
+      this.saveKeyInTier(key, function () {
+        vm.tiers[key].values.push(obj);
+        vm.setCurrent(key, obj);
+        vm.render();
+        vm.wavesurfer.fireEvent("textgrid-update", _this5.tiers);
+      });
     }
   }, {
     key: "setTierValue",
     value: function setTierValue(key, idx, object) {
-      this.tiers[key].values[idx] = object;
-      this.setCurrent(key, this.tiers[key].values[idx]);
-      this.render();
-      this.wavesurfer.fireEvent("textgrid-update", this.tiers);
+      var vm = this;
+      this.saveKeyIdxInTier(key, idx, function () {
+        vm.tiers[key].values[idx] = object;
+        vm.setCurrent(key, vm.tiers[key].values[idx]);
+        vm.render();
+        vm.wavesurfer.fireEvent("textgrid-update", vm.tiers);
+      });
     }
   }, {
     key: "deleteTierValue",
     value: function deleteTierValue(key, idx) {
-      if (key in this.tiers) {
-        if (idx > -1) {
-          this.tiers[key].values.splice(idx, 1);
-          this.setCurrent(key, null);
-          this.render();
-          this.wavesurfer.fireEvent("textgrid-update", this.tiers);
-        }
-      }
-    }
+      var vm = this;
+      this.saveKeyIdxInTier(key, idx, function () {
+        vm.tiers[key].values.splice(idx, 1);
+        vm.setCurrent(key, null);
+        vm.render();
+        vm.wavesurfer.fireEvent("textgrid-update", vm.tiers);
+      });
+    } // file io
+
   }, {
     key: "loadTextGrid",
     value: function loadTextGrid(file) {
-      var _this5 = this;
+      var _this6 = this;
 
       var fr = new FileReader();
       var vm = this;
       fr.readAsText(file);
       fr.addEventListener("load", function () {
         vm.tiers = io.textgrid.load(fr.result);
-        var keys = Object.keys(_this5.tiers);
+        var keys = Object.keys(_this6.tiers);
 
-        for (var key in _this5.tiers) {
+        for (var key in _this6.tiers) {
           if (vm.tiers[key].type == "interval") {
             vm.tiers[key].values.push({
               text: "",
@@ -17824,7 +17897,7 @@ var textgrid_TextgridPlugin = /*#__PURE__*/function () {
           }
         }
 
-        vm.setCurrent(keys[0], _this5.tiers[keys[0]].values[0]);
+        vm.setCurrent(keys[0], _this6.tiers[keys[0]].values[0]);
         vm.wavesurfer.fireEvent("textgrid-current-update", vm.current);
         vm.render();
         vm.wavesurfer.fireEvent("textgrid-update", vm.tiers);
@@ -17854,8 +17927,7 @@ var textgrid_TextgridPlugin = /*#__PURE__*/function () {
   }]);
 
   return TextgridPlugin;
-}();
-
+}(), textgrid_temp), (_applyDecoratedDescriptor(textgrid_class, "create", [textgrid_dec], Object.getOwnPropertyDescriptor(textgrid_class, "create"), textgrid_class), _applyDecoratedDescriptor(textgrid_class.prototype, "play", [textgrid_dec2], Object.getOwnPropertyDescriptor(textgrid_class.prototype, "play"), textgrid_class.prototype), _applyDecoratedDescriptor(textgrid_class.prototype, "addTier", [textgrid_dec3], Object.getOwnPropertyDescriptor(textgrid_class.prototype, "addTier"), textgrid_class.prototype), _applyDecoratedDescriptor(textgrid_class.prototype, "deleteTier", [textgrid_dec4], Object.getOwnPropertyDescriptor(textgrid_class.prototype, "deleteTier"), textgrid_class.prototype), _applyDecoratedDescriptor(textgrid_class.prototype, "updateTier", [textgrid_dec5], Object.getOwnPropertyDescriptor(textgrid_class.prototype, "updateTier"), textgrid_class.prototype), _applyDecoratedDescriptor(textgrid_class.prototype, "addTierValue", [textgrid_dec6], Object.getOwnPropertyDescriptor(textgrid_class.prototype, "addTierValue"), textgrid_class.prototype), _applyDecoratedDescriptor(textgrid_class.prototype, "setTierValue", [textgrid_dec7], Object.getOwnPropertyDescriptor(textgrid_class.prototype, "setTierValue"), textgrid_class.prototype), _applyDecoratedDescriptor(textgrid_class.prototype, "deleteTierValue", [textgrid_dec8], Object.getOwnPropertyDescriptor(textgrid_class.prototype, "deleteTierValue"), textgrid_class.prototype)), textgrid_class));
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.math.log10.js
 var es_math_log10 = __webpack_require__("6b93");
@@ -19620,6 +19692,11 @@ var microphone_MicrophonePlugin = /*#__PURE__*/function () {
       default: function _default() {
         return [];
       }
+    },
+    // TextGrid Plugin
+    playingOffset: {
+      type: Number,
+      default: 1
     }
   },
   watch: {
@@ -19718,6 +19795,15 @@ var microphone_MicrophonePlugin = /*#__PURE__*/function () {
     partialRender: function partialRender(val, old_val) {
       if (val != old_val) this.updateDrawer("partialRender", val);
     },
+    playingOffset: function playingOffset(val, old_val) {
+      if (val != old_val) {
+        if (this.wavesurfer) {
+          if (this.wavesurfer) {
+            this.wavesurfer.textgrid.params.playingOffset = val;
+          }
+        }
+      }
+    },
     pixelRatio: function pixelRatio(val, old_val) {
       if (val != old_val) this.updateDrawer("pixelRatio", val);
     },
@@ -19814,7 +19900,8 @@ var microphone_MicrophonePlugin = /*#__PURE__*/function () {
     initTextGridPlugin: function initTextGridPlugin() {
       if (this.showTextGrid) {
         this.textgrid = textgrid_TextgridPlugin.create({
-          container: this.$refs.textgrid
+          container: this.$refs.textgrid,
+          playingOffset: this.playingOffset
         });
         this.wavesurfer.addPlugin(this.textgrid).initPlugin("textgrid");
         this.wavesurfer.on("textgrid-dblclick", this.onTextGridDblClick);
@@ -19991,6 +20078,9 @@ var microphone_MicrophonePlugin = /*#__PURE__*/function () {
     },
     deleteTierValue: function deleteTierValue(key, idx) {
       this.wavesurfer.textgrid.deleteTierValue(key, idx);
+    },
+    playTextGrid: function playTextGrid(key, idx) {
+      this.wavesurfer.textgrid.play(key, idx);
     },
     loadTextGrid: function loadTextGrid(file) {
       this.wavesurfer.textgrid.loadTextGrid(file);
@@ -20355,7 +20445,7 @@ var component = normalizeComponent(
   staticRenderFns,
   false,
   null,
-  "6980f950",
+  "5a519bc8",
   null
   
 )

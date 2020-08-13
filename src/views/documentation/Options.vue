@@ -5,6 +5,7 @@
         headers.map(x => {
           return {
             text: $vuetify.lang.t(x.text),
+            sortable: x.sortable,
             value: x.value
           };
         })
@@ -29,12 +30,13 @@ export default {
     heading: "wavesurfer.vue/documentation/options",
     desc: `${locale}.desc`,
     headers: [
-      { text: `${locale}.headers.option`, value: "option" },
-      { text: `${locale}.headers.type`, value: "type" },
-      { text: `${locale}.headers.default`, value: "default" },
+      { text: `${locale}.headers.option`, value: "option", sortable: true },
+      { text: `${locale}.headers.type`, value: "type", sortable: true },
+      { text: `${locale}.headers.default`, value: "default", sortable: false },
       {
         text: `${locale}.headers.description`,
-        value: "description"
+        value: "description",
+        sortable: false
       }
     ],
     options: []
@@ -299,7 +301,12 @@ export default {
       {
         option: "points",
         type: "Array",
-        default: []
+        default: "[]"
+      },
+      {
+        option: "playingOffset",
+        type: "number",
+        default: "1"
       }
     ];
     this.options = options.map(x => {
@@ -307,6 +314,13 @@ export default {
         `${this.locale}.options.${x.option}`
       );
       return x;
+    });
+    this.options.sort((a, b) => {
+      if (a.option > b.option) {
+        return 1;
+      } else {
+        return -1;
+      }
     });
   }
 };
