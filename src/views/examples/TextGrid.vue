@@ -31,15 +31,25 @@
           @end="onZoomEnd"
           append-icon="mdi-magnify-plus-cursor"
           prepend-icon="mdi-magnify-minus-cursor"
-          step="100"
-          :min="0"
-          :max="500"
+          step="1"
+          :min="1"
+          :max="5"
           label="Zoom"
         >
           <template v-slot:thumb-label="{ value }">
-            &times; {{ (value / 100).toFixed(0) }}
+            &times; {{ value }}
           </template>
         </v-slider>
+        <v-col cols="12">
+          <v-select
+            v-model="textgridMaxHeight"
+            v-if="source == null"
+            item-text="text"
+            item-value="val"
+            :items="textgridMaxHeightChoices"
+            label="textgrid max height"
+          />
+        </v-col>
       </template>
       <template v-slot:toolbar>
         <w-example-help-dialog>
@@ -64,6 +74,7 @@
         showTimeLine
         showTextGrid
         responsive
+        :textgrid-max-height="textgridMaxHeight"
         :source="source"
       >
         <template v-slot:textform>
@@ -243,8 +254,15 @@ export default {
       values: []
     },
     isReady: false,
-    zoom: 0,
+    zoom: 1,
     tab: null,
+    textgridMaxHeight: null,
+    textgridMaxHeightChoices: [
+      { text: "", val: null },
+      { text: "100px", val: "100px" },
+      { text: "30%", val: "30%" },
+      { text: "30vh", val: "30vh" }
+    ],
     valueDialog: {
       show: false,
       text: "",
@@ -288,28 +306,39 @@ export default {
           @end="onZoomEnd"
           append-icon="mdi-magnify-plus-cursor"
           prepend-icon="mdi-magnify-minus-cursor"
-          step="100"
+          step="1"
           :min="0"
-          :max="500"
+          :max="5"
           label="Zoom"
         >
           <template v-slot:thumb-label="{ value }">
-            &times; {{ (value / 100).toFixed(0) }}
+            &times; {{ value }}
           </template>
         </v-slider>
+        <v-col cols="12">
+          <v-select
+            v-if="source"
+            v-model="textgridMaxHeight"
+            item-text="text"
+            item-value="val"
+            :items="textgridMaxHeightChoices"
+            label="textgrid max height"
+          />
+        </v-col>
       </v-card-text>
       <wave-surfer
         ref="wavesurfer"
         v-if="source"
+        responsive
+        showTimeLine
+        showTextGrid
         @ready="onReady"
         @textgrid-dblclick="onDblclick"
         @textgrid-click="onClick"
         @textgrid-update="onTextGridUpdate"
         @textgrid-current-update="onTextGridCurrentUpdate"
-        showTimeLine
-        showTextGrid
         :source="source"
-        :responsive="true"
+        :textgrid-max-height="textgridMaxHeight.val"
       >
         <template v-slot:textform>
           <v-text-field
@@ -488,8 +517,15 @@ export default {
           values: []
         },
         isReady: false,
-        zoom: 0,
+        zoom: 1,
         tab: null,
+        textgridMaxHeight: { text: "", val: null },
+        textgridMaxHeightChoices: [
+          { text: "", val: null },
+          { text: "100px", val: "100px" },
+          { text: "30%", val: "30%" },
+          { text: "30vh", val: "30vh" }
+        ],
         valueDialog: {
           show: false,
           text: "",
@@ -654,7 +690,7 @@ export default {
           });
         },
         onZoomEnd: function(val) {
-          this.$refs.wavesurfer.zoom(Number(val));
+          this.$refs.wavesurfer.zoom(Number(val) * 100);
         },
         onReady: function() {
           this.isReady = true;
@@ -804,7 +840,7 @@ export default {
       this.source = null;
       this.textgrid = {};
       this.isReady = false;
-      this.zoom = 0;
+      this.zoom = 1;
       this.tab = null;
       this.current = {
         key: null,
@@ -833,7 +869,7 @@ export default {
       }
     },
     onZoomEnd: function(val) {
-      this.$refs.wavesurfer.zoom(Number(val));
+      this.$refs.wavesurfer.zoom(Number(val) * 100);
     },
     onReady: function() {
       this.isReady = true;

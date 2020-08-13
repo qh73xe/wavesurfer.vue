@@ -111,15 +111,16 @@ export default class TextgridPlugin {
     this.params = Object.assign(
       {},
       {
-        height: 50,
-        fontColor: "#000",
-        color: "#000",
         activeColor: "#FF6D00",
+        color: "#000",
+        fontColor: "#000",
         fontFamily: "Arial",
         fontSize: 15,
+        height: 50,
+        maxHeight: null,
         playingOffset: 1,
-        zoomDebounce: false,
-        tiers: {}
+        tiers: {},
+        zoomDebounce: false
       },
       params
     );
@@ -213,13 +214,22 @@ export default class TextgridPlugin {
       webkitUserSelect: "none",
       height: `${this.params.height * Object.keys(this.tiers).length}px`
     });
+
     if (this.wsParams.fillParent || this.wsParams.scrollParent) {
       this.util.style(this.wrapper, {
-        width: "100%",
-        overflowX: "hidden",
-        overflowY: "hidden"
+        width: "100%"
       });
+      if (this.params.maxHeight !== null) {
+        this.setMaxHeight(this.params.maxHeight);
+      } else {
+        this.wrapper.style.overflow = "hidden";
+      }
     }
+    // maxHeight 指定時にスタイルを変更
+    if (this.params.maxHeight !== null) {
+      this.setMaxHeight(this.params.maxHeight);
+    }
+
     let i = 0;
     for (const key in this.tiers) {
       this.updateCanvas(key, i);
@@ -664,6 +674,11 @@ export default class TextgridPlugin {
     const duration = this.wavesurfer.backend.getDuration();
     const progress = this.event2progress(e);
     return progress * duration;
+  }
+  setMaxHeight(maxHeight) {
+    this.wrapper.style.overflow = "hidden";
+    this.wrapper.style.overflowY = "scroll";
+    this.wrapper.style.maxHeight = maxHeight;
   }
 
   // DECORATOR FUNCTIONS

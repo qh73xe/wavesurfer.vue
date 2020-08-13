@@ -307,6 +307,11 @@ export default {
         option: "playingOffset",
         type: "number",
         default: "1"
+      },
+      {
+        option: "textgridMaxHeight",
+        type: "string or null",
+        default: "null"
       }
     ];
     this.options = options.map(x => {

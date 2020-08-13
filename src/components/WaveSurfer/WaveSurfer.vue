@@ -218,6 +218,18 @@ export default {
       default: () => []
     },
     // TextGrid Plugin
+    textgridMaxHeight: {
+      validator: function(value) {
+        if (value == null) return true;
+        if (typeof value == "string") {
+          if (~value.indexOf("px")) return true;
+          if (~value.indexOf("%")) return true;
+          if (~value.indexOf("vh")) return true;
+        }
+        return false;
+      },
+      default: null
+    },
     playingOffset: {
       type: Number,
       default: 1
@@ -435,7 +447,8 @@ export default {
       if (this.showTextGrid) {
         this.textgrid = Textgrid.create({
           container: this.$refs.textgrid,
-          playingOffset: this.playingOffset
+          playingOffset: this.playingOffset,
+          maxHeight: this.textgridMaxHeight
         });
         this.wavesurfer.addPlugin(this.textgrid).initPlugin("textgrid");
         this.wavesurfer.on("textgrid-dblclick", this.onTextGridDblClick);

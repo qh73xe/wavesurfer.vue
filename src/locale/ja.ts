@@ -170,7 +170,8 @@ export default {
         spectrogramHeight: "スペクトログラム表示時のキャンバスの高さ.",
         pointWidth: "ポイントライン表示時のポイント幅.",
         points: "ポイントライン表示時のポイントオブジェクトが格納されたアレイ.",
-        playingOffset: "ポイント層再生時のオフセットタイム."
+        playingOffset: "ポイント層再生時のオフセットタイム.",
+        textgridMaxHeight: "テキストグリッド表示の最大高さ."
       }
     },
     events: {

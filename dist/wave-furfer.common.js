@@ -9331,12 +9331,15 @@ if (typeof window !== 'undefined') {
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 var external_commonjs_vue_commonjs2_vue_root_Vue_default = /*#__PURE__*/__webpack_require__.n(external_commonjs_vue_commonjs2_vue_root_Vue_);
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"d7f3097c-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/WaveSurfer/WaveSurfer.vue?vue&type=template&id=5a519bc8&scoped=true&
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"d7f3097c-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/WaveSurfer/WaveSurfer.vue?vue&type=template&id=09a755f8&scoped=true&
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[(_vm.showSpectrogram)?_c('div',{directives:[{name:"show",rawName:"v-show",value:(!_vm.isSpectrogramRendering),expression:"!isSpectrogramRendering"}],ref:"spectrogram"}):_vm._e(),_vm._t("default"),_c('div',{directives:[{name:"show",rawName:"v-show",value:(!_vm.isSpectrogramRendering),expression:"!isSpectrogramRendering"}],ref:"waveform"}),(_vm.showTimeLine)?_c('div',{ref:"timeline"}):_vm._e(),(_vm.showPointLine)?_c('div',{ref:"pointline"}):_vm._e(),_vm._t("textform"),(_vm.showTextGrid)?_c('div',{ref:"textgrid"}):_vm._e()],2)}
 var staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/components/WaveSurfer/WaveSurfer.vue?vue&type=template&id=5a519bc8&scoped=true&
+// CONCATENATED MODULE: ./src/components/WaveSurfer/WaveSurfer.vue?vue&type=template&id=09a755f8&scoped=true&
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.index-of.js
+var es_array_index_of = __webpack_require__("c975");
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.number.constructor.js
 var es_number_constructor = __webpack_require__("a9e3");
@@ -9519,9 +9522,6 @@ var es_array_filter = __webpack_require__("4de4");
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.for-each.js
 var es_array_for_each = __webpack_require__("4160");
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.index-of.js
-var es_array_index_of = __webpack_require__("c975");
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.join.js
 var es_array_join = __webpack_require__("a15b");
@@ -17117,15 +17117,16 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
     this.wavesurfer = _ws;
     this.util = _ws.util;
     this.params = Object.assign({}, {
-      height: 50,
-      fontColor: "#000",
-      color: "#000",
       activeColor: "#FF6D00",
+      color: "#000",
+      fontColor: "#000",
       fontFamily: "Arial",
       fontSize: 15,
+      height: 50,
+      maxHeight: null,
       playingOffset: 1,
-      zoomDebounce: false,
-      tiers: {}
+      tiers: {},
+      zoomDebounce: false
     }, params);
     this.wrapper = null;
     this.drawer = null;
@@ -17228,10 +17229,19 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
 
       if (this.wsParams.fillParent || this.wsParams.scrollParent) {
         this.util.style(this.wrapper, {
-          width: "100%",
-          overflowX: "hidden",
-          overflowY: "hidden"
+          width: "100%"
         });
+
+        if (this.params.maxHeight !== null) {
+          this.setMaxHeight(this.params.maxHeight);
+        } else {
+          this.wrapper.style.overflow = "hidden";
+        }
+      } // maxHeight 指定時にスタイルを変更
+
+
+      if (this.params.maxHeight !== null) {
+        this.setMaxHeight(this.params.maxHeight);
       }
 
       var i = 0;
@@ -17728,6 +17738,13 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
       var duration = this.wavesurfer.backend.getDuration();
       var progress = this.event2progress(e);
       return progress * duration;
+    }
+  }, {
+    key: "setMaxHeight",
+    value: function setMaxHeight(maxHeight) {
+      this.wrapper.style.overflow = "hidden";
+      this.wrapper.style.overflowY = "scroll";
+      this.wrapper.style.maxHeight = maxHeight;
     } // DECORATOR FUNCTIONS
 
   }, {
@@ -19396,6 +19413,7 @@ var microphone_MicrophonePlugin = /*#__PURE__*/function () {
 
 
 
+
 //
 //
 //
@@ -19694,6 +19712,20 @@ var microphone_MicrophonePlugin = /*#__PURE__*/function () {
       }
     },
     // TextGrid Plugin
+    textgridMaxHeight: {
+      validator: function validator(value) {
+        if (value == null) return true;
+
+        if (typeof value == "string") {
+          if (~value.indexOf("px")) return true;
+          if (~value.indexOf("%")) return true;
+          if (~value.indexOf("vh")) return true;
+        }
+
+        return false;
+      },
+      default: null
+    },
     playingOffset: {
       type: Number,
       default: 1
@@ -19901,7 +19933,8 @@ var microphone_MicrophonePlugin = /*#__PURE__*/function () {
       if (this.showTextGrid) {
         this.textgrid = textgrid_TextgridPlugin.create({
           container: this.$refs.textgrid,
-          playingOffset: this.playingOffset
+          playingOffset: this.playingOffset,
+          maxHeight: this.textgridMaxHeight
         });
         this.wavesurfer.addPlugin(this.textgrid).initPlugin("textgrid");
         this.wavesurfer.on("textgrid-dblclick", this.onTextGridDblClick);
@@ -20445,7 +20478,7 @@ var component = normalizeComponent(
   staticRenderFns,
   false,
   null,
-  "5a519bc8",
+  "09a755f8",
   null
   
 )
