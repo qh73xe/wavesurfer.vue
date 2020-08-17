@@ -731,7 +731,7 @@ export default {
       return this.runWaveSurfer("getFilters");
     },
     getWaveColor: function() {
-      return this.runWaveSurfer("getCurrentTime");
+      return this.runWaveSurfer("getWaveColor");
     },
     exportPCM(length, accuracy, noWindow, start) {
       const args = [length, accuracy, noWindow, start];
