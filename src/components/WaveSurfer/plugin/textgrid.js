@@ -804,10 +804,15 @@ export default class TextgridPlugin {
   addTierValue(key, obj) {
     const vm = this;
     this.saveKeyInTier(key, () => {
-      vm.tiers[key].values.push(obj);
-      vm.setCurrent(key, obj);
-      vm.render();
-      vm.wavesurfer.fireEvent("textgrid-update", this.tiers);
+      const idx = vm.tiers[key].values.findIndex(x => {
+        return x.time == obj.time;
+      });
+      if (idx == -1) {
+        vm.tiers[key].values.push(obj);
+        vm.setCurrent(key, obj);
+        vm.render();
+        vm.wavesurfer.fireEvent("textgrid-update", this.tiers);
+      }
     });
   }
 

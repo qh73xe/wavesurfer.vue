@@ -17885,10 +17885,16 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
 
       var vm = this;
       this.saveKeyInTier(key, function () {
-        vm.tiers[key].values.push(obj);
-        vm.setCurrent(key, obj);
-        vm.render();
-        vm.wavesurfer.fireEvent("textgrid-update", _this5.tiers);
+        var idx = vm.tiers[key].values.findIndex(function (x) {
+          return x.time == obj.time;
+        });
+
+        if (idx == -1) {
+          vm.tiers[key].values.push(obj);
+          vm.setCurrent(key, obj);
+          vm.render();
+          vm.wavesurfer.fireEvent("textgrid-update", _this5.tiers);
+        }
       });
     }
   }, {
