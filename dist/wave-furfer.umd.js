@@ -9340,12 +9340,12 @@ if (typeof window !== 'undefined') {
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 var external_commonjs_vue_commonjs2_vue_root_Vue_default = /*#__PURE__*/__webpack_require__.n(external_commonjs_vue_commonjs2_vue_root_Vue_);
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"d7f3097c-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/WaveSurfer/WaveSurfer.vue?vue&type=template&id=09a755f8&scoped=true&
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"d7f3097c-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/WaveSurfer/WaveSurfer.vue?vue&type=template&id=560d3180&scoped=true&
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[(_vm.showSpectrogram)?_c('div',{directives:[{name:"show",rawName:"v-show",value:(!_vm.isSpectrogramRendering),expression:"!isSpectrogramRendering"}],ref:"spectrogram"}):_vm._e(),_vm._t("default"),_c('div',{directives:[{name:"show",rawName:"v-show",value:(!_vm.isSpectrogramRendering),expression:"!isSpectrogramRendering"}],ref:"waveform"}),(_vm.showTimeLine)?_c('div',{ref:"timeline"}):_vm._e(),(_vm.showPointLine)?_c('div',{ref:"pointline"}):_vm._e(),_vm._t("textform"),(_vm.showTextGrid)?_c('div',{ref:"textgrid"}):_vm._e()],2)}
 var staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/components/WaveSurfer/WaveSurfer.vue?vue&type=template&id=09a755f8&scoped=true&
+// CONCATENATED MODULE: ./src/components/WaveSurfer/WaveSurfer.vue?vue&type=template&id=560d3180&scoped=true&
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.index-of.js
 var es_array_index_of = __webpack_require__("c975");
@@ -17257,7 +17257,7 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
 
       for (var key in this.tiers) {
         this.updateCanvas(key, i);
-        this.updateCanvasPositioning(key);
+        this.updateCanvasPositioning(key, i);
         this.renderCanvas(key);
         this.renderLabel(key);
         i++;
@@ -17277,6 +17277,7 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
           position: "absolute",
           zIndex: 3,
           top: "".concat(i * this.params.height, "px"),
+          left: "".concat(0 * this.maxCanvasElementWidth, "px"),
           "border-top": "solid 1px ".concat(this.params.color),
           "border-bottom": "solid 1px ".concat(this.params.color)
         }); // add canvas events
@@ -17390,11 +17391,19 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
         label.classList.add("tier-labels");
         this.drawer.style(label, {
           position: "absolute",
-          top: "".concat(i * this.params.height, "px"),
           zIndex: 4,
+          top: "".concat(i * this.params.height, "px"),
           width: "${this.params.fontSize + 4}px"
         });
         this.tiers[key].label = label;
+      } else {
+        var _label = this.tiers[key].label;
+        this.drawer.style(_label, {
+          position: "absolute",
+          zIndex: 4,
+          top: "".concat(i * this.params.height, "px"),
+          width: "${this.params.fontSize + 4}px"
+        });
       }
     }
     /**
@@ -17406,6 +17415,8 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
     key: "removeCanvas",
     value: function removeCanvas(key) {
       var canvas = this.tiers[key].canvas;
+      var label = this.tiers[key].label;
+      label.parentElement.removeChild(label);
       canvas.parentElement.removeChild(canvas);
     }
   }, {
@@ -17422,7 +17433,7 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
 
   }, {
     key: "updateCanvasPositioning",
-    value: function updateCanvasPositioning(key) {
+    value: function updateCanvasPositioning(key, i) {
       var canvas = this.tiers[key].canvas; // cache length for performance
 
       var canvasesLength = 1; // canvas width is the max element width, or if it is the last the
@@ -17435,9 +17446,10 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
 
       canvas.height = (this.params.height + 1) * this.pixelRatio;
       this.util.style(canvas, {
+        top: "".concat(i * this.params.height, "px"),
+        left: "".concat(0 * this.maxCanvasElementWidth, "px"),
         width: "".concat(canvasWidth, "px"),
-        height: "".concat(this.params.height, "px"),
-        left: "".concat(0 * this.maxCanvasElementWidth, "px")
+        height: "".concat(this.params.height, "px")
       });
     }
     /**
@@ -17839,8 +17851,8 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
         vm.removeCanvas(key);
         delete vm.tiers[key];
         vm.setCurrent(null, null);
-        vm.wavesurfer.fireEvent("textgrid-update", vm.tiers);
         vm.render();
+        vm.wavesurfer.fireEvent("textgrid-update", vm.tiers);
       });
     }
   }, {
@@ -20241,7 +20253,7 @@ var microphone_MicrophonePlugin = /*#__PURE__*/function () {
       return this.runWaveSurfer("getFilters");
     },
     getWaveColor: function getWaveColor() {
-      return this.runWaveSurfer("getCurrentTime");
+      return this.runWaveSurfer("getWaveColor");
     },
     exportPCM: function exportPCM(length, accuracy, noWindow, start) {
       var args = [length, accuracy, noWindow, start];
@@ -20487,7 +20499,7 @@ var component = normalizeComponent(
   staticRenderFns,
   false,
   null,
-  "09a755f8",
+  "560d3180",
   null
   
 )
