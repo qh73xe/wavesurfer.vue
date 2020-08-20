@@ -233,7 +233,7 @@ export default class TextgridPlugin {
     let i = 0;
     for (const key in this.tiers) {
       this.updateCanvas(key, i);
-      this.updateCanvasPositioning(key);
+      this.updateCanvasPositioning(key, i);
       this.renderCanvas(key);
       this.renderLabel(key);
       i++;
@@ -251,6 +251,7 @@ export default class TextgridPlugin {
         position: "absolute",
         zIndex: 3,
         top: `${i * this.params.height}px`,
+        left: `${0 * this.maxCanvasElementWidth}px`,
         "border-top": `solid 1px ${this.params.color}`,
         "border-bottom": `solid 1px ${this.params.color}`
       });
@@ -356,11 +357,19 @@ export default class TextgridPlugin {
       label.classList.add("tier-labels");
       this.drawer.style(label, {
         position: "absolute",
-        top: `${i * this.params.height}px`,
         zIndex: 4,
+        top: `${i * this.params.height}px`,
         width: "${this.params.fontSize + 4}px"
       });
       this.tiers[key].label = label;
+    } else {
+      const label = this.tiers[key].label;
+      this.drawer.style(label, {
+        position: "absolute",
+        zIndex: 4,
+        top: `${i * this.params.height}px`,
+        width: "${this.params.fontSize + 4}px"
+      });
     }
   }
 
@@ -370,6 +379,8 @@ export default class TextgridPlugin {
    */
   removeCanvas(key) {
     const canvas = this.tiers[key].canvas;
+    const label = this.tiers[key].label;
+    label.parentElement.removeChild(label);
     canvas.parentElement.removeChild(canvas);
   }
 
@@ -383,7 +394,7 @@ export default class TextgridPlugin {
   /**
    * Update the dimensions and positioning style for all the textgrid canvas
    */
-  updateCanvasPositioning(key) {
+  updateCanvasPositioning(key, i) {
     const canvas = this.tiers[key].canvas;
     // cache length for performance
     const canvasesLength = 1;
@@ -400,9 +411,10 @@ export default class TextgridPlugin {
     // therefore leave 1px extra
     canvas.height = (this.params.height + 1) * this.pixelRatio;
     this.util.style(canvas, {
+      top: `${i * this.params.height}px`,
+      left: `${0 * this.maxCanvasElementWidth}px`,
       width: `${canvasWidth}px`,
-      height: `${this.params.height}px`,
-      left: `${0 * this.maxCanvasElementWidth}px`
+      height: `${this.params.height}px`
     });
   }
 
@@ -456,6 +468,7 @@ export default class TextgridPlugin {
         cb(pos[0], pos[1], pos[2], pos[3]);
       });
     };
+
     // render labels
     renderPositions((curSeconds, curPixel, prePixel, text) => {
       // 現在クリック時の表示箇所を強調
@@ -760,8 +773,8 @@ export default class TextgridPlugin {
       vm.removeCanvas(key);
       delete vm.tiers[key];
       vm.setCurrent(null, null);
-      vm.wavesurfer.fireEvent("textgrid-update", vm.tiers);
       vm.render();
+      vm.wavesurfer.fireEvent("textgrid-update", vm.tiers);
     });
   }
 
