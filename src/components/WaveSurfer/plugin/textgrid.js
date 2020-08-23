@@ -277,7 +277,6 @@ export default class TextgridPlugin {
         const currentItem = canditates[0];
         if (currentItem) {
           vm.setCurrent(key, currentItem);
-          vm.render();
         }
       };
 
@@ -300,7 +299,6 @@ export default class TextgridPlugin {
           const idx = vm.tiers[key].dragingItemIdx;
           if (vm.tiers[key].values[idx]) {
             vm.tiers[key].values[idx].time = vm.event2time(e);
-            vm.setCurrent(vm.tiers[key].values[idx]);
             vm.render();
           }
         }, 50);
@@ -472,8 +470,9 @@ export default class TextgridPlugin {
     // render labels
     renderPositions((curSeconds, curPixel, prePixel, text) => {
       // 現在クリック時の表示箇所を強調
-      if (this.current.key == key && this.current.item) {
-        if (this.current.item.time == curSeconds) {
+      if (this.current.key == key && this.current.index !== null) {
+        const record = this.tiers[key].values[this.current.index];
+        if (record.time == curSeconds) {
           this.setFillStyles(key, this.params.activeColor);
           const canvas = this.tiers[key].canvas;
           canvas
@@ -484,6 +483,7 @@ export default class TextgridPlugin {
         this.setFillStyles(key, this.params.fontColor);
       }
       this.fillRect(key, curPixel, 0, 1, height);
+
       // 文字表示が可能な場合文字を表示
       if (text) {
         let fontSize = this.params.fontSize * this.wsParams.pixelRatio;
@@ -515,8 +515,9 @@ export default class TextgridPlugin {
     // render labels
     renderPositions((curSeconds, curPixel, prePixel, text) => {
       // 現在クリック時の表示箇所を強調
-      if (this.current.key == key && this.current.item) {
-        if (this.current.item.time == curSeconds) {
+      if (this.current.key == key && this.current.index !== null) {
+        const record = this.tiers[key].values[this.current.index];
+        if (record.time == curSeconds) {
           this.setFillStyles(key, this.params.activeColor);
           this.fillRect(key, curPixel, 0, 3, Math.round(height / 2));
         } else {
@@ -649,6 +650,7 @@ export default class TextgridPlugin {
         x => x.time == this.current.item.time
       );
     }
+    this.render();
     this.wavesurfer.fireEvent("textgrid-current-update", this.current);
   }
 
@@ -761,7 +763,6 @@ export default class TextgridPlugin {
         values: values
       };
       this.render();
-      this.setCurrent(key, null);
       this.wavesurfer.fireEvent("textgrid-update", this.tiers);
     }
   }
@@ -772,7 +773,6 @@ export default class TextgridPlugin {
     this.saveKeyInTier(key, () => {
       vm.removeCanvas(key);
       delete vm.tiers[key];
-      vm.setCurrent(null, null);
       vm.render();
       vm.wavesurfer.fireEvent("textgrid-update", vm.tiers);
     });
@@ -787,12 +787,9 @@ export default class TextgridPlugin {
         const values = vm.tiers[key];
         vm.addTier(obj.name, type);
         vm.tiers[obj.name].values = values;
-        vm.setCurrent(obj.name, values[0]);
-        vm.wavesurfer.fireEvent("textgrid-current-update", vm.current);
         vm.deleteTier(key);
       } else if ("type" in obj) {
         vm.tiers[key].type = obj.type;
-        vm.setCurrent(key, vm.tiers[key].values[0]);
       }
       vm.render();
       vm.wavesurfer.fireEvent("textgrid-update", vm.tiers);
@@ -809,19 +806,17 @@ export default class TextgridPlugin {
       });
       if (idx == -1) {
         vm.tiers[key].values.push(obj);
-        vm.setCurrent(key, obj);
         vm.render();
         vm.wavesurfer.fireEvent("textgrid-update", this.tiers);
       }
     });
   }
 
-  @log("textgrid.setTierValue", true)
+  @log("textgrid.setTierValue", DEBUG)
   setTierValue(key, idx, object) {
     const vm = this;
     this.saveKeyIdxInTier(key, idx, () => {
       vm.tiers[key].values[idx] = object;
-      vm.setCurrent(key, vm.tiers[key].values[idx]);
       vm.render();
       vm.wavesurfer.fireEvent("textgrid-update", vm.tiers);
     });
@@ -832,7 +827,6 @@ export default class TextgridPlugin {
     const vm = this;
     this.saveKeyIdxInTier(key, idx, () => {
       vm.tiers[key].values.splice(idx, 1);
-      vm.setCurrent(key, null);
       vm.render();
       vm.wavesurfer.fireEvent("textgrid-update", vm.tiers);
     });
@@ -845,7 +839,6 @@ export default class TextgridPlugin {
     fr.readAsText(file);
     fr.addEventListener("load", () => {
       vm.tiers = io.textgrid.load(fr.result);
-      const keys = Object.keys(this.tiers);
       for (const key in this.tiers) {
         if (vm.tiers[key].type == "interval") {
           vm.tiers[key].values.push({
@@ -854,8 +847,6 @@ export default class TextgridPlugin {
           });
         }
       }
-      vm.setCurrent(keys[0], this.tiers[keys[0]].values[0]);
-      vm.wavesurfer.fireEvent("textgrid-current-update", vm.current);
       vm.render();
       vm.wavesurfer.fireEvent("textgrid-update", vm.tiers);
     });

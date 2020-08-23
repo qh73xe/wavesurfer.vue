@@ -17001,6 +17001,8 @@ var parseIntervalTier = function parseIntervalTier(lines) {
 
 
 
+
+
 var textgrid_dec, textgrid_dec2, textgrid_dec3, textgrid_dec4, textgrid_dec5, textgrid_dec6, textgrid_dec7, textgrid_dec8, textgrid_class, textgrid_temp;
 
 
@@ -17047,7 +17049,7 @@ var textgrid_DEBUG = false;
  * });
  */
 
-var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DEBUG), textgrid_dec2 = log("textgrid.play", textgrid_DEBUG), textgrid_dec3 = log("textgrid.addTier", textgrid_DEBUG), textgrid_dec4 = log("textgrid.deleteTier", textgrid_DEBUG), textgrid_dec5 = log("textgrid.updateTier", textgrid_DEBUG), textgrid_dec6 = log("textgrid.addTierValue", textgrid_DEBUG), textgrid_dec7 = log("textgrid.setTierValue", true), textgrid_dec8 = log("textgrid.deleteTierValue", textgrid_DEBUG), (textgrid_class = (textgrid_temp = /*#__PURE__*/function () {
+var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DEBUG), textgrid_dec2 = log("textgrid.play", textgrid_DEBUG), textgrid_dec3 = log("textgrid.addTier", textgrid_DEBUG), textgrid_dec4 = log("textgrid.deleteTier", textgrid_DEBUG), textgrid_dec5 = log("textgrid.updateTier", textgrid_DEBUG), textgrid_dec6 = log("textgrid.addTierValue", textgrid_DEBUG), textgrid_dec7 = log("textgrid.setTierValue", textgrid_DEBUG), textgrid_dec8 = log("textgrid.deleteTierValue", textgrid_DEBUG), (textgrid_class = (textgrid_temp = /*#__PURE__*/function () {
   _createClass(TextgridPlugin, null, [{
     key: "create",
 
@@ -17298,7 +17300,6 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
 
           if (currentItem) {
             vm.setCurrent(key, currentItem);
-            vm.render();
           }
         };
 
@@ -17325,7 +17326,6 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
 
             if (vm.tiers[key].values[idx]) {
               vm.tiers[key].values[idx].time = vm.event2time(e);
-              vm.setCurrent(vm.tiers[key].values[idx]);
               vm.render();
             }
           }, 50);
@@ -17512,8 +17512,10 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
 
       renderPositions(function (curSeconds, curPixel, prePixel, text) {
         // 現在クリック時の表示箇所を強調
-        if (_this2.current.key == key && _this2.current.item) {
-          if (_this2.current.item.time == curSeconds) {
+        if (_this2.current.key == key && _this2.current.index !== null) {
+          var record = _this2.tiers[key].values[_this2.current.index];
+
+          if (record.time == curSeconds) {
             _this2.setFillStyles(key, _this2.params.activeColor);
 
             var canvas = _this2.tiers[key].canvas;
@@ -17564,8 +17566,10 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
 
       renderPositions(function (curSeconds, curPixel, prePixel, text) {
         // 現在クリック時の表示箇所を強調
-        if (_this3.current.key == key && _this3.current.item) {
-          if (_this3.current.item.time == curSeconds) {
+        if (_this3.current.key == key && _this3.current.index !== null) {
+          var record = _this3.tiers[key].values[_this3.current.index];
+
+          if (record.time == curSeconds) {
             _this3.setFillStyles(key, _this3.params.activeColor);
 
             _this3.fillRect(key, curPixel, 0, 3, Math.round(height / 2));
@@ -17711,6 +17715,7 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
         });
       }
 
+      this.render();
       this.wavesurfer.fireEvent("textgrid-current-update", this.current);
     }
     /**
@@ -17830,7 +17835,6 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
           values: values
         };
         this.render();
-        this.setCurrent(key, null);
         this.wavesurfer.fireEvent("textgrid-update", this.tiers);
       }
     }
@@ -17841,7 +17845,6 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
       this.saveKeyInTier(key, function () {
         vm.removeCanvas(key);
         delete vm.tiers[key];
-        vm.setCurrent(null, null);
         vm.render();
         vm.wavesurfer.fireEvent("textgrid-update", vm.tiers);
       });
@@ -17856,12 +17859,9 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
           var values = vm.tiers[key];
           vm.addTier(obj.name, type);
           vm.tiers[obj.name].values = values;
-          vm.setCurrent(obj.name, values[0]);
-          vm.wavesurfer.fireEvent("textgrid-current-update", vm.current);
           vm.deleteTier(key);
         } else if ("type" in obj) {
           vm.tiers[key].type = obj.type;
-          vm.setCurrent(key, vm.tiers[key].values[0]);
         }
 
         vm.render();
@@ -17882,7 +17882,6 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
 
         if (idx == -1) {
           vm.tiers[key].values.push(obj);
-          vm.setCurrent(key, obj);
           vm.render();
           vm.wavesurfer.fireEvent("textgrid-update", _this5.tiers);
         }
@@ -17894,7 +17893,6 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
       var vm = this;
       this.saveKeyIdxInTier(key, idx, function () {
         vm.tiers[key].values[idx] = object;
-        vm.setCurrent(key, vm.tiers[key].values[idx]);
         vm.render();
         vm.wavesurfer.fireEvent("textgrid-update", vm.tiers);
       });
@@ -17905,7 +17903,6 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
       var vm = this;
       this.saveKeyIdxInTier(key, idx, function () {
         vm.tiers[key].values.splice(idx, 1);
-        vm.setCurrent(key, null);
         vm.render();
         vm.wavesurfer.fireEvent("textgrid-update", vm.tiers);
       });
@@ -17921,7 +17918,6 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
       fr.readAsText(file);
       fr.addEventListener("load", function () {
         vm.tiers = io.textgrid.load(fr.result);
-        var keys = Object.keys(_this6.tiers);
 
         for (var key in _this6.tiers) {
           if (vm.tiers[key].type == "interval") {
@@ -17932,8 +17928,6 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
           }
         }
 
-        vm.setCurrent(keys[0], _this6.tiers[keys[0]].values[0]);
-        vm.wavesurfer.fireEvent("textgrid-current-update", vm.current);
         vm.render();
         vm.wavesurfer.fireEvent("textgrid-update", vm.tiers);
       });
