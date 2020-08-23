@@ -17010,8 +17010,6 @@ var parseIntervalTier = function parseIntervalTier(lines) {
 
 
 
-
-
 var textgrid_dec, textgrid_dec2, textgrid_dec3, textgrid_dec4, textgrid_dec5, textgrid_dec6, textgrid_dec7, textgrid_dec8, textgrid_class, textgrid_temp;
 
 
@@ -17287,28 +17285,31 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
         var vm = this;
 
         this.tiers[key].onClick = function (e) {
-          e.preventDefault(); // seek to click point
+          e.preventDefault();
 
-          var progress = vm.event2progress(e);
-          vm.wavesurfer.seekTo(progress); // fire event
+          if (e.detail === 1) {
+            // seek to click point
+            var progress = vm.event2progress(e);
+            vm.wavesurfer.seekTo(progress); // fire event
 
-          var time = vm.event2time(e);
-          var payload = {
-            key: key,
-            time: time
-          };
-          vm.wavesurfer.fireEvent("textgrid-click", payload); // set curent item
+            var time = vm.event2time(e);
+            var payload = {
+              key: key,
+              time: time
+            };
+            vm.wavesurfer.fireEvent("textgrid-click", payload); // set curent item
 
-          var canditates = vm.tiers[key].values.filter(function (x) {
-            return x.time >= time;
-          });
-          canditates.sort(function (a, b) {
-            return a.time - b.time;
-          });
-          var currentItem = canditates[0];
+            var canditates = vm.tiers[key].values.filter(function (x) {
+              return x.time >= time;
+            });
+            canditates.sort(function (a, b) {
+              return a.time - b.time;
+            });
+            var currentItem = canditates[0];
 
-          if (currentItem) {
-            vm.setCurrent(key, currentItem);
+            if (currentItem) {
+              vm.setCurrent(key, currentItem);
+            }
           }
         };
 
@@ -17717,13 +17718,9 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
 
       this.current.key = key;
       this.current.item = item;
-
-      if (item) {
-        this.current.index = this.tiers[key].values.findIndex(function (x) {
-          return x.time == _this4.current.item.time;
-        });
-      }
-
+      this.current.index = this.tiers[key].values.findIndex(function (x) {
+        return x.time == _this4.current.item.time;
+      });
       this.render();
       this.wavesurfer.fireEvent("textgrid-current-update", this.current);
     }
@@ -17832,20 +17829,26 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
   }, {
     key: "addTier",
     value: function addTier(key, type) {
+      if (key == "" || key == null || key == undefined) {
+        this.wavesurfer.fireEvent("error", new Error("No tier name"));
+        return;
+      }
+
       if (key in this.tiers) {
         this.wavesurfer.fireEvent("error", new Error("Duplicate tier name (".concat(key, ")")));
-      } else {
-        var values = type == "interval" ? [{
-          text: "",
-          time: this.wavesurfer.getDuration()
-        }] : [];
-        this.tiers[key] = {
-          type: type,
-          values: values
-        };
-        this.render();
-        this.wavesurfer.fireEvent("textgrid-update", this.tiers);
+        return;
       }
+
+      var values = type == "interval" ? [{
+        text: "",
+        time: this.wavesurfer.getDuration()
+      }] : [];
+      this.tiers[key] = {
+        type: type,
+        values: values
+      };
+      this.render();
+      this.wavesurfer.fireEvent("textgrid-update", this.tiers);
     }
   }, {
     key: "deleteTier",
@@ -17890,8 +17893,13 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
         });
 
         if (idx == -1) {
-          vm.tiers[key].values.push(obj);
+          var item = {
+            time: obj.time || null,
+            text: obj.text || ""
+          };
+          vm.tiers[key].values.push(item);
           vm.render();
+          vm.setCurrent(key, item);
           vm.wavesurfer.fireEvent("textgrid-update", _this5.tiers);
         }
       });
