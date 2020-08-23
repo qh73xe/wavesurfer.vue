@@ -367,13 +367,6 @@ module.exports = ''.repeat || function repeat(count) {
 
 /***/ }),
 
-/***/ "1265":
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
-
-/***/ }),
-
 /***/ "1276":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3256,17 +3249,6 @@ module.exports = getBuiltIn('Reflect', 'ownKeys') || function ownKeys(it) {
   return getOwnPropertySymbols ? keys.concat(getOwnPropertySymbols(it)) : keys;
 };
 
-
-/***/ }),
-
-/***/ "5882":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_WaveSurfer_vue_vue_type_style_index_0_id_d01a4c98_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("1265");
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_WaveSurfer_vue_vue_type_style_index_0_id_d01a4c98_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_WaveSurfer_vue_vue_type_style_index_0_id_d01a4c98_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__);
-/* unused harmony reexport * */
- /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_WaveSurfer_vue_vue_type_style_index_0_id_d01a4c98_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 
@@ -10080,18 +10062,18 @@ if (typeof window !== 'undefined') {
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 var external_commonjs_vue_commonjs2_vue_root_Vue_default = /*#__PURE__*/__webpack_require__.n(external_commonjs_vue_commonjs2_vue_root_Vue_);
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"d7f3097c-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/WaveSurfer/WaveSurfer.vue?vue&type=template&id=d01a4c98&scoped=true&
-var WaveSurfervue_type_template_id_d01a4c98_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[(_vm.showSpectrogram)?_c('v-card',[_c('div',{directives:[{name:"show",rawName:"v-show",value:(!_vm.isSpectrogramRendering),expression:"!isSpectrogramRendering"}],ref:"spectrogram"})]):_vm._e(),_vm._t("default"),(_vm.showSpectrogram)?_c('v-card',[_c('div',{directives:[{name:"show",rawName:"v-show",value:(!_vm.isSpectrogramRendering),expression:"!isSpectrogramRendering"}],ref:"waveform"})]):_vm._e(),(_vm.showTimeLine)?_c('v-card',[_c('div',{ref:"timeline"})]):_vm._e(),(_vm.showPointLine)?_c('v-card',[_c('div',{ref:"pointline"})]):_vm._e(),_vm._t("textform"),(_vm.showTextGrid)?_c('v-card',[(_vm.showTextGrid)?_c('div',{ref:"textgrid"}):_vm._e()]):_vm._e()],2)}
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"d7f3097c-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/WaveSurfer/WaveSurfer.vue?vue&type=template&id=5ab4b1ac&scoped=true&
+var WaveSurfervue_type_template_id_5ab4b1ac_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('v-card',[(_vm.showSpectrogram)?_c('v-card',{staticClass:"overflow-y-auto",attrs:{"max-height":_vm.spectrogramMaxHeight}},[_c('div',{directives:[{name:"show",rawName:"v-show",value:(!_vm.isSpectrogramRendering),expression:"!isSpectrogramRendering"}],ref:"spectrogram"})]):_vm._e(),_vm._t("default"),_c('v-card',[_c('div',{directives:[{name:"show",rawName:"v-show",value:(!_vm.isSpectrogramRendering),expression:"!isSpectrogramRendering"}],ref:"waveform"})]),(_vm.showTimeLine)?_c('v-card',[_c('div',{ref:"timeline"})]):_vm._e(),(_vm.showPointLine)?_c('v-card',[_c('div',{ref:"pointline"})]):_vm._e(),_vm._t("textform"),(_vm.showTextGrid)?_c('v-card',{staticClass:"overflow-y-auto",attrs:{"max-height":_vm.textgridMaxHeight}},[(_vm.showTextGrid)?_c('div',{ref:"textgrid"}):_vm._e()]):_vm._e()],2)}
 var staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/components/WaveSurfer/WaveSurfer.vue?vue&type=template&id=d01a4c98&scoped=true&
+// CONCATENATED MODULE: ./src/components/WaveSurfer/WaveSurfer.vue?vue&type=template&id=5ab4b1ac&scoped=true&
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.index-of.js
 var es_array_index_of = __webpack_require__("c975");
 
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.iterator.js
-var es_array_iterator = __webpack_require__("e260");
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.function.name.js
+var es_function_name = __webpack_require__("b0c0");
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.number.constructor.js
 var es_number_constructor = __webpack_require__("a9e3");
@@ -10148,9 +10130,6 @@ function _iterableToArray(iter) {
 }
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.slice.js
 var es_array_slice = __webpack_require__("fb6a");
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.function.name.js
-var es_function_name = __webpack_require__("b0c0");
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.regexp.to-string.js
 var es_regexp_to_string = __webpack_require__("25f0");
@@ -11126,6 +11105,9 @@ function fetchFile(options) {
 
 
 
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.iterator.js
+var es_array_iterator = __webpack_require__("e260");
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.some.js
 var es_array_some = __webpack_require__("45fc");
@@ -19188,7 +19170,6 @@ function FFT(bufferSize, sampleRate, windowFunc, alpha) {
 
 
 
-
 var spectrogram_dec, spectrogram_dec2, spectrogram_dec3, spectrogram_dec4, spectrogram_dec5, spectrogram_dec6, spectrogram_dec7, spectrogram_dec8, spectrogram_dec9, spectrogram_dec10, spectrogram_dec11, spectrogram_dec12, spectrogram_dec13, spectrogram_class;
 
 /* eslint-enable complexity, no-redeclare, no-var, one-var */
@@ -19333,6 +19314,7 @@ var spectrogram_SpectrogramPlugin = (spectrogram_dec = log("spectrogram.create",
       _this.noverlap = params.noverlap;
       _this.windowFunc = params.windowFunc;
       _this.alpha = params.alpha;
+      _this.currentTime = ws.getCurrentTime() || 0;
 
       _this.createWrapper();
 
@@ -19342,6 +19324,28 @@ var spectrogram_SpectrogramPlugin = (spectrogram_dec = log("spectrogram.create",
 
       drawer.wrapper.addEventListener("scroll", _this._onWrapperScroll);
       ws.on("redraw", _this._onRender);
+      ws.backend.on("audioprocess", function (time) {
+        _this.currentTime = time;
+
+        if (_this.cursorEl) {
+          var _left = _this.currentTime * _this.wavesurfer.params.minPxPerSec;
+
+          var left = _left ? "".concat(_left, "px") : _this.cursorEl.style.left;
+          _this.cursorEl.style.left = left;
+        }
+      });
+      ws.on("seek", function (progress) {
+        var time = progress * _this.wavesurfer.getDuration();
+
+        _this.currentTime = time;
+
+        if (_this.cursorEl) {
+          var _left = _this.currentTime * _this.wavesurfer.params.minPxPerSec;
+
+          var left = _left ? "".concat(_left, "px") : _this.cursorEl.style.left;
+          _this.cursorEl.style.left = left;
+        }
+      });
     };
   }
 
@@ -19391,12 +19395,26 @@ var spectrogram_SpectrogramPlugin = (spectrogram_dec = log("spectrogram.create",
         this.drawer.style(labelsEl, {
           left: 0,
           position: "absolute",
-          zIndex: 3,
+          zIndex: 4,
           height: "".concat(canvasHeight, "px"),
           width: "".concat(55 / this.pixelRatio, "px")
         });
         this.wrapper.appendChild(labelsEl);
-      }
+      } // cursor 用のキャンバスを作成
+
+
+      var cursorEl = this.cursorEl = document.createElement("div");
+      cursorEl.classList.add("spec-cursor");
+      var cursorWidth = this.wavesurfer.params.cursorWidth || 1;
+      this.drawer.style(cursorEl, {
+        left: 0,
+        position: "absolute",
+        zIndex: 3,
+        height: "".concat(canvasHeight, "px"),
+        width: "".concat(cursorWidth, "px"),
+        borderLeft: "".concat(cursorWidth, "px dashed ").concat(this.wavesurfer.params.cursorColor)
+      });
+      this.wrapper.appendChild(cursorEl); // キャンバス全体設定
 
       this.drawer.style(this.wrapper, {
         display: "block",
@@ -19453,7 +19471,10 @@ var spectrogram_SpectrogramPlugin = (spectrogram_dec = log("spectrogram.create",
       if (this.frequenciesDataUrl) {
         this.loadFrequenciesData(this.frequenciesDataUrl);
       } else {
-        this.getFrequencies(this.drawSpectrogram);
+        var vm = this;
+        setTimeout(function () {
+          vm.getFrequencies(vm.drawSpectrogram);
+        }, 0);
       }
 
       if (this.params.labels) {
@@ -20206,6 +20227,14 @@ var microphone_MicrophonePlugin = /*#__PURE__*/function () {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -20460,6 +20489,20 @@ var microphone_MicrophonePlugin = /*#__PURE__*/function () {
       type: Number,
       default: 10
     },
+    spectrogramMaxHeight: {
+      validator: function validator(value) {
+        if (value == null) return true;
+
+        if (typeof value == "string") {
+          if (~value.indexOf("px")) return true;
+          if (~value.indexOf("%")) return true;
+          if (~value.indexOf("vh")) return true;
+        }
+
+        return false;
+      },
+      default: "100%"
+    },
     spectrogramHeight: {
       type: Number,
       default: 256
@@ -20509,7 +20552,7 @@ var microphone_MicrophonePlugin = /*#__PURE__*/function () {
 
         return false;
       },
-      default: null
+      default: "100%"
     },
     playingOffset: {
       type: Number,
@@ -20652,6 +20695,19 @@ var microphone_MicrophonePlugin = /*#__PURE__*/function () {
     },
     waveColor: function waveColor(val, old_val) {
       if (val != old_val) this.updateDrawer("waveColor", val);
+    },
+    showSpectrogram: function showSpectrogram(val, old_val) {
+      var _this = this;
+
+      if (val != old_val) {
+        if (val) {
+          this.$nextTick(function () {
+            setTimeout(_this.initSpectrogramPlugin, 0);
+          });
+        } else {
+          this.wavesurfer.destroyPlugin(this.spectrogram.name);
+        }
+      }
     }
   },
   methods: {
@@ -20718,8 +20774,7 @@ var microphone_MicrophonePlugin = /*#__PURE__*/function () {
       if (this.showTextGrid) {
         this.textgrid = textgrid_TextgridPlugin.create({
           container: this.$refs.textgrid,
-          playingOffset: this.playingOffset,
-          maxHeight: this.textgridMaxHeight
+          playingOffset: this.playingOffset
         });
         this.wavesurfer.addPlugin(this.textgrid).initPlugin("textgrid");
         this.wavesurfer.on("textgrid-dblclick", this.onTextGridDblClick);
@@ -20729,7 +20784,7 @@ var microphone_MicrophonePlugin = /*#__PURE__*/function () {
       }
     },
     initPointLinePlugin: function initPointLinePlugin() {
-      var _this = this;
+      var _this2 = this;
 
       if (this.showPointLine) {
         this.pointline = pointline_PointlinePlugin.create({
@@ -20739,18 +20794,18 @@ var microphone_MicrophonePlugin = /*#__PURE__*/function () {
         });
         this.wavesurfer.addPlugin(this.pointline).initPlugin("pointline");
         this.wavesurfer.pointline.on("addPoint", function (point) {
-          _this.$emit("addPoint", point);
+          _this2.$emit("addPoint", point);
         });
         this.wavesurfer.pointline.on("updatePoint", function (point) {
-          _this.$emit("updatePoint", point);
+          _this2.$emit("updatePoint", point);
         });
         this.wavesurfer.pointline.on("deletePoint", function (point) {
-          _this.$emit("deletePoint", point);
+          _this2.$emit("deletePoint", point);
         });
       }
     },
     initRecPlugin: function initRecPlugin() {
-      var _this2 = this;
+      var _this3 = this;
 
       if (this.rec) {
         this.microphone = microphone_MicrophonePlugin.create({
@@ -20767,17 +20822,17 @@ var microphone_MicrophonePlugin = /*#__PURE__*/function () {
           var mediaRecorder = new MediaRecorder(stream);
           mediaRecorder.start();
           mediaRecorder.addEventListener("dataavailable", function (event) {
-            _this2.audioChunks.push(event.data);
+            _this3.audioChunks.push(event.data);
           });
           mediaRecorder.addEventListener("stop", function () {
-            var audioBlob = new Blob(_this2.audioChunks);
-            _this2.audioUrl = URL.createObjectURL(audioBlob);
+            var audioBlob = new Blob(_this3.audioChunks);
+            _this3.audioUrl = URL.createObjectURL(audioBlob);
 
-            _this2.downloadWave();
+            _this3.downloadWave();
           });
         });
         this.wavesurfer.microphone.on("deviceError", function (code) {
-          _this2.$emit("deviceError", code);
+          _this3.$emit("deviceError", code);
         });
       } else {
         if (this.source) {
@@ -20786,65 +20841,65 @@ var microphone_MicrophonePlugin = /*#__PURE__*/function () {
       }
     },
     initWaveSurfer: function initWaveSurfer() {
-      var _this3 = this;
+      var _this4 = this;
 
       if (this.wavesurfer === null) {
         this.$nextTick(function () {
           var options = {
-            container: _this3.$refs.waveform,
-            audioRate: _this3.audioRate,
-            audioContext: _this3.audioContext,
-            audioScriptProcessor: _this3.audioScriptProcessor,
-            autoCenter: _this3.autoCenter,
-            backend: _this3.backend,
-            backgroundColor: _this3.backgroundColor,
-            barGap: _this3.barGap,
-            barHeight: _this3.barHeight,
-            barMinHeight: _this3.barMinHeight,
-            barRadius: _this3.barRadius,
-            barWidth: _this3.barWidth,
-            closeAudioContext: _this3.closeAudioContext,
-            cursorColor: _this3.cursorColor,
-            cursorWidth: _this3.cursorWidth,
-            drawingContextAttributes: _this3.drawingContextAttributes,
-            fillParent: _this3.fillParent,
-            forceDecode: _this3.forceDecode,
-            height: _this3.height,
-            hideScrollbar: _this3.hideScrollbar,
-            interact: _this3.interact,
-            loopSelection: _this3.loopSelection,
-            maxCanvasWidth: _this3.maxCanvasWidth,
-            mediaControls: _this3.mediaControls,
-            mediaType: _this3.mediaType,
-            minPxPerSec: _this3.minPxPerSec,
-            normalize: _this3.normalize,
-            partialRender: _this3.partialRender,
-            pixelRatio: _this3.pixelRatio,
-            progressColor: _this3.progressColor,
-            removeMediaElementOnDestroy: _this3.removeMediaElementOnDestroy,
-            responsive: _this3.responsive,
-            scrollParent: _this3.scrollParent,
-            skipLength: _this3.skipLength,
-            splitChannels: _this3.splitChannels,
-            waveColor: _this3.waveColor,
-            xhr: _this3.xhr
+            container: _this4.$refs.waveform,
+            audioRate: _this4.audioRate,
+            audioContext: _this4.audioContext,
+            audioScriptProcessor: _this4.audioScriptProcessor,
+            autoCenter: _this4.autoCenter,
+            backend: _this4.backend,
+            backgroundColor: _this4.backgroundColor,
+            barGap: _this4.barGap,
+            barHeight: _this4.barHeight,
+            barMinHeight: _this4.barMinHeight,
+            barRadius: _this4.barRadius,
+            barWidth: _this4.barWidth,
+            closeAudioContext: _this4.closeAudioContext,
+            cursorColor: _this4.cursorColor,
+            cursorWidth: _this4.cursorWidth,
+            drawingContextAttributes: _this4.drawingContextAttributes,
+            fillParent: _this4.fillParent,
+            forceDecode: _this4.forceDecode,
+            height: _this4.height,
+            hideScrollbar: _this4.hideScrollbar,
+            interact: _this4.interact,
+            loopSelection: _this4.loopSelection,
+            maxCanvasWidth: _this4.maxCanvasWidth,
+            mediaControls: _this4.mediaControls,
+            mediaType: _this4.mediaType,
+            minPxPerSec: _this4.minPxPerSec,
+            normalize: _this4.normalize,
+            partialRender: _this4.partialRender,
+            pixelRatio: _this4.pixelRatio,
+            progressColor: _this4.progressColor,
+            removeMediaElementOnDestroy: _this4.removeMediaElementOnDestroy,
+            responsive: _this4.responsive,
+            scrollParent: _this4.scrollParent,
+            skipLength: _this4.skipLength,
+            splitChannels: _this4.splitChannels,
+            waveColor: _this4.waveColor,
+            xhr: _this4.xhr
           };
-          options = _this3.initRecOptions(options);
+          options = _this4.initRecOptions(options);
 
-          if (_this3.$refs.waveform) {
-            _this3.wavesurfer = wavesurfer_WaveSurfer.create(options);
+          if (_this4.$refs.waveform) {
+            _this4.wavesurfer = wavesurfer_WaveSurfer.create(options);
 
-            _this3.initWaveSurferEvent();
+            _this4.initWaveSurferEvent();
 
-            _this3.initTileLinePlugin();
+            _this4.initTileLinePlugin();
 
-            _this3.initSpectrogramPlugin();
+            _this4.initSpectrogramPlugin();
 
-            _this3.initTextGridPlugin();
+            _this4.initTextGridPlugin();
 
-            _this3.initPointLinePlugin();
+            _this4.initPointLinePlugin();
 
-            _this3.initRecPlugin();
+            _this4.initRecPlugin();
           }
         });
       }
@@ -21149,9 +21204,6 @@ var microphone_MicrophonePlugin = /*#__PURE__*/function () {
 });
 // CONCATENATED MODULE: ./src/components/WaveSurfer/WaveSurfer.vue?vue&type=script&lang=js&
  /* harmony default export */ var WaveSurfer_WaveSurfervue_type_script_lang_js_ = (WaveSurfervue_type_script_lang_js_); 
-// EXTERNAL MODULE: ./src/components/WaveSurfer/WaveSurfer.vue?vue&type=style&index=0&id=d01a4c98&scoped=true&lang=css&
-var WaveSurfervue_type_style_index_0_id_d01a4c98_scoped_true_lang_css_ = __webpack_require__("5882");
-
 // CONCATENATED MODULE: ./node_modules/vue-loader/lib/runtime/componentNormalizer.js
 /* globals __VUE_SSR_CONTEXT__ */
 
@@ -25578,16 +25630,15 @@ var Ripple = {
 
 
 
-
 /* normalize component */
 
 var component = normalizeComponent(
   WaveSurfer_WaveSurfervue_type_script_lang_js_,
-  WaveSurfervue_type_template_id_d01a4c98_scoped_true_render,
+  WaveSurfervue_type_template_id_5ab4b1ac_scoped_true_render,
   staticRenderFns,
   false,
   null,
-  "d01a4c98",
+  "5ab4b1ac",
   null
   
 )

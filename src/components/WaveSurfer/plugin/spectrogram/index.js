@@ -126,12 +126,30 @@ export default class SpectrogramPlugin {
       this.noverlap = params.noverlap;
       this.windowFunc = params.windowFunc;
       this.alpha = params.alpha;
+      this.currentTime = ws.getCurrentTime() || 0;
 
       this.createWrapper();
       this.createCanvas();
       this.render();
       drawer.wrapper.addEventListener("scroll", this._onWrapperScroll);
       ws.on("redraw", this._onRender);
+      ws.backend.on("audioprocess", time => {
+        this.currentTime = time;
+        if (this.cursorEl) {
+          const _left = this.currentTime * this.wavesurfer.params.minPxPerSec;
+          const left = _left ? `${_left}px` : this.cursorEl.style.left;
+          this.cursorEl.style.left = left;
+        }
+      });
+      ws.on("seek", progress => {
+        const time = progress * this.wavesurfer.getDuration();
+        this.currentTime = time;
+        if (this.cursorEl) {
+          const _left = this.currentTime * this.wavesurfer.params.minPxPerSec;
+          const left = _left ? `${_left}px` : this.cursorEl.style.left;
+          this.cursorEl.style.left = left;
+        }
+      });
     };
   }
 
@@ -179,13 +197,28 @@ export default class SpectrogramPlugin {
       this.drawer.style(labelsEl, {
         left: 0,
         position: "absolute",
-        zIndex: 3,
+        zIndex: 4,
         height: `${canvasHeight}px`,
         width: `${55 / this.pixelRatio}px`
       });
       this.wrapper.appendChild(labelsEl);
     }
 
+    // cursor 用のキャンバスを作成
+    const cursorEl = (this.cursorEl = document.createElement("div"));
+    cursorEl.classList.add("spec-cursor");
+    const cursorWidth = this.wavesurfer.params.cursorWidth || 1;
+    this.drawer.style(cursorEl, {
+      left: 0,
+      position: "absolute",
+      zIndex: 3,
+      height: `${canvasHeight}px`,
+      width: `${cursorWidth}px`,
+      borderLeft: `${cursorWidth}px dashed ${this.wavesurfer.params.cursorColor}`
+    });
+    this.wrapper.appendChild(cursorEl);
+
+    // キャンバス全体設定
     this.drawer.style(this.wrapper, {
       display: "block",
       position: "relative",

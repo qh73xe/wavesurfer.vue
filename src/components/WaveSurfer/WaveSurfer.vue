@@ -18,7 +18,11 @@
       <div ref="pointline" />
     </v-card>
     <slot name="textform"></slot>
-    <v-card v-if="showTextGrid">
+    <v-card
+      v-if="showTextGrid"
+      class="overflow-y-auto"
+      :max-height="textgridMaxHeight"
+    >
       <div ref="textgrid" v-if="showTextGrid" />
     </v-card>
   </v-card>
@@ -258,7 +262,7 @@ export default {
         }
         return false;
       },
-      default: null
+      default: "100%"
     },
     playingOffset: {
       type: Number,
@@ -487,8 +491,7 @@ export default {
       if (this.showTextGrid) {
         this.textgrid = Textgrid.create({
           container: this.$refs.textgrid,
-          playingOffset: this.playingOffset,
-          maxHeight: this.textgridMaxHeight
+          playingOffset: this.playingOffset
         });
         this.wavesurfer.addPlugin(this.textgrid).initPlugin("textgrid");
         this.wavesurfer.on("textgrid-dblclick", this.onTextGridDblClick);

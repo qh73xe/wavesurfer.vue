@@ -43,7 +43,6 @@
         <v-col cols="12">
           <v-select
             v-model="textgridMaxHeight"
-            v-if="source == null"
             item-text="text"
             item-value="val"
             :items="textgridMaxHeightChoices"
