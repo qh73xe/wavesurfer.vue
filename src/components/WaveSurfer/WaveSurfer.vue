@@ -1,17 +1,27 @@
 <template>
-  <div>
-    <div
-      ref="spectrogram"
+  <v-card>
+    <v-card
       v-if="showSpectrogram"
-      v-show="!isSpectrogramRendering"
-    />
+      class="overflow-y-auto"
+      :max-height="spectrogramMaxHeight"
+    >
+      <div ref="spectrogram" v-show="!isSpectrogramRendering" />
+    </v-card>
     <slot></slot>
-    <div ref="waveform" v-show="!isSpectrogramRendering"></div>
-    <div ref="timeline" v-if="showTimeLine" />
-    <div ref="pointline" v-if="showPointLine" />
+    <v-card>
+      <div ref="waveform" v-show="!isSpectrogramRendering"></div>
+    </v-card>
+    <v-card v-if="showTimeLine">
+      <div ref="timeline" />
+    </v-card>
+    <v-card v-if="showPointLine">
+      <div ref="pointline" />
+    </v-card>
     <slot name="textform"></slot>
-    <div ref="textgrid" v-if="showTextGrid" />
-  </div>
+    <v-card v-if="showTextGrid">
+      <div ref="textgrid" v-if="showTextGrid" />
+    </v-card>
+  </v-card>
 </template>
 <script>
 import WaveSurfer from "./wavesurfer.js";
@@ -35,6 +45,14 @@ export default {
     isMouseEntered: false
   }),
   props: {
+    flat: {
+      type: Boolean,
+      default: false
+    },
+    tile: {
+      type: Boolean,
+      default: false
+    },
     source: {
       validator: function(value) {
         const value_type = typeof value;
@@ -197,6 +215,18 @@ export default {
     unitFontSize: {
       type: Number,
       default: 10
+    },
+    spectrogramMaxHeight: {
+      validator: function(value) {
+        if (value == null) return true;
+        if (typeof value == "string") {
+          if (~value.indexOf("px")) return true;
+          if (~value.indexOf("%")) return true;
+          if (~value.indexOf("vh")) return true;
+        }
+        return false;
+      },
+      default: "100%"
     },
     spectrogramHeight: {
       type: Number,
@@ -369,9 +399,19 @@ export default {
         }
       }
     },
-
     waveColor(val, old_val) {
       if (val != old_val) this.updateDrawer("waveColor", val);
+    },
+    showSpectrogram(val, old_val) {
+      if (val != old_val) {
+        if (val) {
+          this.$nextTick(() => {
+            setTimeout(this.initSpectrogramPlugin, 0);
+          });
+        } else {
+          this.wavesurfer.destroyPlugin(this.spectrogram.name);
+        }
+      }
     }
   },
   methods: {

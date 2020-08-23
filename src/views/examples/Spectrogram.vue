@@ -13,7 +13,12 @@
     </template>
     <w-example-demo-card :title="card_title">
       <template v-slot:toolbar>
-        <v-switch class="mt-4" v-model="isScroll" label="scroll" />
+        <v-switch
+          class="mt-4"
+          v-model="showSpectrogram"
+          label="show Spectrogram"
+        />
+        <v-switch class="ml-2 mt-4" v-model="isScroll" label="scroll" />
       </template>
       <template v-slot:input-form>
         <v-file-input
@@ -44,6 +49,17 @@
               <template v-slot:thumb-label="{ value }">
                 {{ `x ${value}` }}
               </template>
+            </v-slider>
+          </v-col>
+          <v-col>
+            <v-slider
+              v-model="spectrogramMaxHeight"
+              append-icon="mdi-magnify-plus-cursor"
+              prepend-icon="mdi-magnify-minus-cursor"
+              :min="50"
+              :max="256"
+              label="MaxHeight"
+            >
             </v-slider>
           </v-col>
         </v-row>
@@ -78,13 +94,12 @@
         :scrollParent="scrollParent"
         :freqRate="freqRate"
         :targetChannel="targetChannel"
-        showSpectrogram
+        :showSpectrogram="showSpectrogram"
+        showFreqLabel
         splitChannels
         normalize
         responsive
-        :spectrogramHeight="100"
-        :freqFontSize="12"
-        :unitFontSize="10"
+        :spectrogramMaxHeight="`${spectrogramMaxHeight}px`"
         @play="onPlay"
         @pause="onPause"
         @destroy="onDestroy"
@@ -130,6 +145,8 @@ export default {
     desc: "How to show the spectrogram of audio file.",
     isScroll: true,
     isLoading: false,
+    showSpectrogram: true,
+    spectrogramMaxHeight: "100",
     zoom: 1,
     freqRate: 1,
     freqRateVal: 1,

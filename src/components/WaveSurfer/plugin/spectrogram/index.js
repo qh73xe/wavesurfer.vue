@@ -242,7 +242,10 @@ export default class SpectrogramPlugin {
     if (this.frequenciesDataUrl) {
       this.loadFrequenciesData(this.frequenciesDataUrl);
     } else {
-      this.getFrequencies(this.drawSpectrogram);
+      const vm = this;
+      setTimeout(() => {
+        vm.getFrequencies(vm.drawSpectrogram);
+      }, 0);
     }
     if (this.params.labels) {
       const freqFontSize = this.params.freqFontSize || 12;
