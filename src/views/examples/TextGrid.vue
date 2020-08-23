@@ -820,7 +820,6 @@ export default {
         text: this.current.text
       };
       const idx = this.current.idx;
-      console.log("ENTER", key, idx, item);
       this.$refs.wavesurfer.setTierValue(key, idx, item);
     },
     deleteTierValue(item) {

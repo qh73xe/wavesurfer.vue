@@ -260,23 +260,26 @@ export default class TextgridPlugin {
       const vm = this;
       this.tiers[key].onClick = function(e) {
         e.preventDefault();
-        // seek to click point
-        const progress = vm.event2progress(e);
-        vm.wavesurfer.seekTo(progress);
 
-        // fire event
-        const time = vm.event2time(e);
-        const payload = { key: key, time: time };
-        vm.wavesurfer.fireEvent("textgrid-click", payload);
+        if (e.detail === 1) {
+          // seek to click point
+          const progress = vm.event2progress(e);
+          vm.wavesurfer.seekTo(progress);
 
-        // set curent item
-        let canditates = vm.tiers[key].values.filter(x => {
-          return x.time >= time;
-        });
-        canditates.sort((a, b) => a.time - b.time);
-        const currentItem = canditates[0];
-        if (currentItem) {
-          vm.setCurrent(key, currentItem);
+          // fire event
+          const time = vm.event2time(e);
+          const payload = { key: key, time: time };
+          vm.wavesurfer.fireEvent("textgrid-click", payload);
+
+          // set curent item
+          let canditates = vm.tiers[key].values.filter(x => {
+            return x.time >= time;
+          });
+          canditates.sort((a, b) => a.time - b.time);
+          const currentItem = canditates[0];
+          if (currentItem) {
+            vm.setCurrent(key, currentItem);
+          }
         }
       };
 
@@ -645,11 +648,9 @@ export default class TextgridPlugin {
   setCurrent(key, item) {
     this.current.key = key;
     this.current.item = item;
-    if (item) {
-      this.current.index = this.tiers[key].values.findIndex(
-        x => x.time == this.current.item.time
-      );
-    }
+    this.current.index = this.tiers[key].values.findIndex(
+      x => x.time == this.current.item.time
+    );
     this.render();
     this.wavesurfer.fireEvent("textgrid-current-update", this.current);
   }
@@ -748,23 +749,28 @@ export default class TextgridPlugin {
   // TIER CONTROL FUNCTIONS
   @log("textgrid.addTier", DEBUG)
   addTier(key, type) {
+    if (key == "" || key == null || key == undefined) {
+      this.wavesurfer.fireEvent("error", new Error(`No tier name`));
+      return;
+    }
     if (key in this.tiers) {
       this.wavesurfer.fireEvent(
         "error",
         new Error(`Duplicate tier name (${key})`)
       );
-    } else {
-      const values =
-        type == "interval"
-          ? [{ text: "", time: this.wavesurfer.getDuration() }]
-          : [];
-      this.tiers[key] = {
-        type: type,
-        values: values
-      };
-      this.render();
-      this.wavesurfer.fireEvent("textgrid-update", this.tiers);
+      return;
     }
+
+    const values =
+      type == "interval"
+        ? [{ text: "", time: this.wavesurfer.getDuration() }]
+        : [];
+    this.tiers[key] = {
+      type: type,
+      values: values
+    };
+    this.render();
+    this.wavesurfer.fireEvent("textgrid-update", this.tiers);
   }
 
   @log("textgrid.deleteTier", DEBUG)
@@ -805,8 +811,13 @@ export default class TextgridPlugin {
         return x.time == obj.time;
       });
       if (idx == -1) {
-        vm.tiers[key].values.push(obj);
+        const item = {
+          time: obj.time || null,
+          text: obj.text || ""
+        };
+        vm.tiers[key].values.push(item);
         vm.render();
+        vm.setCurrent(key, item);
         vm.wavesurfer.fireEvent("textgrid-update", this.tiers);
       }
     });
