@@ -423,7 +423,7 @@ export default class TextgridPlugin {
           meta: e.metaKey,
           current: vm.current
         };
-        vm.wavesurfer.fireEvent("textgrid-keydown", payload);
+        vm.wavesurfer.fireEvent("textgrid-keyup", payload);
       };
 
       canvas.setAttribute("tabindex", 0);
