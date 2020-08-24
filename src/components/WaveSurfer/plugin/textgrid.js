@@ -201,6 +201,7 @@ export default class TextgridPlugin {
    * Render the textgrid (also updates the already rendered textgrid)
    *
    */
+  @log("textgrid.render", DEBUG)
   render() {
     this.wsParams = this.wavesurfer.params;
     if (!this.wrapper) {

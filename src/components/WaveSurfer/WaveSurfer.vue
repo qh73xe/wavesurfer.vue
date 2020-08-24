@@ -1,31 +1,24 @@
 <template>
-  <v-card>
-    <v-card
+  <div class="ws">
+    <div
+      ref="spectrogram"
       v-if="showSpectrogram"
       class="overflow-y-auto"
-      :max-height="spectrogramMaxHeight"
-    >
-      <div ref="spectrogram" v-show="!isSpectrogramRendering" />
-    </v-card>
+      :style="`max-height: ${spectrogramMaxHeight}`"
+      v-show="!isSpectrogramRendering"
+    />
     <slot></slot>
-    <v-card>
-      <div ref="waveform" v-show="!isSpectrogramRendering"></div>
-    </v-card>
-    <v-card v-if="showTimeLine">
-      <div ref="timeline" />
-    </v-card>
-    <v-card v-if="showPointLine">
-      <div ref="pointline" />
-    </v-card>
+    <div ref="waveform" v-show="!isSpectrogramRendering" />
+    <div ref="timeline" v-if="showTimeLine" />
+    <div ref="pointline" v-if="showPointLine" />
     <slot name="textform"></slot>
-    <v-card
-      v-if="showTextGrid"
+    <div
       class="overflow-y-auto"
-      :max-height="textgridMaxHeight"
-    >
-      <div ref="textgrid" v-if="showTextGrid" />
-    </v-card>
-  </v-card>
+      :style="`max-height: ${textgridMaxHeight}`"
+      ref="textgrid"
+      v-if="showTextGrid"
+    />
+  </div>
 </template>
 <script>
 import WaveSurfer from "./wavesurfer.js";
@@ -906,4 +899,13 @@ export default {
   }
 };
 </script>
-<style scoped></style>
+<style scoped>
+.ws {
+  text-align: justify;
+  text-justify: inter-ideograph;
+}
+
+.overflow-y-auto {
+  overflow-y: auto;
+}
+</style>
