@@ -322,7 +322,6 @@ export default class TextgridPlugin {
           meta: e.metaKey
         };
         vm.wavesurfer.fireEvent("textgrid-click", payload);
-        console.log(payload);
 
         if (e.detail === 1) {
           // set curent item

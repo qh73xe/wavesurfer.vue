@@ -17371,7 +17371,6 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
             meta: e.metaKey
           };
           vm.wavesurfer.fireEvent("textgrid-click", payload);
-          console.log(payload);
 
           if (e.detail === 1) {
             // set curent item
