@@ -17021,6 +17021,8 @@ var parseIntervalTier = function parseIntervalTier(lines) {
 
 
 
+
+
 var textgrid_dec, textgrid_dec2, textgrid_dec3, textgrid_dec4, textgrid_dec5, textgrid_dec6, textgrid_dec7, textgrid_dec8, textgrid_dec9, textgrid_dec10, textgrid_class, textgrid_temp;
 
 
@@ -17451,7 +17453,7 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
         this.tiers[key].onKeydown = function (e) {
           e.preventDefault();
           var payload = {
-            keycode: e.wich,
+            keycode: e.which,
             shift: e.shiftKey,
             ctrl: e.ctrlKey,
             alt: e.altKey,
@@ -17464,7 +17466,7 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
         this.tiers[key].onKeyup = function (e) {
           e.preventDefault();
           var payload = {
-            keycode: e.wich,
+            keycode: e.which,
             shift: e.shiftKey,
             ctrl: e.ctrlKey,
             alt: e.altKey,

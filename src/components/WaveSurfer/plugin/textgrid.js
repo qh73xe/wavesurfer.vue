@@ -404,7 +404,7 @@ export default class TextgridPlugin {
       this.tiers[key].onKeydown = function(e) {
         e.preventDefault();
         const payload = {
-          keycode: e.wich,
+          keycode: e.which,
           shift: e.shiftKey,
           ctrl: e.ctrlKey,
           alt: e.altKey,
@@ -417,7 +417,7 @@ export default class TextgridPlugin {
       this.tiers[key].onKeyup = function(e) {
         e.preventDefault();
         const payload = {
-          keycode: e.wich,
+          keycode: e.which,
           shift: e.shiftKey,
           ctrl: e.ctrlKey,
           alt: e.altKey,
