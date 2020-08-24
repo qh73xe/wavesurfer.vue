@@ -513,28 +513,33 @@ export default class TextgridPlugin {
 
     // build an array of position data with index, second and pixel data,
     // this is then used multiple times below
-    const values = this.tiers[key].values;
-    values.sort((a, b) => a.time - b.time);
-    const positioning = [];
-    let i = 0;
-    for (const x of values) {
-      const curPixel = pixelsPerSecond * x.time;
-      const preSec = i == 0 ? 0 : values[i - 1].time;
-      const prePixel = i == 0 ? 0 : pixelsPerSecond * preSec;
-      positioning.push([x.time, curPixel, prePixel, x.text]);
-      i++;
-    }
+    try {
+      const values = this.tiers[key].values;
+      values.sort((a, b) => a.time - b.time);
 
-    // iterate over each position
-    if (this.tiers[key].type == "interval") {
-      this.renderIntervalTier(key, positioning);
-    } else if (this.tiers[key].type == "point") {
-      this.renderPointTier(key, positioning);
-    } else {
-      this.wavesurfer.fireEvent(
-        "error",
-        new Error("tier.type is 'interval' or 'point'")
-      );
+      const positioning = [];
+      let i = 0;
+      for (const x of values) {
+        const curPixel = pixelsPerSecond * x.time;
+        const preSec = i == 0 ? 0 : values[i - 1].time;
+        const prePixel = i == 0 ? 0 : pixelsPerSecond * preSec;
+        positioning.push([x.time, curPixel, prePixel, x.text]);
+        i++;
+      }
+
+      // iterate over each position
+      if (this.tiers[key].type == "interval") {
+        this.renderIntervalTier(key, positioning);
+      } else if (this.tiers[key].type == "point") {
+        this.renderPointTier(key, positioning);
+      } else {
+        this.wavesurfer.fireEvent(
+          "error",
+          new Error("tier.type is 'interval' or 'point'")
+        );
+      }
+    } catch (e) {
+      this.wavesurfer.fireEvent("error", e);
     }
   }
 

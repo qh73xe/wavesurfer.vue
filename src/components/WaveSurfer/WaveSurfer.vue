@@ -647,8 +647,8 @@ export default {
     addTierValue: function(key, obj) {
       this.wavesurfer.textgrid.addTierValue(key, obj);
     },
-    setTierValue: function(key, idx, text) {
-      this.wavesurfer.textgrid.setTierValue(key, idx, text);
+    setTierValue: function(key, idx, object) {
+      this.wavesurfer.textgrid.setTierValue(key, idx, object);
     },
     deleteTierValue: function(key, idx) {
       this.wavesurfer.textgrid.deleteTierValue(key, idx);
