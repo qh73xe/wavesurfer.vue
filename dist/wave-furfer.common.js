@@ -576,17 +576,6 @@ for (var COLLECTION_NAME in DOMIterables) {
 
 /***/ }),
 
-/***/ "15aa":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_WaveSurfer_vue_vue_type_style_index_0_id_1b237c6a_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("7da0");
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_WaveSurfer_vue_vue_type_style_index_0_id_1b237c6a_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_WaveSurfer_vue_vue_type_style_index_0_id_1b237c6a_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__);
-/* unused harmony reexport * */
- /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_WaveSurfer_vue_vue_type_style_index_0_id_1b237c6a_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
-
-/***/ }),
-
 /***/ "170b":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2097,6 +2086,17 @@ $({ global: true, forced: !USE_NATIVE_URL, sham: !DESCRIPTORS }, {
 
 /***/ }),
 
+/***/ "2b76":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_WaveSurfer_vue_vue_type_style_index_0_id_f619c28e_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("312c");
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_WaveSurfer_vue_vue_type_style_index_0_id_f619c28e_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_WaveSurfer_vue_vue_type_style_index_0_id_f619c28e_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
+ /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_WaveSurfer_vue_vue_type_style_index_0_id_f619c28e_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
+/***/ }),
+
 /***/ "2cf4":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2235,6 +2235,13 @@ if (v8) {
 
 module.exports = version && +version;
 
+
+/***/ }),
+
+/***/ "312c":
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
 
 /***/ }),
 
@@ -4392,13 +4399,6 @@ module.exports = Object.create || function create(O, Properties) {
   return Properties === undefined ? result : defineProperties(result, Properties);
 };
 
-
-/***/ }),
-
-/***/ "7da0":
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
 
 /***/ }),
 
@@ -9349,18 +9349,15 @@ if (typeof window !== 'undefined') {
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 var external_commonjs_vue_commonjs2_vue_root_Vue_default = /*#__PURE__*/__webpack_require__.n(external_commonjs_vue_commonjs2_vue_root_Vue_);
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"d7f3097c-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/WaveSurfer/WaveSurfer.vue?vue&type=template&id=1b237c6a&scoped=true&
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"d7f3097c-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/WaveSurfer/WaveSurfer.vue?vue&type=template&id=f619c28e&scoped=true&
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"ws"},[(_vm.showSpectrogram)?_c('div',{directives:[{name:"show",rawName:"v-show",value:(!_vm.isSpectrogramRendering),expression:"!isSpectrogramRendering"}],ref:"spectrogram",staticClass:"overflow-y-auto",style:(("max-height: " + _vm.spectrogramMaxHeight))}):_vm._e(),_vm._t("default"),_c('div',{directives:[{name:"show",rawName:"v-show",value:(!_vm.isSpectrogramRendering),expression:"!isSpectrogramRendering"}],ref:"waveform"}),(_vm.showTimeLine)?_c('div',{ref:"timeline"}):_vm._e(),(_vm.showPointLine)?_c('div',{ref:"pointline"}):_vm._e(),_vm._t("textform"),(_vm.showTextGrid)?_c('div',{ref:"textgrid",staticClass:"overflow-y-auto",style:(("max-height: " + _vm.textgridMaxHeight))}):_vm._e()],2)}
 var staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/components/WaveSurfer/WaveSurfer.vue?vue&type=template&id=1b237c6a&scoped=true&
+// CONCATENATED MODULE: ./src/components/WaveSurfer/WaveSurfer.vue?vue&type=template&id=f619c28e&scoped=true&
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.index-of.js
 var es_array_index_of = __webpack_require__("c975");
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.iterator.js
-var es_array_iterator = __webpack_require__("e260");
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.function.name.js
 var es_function_name = __webpack_require__("b0c0");
@@ -10398,6 +10395,9 @@ function fetchFile(options) {
 
 
 
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.iterator.js
+var es_array_iterator = __webpack_require__("e260");
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.some.js
 var es_array_some = __webpack_require__("45fc");
@@ -17110,6 +17110,20 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
       }
     });
 
+    _defineProperty(this, "_onSeek", function (progress) {
+      var time = progress * _this.wavesurfer.getDuration();
+
+      _this.currentTime = time;
+
+      _this.setCursorTime();
+    });
+
+    _defineProperty(this, "_onAudioProcess", function (time) {
+      _this.currentTime = time;
+
+      _this.setCursorTime();
+    });
+
     _defineProperty(this, "_onRedraw", function () {
       return _this.render();
     });
@@ -17124,18 +17138,8 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
       ws.drawer.wrapper.addEventListener("scroll", _this._onScroll);
       ws.on("redraw", _this._onRedraw);
       ws.on("zoom", _this._onZoom);
-      ws.backend.on("audioprocess", function (time) {
-        _this.currentTime = time;
-
-        _this.setCursorTime();
-      });
-      ws.on("seek", function (progress) {
-        var time = progress * _this.wavesurfer.getDuration();
-
-        _this.currentTime = time;
-
-        _this.setCursorTime();
-      });
+      ws.on("seek", _this._onSeek);
+      ws.backend.on("audioprocess", _this._onAudioProcess);
 
       _this.render();
     });
@@ -17213,14 +17217,16 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
       this.wavesurfer.un("redraw", this._onRedraw);
       this.wavesurfer.un("zoom", this._onZoom);
       this.wavesurfer.un("ready", this._onReady);
+      this.wavesurfer.un("seek", this._onSeek);
+      this.wavesurfer.drawer.un("audioprocess", this._onAudioProcess);
       this.wavesurfer.drawer.wrapper.removeEventListener("scroll", this._onScroll);
 
       if (this.wrapper && this.wrapper.parentNode) {
         for (var key in this.tiers) {
-          var canvas = this.tiers[key].canvas;
-          canvas.removeEventListener("dblclick", canvas.onDblClick);
+          this.removeCanvas(key);
         }
 
+        this.cursorEl.parentElement.removeChild(this.cursorEl);
         this.wrapper.parentNode.removeChild(this.wrapper);
         this.wrapper = null;
       }
@@ -17335,23 +17341,29 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
           "border-bottom": "solid 1px ".concat(this.params.color)
         }); // add canvas events
 
-        var vm = this;
+        var vm = this; // クリックイベントの取得
 
         this.tiers[key].onClick = function (e) {
-          e.preventDefault();
+          e.preventDefault(); // seek to click point
+
+          var progress = vm.event2progress(e);
+          vm.wavesurfer.seekTo(progress); // fire event
+
+          var time = vm.event2time(e);
+          var payload = {
+            key: key,
+            time: time,
+            detail: e.detail,
+            shift: e.shiftKey,
+            ctrl: e.ctrlKey,
+            alt: e.altKey,
+            meta: e.metaKey
+          };
+          vm.wavesurfer.fireEvent("textgrid-click", payload);
+          console.log(payload);
 
           if (e.detail === 1) {
-            // seek to click point
-            var progress = vm.event2progress(e);
-            vm.wavesurfer.seekTo(progress); // fire event
-
-            var time = vm.event2time(e);
-            var payload = {
-              key: key,
-              time: time
-            };
-            vm.wavesurfer.fireEvent("textgrid-click", payload); // set curent item
-
+            // set curent item
             var canditates = vm.tiers[key].values.filter(function (x) {
               return x.time >= time;
             });
@@ -17374,7 +17386,7 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
             time: time
           };
           vm.wavesurfer.fireEvent("textgrid-dblclick", item);
-        }; // dragging handlers.
+        }; // マウスイベントの取得
 
 
         this.tiers[key].isDraging = false;
@@ -17433,11 +17445,41 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
               vm.tiers[key].dragingItemIdx = null;
             }
           }
+        }; // キーボードイベントの取得
+
+
+        this.tiers[key].onKeydown = function (e) {
+          e.preventDefault();
+          var payload = {
+            keycode: e.wich,
+            shift: e.shiftKey,
+            ctrl: e.ctrlKey,
+            alt: e.altKey,
+            meta: e.metaKey,
+            current: vm.current
+          };
+          vm.wavesurfer.fireEvent("textgrid-keydown", payload);
         };
 
+        this.tiers[key].onKeyup = function (e) {
+          e.preventDefault();
+          var payload = {
+            keycode: e.wich,
+            shift: e.shiftKey,
+            ctrl: e.ctrlKey,
+            alt: e.altKey,
+            meta: e.metaKey,
+            current: vm.current
+          };
+          vm.wavesurfer.fireEvent("textgrid-keydown", payload);
+        };
+
+        canvas.setAttribute("tabindex", 0);
         canvas.addEventListener("click", this.tiers[key].onClick, false);
         canvas.addEventListener("dblclick", this.tiers[key].onDblClick, false);
-        canvas.addEventListener("mousemove", this.tiers[key].onMouseMove, false); // set a canvas in this.tiers
+        canvas.addEventListener("mousemove", this.tiers[key].onMouseMove, false);
+        canvas.addEventListener("keyup", this.tiers[key].onKeyup, false);
+        canvas.addEventListener("keydown", this.tiers[key].onKeydown, false); // set a canvas in this.tiers
 
         this.tiers[key].canvas = canvas; // set lavel of a canvas
 
@@ -17469,6 +17511,11 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
     key: "removeCanvas",
     value: function removeCanvas(key) {
       var canvas = this.tiers[key].canvas;
+      canvas.removeEventListener("click", canvas.onClick);
+      canvas.removeEventListener("dblclick", canvas.onDblClick);
+      canvas.removeEventListener("mousemove", canvas.onMouseMove);
+      canvas.removeEventListener("keyup", canvas.onKeyup);
+      canvas.removeEventListener("keydown", canvas.onKeydown);
       var label = this.tiers[key].label;
       label.parentElement.removeChild(label);
       canvas.parentElement.removeChild(canvas);
@@ -19531,7 +19578,6 @@ var microphone_MicrophonePlugin = /*#__PURE__*/function () {
 
 
 
-
 //
 //
 //
@@ -20090,6 +20136,8 @@ var microphone_MicrophonePlugin = /*#__PURE__*/function () {
       }
     },
     initTextGridPlugin: function initTextGridPlugin() {
+      var _this2 = this;
+
       if (this.showTextGrid) {
         this.textgrid = textgrid_TextgridPlugin.create({
           container: this.$refs.textgrid,
@@ -20100,10 +20148,16 @@ var microphone_MicrophonePlugin = /*#__PURE__*/function () {
         this.wavesurfer.on("textgrid-click", this.onTextGridClick);
         this.wavesurfer.on("textgrid-update", this.onTextGridUpdate);
         this.wavesurfer.on("textgrid-current-update", this.onTextGridCurrentUpdate);
+        this.wavesurfer.on("textgrid-keydown", function (payload) {
+          _this2.$emit("textgrid-keydown", payload);
+        });
+        this.wavesurfer.on("textgrid-keyup", function (payload) {
+          _this2.$emit("textgrid-keyup", payload);
+        });
       }
     },
     initPointLinePlugin: function initPointLinePlugin() {
-      var _this2 = this;
+      var _this3 = this;
 
       if (this.showPointLine) {
         this.pointline = pointline_PointlinePlugin.create({
@@ -20113,18 +20167,18 @@ var microphone_MicrophonePlugin = /*#__PURE__*/function () {
         });
         this.wavesurfer.addPlugin(this.pointline).initPlugin("pointline");
         this.wavesurfer.pointline.on("addPoint", function (point) {
-          _this2.$emit("addPoint", point);
+          _this3.$emit("addPoint", point);
         });
         this.wavesurfer.pointline.on("updatePoint", function (point) {
-          _this2.$emit("updatePoint", point);
+          _this3.$emit("updatePoint", point);
         });
         this.wavesurfer.pointline.on("deletePoint", function (point) {
-          _this2.$emit("deletePoint", point);
+          _this3.$emit("deletePoint", point);
         });
       }
     },
     initRecPlugin: function initRecPlugin() {
-      var _this3 = this;
+      var _this4 = this;
 
       if (this.rec) {
         this.microphone = microphone_MicrophonePlugin.create({
@@ -20141,17 +20195,17 @@ var microphone_MicrophonePlugin = /*#__PURE__*/function () {
           var mediaRecorder = new MediaRecorder(stream);
           mediaRecorder.start();
           mediaRecorder.addEventListener("dataavailable", function (event) {
-            _this3.audioChunks.push(event.data);
+            _this4.audioChunks.push(event.data);
           });
           mediaRecorder.addEventListener("stop", function () {
-            var audioBlob = new Blob(_this3.audioChunks);
-            _this3.audioUrl = URL.createObjectURL(audioBlob);
+            var audioBlob = new Blob(_this4.audioChunks);
+            _this4.audioUrl = URL.createObjectURL(audioBlob);
 
-            _this3.downloadWave();
+            _this4.downloadWave();
           });
         });
         this.wavesurfer.microphone.on("deviceError", function (code) {
-          _this3.$emit("deviceError", code);
+          _this4.$emit("deviceError", code);
         });
       } else {
         if (this.source) {
@@ -20160,65 +20214,65 @@ var microphone_MicrophonePlugin = /*#__PURE__*/function () {
       }
     },
     initWaveSurfer: function initWaveSurfer() {
-      var _this4 = this;
+      var _this5 = this;
 
       if (this.wavesurfer === null) {
         this.$nextTick(function () {
           var options = {
-            container: _this4.$refs.waveform,
-            audioRate: _this4.audioRate,
-            audioContext: _this4.audioContext,
-            audioScriptProcessor: _this4.audioScriptProcessor,
-            autoCenter: _this4.autoCenter,
-            backend: _this4.backend,
-            backgroundColor: _this4.backgroundColor,
-            barGap: _this4.barGap,
-            barHeight: _this4.barHeight,
-            barMinHeight: _this4.barMinHeight,
-            barRadius: _this4.barRadius,
-            barWidth: _this4.barWidth,
-            closeAudioContext: _this4.closeAudioContext,
-            cursorColor: _this4.cursorColor,
-            cursorWidth: _this4.cursorWidth,
-            drawingContextAttributes: _this4.drawingContextAttributes,
-            fillParent: _this4.fillParent,
-            forceDecode: _this4.forceDecode,
-            height: _this4.height,
-            hideScrollbar: _this4.hideScrollbar,
-            interact: _this4.interact,
-            loopSelection: _this4.loopSelection,
-            maxCanvasWidth: _this4.maxCanvasWidth,
-            mediaControls: _this4.mediaControls,
-            mediaType: _this4.mediaType,
-            minPxPerSec: _this4.minPxPerSec,
-            normalize: _this4.normalize,
-            partialRender: _this4.partialRender,
-            pixelRatio: _this4.pixelRatio,
-            progressColor: _this4.progressColor,
-            removeMediaElementOnDestroy: _this4.removeMediaElementOnDestroy,
-            responsive: _this4.responsive,
-            scrollParent: _this4.scrollParent,
-            skipLength: _this4.skipLength,
-            splitChannels: _this4.splitChannels,
-            waveColor: _this4.waveColor,
-            xhr: _this4.xhr
+            container: _this5.$refs.waveform,
+            audioRate: _this5.audioRate,
+            audioContext: _this5.audioContext,
+            audioScriptProcessor: _this5.audioScriptProcessor,
+            autoCenter: _this5.autoCenter,
+            backend: _this5.backend,
+            backgroundColor: _this5.backgroundColor,
+            barGap: _this5.barGap,
+            barHeight: _this5.barHeight,
+            barMinHeight: _this5.barMinHeight,
+            barRadius: _this5.barRadius,
+            barWidth: _this5.barWidth,
+            closeAudioContext: _this5.closeAudioContext,
+            cursorColor: _this5.cursorColor,
+            cursorWidth: _this5.cursorWidth,
+            drawingContextAttributes: _this5.drawingContextAttributes,
+            fillParent: _this5.fillParent,
+            forceDecode: _this5.forceDecode,
+            height: _this5.height,
+            hideScrollbar: _this5.hideScrollbar,
+            interact: _this5.interact,
+            loopSelection: _this5.loopSelection,
+            maxCanvasWidth: _this5.maxCanvasWidth,
+            mediaControls: _this5.mediaControls,
+            mediaType: _this5.mediaType,
+            minPxPerSec: _this5.minPxPerSec,
+            normalize: _this5.normalize,
+            partialRender: _this5.partialRender,
+            pixelRatio: _this5.pixelRatio,
+            progressColor: _this5.progressColor,
+            removeMediaElementOnDestroy: _this5.removeMediaElementOnDestroy,
+            responsive: _this5.responsive,
+            scrollParent: _this5.scrollParent,
+            skipLength: _this5.skipLength,
+            splitChannels: _this5.splitChannels,
+            waveColor: _this5.waveColor,
+            xhr: _this5.xhr
           };
-          options = _this4.initRecOptions(options);
+          options = _this5.initRecOptions(options);
 
-          if (_this4.$refs.waveform) {
-            _this4.wavesurfer = wavesurfer_WaveSurfer.create(options);
+          if (_this5.$refs.waveform) {
+            _this5.wavesurfer = wavesurfer_WaveSurfer.create(options);
 
-            _this4.initWaveSurferEvent();
+            _this5.initWaveSurferEvent();
 
-            _this4.initTileLinePlugin();
+            _this5.initTileLinePlugin();
 
-            _this4.initSpectrogramPlugin();
+            _this5.initSpectrogramPlugin();
 
-            _this4.initTextGridPlugin();
+            _this5.initTextGridPlugin();
 
-            _this4.initPointLinePlugin();
+            _this5.initPointLinePlugin();
 
-            _this4.initRecPlugin();
+            _this5.initRecPlugin();
           }
         });
       }
@@ -20523,8 +20577,8 @@ var microphone_MicrophonePlugin = /*#__PURE__*/function () {
 });
 // CONCATENATED MODULE: ./src/components/WaveSurfer/WaveSurfer.vue?vue&type=script&lang=js&
  /* harmony default export */ var WaveSurfer_WaveSurfervue_type_script_lang_js_ = (WaveSurfervue_type_script_lang_js_); 
-// EXTERNAL MODULE: ./src/components/WaveSurfer/WaveSurfer.vue?vue&type=style&index=0&id=1b237c6a&scoped=true&lang=css&
-var WaveSurfervue_type_style_index_0_id_1b237c6a_scoped_true_lang_css_ = __webpack_require__("15aa");
+// EXTERNAL MODULE: ./src/components/WaveSurfer/WaveSurfer.vue?vue&type=style&index=0&id=f619c28e&scoped=true&lang=css&
+var WaveSurfervue_type_style_index_0_id_f619c28e_scoped_true_lang_css_ = __webpack_require__("2b76");
 
 // CONCATENATED MODULE: ./node_modules/vue-loader/lib/runtime/componentNormalizer.js
 /* globals __VUE_SSR_CONTEXT__ */
@@ -20641,7 +20695,7 @@ var component = normalizeComponent(
   staticRenderFns,
   false,
   null,
-  "1b237c6a",
+  "f619c28e",
   null
   
 )

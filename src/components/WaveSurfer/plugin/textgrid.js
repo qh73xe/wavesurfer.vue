@@ -68,6 +68,17 @@ export default class TextgridPlugin {
     }
   };
 
+  _onSeek = progress => {
+    const time = progress * this.wavesurfer.getDuration();
+    this.currentTime = time;
+    this.setCursorTime();
+  };
+
+  _onAudioProcess = time => {
+    this.currentTime = time;
+    this.setCursorTime();
+  };
+
   /**
    * @returns {void}
    */
@@ -85,15 +96,8 @@ export default class TextgridPlugin {
     ws.drawer.wrapper.addEventListener("scroll", this._onScroll);
     ws.on("redraw", this._onRedraw);
     ws.on("zoom", this._onZoom);
-    ws.backend.on("audioprocess", time => {
-      this.currentTime = time;
-      this.setCursorTime();
-    });
-    ws.on("seek", progress => {
-      const time = progress * this.wavesurfer.getDuration();
-      this.currentTime = time;
-      this.setCursorTime();
-    });
+    ws.on("seek", this._onSeek);
+    ws.backend.on("audioprocess", this._onAudioProcess);
     this.render();
   };
 
@@ -181,15 +185,18 @@ export default class TextgridPlugin {
     this.wavesurfer.un("redraw", this._onRedraw);
     this.wavesurfer.un("zoom", this._onZoom);
     this.wavesurfer.un("ready", this._onReady);
+    this.wavesurfer.un("seek", this._onSeek);
+    this.wavesurfer.drawer.un("audioprocess", this._onAudioProcess);
     this.wavesurfer.drawer.wrapper.removeEventListener(
       "scroll",
       this._onScroll
     );
+
     if (this.wrapper && this.wrapper.parentNode) {
       for (const key in this.tiers) {
-        const canvas = this.tiers[key].canvas;
-        canvas.removeEventListener("dblclick", canvas.onDblClick);
+        this.removeCanvas(key);
       }
+      this.cursorEl.parentElement.removeChild(this.cursorEl);
       this.wrapper.parentNode.removeChild(this.wrapper);
       this.wrapper = null;
     }
@@ -296,19 +303,28 @@ export default class TextgridPlugin {
 
       // add canvas events
       const vm = this;
+
+      // クリックイベントの取得
       this.tiers[key].onClick = function(e) {
         e.preventDefault();
+        // seek to click point
+        const progress = vm.event2progress(e);
+        vm.wavesurfer.seekTo(progress);
+        // fire event
+        const time = vm.event2time(e);
+        const payload = {
+          key: key,
+          time: time,
+          detail: e.detail,
+          shift: e.shiftKey,
+          ctrl: e.ctrlKey,
+          alt: e.altKey,
+          meta: e.metaKey
+        };
+        vm.wavesurfer.fireEvent("textgrid-click", payload);
+        console.log(payload);
 
         if (e.detail === 1) {
-          // seek to click point
-          const progress = vm.event2progress(e);
-          vm.wavesurfer.seekTo(progress);
-
-          // fire event
-          const time = vm.event2time(e);
-          const payload = { key: key, time: time };
-          vm.wavesurfer.fireEvent("textgrid-click", payload);
-
           // set curent item
           let canditates = vm.tiers[key].values.filter(x => {
             return x.time >= time;
@@ -328,7 +344,7 @@ export default class TextgridPlugin {
         vm.wavesurfer.fireEvent("textgrid-dblclick", item);
       };
 
-      // dragging handlers.
+      // マウスイベントの取得
       this.tiers[key].isDraging = false;
       this.tiers[key].dragingItemIdx = null;
 
@@ -384,9 +400,39 @@ export default class TextgridPlugin {
         }
       };
 
+      // キーボードイベントの取得
+      this.tiers[key].onKeydown = function(e) {
+        e.preventDefault();
+        const payload = {
+          keycode: e.wich,
+          shift: e.shiftKey,
+          ctrl: e.ctrlKey,
+          alt: e.altKey,
+          meta: e.metaKey,
+          current: vm.current
+        };
+        vm.wavesurfer.fireEvent("textgrid-keydown", payload);
+      };
+
+      this.tiers[key].onKeyup = function(e) {
+        e.preventDefault();
+        const payload = {
+          keycode: e.wich,
+          shift: e.shiftKey,
+          ctrl: e.ctrlKey,
+          alt: e.altKey,
+          meta: e.metaKey,
+          current: vm.current
+        };
+        vm.wavesurfer.fireEvent("textgrid-keydown", payload);
+      };
+
+      canvas.setAttribute("tabindex", 0);
       canvas.addEventListener("click", this.tiers[key].onClick, false);
       canvas.addEventListener("dblclick", this.tiers[key].onDblClick, false);
       canvas.addEventListener("mousemove", this.tiers[key].onMouseMove, false);
+      canvas.addEventListener("keyup", this.tiers[key].onKeyup, false);
+      canvas.addEventListener("keydown", this.tiers[key].onKeydown, false);
 
       // set a canvas in this.tiers
       this.tiers[key].canvas = canvas;
@@ -418,6 +464,12 @@ export default class TextgridPlugin {
    */
   removeCanvas(key) {
     const canvas = this.tiers[key].canvas;
+    canvas.removeEventListener("click", canvas.onClick);
+    canvas.removeEventListener("dblclick", canvas.onDblClick);
+    canvas.removeEventListener("mousemove", canvas.onMouseMove);
+    canvas.removeEventListener("keyup", canvas.onKeyup);
+    canvas.removeEventListener("keydown", canvas.onKeydown);
+
     const label = this.tiers[key].label;
     label.parentElement.removeChild(label);
     canvas.parentElement.removeChild(canvas);

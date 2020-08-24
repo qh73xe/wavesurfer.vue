@@ -494,6 +494,12 @@ export default {
           "textgrid-current-update",
           this.onTextGridCurrentUpdate
         );
+        this.wavesurfer.on("textgrid-keydown", payload => {
+          this.$emit("textgrid-keydown", payload);
+        });
+        this.wavesurfer.on("textgrid-keyup", payload => {
+          this.$emit("textgrid-keyup", payload);
+        });
       }
     },
     initPointLinePlugin: function() {
