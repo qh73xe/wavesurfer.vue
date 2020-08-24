@@ -17026,7 +17026,7 @@ var textgrid_dec, textgrid_dec2, textgrid_dec3, textgrid_dec4, textgrid_dec5, te
 
 
 
-var textgrid_DEBUG = true;
+var textgrid_DEBUG = false;
 /**
  * @typedef {Object} TextgridPluginParams
  * @desc Extends the `WavesurferParams` wavesurfer was initialised with
