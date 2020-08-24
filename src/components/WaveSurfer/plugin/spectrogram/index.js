@@ -135,20 +135,12 @@ export default class SpectrogramPlugin {
       ws.on("redraw", this._onRender);
       ws.backend.on("audioprocess", time => {
         this.currentTime = time;
-        if (this.cursorEl) {
-          const _left = this.currentTime * this.wavesurfer.params.minPxPerSec;
-          const left = _left ? `${_left}px` : this.cursorEl.style.left;
-          this.cursorEl.style.left = left;
-        }
+        this.setCursorTime();
       });
       ws.on("seek", progress => {
         const time = progress * this.wavesurfer.getDuration();
         this.currentTime = time;
-        if (this.cursorEl) {
-          const _left = this.currentTime * this.wavesurfer.params.minPxPerSec;
-          const left = _left ? `${_left}px` : this.cursorEl.style.left;
-          this.cursorEl.style.left = left;
-        }
+        this.setCursorTime();
       });
     };
   }
@@ -280,6 +272,8 @@ export default class SpectrogramPlugin {
         vm.getFrequencies(vm.drawSpectrogram);
       }, 0);
     }
+    this.setCursorTime();
+
     if (this.params.labels) {
       const freqFontSize = this.params.freqFontSize || 12;
       const unitFontSize = this.params.unitFontSize || 10;
@@ -525,5 +519,13 @@ export default class SpectrogramPlugin {
     }
 
     return newMatrix;
+  }
+  @log("spectrogram.setCursorTime", DEBUG)
+  setCursorTime() {
+    if (this.cursorEl) {
+      const _left = this.currentTime * this.wavesurfer.params.minPxPerSec;
+      const left = _left ? `${_left}px` : this.cursorEl.style.left;
+      this.cursorEl.style.left = left;
+    }
   }
 }

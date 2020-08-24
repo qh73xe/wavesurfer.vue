@@ -927,6 +927,31 @@ export default {
         this.current.text = "";
       }
     }
+  },
+  mounted: function() {
+    this.source = null;
+    this.textgrid = {};
+    this.isReady = false;
+    this.zoom = 1;
+    this.tab = null;
+    this.current = {
+      key: null,
+      text: null,
+      time: null,
+      idx: null,
+      values: []
+    };
+    this.valueDialog = {
+      show: false,
+      text: "",
+      time: 0
+    };
+    this.tierDialog = {
+      show: false,
+      name: "",
+      type: "interval"
+    };
+    this.tabs = [];
   }
 };
 </script>

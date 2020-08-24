@@ -376,6 +376,7 @@ export default {
   methods: {
     onFileChange: function(file) {
       this.source = null;
+      this.videoSource = null;
       this.showVideo = false;
       if (file) {
         const fr = new FileReader();
@@ -430,6 +431,14 @@ export default {
       this.snackbar.text = "on destroy";
       this.snackbar.show = true;
     }
+  },
+  mounted: function() {
+    this.source = null;
+    this.videoSource = null;
+    this.zoom = 1;
+    this.freqRateVal = 0.5;
+    this.freqRate = 0.5;
+    this.targetChannel = 0;
   }
 };
 </script>

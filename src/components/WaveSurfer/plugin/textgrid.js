@@ -85,6 +85,15 @@ export default class TextgridPlugin {
     ws.drawer.wrapper.addEventListener("scroll", this._onScroll);
     ws.on("redraw", this._onRedraw);
     ws.on("zoom", this._onZoom);
+    ws.backend.on("audioprocess", time => {
+      this.currentTime = time;
+      this.setCursorTime();
+    });
+    ws.on("seek", progress => {
+      const time = progress * this.wavesurfer.getDuration();
+      this.currentTime = time;
+      this.setCursorTime();
+    });
     this.render();
   };
 
@@ -192,9 +201,35 @@ export default class TextgridPlugin {
    */
   createWrapper() {
     this.container.innerHTML = "";
+    this.currentTime = this.wavesurfer.getCurrentTime() || 0;
     this.wrapper = this.container.appendChild(
       document.createElement("textgrid")
     );
+    // cursor 用のキャンバスを作成
+    const cursorEl = (this.cursorEl = document.createElement("div"));
+    cursorEl.classList.add("textgrid-cursor");
+    const cursorWidth = this.wavesurfer.params.cursorWidth || 1;
+    this.drawer.style(cursorEl, {
+      left: 0,
+      position: "absolute",
+      zIndex: 3,
+      width: `${cursorWidth}px`,
+      borderLeft: `${cursorWidth}px dashed ${this.wavesurfer.params.cursorColor}`
+    });
+    this.wrapper.appendChild(cursorEl);
+  }
+
+  @log("textgrid.setCursorTime", DEBUG)
+  setCursorTime() {
+    if (this.cursorEl) {
+      // 非ズーム 時には WS の minPxPerSec は上手く機能していない
+      const minPxPerSec =
+        this.wavesurfer.drawer.width / this.wavesurfer.getDuration();
+      const _left = Math.round(this.currentTime * minPxPerSec);
+      const left = _left ? `${_left}px` : this.cursorEl.style.left;
+      this.cursorEl.style.height = this.wrapper.style.height;
+      this.cursorEl.style.left = left;
+    }
   }
 
   /**
@@ -239,6 +274,8 @@ export default class TextgridPlugin {
       this.renderLabel(key);
       i++;
     }
+    this.currentTime = this.wavesurfer.getCurrentTime();
+    this.setCursorTime();
   }
 
   /**
@@ -398,24 +435,12 @@ export default class TextgridPlugin {
    */
   updateCanvasPositioning(key, i) {
     const canvas = this.tiers[key].canvas;
-    // cache length for performance
-    const canvasesLength = 1;
-    // canvas width is the max element width, or if it is the last the
-    // required width
-    const canvasWidth =
-      0 === canvasesLength - 1
-        ? this.drawer.wrapper.scrollWidth -
-          this.maxCanvasElementWidth * (canvasesLength - 1)
-        : this.maxCanvasElementWidth;
-    // set dimensions and style
-    canvas.width = canvasWidth * this.pixelRatio;
-    // on certain pixel ratios the canvas appears cut off at the bottom,
-    // therefore leave 1px extra
+    canvas.width = this.wavesurfer.drawer.width;
     canvas.height = (this.params.height + 1) * this.pixelRatio;
     this.util.style(canvas, {
       top: `${i * this.params.height}px`,
       left: `${0 * this.maxCanvasElementWidth}px`,
-      width: `${canvasWidth}px`,
+      width: `${this.wavesurfer.drawer.width}px`,
       height: `${this.params.height}px`
     });
   }

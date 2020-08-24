@@ -9368,9 +9368,6 @@ var staticRenderFns = []
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.index-of.js
 var es_array_index_of = __webpack_require__("c975");
 
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.iterator.js
-var es_array_iterator = __webpack_require__("e260");
-
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.function.name.js
 var es_function_name = __webpack_require__("b0c0");
 
@@ -10404,6 +10401,9 @@ function fetchFile(options) {
 
 
 
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.iterator.js
+var es_array_iterator = __webpack_require__("e260");
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.some.js
 var es_array_some = __webpack_require__("45fc");
@@ -17028,9 +17028,7 @@ var parseIntervalTier = function parseIntervalTier(lines) {
 
 
 
-
-
-var textgrid_dec, textgrid_dec2, textgrid_dec3, textgrid_dec4, textgrid_dec5, textgrid_dec6, textgrid_dec7, textgrid_dec8, textgrid_dec9, textgrid_class, textgrid_temp;
+var textgrid_dec, textgrid_dec2, textgrid_dec3, textgrid_dec4, textgrid_dec5, textgrid_dec6, textgrid_dec7, textgrid_dec8, textgrid_dec9, textgrid_dec10, textgrid_class, textgrid_temp;
 
 
 
@@ -17076,7 +17074,7 @@ var textgrid_DEBUG = false;
  * });
  */
 
-var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DEBUG), textgrid_dec2 = log("textgrid.render", textgrid_DEBUG), textgrid_dec3 = log("textgrid.play", textgrid_DEBUG), textgrid_dec4 = log("textgrid.addTier", textgrid_DEBUG), textgrid_dec5 = log("textgrid.deleteTier", textgrid_DEBUG), textgrid_dec6 = log("textgrid.updateTier", textgrid_DEBUG), textgrid_dec7 = log("textgrid.addTierValue", textgrid_DEBUG), textgrid_dec8 = log("textgrid.setTierValue", textgrid_DEBUG), textgrid_dec9 = log("textgrid.deleteTierValue", textgrid_DEBUG), (textgrid_class = (textgrid_temp = /*#__PURE__*/function () {
+var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DEBUG), textgrid_dec2 = log("textgrid.setCursorTime", textgrid_DEBUG), textgrid_dec3 = log("textgrid.render", textgrid_DEBUG), textgrid_dec4 = log("textgrid.play", textgrid_DEBUG), textgrid_dec5 = log("textgrid.addTier", textgrid_DEBUG), textgrid_dec6 = log("textgrid.deleteTier", textgrid_DEBUG), textgrid_dec7 = log("textgrid.updateTier", textgrid_DEBUG), textgrid_dec8 = log("textgrid.addTierValue", textgrid_DEBUG), textgrid_dec9 = log("textgrid.setTierValue", textgrid_DEBUG), textgrid_dec10 = log("textgrid.deleteTierValue", textgrid_DEBUG), (textgrid_class = (textgrid_temp = /*#__PURE__*/function () {
   _createClass(TextgridPlugin, null, [{
     key: "create",
 
@@ -17133,6 +17131,18 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
       ws.drawer.wrapper.addEventListener("scroll", _this._onScroll);
       ws.on("redraw", _this._onRedraw);
       ws.on("zoom", _this._onZoom);
+      ws.backend.on("audioprocess", function (time) {
+        _this.currentTime = time;
+
+        _this.setCursorTime();
+      });
+      ws.on("seek", function (progress) {
+        var time = progress * _this.wavesurfer.getDuration();
+
+        _this.currentTime = time;
+
+        _this.setCursorTime();
+      });
 
       _this.render();
     });
@@ -17231,7 +17241,34 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
     key: "createWrapper",
     value: function createWrapper() {
       this.container.innerHTML = "";
-      this.wrapper = this.container.appendChild(document.createElement("textgrid"));
+      this.currentTime = this.wavesurfer.getCurrentTime() || 0;
+      this.wrapper = this.container.appendChild(document.createElement("textgrid")); // cursor 用のキャンバスを作成
+
+      var cursorEl = this.cursorEl = document.createElement("div");
+      cursorEl.classList.add("textgrid-cursor");
+      var cursorWidth = this.wavesurfer.params.cursorWidth || 1;
+      this.drawer.style(cursorEl, {
+        left: 0,
+        position: "absolute",
+        zIndex: 3,
+        width: "".concat(cursorWidth, "px"),
+        borderLeft: "".concat(cursorWidth, "px dashed ").concat(this.wavesurfer.params.cursorColor)
+      });
+      this.wrapper.appendChild(cursorEl);
+    }
+  }, {
+    key: "setCursorTime",
+    value: function setCursorTime() {
+      if (this.cursorEl) {
+        // 非ズーム 時には WS の minPxPerSec は上手く機能していない
+        var minPxPerSec = this.wavesurfer.drawer.width / this.wavesurfer.getDuration();
+
+        var _left = Math.round(this.currentTime * minPxPerSec);
+
+        var left = _left ? "".concat(_left, "px") : this.cursorEl.style.left;
+        this.cursorEl.style.height = this.wrapper.style.height;
+        this.cursorEl.style.left = left;
+      }
     }
     /**
      * Render the textgrid (also updates the already rendered textgrid)
@@ -17282,6 +17319,9 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
         this.renderLabel(key);
         i++;
       }
+
+      this.currentTime = this.wavesurfer.getCurrentTime();
+      this.setCursorTime();
     }
     /**
      * Add new textgrid canvas
@@ -17455,21 +17495,13 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
   }, {
     key: "updateCanvasPositioning",
     value: function updateCanvasPositioning(key, i) {
-      var canvas = this.tiers[key].canvas; // cache length for performance
-
-      var canvasesLength = 1; // canvas width is the max element width, or if it is the last the
-      // required width
-
-      var canvasWidth = 0 === canvasesLength - 1 ? this.drawer.wrapper.scrollWidth - this.maxCanvasElementWidth * (canvasesLength - 1) : this.maxCanvasElementWidth; // set dimensions and style
-
-      canvas.width = canvasWidth * this.pixelRatio; // on certain pixel ratios the canvas appears cut off at the bottom,
-      // therefore leave 1px extra
-
+      var canvas = this.tiers[key].canvas;
+      canvas.width = this.wavesurfer.drawer.width;
       canvas.height = (this.params.height + 1) * this.pixelRatio;
       this.util.style(canvas, {
         top: "".concat(i * this.params.height, "px"),
         left: "".concat(0 * this.maxCanvasElementWidth, "px"),
-        width: "".concat(canvasWidth, "px"),
+        width: "".concat(this.wavesurfer.drawer.width, "px"),
         height: "".concat(this.params.height, "px")
       });
     }
@@ -17993,7 +18025,7 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
   }]);
 
   return TextgridPlugin;
-}(), textgrid_temp), (_applyDecoratedDescriptor(textgrid_class, "create", [textgrid_dec], Object.getOwnPropertyDescriptor(textgrid_class, "create"), textgrid_class), _applyDecoratedDescriptor(textgrid_class.prototype, "render", [textgrid_dec2], Object.getOwnPropertyDescriptor(textgrid_class.prototype, "render"), textgrid_class.prototype), _applyDecoratedDescriptor(textgrid_class.prototype, "play", [textgrid_dec3], Object.getOwnPropertyDescriptor(textgrid_class.prototype, "play"), textgrid_class.prototype), _applyDecoratedDescriptor(textgrid_class.prototype, "addTier", [textgrid_dec4], Object.getOwnPropertyDescriptor(textgrid_class.prototype, "addTier"), textgrid_class.prototype), _applyDecoratedDescriptor(textgrid_class.prototype, "deleteTier", [textgrid_dec5], Object.getOwnPropertyDescriptor(textgrid_class.prototype, "deleteTier"), textgrid_class.prototype), _applyDecoratedDescriptor(textgrid_class.prototype, "updateTier", [textgrid_dec6], Object.getOwnPropertyDescriptor(textgrid_class.prototype, "updateTier"), textgrid_class.prototype), _applyDecoratedDescriptor(textgrid_class.prototype, "addTierValue", [textgrid_dec7], Object.getOwnPropertyDescriptor(textgrid_class.prototype, "addTierValue"), textgrid_class.prototype), _applyDecoratedDescriptor(textgrid_class.prototype, "setTierValue", [textgrid_dec8], Object.getOwnPropertyDescriptor(textgrid_class.prototype, "setTierValue"), textgrid_class.prototype), _applyDecoratedDescriptor(textgrid_class.prototype, "deleteTierValue", [textgrid_dec9], Object.getOwnPropertyDescriptor(textgrid_class.prototype, "deleteTierValue"), textgrid_class.prototype)), textgrid_class));
+}(), textgrid_temp), (_applyDecoratedDescriptor(textgrid_class, "create", [textgrid_dec], Object.getOwnPropertyDescriptor(textgrid_class, "create"), textgrid_class), _applyDecoratedDescriptor(textgrid_class.prototype, "setCursorTime", [textgrid_dec2], Object.getOwnPropertyDescriptor(textgrid_class.prototype, "setCursorTime"), textgrid_class.prototype), _applyDecoratedDescriptor(textgrid_class.prototype, "render", [textgrid_dec3], Object.getOwnPropertyDescriptor(textgrid_class.prototype, "render"), textgrid_class.prototype), _applyDecoratedDescriptor(textgrid_class.prototype, "play", [textgrid_dec4], Object.getOwnPropertyDescriptor(textgrid_class.prototype, "play"), textgrid_class.prototype), _applyDecoratedDescriptor(textgrid_class.prototype, "addTier", [textgrid_dec5], Object.getOwnPropertyDescriptor(textgrid_class.prototype, "addTier"), textgrid_class.prototype), _applyDecoratedDescriptor(textgrid_class.prototype, "deleteTier", [textgrid_dec6], Object.getOwnPropertyDescriptor(textgrid_class.prototype, "deleteTier"), textgrid_class.prototype), _applyDecoratedDescriptor(textgrid_class.prototype, "updateTier", [textgrid_dec7], Object.getOwnPropertyDescriptor(textgrid_class.prototype, "updateTier"), textgrid_class.prototype), _applyDecoratedDescriptor(textgrid_class.prototype, "addTierValue", [textgrid_dec8], Object.getOwnPropertyDescriptor(textgrid_class.prototype, "addTierValue"), textgrid_class.prototype), _applyDecoratedDescriptor(textgrid_class.prototype, "setTierValue", [textgrid_dec9], Object.getOwnPropertyDescriptor(textgrid_class.prototype, "setTierValue"), textgrid_class.prototype), _applyDecoratedDescriptor(textgrid_class.prototype, "deleteTierValue", [textgrid_dec10], Object.getOwnPropertyDescriptor(textgrid_class.prototype, "deleteTierValue"), textgrid_class.prototype)), textgrid_class));
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.math.log10.js
 var es_math_log10 = __webpack_require__("6b93");
@@ -18468,7 +18500,7 @@ function FFT(bufferSize, sampleRate, windowFunc, alpha) {
 
 
 
-var spectrogram_dec, spectrogram_dec2, spectrogram_dec3, spectrogram_dec4, spectrogram_dec5, spectrogram_dec6, spectrogram_dec7, spectrogram_dec8, spectrogram_dec9, spectrogram_dec10, spectrogram_dec11, spectrogram_dec12, spectrogram_dec13, spectrogram_class;
+var spectrogram_dec, spectrogram_dec2, spectrogram_dec3, spectrogram_dec4, spectrogram_dec5, spectrogram_dec6, spectrogram_dec7, spectrogram_dec8, spectrogram_dec9, spectrogram_dec10, spectrogram_dec11, spectrogram_dec12, spectrogram_dec13, spectrogram_dec14, spectrogram_class;
 
 /* eslint-enable complexity, no-redeclare, no-var, one-var */
 
@@ -18524,7 +18556,7 @@ var spectrogram_DEBUG = false;
  * });
  */
 
-var spectrogram_SpectrogramPlugin = (spectrogram_dec = log("spectrogram.create", spectrogram_DEBUG), spectrogram_dec2 = log("spectrogram.init", spectrogram_DEBUG), spectrogram_dec3 = log("spectrogram.destroy", spectrogram_DEBUG), spectrogram_dec4 = log("spectrogram.createWrapper", spectrogram_DEBUG), spectrogram_dec5 = log("spectrogram._wrapperClickHandler", spectrogram_DEBUG), spectrogram_dec6 = log("spectrogram._wrapperScrollHandler", spectrogram_DEBUG), spectrogram_dec7 = log("spectrogram.createCanvas", spectrogram_DEBUG), spectrogram_dec8 = log("spectrogram.render", spectrogram_DEBUG), spectrogram_dec9 = log("spectrogram.updateCanvasStyle", spectrogram_DEBUG), spectrogram_dec10 = log("spectrogram.drawerSpectrogram", spectrogram_DEBUG), spectrogram_dec11 = log("spectrogram.getFrequencies", spectrogram_DEBUG), spectrogram_dec12 = log("spectrogram.loadLabels", spectrogram_DEBUG), spectrogram_dec13 = log("spectrogram.resample", spectrogram_DEBUG), (spectrogram_class = /*#__PURE__*/function () {
+var spectrogram_SpectrogramPlugin = (spectrogram_dec = log("spectrogram.create", spectrogram_DEBUG), spectrogram_dec2 = log("spectrogram.init", spectrogram_DEBUG), spectrogram_dec3 = log("spectrogram.destroy", spectrogram_DEBUG), spectrogram_dec4 = log("spectrogram.createWrapper", spectrogram_DEBUG), spectrogram_dec5 = log("spectrogram._wrapperClickHandler", spectrogram_DEBUG), spectrogram_dec6 = log("spectrogram._wrapperScrollHandler", spectrogram_DEBUG), spectrogram_dec7 = log("spectrogram.createCanvas", spectrogram_DEBUG), spectrogram_dec8 = log("spectrogram.render", spectrogram_DEBUG), spectrogram_dec9 = log("spectrogram.updateCanvasStyle", spectrogram_DEBUG), spectrogram_dec10 = log("spectrogram.drawerSpectrogram", spectrogram_DEBUG), spectrogram_dec11 = log("spectrogram.getFrequencies", spectrogram_DEBUG), spectrogram_dec12 = log("spectrogram.loadLabels", spectrogram_DEBUG), spectrogram_dec13 = log("spectrogram.resample", spectrogram_DEBUG), spectrogram_dec14 = log("spectrogram.setCursorTime", spectrogram_DEBUG), (spectrogram_class = /*#__PURE__*/function () {
   _createClass(SpectrogramPlugin, null, [{
     key: "create",
 
@@ -18625,24 +18657,14 @@ var spectrogram_SpectrogramPlugin = (spectrogram_dec = log("spectrogram.create",
       ws.backend.on("audioprocess", function (time) {
         _this.currentTime = time;
 
-        if (_this.cursorEl) {
-          var _left = _this.currentTime * _this.wavesurfer.params.minPxPerSec;
-
-          var left = _left ? "".concat(_left, "px") : _this.cursorEl.style.left;
-          _this.cursorEl.style.left = left;
-        }
+        _this.setCursorTime();
       });
       ws.on("seek", function (progress) {
         var time = progress * _this.wavesurfer.getDuration();
 
         _this.currentTime = time;
 
-        if (_this.cursorEl) {
-          var _left = _this.currentTime * _this.wavesurfer.params.minPxPerSec;
-
-          var left = _left ? "".concat(_left, "px") : _this.cursorEl.style.left;
-          _this.cursorEl.style.left = left;
-        }
+        _this.setCursorTime();
       });
     };
   }
@@ -18774,6 +18796,8 @@ var spectrogram_SpectrogramPlugin = (spectrogram_dec = log("spectrogram.create",
           vm.getFrequencies(vm.drawSpectrogram);
         }, 0);
       }
+
+      this.setCursorTime();
 
       if (this.params.labels) {
         var freqFontSize = this.params.freqFontSize || 12;
@@ -19060,10 +19084,20 @@ var spectrogram_SpectrogramPlugin = (spectrogram_dec = log("spectrogram.create",
 
       return newMatrix;
     }
+  }, {
+    key: "setCursorTime",
+    value: function setCursorTime() {
+      if (this.cursorEl) {
+        var _left = this.currentTime * this.wavesurfer.params.minPxPerSec;
+
+        var left = _left ? "".concat(_left, "px") : this.cursorEl.style.left;
+        this.cursorEl.style.left = left;
+      }
+    }
   }]);
 
   return SpectrogramPlugin;
-}(), (_applyDecoratedDescriptor(spectrogram_class, "create", [spectrogram_dec], Object.getOwnPropertyDescriptor(spectrogram_class, "create"), spectrogram_class), _applyDecoratedDescriptor(spectrogram_class.prototype, "init", [spectrogram_dec2], Object.getOwnPropertyDescriptor(spectrogram_class.prototype, "init"), spectrogram_class.prototype), _applyDecoratedDescriptor(spectrogram_class.prototype, "destroy", [spectrogram_dec3], Object.getOwnPropertyDescriptor(spectrogram_class.prototype, "destroy"), spectrogram_class.prototype), _applyDecoratedDescriptor(spectrogram_class.prototype, "createWrapper", [spectrogram_dec4], Object.getOwnPropertyDescriptor(spectrogram_class.prototype, "createWrapper"), spectrogram_class.prototype), _applyDecoratedDescriptor(spectrogram_class.prototype, "_wrapperClickHandler", [spectrogram_dec5], Object.getOwnPropertyDescriptor(spectrogram_class.prototype, "_wrapperClickHandler"), spectrogram_class.prototype), _applyDecoratedDescriptor(spectrogram_class.prototype, "_wrapperScrollHandler", [spectrogram_dec6], Object.getOwnPropertyDescriptor(spectrogram_class.prototype, "_wrapperScrollHandler"), spectrogram_class.prototype), _applyDecoratedDescriptor(spectrogram_class.prototype, "createCanvas", [spectrogram_dec7], Object.getOwnPropertyDescriptor(spectrogram_class.prototype, "createCanvas"), spectrogram_class.prototype), _applyDecoratedDescriptor(spectrogram_class.prototype, "render", [spectrogram_dec8], Object.getOwnPropertyDescriptor(spectrogram_class.prototype, "render"), spectrogram_class.prototype), _applyDecoratedDescriptor(spectrogram_class.prototype, "updateCanvasStyle", [spectrogram_dec9], Object.getOwnPropertyDescriptor(spectrogram_class.prototype, "updateCanvasStyle"), spectrogram_class.prototype), _applyDecoratedDescriptor(spectrogram_class.prototype, "drawSpectrogram", [spectrogram_dec10], Object.getOwnPropertyDescriptor(spectrogram_class.prototype, "drawSpectrogram"), spectrogram_class.prototype), _applyDecoratedDescriptor(spectrogram_class.prototype, "getFrequencies", [spectrogram_dec11], Object.getOwnPropertyDescriptor(spectrogram_class.prototype, "getFrequencies"), spectrogram_class.prototype), _applyDecoratedDescriptor(spectrogram_class.prototype, "loadLabels", [spectrogram_dec12], Object.getOwnPropertyDescriptor(spectrogram_class.prototype, "loadLabels"), spectrogram_class.prototype), _applyDecoratedDescriptor(spectrogram_class.prototype, "resample", [spectrogram_dec13], Object.getOwnPropertyDescriptor(spectrogram_class.prototype, "resample"), spectrogram_class.prototype)), spectrogram_class));
+}(), (_applyDecoratedDescriptor(spectrogram_class, "create", [spectrogram_dec], Object.getOwnPropertyDescriptor(spectrogram_class, "create"), spectrogram_class), _applyDecoratedDescriptor(spectrogram_class.prototype, "init", [spectrogram_dec2], Object.getOwnPropertyDescriptor(spectrogram_class.prototype, "init"), spectrogram_class.prototype), _applyDecoratedDescriptor(spectrogram_class.prototype, "destroy", [spectrogram_dec3], Object.getOwnPropertyDescriptor(spectrogram_class.prototype, "destroy"), spectrogram_class.prototype), _applyDecoratedDescriptor(spectrogram_class.prototype, "createWrapper", [spectrogram_dec4], Object.getOwnPropertyDescriptor(spectrogram_class.prototype, "createWrapper"), spectrogram_class.prototype), _applyDecoratedDescriptor(spectrogram_class.prototype, "_wrapperClickHandler", [spectrogram_dec5], Object.getOwnPropertyDescriptor(spectrogram_class.prototype, "_wrapperClickHandler"), spectrogram_class.prototype), _applyDecoratedDescriptor(spectrogram_class.prototype, "_wrapperScrollHandler", [spectrogram_dec6], Object.getOwnPropertyDescriptor(spectrogram_class.prototype, "_wrapperScrollHandler"), spectrogram_class.prototype), _applyDecoratedDescriptor(spectrogram_class.prototype, "createCanvas", [spectrogram_dec7], Object.getOwnPropertyDescriptor(spectrogram_class.prototype, "createCanvas"), spectrogram_class.prototype), _applyDecoratedDescriptor(spectrogram_class.prototype, "render", [spectrogram_dec8], Object.getOwnPropertyDescriptor(spectrogram_class.prototype, "render"), spectrogram_class.prototype), _applyDecoratedDescriptor(spectrogram_class.prototype, "updateCanvasStyle", [spectrogram_dec9], Object.getOwnPropertyDescriptor(spectrogram_class.prototype, "updateCanvasStyle"), spectrogram_class.prototype), _applyDecoratedDescriptor(spectrogram_class.prototype, "drawSpectrogram", [spectrogram_dec10], Object.getOwnPropertyDescriptor(spectrogram_class.prototype, "drawSpectrogram"), spectrogram_class.prototype), _applyDecoratedDescriptor(spectrogram_class.prototype, "getFrequencies", [spectrogram_dec11], Object.getOwnPropertyDescriptor(spectrogram_class.prototype, "getFrequencies"), spectrogram_class.prototype), _applyDecoratedDescriptor(spectrogram_class.prototype, "loadLabels", [spectrogram_dec12], Object.getOwnPropertyDescriptor(spectrogram_class.prototype, "loadLabels"), spectrogram_class.prototype), _applyDecoratedDescriptor(spectrogram_class.prototype, "resample", [spectrogram_dec13], Object.getOwnPropertyDescriptor(spectrogram_class.prototype, "resample"), spectrogram_class.prototype), _applyDecoratedDescriptor(spectrogram_class.prototype, "setCursorTime", [spectrogram_dec14], Object.getOwnPropertyDescriptor(spectrogram_class.prototype, "setCursorTime"), spectrogram_class.prototype)), spectrogram_class));
 
 // CONCATENATED MODULE: ./src/components/WaveSurfer/plugin/microphone/index.js
 
@@ -19494,7 +19528,6 @@ var microphone_MicrophonePlugin = /*#__PURE__*/function () {
 
 
 // CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/WaveSurfer/WaveSurfer.vue?vue&type=script&lang=js&
-
 
 
 
