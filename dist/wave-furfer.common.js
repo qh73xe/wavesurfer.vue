@@ -17369,7 +17369,7 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
               return x.time >= time;
             });
             canditates.sort(function (a, b) {
-              return a.time - b.time;
+              return a.time || 0 - b.time || 0;
             });
             var currentItem = canditates[0];
 
@@ -17564,42 +17564,38 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
       var pixelsPerSecond = width / duration; // build an array of position data with index, second and pixel data,
       // this is then used multiple times below
 
+      var values = this.tiers[key].values;
+      values.sort(function (a, b) {
+        return a.time || 0 - b.time || 0;
+      });
+      var positioning = [];
+      var i = 0;
+
+      var _iterator = _createForOfIteratorHelper(values),
+          _step;
+
       try {
-        var values = this.tiers[key].values;
-        values.sort(function (a, b) {
-          return a.time - b.time;
-        });
-        var positioning = [];
-        var i = 0;
+        for (_iterator.s(); !(_step = _iterator.n()).done;) {
+          var x = _step.value;
+          var curPixel = pixelsPerSecond * x.time;
+          var preSec = i == 0 ? 0 : values[i - 1].time;
+          var prePixel = i == 0 ? 0 : pixelsPerSecond * preSec;
+          positioning.push([x.time, curPixel, prePixel, x.text]);
+          i++;
+        } // iterate over each position
 
-        var _iterator = _createForOfIteratorHelper(values),
-            _step;
+      } catch (err) {
+        _iterator.e(err);
+      } finally {
+        _iterator.f();
+      }
 
-        try {
-          for (_iterator.s(); !(_step = _iterator.n()).done;) {
-            var x = _step.value;
-            var curPixel = pixelsPerSecond * x.time;
-            var preSec = i == 0 ? 0 : values[i - 1].time;
-            var prePixel = i == 0 ? 0 : pixelsPerSecond * preSec;
-            positioning.push([x.time, curPixel, prePixel, x.text]);
-            i++;
-          } // iterate over each position
-
-        } catch (err) {
-          _iterator.e(err);
-        } finally {
-          _iterator.f();
-        }
-
-        if (this.tiers[key].type == "interval") {
-          this.renderIntervalTier(key, positioning);
-        } else if (this.tiers[key].type == "point") {
-          this.renderPointTier(key, positioning);
-        } else {
-          this.wavesurfer.fireEvent("error", new Error("tier.type is 'interval' or 'point'"));
-        }
-      } catch (e) {
-        this.wavesurfer.fireEvent("error", e);
+      if (this.tiers[key].type == "interval") {
+        this.renderIntervalTier(key, positioning);
+      } else if (this.tiers[key].type == "point") {
+        this.renderPointTier(key, positioning);
+      } else {
+        this.wavesurfer.fireEvent("error", new Error("tier.type is 'interval' or 'point'"));
       }
     }
   }, {
