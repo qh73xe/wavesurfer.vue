@@ -553,15 +553,17 @@ export default class TextgridPlugin {
       // 現在クリック時の表示箇所を強調
       if (this.current.key == key && this.current.index !== null) {
         const record = this.tiers[key].values[this.current.index];
-        if (record.time == curSeconds) {
-          this.setFillStyles(key, this.params.activeColor);
-          const canvas = this.tiers[key].canvas;
-          canvas
-            .getContext("2d")
-            .fillRect(prePixel, 0, curPixel - prePixel, canvas.height);
+        if (record) {
+          if (record.time == curSeconds) {
+            this.setFillStyles(key, this.params.activeColor);
+            const canvas = this.tiers[key].canvas;
+            canvas
+              .getContext("2d")
+              .fillRect(prePixel, 0, curPixel - prePixel, canvas.height);
+          }
+          this.setFillStyles(key, this.params.color);
+          this.setFillStyles(key, this.params.fontColor);
         }
-        this.setFillStyles(key, this.params.color);
-        this.setFillStyles(key, this.params.fontColor);
       }
       this.fillRect(key, curPixel, 0, 1, height);
 

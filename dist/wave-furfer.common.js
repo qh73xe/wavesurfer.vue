@@ -17618,16 +17618,18 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
         if (_this2.current.key == key && _this2.current.index !== null) {
           var record = _this2.tiers[key].values[_this2.current.index];
 
-          if (record.time == curSeconds) {
-            _this2.setFillStyles(key, _this2.params.activeColor);
+          if (record) {
+            if (record.time == curSeconds) {
+              _this2.setFillStyles(key, _this2.params.activeColor);
 
-            var canvas = _this2.tiers[key].canvas;
-            canvas.getContext("2d").fillRect(prePixel, 0, curPixel - prePixel, canvas.height);
+              var canvas = _this2.tiers[key].canvas;
+              canvas.getContext("2d").fillRect(prePixel, 0, curPixel - prePixel, canvas.height);
+            }
+
+            _this2.setFillStyles(key, _this2.params.color);
+
+            _this2.setFillStyles(key, _this2.params.fontColor);
           }
-
-          _this2.setFillStyles(key, _this2.params.color);
-
-          _this2.setFillStyles(key, _this2.params.fontColor);
         }
 
         _this2.fillRect(key, curPixel, 0, 1, height); // 文字表示が可能な場合文字を表示
