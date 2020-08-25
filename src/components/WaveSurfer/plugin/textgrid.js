@@ -328,7 +328,7 @@ export default class TextgridPlugin {
           let canditates = vm.tiers[key].values.filter(x => {
             return x.time >= time;
           });
-          canditates.sort((a, b) => a.time || 0 - b.time || 0);
+          canditates.sort((a, b) => a.time - b.time);
           const currentItem = canditates[0];
           if (currentItem) {
             vm.setCurrent(key, currentItem);
@@ -514,7 +514,7 @@ export default class TextgridPlugin {
     // build an array of position data with index, second and pixel data,
     // this is then used multiple times below
     const values = this.tiers[key].values;
-    values.sort((a, b) => a.time || 0 - b.time || 0);
+    values.sort((a, b) => a.time - b.time);
 
     const positioning = [];
     let i = 0;
@@ -598,12 +598,14 @@ export default class TextgridPlugin {
       // 現在クリック時の表示箇所を強調
       if (this.current.key == key && this.current.index !== null) {
         const record = this.tiers[key].values[this.current.index];
-        if (record.time == curSeconds) {
-          this.setFillStyles(key, this.params.activeColor);
-          this.fillRect(key, curPixel, 0, 3, Math.round(height / 2));
-        } else {
-          this.setFillStyles(key, this.params.color);
-          this.fillRect(key, curPixel, 0, 1, Math.round(height / 2));
+        if (record) {
+          if (record.time == curSeconds) {
+            this.setFillStyles(key, this.params.activeColor);
+            this.fillRect(key, curPixel, 0, 3, Math.round(height / 2));
+          } else {
+            this.setFillStyles(key, this.params.color);
+            this.fillRect(key, curPixel, 0, 1, Math.round(height / 2));
+          }
         }
       } else {
         this.setFillStyles(key, this.params.color);

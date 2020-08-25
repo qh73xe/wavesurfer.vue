@@ -17378,7 +17378,7 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
               return x.time >= time;
             });
             canditates.sort(function (a, b) {
-              return a.time || 0 - b.time || 0;
+              return a.time - b.time;
             });
             var currentItem = canditates[0];
 
@@ -17575,7 +17575,7 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
 
       var values = this.tiers[key].values;
       values.sort(function (a, b) {
-        return a.time || 0 - b.time || 0;
+        return a.time - b.time;
       });
       var positioning = [];
       var i = 0;
@@ -17681,14 +17681,16 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
         if (_this3.current.key == key && _this3.current.index !== null) {
           var record = _this3.tiers[key].values[_this3.current.index];
 
-          if (record.time == curSeconds) {
-            _this3.setFillStyles(key, _this3.params.activeColor);
+          if (record) {
+            if (record.time == curSeconds) {
+              _this3.setFillStyles(key, _this3.params.activeColor);
 
-            _this3.fillRect(key, curPixel, 0, 3, Math.round(height / 2));
-          } else {
-            _this3.setFillStyles(key, _this3.params.color);
+              _this3.fillRect(key, curPixel, 0, 3, Math.round(height / 2));
+            } else {
+              _this3.setFillStyles(key, _this3.params.color);
 
-            _this3.fillRect(key, curPixel, 0, 1, Math.round(height / 2));
+              _this3.fillRect(key, curPixel, 0, 1, Math.round(height / 2));
+            }
           }
         } else {
           _this3.setFillStyles(key, _this3.params.color);
