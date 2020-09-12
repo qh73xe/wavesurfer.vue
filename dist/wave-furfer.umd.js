@@ -18554,6 +18554,7 @@ function FFT(bufferSize, sampleRate, windowFunc, alpha) {
 
 
 
+
 var spectrogram_dec, spectrogram_dec2, spectrogram_dec3, spectrogram_dec4, spectrogram_dec5, spectrogram_dec6, spectrogram_dec7, spectrogram_dec8, spectrogram_dec9, spectrogram_dec10, spectrogram_dec11, spectrogram_dec12, spectrogram_dec13, spectrogram_dec14, spectrogram_class;
 
 /* eslint-enable complexity, no-redeclare, no-var, one-var */
@@ -19043,7 +19044,7 @@ var spectrogram_SpectrogramPlugin = (spectrogram_dec = log("spectrogram.create",
       }
 
       var bgWidth = 55;
-      var getMaxY = this.height || 512;
+      var getMaxY = 512;
       var labelIndex = 5 * (getMaxY / (256 * freqRate));
       var freqStart = 0;
       var step = (this.wavesurfer.backend.ac.sampleRate / 2 - freqStart) / labelIndex; // prepare canvas element for labels

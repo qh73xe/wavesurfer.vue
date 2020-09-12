@@ -87,7 +87,6 @@
         v-if="videoSource"
         showSpectrogram
         showFreqLabel
-        :spectrogramHeight="150"
         splitChannels
         normalize
         responsive

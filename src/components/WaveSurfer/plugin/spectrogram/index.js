@@ -419,7 +419,7 @@ export default class SpectrogramPlugin {
       }
     }
     const bgWidth = 55;
-    const getMaxY = this.height || 512;
+    const getMaxY = 512;
     const labelIndex = 5 * (getMaxY / (256 * freqRate));
     const freqStart = 0;
     const step =
