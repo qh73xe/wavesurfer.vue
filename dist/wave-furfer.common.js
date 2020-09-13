@@ -4173,6 +4173,13 @@ if (DESCRIPTORS) {
 
 /***/ }),
 
+/***/ "76f3":
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ }),
+
 /***/ "77a7":
 /***/ (function(module, exports) {
 
@@ -8373,17 +8380,6 @@ if (DESCRIPTORS && typeof NativeSymbol == 'function' && (!('description' in Nati
 
 /***/ }),
 
-/***/ "e103":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_WaveSurfer_vue_vue_type_style_index_0_id_00fe1f55_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("e564");
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_WaveSurfer_vue_vue_type_style_index_0_id_00fe1f55_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_WaveSurfer_vue_vue_type_style_index_0_id_00fe1f55_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__);
-/* unused harmony reexport * */
- /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_WaveSurfer_vue_vue_type_style_index_0_id_00fe1f55_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
-
-/***/ }),
-
 /***/ "e163":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8526,13 +8522,6 @@ var wellKnownSymbol = __webpack_require__("b622");
 
 exports.f = wellKnownSymbol;
 
-
-/***/ }),
-
-/***/ "e564":
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
 
 /***/ }),
 
@@ -9235,6 +9224,17 @@ module.exports.f = function (C) {
 
 /***/ }),
 
+/***/ "f116":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_WaveSurfer_vue_vue_type_style_index_0_id_090c9acf_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("76f3");
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_WaveSurfer_vue_vue_type_style_index_0_id_090c9acf_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_WaveSurfer_vue_vue_type_style_index_0_id_090c9acf_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
+ /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_WaveSurfer_vue_vue_type_style_index_0_id_090c9acf_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
+/***/ }),
+
 /***/ "f5df":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -9349,12 +9349,12 @@ if (typeof window !== 'undefined') {
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 var external_commonjs_vue_commonjs2_vue_root_Vue_default = /*#__PURE__*/__webpack_require__.n(external_commonjs_vue_commonjs2_vue_root_Vue_);
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"d7f3097c-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/WaveSurfer/WaveSurfer.vue?vue&type=template&id=00fe1f55&scoped=true&
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"ws"},[(_vm.showSpectrogram)?_c('div',{directives:[{name:"show",rawName:"v-show",value:(!_vm.isSpectrogramRendering),expression:"!isSpectrogramRendering"}],ref:"spectrogram",staticClass:"overflow-y-auto",style:(("max-height: " + _vm.spectrogramMaxHeight))}):_vm._e(),_vm._t("default"),_c('div',{directives:[{name:"show",rawName:"v-show",value:(!_vm.isSpectrogramRendering),expression:"!isSpectrogramRendering"}],ref:"waveform"}),(_vm.showTimeLine)?_c('div',{ref:"timeline"}):_vm._e(),(_vm.showPointLine)?_c('div',{ref:"pointline"}):_vm._e(),_vm._t("textform"),(_vm.showTextGrid)?_c('div',{ref:"textgrid",staticClass:"overflow-y-auto",style:(("max-height: " + _vm.textgridMaxHeight))}):_vm._e()],2)}
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"d7f3097c-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/WaveSurfer/WaveSurfer.vue?vue&type=template&id=090c9acf&scoped=true&
+var WaveSurfervue_type_template_id_090c9acf_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"ws"},[(_vm.showSpectrogram)?_c('div',{directives:[{name:"show",rawName:"v-show",value:(!_vm.isSpectrogramRendering),expression:"!isSpectrogramRendering"}],ref:"spectrogram",staticClass:"overflow-y-auto",style:(("max-height: " + _vm.spectrogramMaxHeight))}):_vm._e(),_vm._t("default"),_c('div',{directives:[{name:"show",rawName:"v-show",value:(!_vm.isSpectrogramRendering),expression:"!isSpectrogramRendering"}],ref:"waveform"}),(_vm.showTimeLine)?_c('div',{ref:"timeline"}):_vm._e(),(_vm.showPointLine)?_c('div',{ref:"pointline"}):_vm._e(),_vm._t("textform"),(_vm.showTextGrid)?_c('div',{ref:"textgrid",staticClass:"overflow-y-auto",style:(("max-height: " + _vm.textgridMaxHeight))}):_vm._e()],2)}
 var staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/components/WaveSurfer/WaveSurfer.vue?vue&type=template&id=00fe1f55&scoped=true&
+// CONCATENATED MODULE: ./src/components/WaveSurfer/WaveSurfer.vue?vue&type=template&id=090c9acf&scoped=true&
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.index-of.js
 var es_array_index_of = __webpack_require__("c975");
@@ -17401,8 +17401,11 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
             var idx = vm.tiers[key].dragingItemIdx;
 
             if (vm.tiers[key].values[idx]) {
-              vm.tiers[key].values[idx].time = vm.event2time(e);
-              vm.render();
+              var item = {
+                time: vm.event2time(e),
+                text: vm.tiers[key].values[idx].text
+              };
+              vm.setTierValue(key, idx, item, false);
             }
           }, 50);
         };
@@ -17925,7 +17928,7 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
 
   }, {
     key: "addTier",
-    value: function addTier(key, type) {
+    value: function addTier(key, type, parent) {
       if (key == "" || key == null || key == undefined) {
         this.wavesurfer.fireEvent("error", new Error("No tier name"));
         return;
@@ -17942,7 +17945,8 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
       }] : [];
       this.tiers[key] = {
         type: type,
-        values: values
+        values: values,
+        parent: parent || null
       };
       this.render();
       this.wavesurfer.fireEvent("textgrid-update", this.tiers);
@@ -17965,17 +17969,46 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
       this.saveKeyInTier(key, function () {
         if ("name" in obj) {
           var type = "type" in obj ? obj.type : vm.tiers[key].type;
+          var parent = obj.parent || null;
           var values = vm.tiers[key];
-          vm.addTier(obj.name, type);
+          vm.addTier(obj.name, type, parent);
           vm.tiers[obj.name].values = values;
           vm.deleteTier(key);
         } else if ("type" in obj) {
           vm.tiers[key].type = obj.type;
+        } else if ("parent" in obj) {
+          vm.tiers[key].parent = obj.parent;
         }
 
         vm.render();
         vm.wavesurfer.fireEvent("textgrid-update", vm.tiers);
       });
+    }
+  }, {
+    key: "getParents",
+    value: function getParents(pkey) {
+      var parents = [];
+      var p = pkey;
+
+      while (p !== null) {
+        parents.push(p);
+        p = this.tiers[p].parent;
+      }
+
+      return parents;
+    }
+  }, {
+    key: "hasChildren",
+    value: function hasChildren(key) {
+      var children = [];
+
+      for (var ckey in this.tiers) {
+        if (key == this.tiers[ckey].parent) {
+          children.push(ckey);
+        }
+      }
+
+      return children.length == 0 ? false : true;
     } // TIER ITEM CONTROL FUNCTIONS
 
   }, {
@@ -17983,6 +18016,8 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
     value: function addTierValue(key, obj) {
       var _this5 = this;
 
+      var fireEvent = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+      var render = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : true;
       var vm = this;
       this.saveKeyInTier(key, function () {
         var idx = vm.tiers[key].values.findIndex(function (x) {
@@ -17990,35 +18025,136 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
         });
 
         if (idx == -1) {
-          var item = {
-            time: obj.time || null,
-            text: obj.text || ""
-          };
-          vm.tiers[key].values.push(item);
-          vm.render();
-          vm.setCurrent(key, item);
-          vm.wavesurfer.fireEvent("textgrid-update", _this5.tiers);
+          (function () {
+            var item = {
+              time: obj.time || null,
+              text: obj.text || ""
+            };
+            vm.tiers[key].values.push(item); // 親が追加された場合子も追加する
+
+            for (var ckey in vm.tiers) {
+              if (key == vm.tiers[ckey].parent) {
+                var ci = vm.tiers[ckey].values.findIndex(function (x) {
+                  return x.time == item.time;
+                });
+                if (ci == -1) vm.addTierValue(ckey, item, false, false);
+              }
+            }
+
+            if (render) vm.render();
+
+            if (fireEvent) {
+              vm.setCurrent(key, item);
+              vm.wavesurfer.fireEvent("textgrid-update", _this5.tiers);
+            }
+          })();
         }
       });
     }
   }, {
     key: "setTierValue",
     value: function setTierValue(key, idx, object) {
+      var fireEvent = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : true;
+      var render = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : true;
       var vm = this;
       this.saveKeyIdxInTier(key, idx, function () {
-        vm.tiers[key].values[idx] = object;
-        vm.render();
-        vm.wavesurfer.fireEvent("textgrid-update", vm.tiers);
+        var record = vm.tiers[key].values[idx];
+        var isParent = vm.hasChildren(key);
+        var isChild = vm.tiers[key].parent !== null; // 時刻情報を移動する場合親子関係を考慮する
+
+        if (record.time != object.time) {
+          if (isParent) {
+            // 親である場合, 子に向けて再帰呼出を行う
+            for (var ckey in vm.tiers) {
+              if (key == vm.tiers[ckey].parent) {
+                (function () {
+                  var record = vm.tiers[key].values[idx];
+                  var ci = vm.tiers[ckey].values.findIndex(function (x) {
+                    return x.time == record.time;
+                  });
+                  if (ci != -1) vm.setTierValue(ckey, ci, object, false, false);
+                })();
+              }
+            }
+          } else if (isChild) {
+            // 子要素が動いた場合, 親の同時刻を移動する
+            var ps = vm.getParents(vm.tiers[key].parent);
+
+            var _iterator2 = _createForOfIteratorHelper(ps),
+                _step2;
+
+            try {
+              for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+                var p = _step2.value;
+                var pi = vm.tiers[p].values.findIndex(function (x) {
+                  return x.time == record.time;
+                });
+                if (pi != -1) vm.tiers[p].values[pi].time = object.time;
+              }
+            } catch (err) {
+              _iterator2.e(err);
+            } finally {
+              _iterator2.f();
+            }
+
+            vm.tiers[key].values[idx].time = object.time;
+          }
+        } else {
+          vm.tiers[key].values[idx] = object;
+        }
+
+        if (render) vm.render();
+        if (fireEvent) vm.wavesurfer.fireEvent("textgrid-update", vm.tiers);
       });
     }
   }, {
     key: "deleteTierValue",
     value: function deleteTierValue(key, idx) {
+      var render = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+      var fireEvent = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : true;
       var vm = this;
       this.saveKeyIdxInTier(key, idx, function () {
-        vm.tiers[key].values.splice(idx, 1);
-        vm.render();
-        vm.wavesurfer.fireEvent("textgrid-update", vm.tiers);
+        var record = vm.tiers[key].values[idx];
+        var isParent = vm.hasChildren(key);
+        var isChild = vm.tiers[key].parent !== null;
+
+        if (isParent) {
+          // 親である場合, 子に向けて再帰呼出を行う
+          for (var ckey in vm.tiers) {
+            if (key == vm.tiers[ckey].parent) {
+              var ci = vm.tiers[ckey].values.findIndex(function (x) {
+                return x.time == record.time;
+              });
+              if (ci != -1) vm.deleteTierValue(ckey, ci, false, false);
+            }
+          }
+        } else if (isChild) {
+          // 自身が純粋な子の場合, 実処理を行う
+          // その際には親操作を実施する
+          var ps = vm.getParents(vm.tiers[key].parent);
+
+          var _iterator3 = _createForOfIteratorHelper(ps),
+              _step3;
+
+          try {
+            for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+              var p = _step3.value;
+              var pi = vm.tiers[p].values.findIndex(function (x) {
+                return x.time == record.time;
+              });
+              if (pi != -1) vm.tiers[p].values.splice(pi, 1);
+            }
+          } catch (err) {
+            _iterator3.e(err);
+          } finally {
+            _iterator3.f();
+          }
+
+          vm.tiers[key].values.splice(idx, 1);
+        }
+
+        if (render) vm.render();
+        if (fireEvent) vm.wavesurfer.fireEvent("textgrid-update", vm.tiers);
       });
     } // file io
 
@@ -20315,7 +20451,8 @@ var microphone_MicrophonePlugin = /*#__PURE__*/function () {
       this.wavesurfer.pointline.updatePoint(id, point);
     },
     addTier: function addTier(key, type) {
-      this.wavesurfer.textgrid.addTier(key, type);
+      var parent = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+      this.wavesurfer.textgrid.addTier(key, type, parent);
     },
     updateTier: function updateTier(key, obj) {
       this.wavesurfer.textgrid.updateTier(key, obj);
@@ -20584,8 +20721,8 @@ var microphone_MicrophonePlugin = /*#__PURE__*/function () {
 });
 // CONCATENATED MODULE: ./src/components/WaveSurfer/WaveSurfer.vue?vue&type=script&lang=js&
  /* harmony default export */ var WaveSurfer_WaveSurfervue_type_script_lang_js_ = (WaveSurfervue_type_script_lang_js_); 
-// EXTERNAL MODULE: ./src/components/WaveSurfer/WaveSurfer.vue?vue&type=style&index=0&id=00fe1f55&scoped=true&lang=css&
-var WaveSurfervue_type_style_index_0_id_00fe1f55_scoped_true_lang_css_ = __webpack_require__("e103");
+// EXTERNAL MODULE: ./src/components/WaveSurfer/WaveSurfer.vue?vue&type=style&index=0&id=090c9acf&scoped=true&lang=css&
+var WaveSurfervue_type_style_index_0_id_090c9acf_scoped_true_lang_css_ = __webpack_require__("f116");
 
 // CONCATENATED MODULE: ./node_modules/vue-loader/lib/runtime/componentNormalizer.js
 /* globals __VUE_SSR_CONTEXT__ */
@@ -20698,11 +20835,11 @@ function normalizeComponent (
 
 var component = normalizeComponent(
   WaveSurfer_WaveSurfervue_type_script_lang_js_,
-  render,
+  WaveSurfervue_type_template_id_090c9acf_scoped_true_render,
   staticRenderFns,
   false,
   null,
-  "00fe1f55",
+  "090c9acf",
   null
   
 )

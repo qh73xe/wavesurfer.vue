@@ -635,8 +635,8 @@ export default {
     updatePoint: function(id, point) {
       this.wavesurfer.pointline.updatePoint(id, point);
     },
-    addTier: function(key, type) {
-      this.wavesurfer.textgrid.addTier(key, type);
+    addTier: function(key, type, parent = null) {
+      this.wavesurfer.textgrid.addTier(key, type, parent);
     },
     updateTier: function(key, obj) {
       this.wavesurfer.textgrid.updateTier(key, obj);

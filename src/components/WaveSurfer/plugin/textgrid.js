@@ -354,8 +354,11 @@ export default class TextgridPlugin {
         timer = setTimeout(function() {
           const idx = vm.tiers[key].dragingItemIdx;
           if (vm.tiers[key].values[idx]) {
-            vm.tiers[key].values[idx].time = vm.event2time(e);
-            vm.render();
+            const item = {
+              time: vm.event2time(e),
+              text: vm.tiers[key].values[idx].text
+            };
+            vm.setTierValue(key, idx, item, false);
           }
         }, 50);
       };
@@ -830,7 +833,7 @@ export default class TextgridPlugin {
 
   // TIER CONTROL FUNCTIONS
   @log("textgrid.addTier", DEBUG)
-  addTier(key, type) {
+  addTier(key, type, parent) {
     if (key == "" || key == null || key == undefined) {
       this.wavesurfer.fireEvent("error", new Error(`No tier name`));
       return;
@@ -849,7 +852,8 @@ export default class TextgridPlugin {
         : [];
     this.tiers[key] = {
       type: type,
-      values: values
+      values: values,
+      parent: parent || null
     };
     this.render();
     this.wavesurfer.fireEvent("textgrid-update", this.tiers);
@@ -872,56 +876,148 @@ export default class TextgridPlugin {
     this.saveKeyInTier(key, () => {
       if ("name" in obj) {
         const type = "type" in obj ? obj.type : vm.tiers[key].type;
+        const parent = obj.parent || null;
         const values = vm.tiers[key];
-        vm.addTier(obj.name, type);
+        vm.addTier(obj.name, type, parent);
         vm.tiers[obj.name].values = values;
         vm.deleteTier(key);
       } else if ("type" in obj) {
         vm.tiers[key].type = obj.type;
+      } else if ("parent" in obj) {
+        vm.tiers[key].parent = obj.parent;
       }
       vm.render();
       vm.wavesurfer.fireEvent("textgrid-update", vm.tiers);
     });
   }
 
+  getParents(pkey) {
+    const parents = [];
+    let p = pkey;
+    while (p !== null) {
+      parents.push(p);
+      p = this.tiers[p].parent;
+    }
+    return parents;
+  }
+
+  hasChildren(key) {
+    const children = [];
+    for (const ckey in this.tiers) {
+      if (key == this.tiers[ckey].parent) {
+        children.push(ckey);
+      }
+    }
+    return children.length == 0 ? false : true;
+  }
+
   // TIER ITEM CONTROL FUNCTIONS
   @log("textgrid.addTierValue", DEBUG)
-  addTierValue(key, obj) {
+  addTierValue(key, obj, fireEvent = true, render = true) {
     const vm = this;
     this.saveKeyInTier(key, () => {
       const idx = vm.tiers[key].values.findIndex(x => {
         return x.time == obj.time;
       });
+
       if (idx == -1) {
         const item = {
           time: obj.time || null,
           text: obj.text || ""
         };
         vm.tiers[key].values.push(item);
-        vm.render();
-        vm.setCurrent(key, item);
-        vm.wavesurfer.fireEvent("textgrid-update", this.tiers);
+
+        // 親が追加された場合子も追加する
+        for (const ckey in vm.tiers) {
+          if (key == vm.tiers[ckey].parent) {
+            const ci = vm.tiers[ckey].values.findIndex(x => {
+              return x.time == item.time;
+            });
+            if (ci == -1) vm.addTierValue(ckey, item, false, false);
+          }
+        }
+        if (render) vm.render();
+        if (fireEvent) {
+          vm.setCurrent(key, item);
+          vm.wavesurfer.fireEvent("textgrid-update", this.tiers);
+        }
       }
     });
   }
 
   @log("textgrid.setTierValue", DEBUG)
-  setTierValue(key, idx, object) {
+  setTierValue(key, idx, object, fireEvent = true, render = true) {
     const vm = this;
     this.saveKeyIdxInTier(key, idx, () => {
-      vm.tiers[key].values[idx] = object;
-      vm.render();
-      vm.wavesurfer.fireEvent("textgrid-update", vm.tiers);
+      const record = vm.tiers[key].values[idx];
+      const isParent = vm.hasChildren(key);
+      const isChild = vm.tiers[key].parent !== null;
+
+      // 時刻情報を移動する場合親子関係を考慮する
+      if (record.time != object.time) {
+        if (isParent) {
+          // 親である場合, 子に向けて再帰呼出を行う
+          for (const ckey in vm.tiers) {
+            if (key == vm.tiers[ckey].parent) {
+              const record = vm.tiers[key].values[idx];
+              const ci = vm.tiers[ckey].values.findIndex(x => {
+                return x.time == record.time;
+              });
+              if (ci != -1) vm.setTierValue(ckey, ci, object, false, false);
+            }
+          }
+        } else if (isChild) {
+          // 子要素が動いた場合, 親の同時刻を移動する
+          const ps = vm.getParents(vm.tiers[key].parent);
+          for (const p of ps) {
+            const pi = vm.tiers[p].values.findIndex(x => {
+              return x.time == record.time;
+            });
+            if (pi != -1) vm.tiers[p].values[pi].time = object.time;
+          }
+          vm.tiers[key].values[idx].time = object.time;
+        }
+      } else {
+        vm.tiers[key].values[idx] = object;
+      }
+      if (render) vm.render();
+      if (fireEvent) vm.wavesurfer.fireEvent("textgrid-update", vm.tiers);
     });
   }
 
   @log("textgrid.deleteTierValue", DEBUG)
-  deleteTierValue(key, idx) {
+  deleteTierValue(key, idx, render = true, fireEvent = true) {
     const vm = this;
     this.saveKeyIdxInTier(key, idx, () => {
-      vm.tiers[key].values.splice(idx, 1);
-      vm.render();
-      vm.wavesurfer.fireEvent("textgrid-update", vm.tiers);
+      const record = vm.tiers[key].values[idx];
+      const isParent = vm.hasChildren(key);
+      const isChild = vm.tiers[key].parent !== null;
+
+      if (isParent) {
+        // 親である場合, 子に向けて再帰呼出を行う
+        for (const ckey in vm.tiers) {
+          if (key == vm.tiers[ckey].parent) {
+            const ci = vm.tiers[ckey].values.findIndex(x => {
+              return x.time == record.time;
+            });
+            if (ci != -1) vm.deleteTierValue(ckey, ci, false, false);
+          }
+        }
+      } else if (isChild) {
+        // 自身が純粋な子の場合, 実処理を行う
+        // その際には親操作を実施する
+        const ps = vm.getParents(vm.tiers[key].parent);
+        for (const p of ps) {
+          const pi = vm.tiers[p].values.findIndex(x => {
+            return x.time == record.time;
+          });
+          if (pi != -1) vm.tiers[p].values.splice(pi, 1);
+        }
+        vm.tiers[key].values.splice(idx, 1);
+      }
+
+      if (render) vm.render();
+      if (fireEvent) vm.wavesurfer.fireEvent("textgrid-update", vm.tiers);
     });
   }
 
