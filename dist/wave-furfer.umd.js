@@ -18107,6 +18107,8 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
             }
 
             vm.tiers[key].values[idx].time = object.time;
+          } else {
+            vm.tiers[key].values[idx].time = object.time;
           }
         } else {
           vm.tiers[key].values[idx] = object;
@@ -18159,6 +18161,8 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
             _iterator3.f();
           }
 
+          vm.tiers[key].values.splice(idx, 1);
+        } else {
           vm.tiers[key].values.splice(idx, 1);
         }
 
