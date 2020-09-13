@@ -976,6 +976,8 @@ export default class TextgridPlugin {
             if (pi != -1) vm.tiers[p].values[pi].time = object.time;
           }
           vm.tiers[key].values[idx].time = object.time;
+        } else {
+          vm.tiers[key].values[idx].time = object.time;
         }
       } else {
         vm.tiers[key].values[idx] = object;
@@ -1013,6 +1015,8 @@ export default class TextgridPlugin {
           });
           if (pi != -1) vm.tiers[p].values.splice(pi, 1);
         }
+        vm.tiers[key].values.splice(idx, 1);
+      } else {
         vm.tiers[key].values.splice(idx, 1);
       }
 
