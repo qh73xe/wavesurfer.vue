@@ -4173,13 +4173,6 @@ if (DESCRIPTORS) {
 
 /***/ }),
 
-/***/ "76f3":
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
-
-/***/ }),
-
 /***/ "77a7":
 /***/ (function(module, exports) {
 
@@ -4706,6 +4699,17 @@ module.exports = store.inspectSource;
 
 /***/ }),
 
+/***/ "8a7f":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_WaveSurfer_vue_vue_type_style_index_0_id_6abe421d_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("8fda");
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_WaveSurfer_vue_vue_type_style_index_0_id_6abe421d_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_WaveSurfer_vue_vue_type_style_index_0_id_6abe421d_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
+ /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_WaveSurfer_vue_vue_type_style_index_0_id_6abe421d_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
+/***/ }),
+
 /***/ "8aa5":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -4755,6 +4759,13 @@ module.exports = !NATIVE_ARRAY_BUFFER_VIEWS || !fails(function () {
 /***/ (function(module, exports) {
 
 module.exports = require("vue");
+
+/***/ }),
+
+/***/ "8fda":
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
 
 /***/ }),
 
@@ -8479,6 +8490,22 @@ addToUnscopables('entries');
 
 /***/ }),
 
+/***/ "e285":
+/***/ (function(module, exports, __webpack_require__) {
+
+var global = __webpack_require__("da84");
+
+var globalIsFinite = global.isFinite;
+
+// `Number.isFinite` method
+// https://tc39.github.io/ecma262/#sec-number.isfinite
+module.exports = Number.isFinite || function isFinite(it) {
+  return typeof it == 'number' && globalIsFinite(it);
+};
+
+
+/***/ }),
+
 /***/ "e2cc":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -9198,6 +9225,19 @@ module.exports = {
 
 /***/ }),
 
+/***/ "f00c":
+/***/ (function(module, exports, __webpack_require__) {
+
+var $ = __webpack_require__("23e7");
+var numberIsFinite = __webpack_require__("e285");
+
+// `Number.isFinite` method
+// https://tc39.github.io/ecma262/#sec-number.isfinite
+$({ target: 'Number', stat: true }, { isFinite: numberIsFinite });
+
+
+/***/ }),
+
 /***/ "f069":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -9221,17 +9261,6 @@ module.exports.f = function (C) {
   return new PromiseCapability(C);
 };
 
-
-/***/ }),
-
-/***/ "f116":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_WaveSurfer_vue_vue_type_style_index_0_id_090c9acf_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("76f3");
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_WaveSurfer_vue_vue_type_style_index_0_id_090c9acf_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_WaveSurfer_vue_vue_type_style_index_0_id_090c9acf_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__);
-/* unused harmony reexport * */
- /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_WaveSurfer_vue_vue_type_style_index_0_id_090c9acf_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 
@@ -9349,12 +9378,12 @@ if (typeof window !== 'undefined') {
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 var external_commonjs_vue_commonjs2_vue_root_Vue_default = /*#__PURE__*/__webpack_require__.n(external_commonjs_vue_commonjs2_vue_root_Vue_);
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"d7f3097c-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/WaveSurfer/WaveSurfer.vue?vue&type=template&id=090c9acf&scoped=true&
-var WaveSurfervue_type_template_id_090c9acf_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"ws"},[(_vm.showSpectrogram)?_c('div',{directives:[{name:"show",rawName:"v-show",value:(!_vm.isSpectrogramRendering),expression:"!isSpectrogramRendering"}],ref:"spectrogram",staticClass:"overflow-y-auto",style:(("max-height: " + _vm.spectrogramMaxHeight))}):_vm._e(),_vm._t("default"),_c('div',{directives:[{name:"show",rawName:"v-show",value:(!_vm.isSpectrogramRendering),expression:"!isSpectrogramRendering"}],ref:"waveform"}),(_vm.showTimeLine)?_c('div',{ref:"timeline"}):_vm._e(),(_vm.showPointLine)?_c('div',{ref:"pointline"}):_vm._e(),_vm._t("textform"),(_vm.showTextGrid)?_c('div',{ref:"textgrid",staticClass:"overflow-y-auto",style:(("max-height: " + _vm.textgridMaxHeight))}):_vm._e()],2)}
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"d7f3097c-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/WaveSurfer/WaveSurfer.vue?vue&type=template&id=6abe421d&scoped=true&
+var WaveSurfervue_type_template_id_6abe421d_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"ws"},[(_vm.showSpectrogram)?_c('div',{directives:[{name:"show",rawName:"v-show",value:(!_vm.isSpectrogramRendering),expression:"!isSpectrogramRendering"}],ref:"spectrogram",staticClass:"overflow-y-auto",style:(("max-height: " + _vm.spectrogramMaxHeight))}):_vm._e(),_vm._t("default"),_c('div',{directives:[{name:"show",rawName:"v-show",value:(!_vm.isSpectrogramRendering),expression:"!isSpectrogramRendering"}],ref:"waveform"}),(_vm.showTimeLine)?_c('div',{ref:"timeline"}):_vm._e(),(_vm.showPointLine)?_c('div',{ref:"pointline"}):_vm._e(),_vm._t("textform"),(_vm.showTextGrid)?_c('div',{ref:"textgrid",staticClass:"overflow-y-auto",style:(("max-height: " + _vm.textgridMaxHeight))}):_vm._e()],2)}
 var staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/components/WaveSurfer/WaveSurfer.vue?vue&type=template&id=090c9acf&scoped=true&
+// CONCATENATED MODULE: ./src/components/WaveSurfer/WaveSurfer.vue?vue&type=template&id=6abe421d&scoped=true&
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.index-of.js
 var es_array_index_of = __webpack_require__("c975");
@@ -16794,6 +16823,9 @@ var pointline_PointlinePlugin = (_dec = log("pointline.create", pointline_DEBUG)
   return PointlinePlugin;
 }(), _temp), (_applyDecoratedDescriptor(_class, "create", [_dec], Object.getOwnPropertyDescriptor(_class, "create"), _class), _applyDecoratedDescriptor(_class.prototype, "init", [_dec2], Object.getOwnPropertyDescriptor(_class.prototype, "init"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "destroy", [_dec3], Object.getOwnPropertyDescriptor(_class.prototype, "destroy"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "createWrapper", [_dec4], Object.getOwnPropertyDescriptor(_class.prototype, "createWrapper"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "render", [_dec5], Object.getOwnPropertyDescriptor(_class.prototype, "render"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "genUuid", [_dec6], Object.getOwnPropertyDescriptor(_class.prototype, "genUuid"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "addPoint", [_dec7], Object.getOwnPropertyDescriptor(_class.prototype, "addPoint"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "updatePoint", [_dec8], Object.getOwnPropertyDescriptor(_class.prototype, "updatePoint"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "deletePoint", [_dec9], Object.getOwnPropertyDescriptor(_class.prototype, "deletePoint"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "addCanvas", [_dec10], Object.getOwnPropertyDescriptor(_class.prototype, "addCanvas"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "removeCanvas", [_dec11], Object.getOwnPropertyDescriptor(_class.prototype, "removeCanvas"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "updateCanvases", [_dec12], Object.getOwnPropertyDescriptor(_class.prototype, "updateCanvases"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "updateCanvasesPositioning", [_dec13], Object.getOwnPropertyDescriptor(_class.prototype, "updateCanvasesPositioning"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "renderCanvases", [_dec14], Object.getOwnPropertyDescriptor(_class.prototype, "renderCanvases"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "setFillStyles", [_dec15], Object.getOwnPropertyDescriptor(_class.prototype, "setFillStyles"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "fillRect", [_dec16], Object.getOwnPropertyDescriptor(_class.prototype, "fillRect"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "defaultFormatTimeCallback", [_dec17], Object.getOwnPropertyDescriptor(_class.prototype, "defaultFormatTimeCallback"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "defaultTimeInterval", [_dec18], Object.getOwnPropertyDescriptor(_class.prototype, "defaultTimeInterval"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "defaultPrimaryLabelInterval", [_dec19], Object.getOwnPropertyDescriptor(_class.prototype, "defaultPrimaryLabelInterval"), _class.prototype)), _class));
 
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.number.is-finite.js
+var es_number_is_finite = __webpack_require__("f00c");
+
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.string.match.js
 var es_string_match = __webpack_require__("466d");
 
@@ -17023,7 +17055,10 @@ var parseIntervalTier = function parseIntervalTier(lines) {
 
 
 
-var textgrid_dec, textgrid_dec2, textgrid_dec3, textgrid_dec4, textgrid_dec5, textgrid_dec6, textgrid_dec7, textgrid_dec8, textgrid_dec9, textgrid_dec10, textgrid_class, textgrid_temp;
+
+
+
+var textgrid_dec, textgrid_dec2, textgrid_dec3, textgrid_dec4, textgrid_dec5, textgrid_dec6, textgrid_dec7, textgrid_dec8, textgrid_dec9, textgrid_dec10, textgrid_dec11, textgrid_class, textgrid_temp;
 
 
 
@@ -17069,7 +17104,7 @@ var textgrid_DEBUG = false;
  * });
  */
 
-var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DEBUG), textgrid_dec2 = log("textgrid.setCursorTime", textgrid_DEBUG), textgrid_dec3 = log("textgrid.render", textgrid_DEBUG), textgrid_dec4 = log("textgrid.play", textgrid_DEBUG), textgrid_dec5 = log("textgrid.addTier", textgrid_DEBUG), textgrid_dec6 = log("textgrid.deleteTier", textgrid_DEBUG), textgrid_dec7 = log("textgrid.updateTier", textgrid_DEBUG), textgrid_dec8 = log("textgrid.addTierValue", textgrid_DEBUG), textgrid_dec9 = log("textgrid.setTierValue", textgrid_DEBUG), textgrid_dec10 = log("textgrid.deleteTierValue", textgrid_DEBUG), (textgrid_class = (textgrid_temp = /*#__PURE__*/function () {
+var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DEBUG), textgrid_dec2 = log("textgrid.setCursorTime", textgrid_DEBUG), textgrid_dec3 = log("textgrid.render", textgrid_DEBUG), textgrid_dec4 = log("textgrid.play", textgrid_DEBUG), textgrid_dec5 = log("textgrid.addTier", textgrid_DEBUG), textgrid_dec6 = log("textgrid.deleteTier", textgrid_DEBUG), textgrid_dec7 = log("textgrid.updateTier", textgrid_DEBUG), textgrid_dec8 = log("textgrid.copyTier", textgrid_DEBUG), textgrid_dec9 = log("textgrid.addTierValue", textgrid_DEBUG), textgrid_dec10 = log("textgrid.setTierValue", textgrid_DEBUG), textgrid_dec11 = log("textgrid.deleteTierValue", textgrid_DEBUG), (textgrid_class = (textgrid_temp = /*#__PURE__*/function () {
   _createClass(TextgridPlugin, null, [{
     key: "create",
 
@@ -17943,46 +17978,118 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
         text: "",
         time: this.wavesurfer.getDuration()
       }] : [];
-      this.tiers[key] = {
-        type: type,
-        values: values,
-        parent: parent || null
-      };
-      this.render();
-      this.wavesurfer.fireEvent("textgrid-update", this.tiers);
+
+      if (type == "interval" || type == "point") {
+        this.tiers[key] = {
+          type: type,
+          values: values,
+          parent: parent || null
+        };
+        this.render();
+        this.wavesurfer.fireEvent("tier-add", this.tiers);
+      }
     }
   }, {
     key: "deleteTier",
     value: function deleteTier(key) {
       var vm = this;
       this.saveKeyInTier(key, function () {
+        // 子要素の参照を変更
+        for (var ckey in vm.tiers) {
+          if (key == vm.tiers[ckey].parent) {
+            vm.tiers[ckey].parent = null;
+          }
+        }
+
         vm.removeCanvas(key);
         delete vm.tiers[key];
         vm.render();
-        vm.wavesurfer.fireEvent("textgrid-update", vm.tiers);
+        vm.wavesurfer.fireEvent("tier-delete", vm.tiers);
       });
     }
   }, {
     key: "updateTier",
     value: function updateTier(key, obj) {
+      var _this5 = this;
+
       var vm = this;
       this.saveKeyInTier(key, function () {
-        if ("name" in obj) {
-          var type = "type" in obj ? obj.type : vm.tiers[key].type;
-          var parent = obj.parent || null;
-          var values = vm.tiers[key];
-          vm.addTier(obj.name, type, parent);
-          vm.tiers[obj.name].values = values;
-          vm.deleteTier(key);
-        } else if ("type" in obj) {
-          vm.tiers[key].type = obj.type;
-        } else if ("parent" in obj) {
-          vm.tiers[key].parent = obj.parent;
+        var ref = vm.tiers[key];
+
+        if (obj.name) {
+          if (key != obj.name) {
+            // 名前チェック
+            if (obj.name == "" || obj.name == null || obj.name == undefined) {
+              _this5.wavesurfer.fireEvent("error", new Error("No tier name"));
+
+              return;
+            }
+
+            if (obj.name in _this5.tiers) {
+              _this5.wavesurfer.fireEvent("error", new Error("Duplicate tier name (".concat(key, ")")));
+
+              return;
+            } // 新規アイテムの作成
+
+
+            vm.tiers[obj.name] = {
+              values: ref.values || [],
+              type: "type" in obj ? obj.type : ref.type,
+              parent: "parent" in obj ? obj.parent : ref.parent
+            }; // 子要素の参照を変更
+
+            for (var ckey in vm.tiers) {
+              if (key == vm.tiers[ckey].parent) {
+                vm.tiers[ckey].parent = obj.name;
+              }
+            } // 元データの削除
+
+
+            vm.removeCanvas(key);
+            delete vm.tiers[key];
+          }
+        } else {
+          vm.tiers[key].type = "type" in obj ? obj.type : ref.type;
+          vm.tiers[key].parent = "parent" in obj ? obj.parent : ref.parent;
         }
 
         vm.render();
-        vm.wavesurfer.fireEvent("textgrid-update", vm.tiers);
+        vm.wavesurfer.fireEvent("tier-update", vm.tiers);
       });
+    } // TIER CONTROL FUNCTIONS
+
+  }, {
+    key: "copyTier",
+    value: function copyTier(ref, key, type, parent) {
+      var withText = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : true;
+
+      if (key == "" || key == null || key == undefined) {
+        this.wavesurfer.fireEvent("error", new Error("No tier name"));
+        return;
+      }
+
+      if (key in this.tiers) {
+        this.wavesurfer.fireEvent("error", new Error("Duplicate tier name (".concat(key, ")")));
+        return;
+      }
+
+      var base = this.tiers[ref];
+      var values = base.values.map(function (x) {
+        return {
+          time: x.time,
+          text: withText ? x.text : ""
+        };
+      });
+
+      if (type == "interval" || type == "point") {
+        this.tiers[key] = {
+          type: type,
+          values: values,
+          parent: parent || null
+        };
+        this.render();
+        this.wavesurfer.fireEvent("tier-add", this.tiers);
+      }
     }
   }, {
     key: "getParents",
@@ -18014,7 +18121,7 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
   }, {
     key: "addTierValue",
     value: function addTierValue(key, obj) {
-      var _this5 = this;
+      var _this6 = this;
 
       var fireEvent = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
       var render = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : true;
@@ -18045,7 +18152,7 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
 
             if (fireEvent) {
               vm.setCurrent(key, item);
-              vm.wavesurfer.fireEvent("textgrid-update", _this5.tiers);
+              vm.wavesurfer.fireEvent("textgrid-update", _this6.tiers);
             }
           })();
         }
@@ -18072,7 +18179,10 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
                   var ci = vm.tiers[ckey].values.findIndex(function (x) {
                     return x.time == record.time;
                   });
-                  if (ci != -1) vm.setTierValue(ckey, ci, object, false, false);
+
+                  if (ci != -1) {
+                    vm.setTierValue(ckey, ci, object, false, false);
+                  }
                 })();
               }
             }
@@ -18163,27 +18273,93 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
     } // file io
 
   }, {
+    key: "loadObj",
+    value: function loadObj(obj) {
+      var fireEvent = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+      // TIER の初期化
+      this.tiers = {}; // 選択状態の初期化
+
+      this.current = {
+        key: null,
+        item: null,
+        index: null
+      }; // Tier の作成
+
+      for (var key in obj) {
+        var tier = obj[key];
+
+        if (tier.type) {
+          if (tier.type == "interval" || tier.type == "point") {
+            var values = [];
+
+            if (tier.values.length > 0) {
+              for (var i in tier.values || []) {
+                var v = tier.values[i];
+                var time = v.time;
+
+                if (typeof time === "number" && Number.isFinite(time)) {
+                  values.push({
+                    time: time,
+                    text: v.text || ""
+                  });
+                }
+
+                if (i == tier.values.length - 1) {
+                  if (tier.type == "interval") {
+                    if (v.time !== this.wavesurfer.getDuration()) {
+                      values.push({
+                        text: "",
+                        time: this.wavesurfer.getDuration()
+                      });
+                    }
+                  }
+                }
+              }
+            } else {
+              if (tier.type == "interval") {
+                values.push({
+                  text: "",
+                  time: this.wavesurfer.getDuration()
+                });
+              }
+            }
+
+            this.tiers[key] = {
+              type: tier.type,
+              values: values,
+              parent: tier.parent || null
+            };
+          }
+        }
+      } // カーサー時刻を調整
+
+
+      this.currentTime = this.wavesurfer.getCurrentTime();
+      this.setCursorTime();
+      this.render();
+      if (fireEvent) this.wavesurfer.fireEvent("textgrid-update", this.tiers);
+    }
+  }, {
+    key: "loadJson",
+    value: function loadJson(file) {
+      var fireEvent = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+      var vm = this;
+      var fr = new FileReader();
+      fr.readAsText(file);
+      fr.addEventListener("load", function () {
+        var obj = JSON.parse(fr.result);
+        vm.loadObj(obj, fireEvent);
+      });
+    }
+  }, {
     key: "loadTextGrid",
     value: function loadTextGrid(file) {
-      var _this6 = this;
-
+      var fireEvent = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
       var fr = new FileReader();
       var vm = this;
       fr.readAsText(file);
       fr.addEventListener("load", function () {
-        vm.tiers = io.textgrid.load(fr.result);
-
-        for (var key in _this6.tiers) {
-          if (vm.tiers[key].type == "interval") {
-            vm.tiers[key].values.push({
-              text: "",
-              time: vm.wavesurfer.getDuration()
-            });
-          }
-        }
-
-        vm.render();
-        vm.wavesurfer.fireEvent("textgrid-update", vm.tiers);
+        vm.loadObj(io.textgrid.load(fr.result), fireEvent);
       });
     }
   }, {
@@ -18210,7 +18386,7 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
   }]);
 
   return TextgridPlugin;
-}(), textgrid_temp), (_applyDecoratedDescriptor(textgrid_class, "create", [textgrid_dec], Object.getOwnPropertyDescriptor(textgrid_class, "create"), textgrid_class), _applyDecoratedDescriptor(textgrid_class.prototype, "setCursorTime", [textgrid_dec2], Object.getOwnPropertyDescriptor(textgrid_class.prototype, "setCursorTime"), textgrid_class.prototype), _applyDecoratedDescriptor(textgrid_class.prototype, "render", [textgrid_dec3], Object.getOwnPropertyDescriptor(textgrid_class.prototype, "render"), textgrid_class.prototype), _applyDecoratedDescriptor(textgrid_class.prototype, "play", [textgrid_dec4], Object.getOwnPropertyDescriptor(textgrid_class.prototype, "play"), textgrid_class.prototype), _applyDecoratedDescriptor(textgrid_class.prototype, "addTier", [textgrid_dec5], Object.getOwnPropertyDescriptor(textgrid_class.prototype, "addTier"), textgrid_class.prototype), _applyDecoratedDescriptor(textgrid_class.prototype, "deleteTier", [textgrid_dec6], Object.getOwnPropertyDescriptor(textgrid_class.prototype, "deleteTier"), textgrid_class.prototype), _applyDecoratedDescriptor(textgrid_class.prototype, "updateTier", [textgrid_dec7], Object.getOwnPropertyDescriptor(textgrid_class.prototype, "updateTier"), textgrid_class.prototype), _applyDecoratedDescriptor(textgrid_class.prototype, "addTierValue", [textgrid_dec8], Object.getOwnPropertyDescriptor(textgrid_class.prototype, "addTierValue"), textgrid_class.prototype), _applyDecoratedDescriptor(textgrid_class.prototype, "setTierValue", [textgrid_dec9], Object.getOwnPropertyDescriptor(textgrid_class.prototype, "setTierValue"), textgrid_class.prototype), _applyDecoratedDescriptor(textgrid_class.prototype, "deleteTierValue", [textgrid_dec10], Object.getOwnPropertyDescriptor(textgrid_class.prototype, "deleteTierValue"), textgrid_class.prototype)), textgrid_class));
+}(), textgrid_temp), (_applyDecoratedDescriptor(textgrid_class, "create", [textgrid_dec], Object.getOwnPropertyDescriptor(textgrid_class, "create"), textgrid_class), _applyDecoratedDescriptor(textgrid_class.prototype, "setCursorTime", [textgrid_dec2], Object.getOwnPropertyDescriptor(textgrid_class.prototype, "setCursorTime"), textgrid_class.prototype), _applyDecoratedDescriptor(textgrid_class.prototype, "render", [textgrid_dec3], Object.getOwnPropertyDescriptor(textgrid_class.prototype, "render"), textgrid_class.prototype), _applyDecoratedDescriptor(textgrid_class.prototype, "play", [textgrid_dec4], Object.getOwnPropertyDescriptor(textgrid_class.prototype, "play"), textgrid_class.prototype), _applyDecoratedDescriptor(textgrid_class.prototype, "addTier", [textgrid_dec5], Object.getOwnPropertyDescriptor(textgrid_class.prototype, "addTier"), textgrid_class.prototype), _applyDecoratedDescriptor(textgrid_class.prototype, "deleteTier", [textgrid_dec6], Object.getOwnPropertyDescriptor(textgrid_class.prototype, "deleteTier"), textgrid_class.prototype), _applyDecoratedDescriptor(textgrid_class.prototype, "updateTier", [textgrid_dec7], Object.getOwnPropertyDescriptor(textgrid_class.prototype, "updateTier"), textgrid_class.prototype), _applyDecoratedDescriptor(textgrid_class.prototype, "copyTier", [textgrid_dec8], Object.getOwnPropertyDescriptor(textgrid_class.prototype, "copyTier"), textgrid_class.prototype), _applyDecoratedDescriptor(textgrid_class.prototype, "addTierValue", [textgrid_dec9], Object.getOwnPropertyDescriptor(textgrid_class.prototype, "addTierValue"), textgrid_class.prototype), _applyDecoratedDescriptor(textgrid_class.prototype, "setTierValue", [textgrid_dec10], Object.getOwnPropertyDescriptor(textgrid_class.prototype, "setTierValue"), textgrid_class.prototype), _applyDecoratedDescriptor(textgrid_class.prototype, "deleteTierValue", [textgrid_dec11], Object.getOwnPropertyDescriptor(textgrid_class.prototype, "deleteTierValue"), textgrid_class.prototype)), textgrid_class));
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.math.log10.js
 var es_math_log10 = __webpack_require__("6b93");
@@ -20294,6 +20470,9 @@ var microphone_MicrophonePlugin = /*#__PURE__*/function () {
         this.wavesurfer.on("textgrid-dblclick", this.onTextGridDblClick);
         this.wavesurfer.on("textgrid-click", this.onTextGridClick);
         this.wavesurfer.on("textgrid-update", this.onTextGridUpdate);
+        this.wavesurfer.on("tier-update", this.onTierUpdate);
+        this.wavesurfer.on("tier-add", this.onTierAdd);
+        this.wavesurfer.on("tier-delete", this.onTierDelete);
         this.wavesurfer.on("textgrid-current-update", this.onTextGridCurrentUpdate);
         this.wavesurfer.on("textgrid-keydown", function (payload) {
           _this2.$emit("textgrid-keydown", payload);
@@ -20464,6 +20643,10 @@ var microphone_MicrophonePlugin = /*#__PURE__*/function () {
     deleteTier: function deleteTier(key) {
       this.wavesurfer.textgrid.deleteTier(key);
     },
+    copyTier: function copyTier(ref, key, type, parent) {
+      var withText = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : true;
+      this.wavesurfer.textgrid.copyTier(ref, key, type, parent, withText);
+    },
     addTierValue: function addTierValue(key, obj) {
       this.wavesurfer.textgrid.addTierValue(key, obj);
     },
@@ -20478,6 +20661,12 @@ var microphone_MicrophonePlugin = /*#__PURE__*/function () {
     },
     loadTextGrid: function loadTextGrid(file) {
       this.wavesurfer.textgrid.loadTextGrid(file);
+    },
+    loadJson: function loadJson(file) {
+      this.wavesurfer.textgrid.loadJson(file);
+    },
+    setTextGrid: function setTextGrid(obj) {
+      this.wavesurfer.textgrid.loadObj(obj);
     },
     downloadTextGrid: function downloadTextGrid(filename) {
       this.wavesurfer.textgrid.downloadTextGrid(filename);
@@ -20526,6 +20715,15 @@ var microphone_MicrophonePlugin = /*#__PURE__*/function () {
     },
     onTextGridDblClick: function onTextGridDblClick(e) {
       this.$emit("textgrid-dblclick", e);
+    },
+    onTierAdd: function onTierAdd(textgrid) {
+      this.$emit("tier-add", textgrid);
+    },
+    onTierDelete: function onTierDelete(textgrid) {
+      this.$emit("tier-delete", textgrid);
+    },
+    onTierUpdate: function onTierUpdate(textgrid) {
+      this.$emit("tier-update", textgrid);
     },
     onTextGridUpdate: function onTextGridUpdate(textgrid) {
       this.$emit("textgrid-update", textgrid);
@@ -20725,8 +20923,8 @@ var microphone_MicrophonePlugin = /*#__PURE__*/function () {
 });
 // CONCATENATED MODULE: ./src/components/WaveSurfer/WaveSurfer.vue?vue&type=script&lang=js&
  /* harmony default export */ var WaveSurfer_WaveSurfervue_type_script_lang_js_ = (WaveSurfervue_type_script_lang_js_); 
-// EXTERNAL MODULE: ./src/components/WaveSurfer/WaveSurfer.vue?vue&type=style&index=0&id=090c9acf&scoped=true&lang=css&
-var WaveSurfervue_type_style_index_0_id_090c9acf_scoped_true_lang_css_ = __webpack_require__("f116");
+// EXTERNAL MODULE: ./src/components/WaveSurfer/WaveSurfer.vue?vue&type=style&index=0&id=6abe421d&scoped=true&lang=css&
+var WaveSurfervue_type_style_index_0_id_6abe421d_scoped_true_lang_css_ = __webpack_require__("8a7f");
 
 // CONCATENATED MODULE: ./node_modules/vue-loader/lib/runtime/componentNormalizer.js
 /* globals __VUE_SSR_CONTEXT__ */
@@ -20839,11 +21037,11 @@ function normalizeComponent (
 
 var component = normalizeComponent(
   WaveSurfer_WaveSurfervue_type_script_lang_js_,
-  WaveSurfervue_type_template_id_090c9acf_scoped_true_render,
+  WaveSurfervue_type_template_id_6abe421d_scoped_true_render,
   staticRenderFns,
   false,
   null,
-  "090c9acf",
+  "6abe421d",
   null
   
 )

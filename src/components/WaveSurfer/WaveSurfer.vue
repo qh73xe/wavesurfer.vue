@@ -490,6 +490,10 @@ export default {
         this.wavesurfer.on("textgrid-dblclick", this.onTextGridDblClick);
         this.wavesurfer.on("textgrid-click", this.onTextGridClick);
         this.wavesurfer.on("textgrid-update", this.onTextGridUpdate);
+        this.wavesurfer.on("tier-update", this.onTierUpdate);
+        this.wavesurfer.on("tier-add", this.onTierAdd);
+        this.wavesurfer.on("tier-delete", this.onTierDelete);
+
         this.wavesurfer.on(
           "textgrid-current-update",
           this.onTextGridCurrentUpdate
@@ -644,6 +648,9 @@ export default {
     deleteTier: function(key) {
       this.wavesurfer.textgrid.deleteTier(key);
     },
+    copyTier: function(ref, key, type, parent, withText = true) {
+      this.wavesurfer.textgrid.copyTier(ref, key, type, parent, withText);
+    },
     addTierValue: function(key, obj) {
       this.wavesurfer.textgrid.addTierValue(key, obj);
     },
@@ -659,6 +666,13 @@ export default {
     loadTextGrid: function(file) {
       this.wavesurfer.textgrid.loadTextGrid(file);
     },
+    loadJson: function(file) {
+      this.wavesurfer.textgrid.loadJson(file);
+    },
+    setTextGrid: function(obj) {
+      this.wavesurfer.textgrid.loadObj(obj);
+    },
+
     downloadTextGrid: function(filename) {
       this.wavesurfer.textgrid.downloadTextGrid(filename);
     },
@@ -706,6 +720,15 @@ export default {
     },
     onTextGridDblClick(e) {
       this.$emit("textgrid-dblclick", e);
+    },
+    onTierAdd(textgrid) {
+      this.$emit("tier-add", textgrid);
+    },
+    onTierDelete(textgrid) {
+      this.$emit("tier-delete", textgrid);
+    },
+    onTierUpdate(textgrid) {
+      this.$emit("tier-update", textgrid);
     },
     onTextGridUpdate(textgrid) {
       this.$emit("textgrid-update", textgrid);

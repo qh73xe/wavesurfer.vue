@@ -850,23 +850,32 @@ export default class TextgridPlugin {
       type == "interval"
         ? [{ text: "", time: this.wavesurfer.getDuration() }]
         : [];
-    this.tiers[key] = {
-      type: type,
-      values: values,
-      parent: parent || null
-    };
-    this.render();
-    this.wavesurfer.fireEvent("textgrid-update", this.tiers);
+    if (type == "interval" || type == "point") {
+      this.tiers[key] = {
+        type: type,
+        values: values,
+        parent: parent || null
+      };
+      this.render();
+      this.wavesurfer.fireEvent("tier-add", this.tiers);
+    }
   }
 
   @log("textgrid.deleteTier", DEBUG)
   deleteTier(key) {
     const vm = this;
     this.saveKeyInTier(key, () => {
+      // 子要素の参照を変更
+      for (const ckey in vm.tiers) {
+        if (key == vm.tiers[ckey].parent) {
+          vm.tiers[ckey].parent = null;
+        }
+      }
+
       vm.removeCanvas(key);
       delete vm.tiers[key];
       vm.render();
-      vm.wavesurfer.fireEvent("textgrid-update", vm.tiers);
+      vm.wavesurfer.fireEvent("tier-delete", vm.tiers);
     });
   }
 
@@ -874,21 +883,82 @@ export default class TextgridPlugin {
   updateTier(key, obj) {
     const vm = this;
     this.saveKeyInTier(key, () => {
-      if ("name" in obj) {
-        const type = "type" in obj ? obj.type : vm.tiers[key].type;
-        const parent = obj.parent || null;
-        const values = vm.tiers[key];
-        vm.addTier(obj.name, type, parent);
-        vm.tiers[obj.name].values = values;
-        vm.deleteTier(key);
-      } else if ("type" in obj) {
-        vm.tiers[key].type = obj.type;
-      } else if ("parent" in obj) {
-        vm.tiers[key].parent = obj.parent;
+      const ref = vm.tiers[key];
+      if (obj.name) {
+        if (key != obj.name) {
+          // 名前チェック
+          if (obj.name == "" || obj.name == null || obj.name == undefined) {
+            this.wavesurfer.fireEvent("error", new Error(`No tier name`));
+            return;
+          }
+          if (obj.name in this.tiers) {
+            this.wavesurfer.fireEvent(
+              "error",
+              new Error(`Duplicate tier name (${key})`)
+            );
+            return;
+          }
+
+          // 新規アイテムの作成
+          vm.tiers[obj.name] = {
+            values: ref.values || [],
+            type: "type" in obj ? obj.type : ref.type,
+            parent: "parent" in obj ? obj.parent : ref.parent
+          };
+
+          // 子要素の参照を変更
+          for (const ckey in vm.tiers) {
+            if (key == vm.tiers[ckey].parent) {
+              vm.tiers[ckey].parent = obj.name;
+            }
+          }
+
+          // 元データの削除
+          vm.removeCanvas(key);
+          delete vm.tiers[key];
+        }
+      } else {
+        vm.tiers[key].type = "type" in obj ? obj.type : ref.type;
+        vm.tiers[key].parent = "parent" in obj ? obj.parent : ref.parent;
       }
       vm.render();
-      vm.wavesurfer.fireEvent("textgrid-update", vm.tiers);
+      vm.wavesurfer.fireEvent("tier-update", vm.tiers);
     });
+  }
+
+  // TIER CONTROL FUNCTIONS
+  @log("textgrid.copyTier", DEBUG)
+  copyTier(ref, key, type, parent, withText = true) {
+    if (key == "" || key == null || key == undefined) {
+      this.wavesurfer.fireEvent("error", new Error(`No tier name`));
+      return;
+    }
+
+    if (key in this.tiers) {
+      this.wavesurfer.fireEvent(
+        "error",
+        new Error(`Duplicate tier name (${key})`)
+      );
+      return;
+    }
+
+    const base = this.tiers[ref];
+    const values = base.values.map(x => {
+      return {
+        time: x.time,
+        text: withText ? x.text : ""
+      };
+    });
+
+    if (type == "interval" || type == "point") {
+      this.tiers[key] = {
+        type: type,
+        values: values,
+        parent: parent || null
+      };
+      this.render();
+      this.wavesurfer.fireEvent("tier-add", this.tiers);
+    }
   }
 
   getParents(pkey) {
@@ -963,7 +1033,9 @@ export default class TextgridPlugin {
               const ci = vm.tiers[ckey].values.findIndex(x => {
                 return x.time == record.time;
               });
-              if (ci != -1) vm.setTierValue(ckey, ci, object, false, false);
+              if (ci != -1) {
+                vm.setTierValue(ckey, ci, object, false, false);
+              }
             }
           }
         } else if (isChild) {
@@ -1026,22 +1098,84 @@ export default class TextgridPlugin {
   }
 
   // file io
-  loadTextGrid(file) {
+  loadObj(obj, fireEvent = true) {
+    // TIER の初期化
+    this.tiers = {};
+
+    // 選択状態の初期化
+    this.current = {
+      key: null,
+      item: null,
+      index: null
+    };
+
+    // Tier の作成
+    for (const key in obj) {
+      const tier = obj[key];
+      if (tier.type) {
+        if (tier.type == "interval" || tier.type == "point") {
+          const values = [];
+          if (tier.values.length > 0) {
+            for (const i in tier.values || []) {
+              const v = tier.values[i];
+              const time = v.time;
+              if (typeof time === "number" && Number.isFinite(time)) {
+                values.push({ time: time, text: v.text || "" });
+              }
+
+              if (i == tier.values.length - 1) {
+                if (tier.type == "interval") {
+                  if (v.time !== this.wavesurfer.getDuration()) {
+                    values.push({
+                      text: "",
+                      time: this.wavesurfer.getDuration()
+                    });
+                  }
+                }
+              }
+            }
+          } else {
+            if (tier.type == "interval") {
+              values.push({
+                text: "",
+                time: this.wavesurfer.getDuration()
+              });
+            }
+          }
+
+          this.tiers[key] = {
+            type: tier.type,
+            values: values,
+            parent: tier.parent || null
+          };
+        }
+      }
+    }
+
+    // カーサー時刻を調整
+    this.currentTime = this.wavesurfer.getCurrentTime();
+    this.setCursorTime();
+
+    this.render();
+    if (fireEvent) this.wavesurfer.fireEvent("textgrid-update", this.tiers);
+  }
+
+  loadJson(file, fireEvent = true) {
+    const vm = this;
+    const fr = new FileReader();
+    fr.readAsText(file);
+    fr.addEventListener("load", () => {
+      const obj = JSON.parse(fr.result);
+      vm.loadObj(obj, fireEvent);
+    });
+  }
+
+  loadTextGrid(file, fireEvent = true) {
     const fr = new FileReader();
     const vm = this;
     fr.readAsText(file);
     fr.addEventListener("load", () => {
-      vm.tiers = io.textgrid.load(fr.result);
-      for (const key in this.tiers) {
-        if (vm.tiers[key].type == "interval") {
-          vm.tiers[key].values.push({
-            text: "",
-            time: vm.wavesurfer.getDuration()
-          });
-        }
-      }
-      vm.render();
-      vm.wavesurfer.fireEvent("textgrid-update", vm.tiers);
+      vm.loadObj(io.textgrid.load(fr.result), fireEvent);
     });
   }
   dumpTextGrid() {
