@@ -660,6 +660,9 @@ export default {
     deleteTierValue: function(key, idx) {
       this.wavesurfer.textgrid.deleteTierValue(key, idx);
     },
+    splitTierValue(key, idx, opt = null) {
+      this.wavesurfer.textgrid.splitTierValue(key, idx, opt);
+    },
     playTextGrid: function(key, idx) {
       this.wavesurfer.textgrid.play(key, idx);
     },

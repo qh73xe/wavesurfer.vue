@@ -1111,6 +1111,59 @@ export default class TextgridPlugin {
     });
   }
 
+  @log("textgrid.spliceTierValue", DEBUG)
+  splitTierValue(key, idx, opt = null) {
+    const tier = this.tiers[key];
+    if (tier.type == "interval") {
+      const target = tier.values[idx];
+      const prev = idx - 1 == 0 ? tier.values[0] : tier.values[idx - 1];
+      if (opt == null) {
+        const duration = target.time - prev.time;
+        const texts = [];
+        for (const i in target.text) {
+          texts.push(target.text[i]);
+        }
+        const num = texts.length;
+        const step = duration / num;
+        for (let i = 1; i < num + 1; i++) {
+          const time = prev.time + step * i;
+          const text = texts[i - 1];
+          if (i == 1) {
+            this.tiers[key].values[idx].text = text;
+            this.tiers[key].values[idx].time = time;
+          } else {
+            this.tiers[key].values.push({ text: text, time: time });
+          }
+        }
+      } else if (Number.isFinite(opt)) {
+        // 数字の場合, その単位で分割
+        let time = prev.time;
+        this.tiers[key].values[idx].text = "";
+        while (time + opt < target.time) {
+          time = time + opt;
+          this.tiers[key].values.push({ text: "", time: time });
+        }
+      } else if (typeof opt == "string" || opt instanceof String) {
+        const duration = target.time - prev.time;
+        const texts = target.text.split(opt);
+        const num = texts.length;
+        const step = duration / num;
+        for (let i = 1; i < num + 1; i++) {
+          const time = prev.time + step * i;
+          const text = texts[i - 1];
+          if (i == 1) {
+            this.tiers[key].values[idx].text = text;
+            this.tiers[key].values[idx].time = time;
+          } else {
+            this.tiers[key].values.push({ text: text, time: time });
+          }
+        }
+      }
+      this.render();
+      this.wavesurfer.fireEvent("textgrid-update", this.tiers);
+    }
+  }
+
   // file io
   loadObj(obj, fireEvent = true) {
     // TIER の初期化
