@@ -18049,6 +18049,9 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
 
             vm.removeCanvas(key);
             delete vm.tiers[key];
+          } else {
+            vm.tiers[key].type = "type" in obj ? obj.type : ref.type;
+            vm.tiers[key].parent = "parent" in obj ? obj.parent : ref.parent;
           }
         } else {
           vm.tiers[key].type = "type" in obj ? obj.type : ref.type;
