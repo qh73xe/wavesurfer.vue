@@ -18233,7 +18233,22 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
     value: function deleteTierValue(key, idx) {
       var render = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
       var fireEvent = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : true;
-      var vm = this;
+      var vm = this; // 一時的にメイン関数を作成
+
+      var del = function del(tier, idx) {
+        var record = tier.values[idx];
+
+        if (tier.type == "interval") {
+          if (tier.values.length != idx + 1) {
+            var next = tier.values[idx + 1];
+            var text = "".concat(record.text, "/").concat(next.text);
+            tier.values[idx + 1].text = text;
+          }
+        }
+
+        tier.values.splice(idx, 1);
+      };
+
       this.saveKeyIdxInTier(key, idx, function () {
         var record = vm.tiers[key].values[idx];
         var isParent = vm.hasChildren(key);
@@ -18263,7 +18278,7 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
               var pi = vm.tiers[p].values.findIndex(function (x) {
                 return x.time == record.time;
               });
-              if (pi != -1) vm.tiers[p].values.splice(pi, 1);
+              if (pi != -1) del(vm.tiers[p], pi);
             }
           } catch (err) {
             _iterator3.e(err);
@@ -18271,9 +18286,9 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
             _iterator3.f();
           }
 
-          vm.tiers[key].values.splice(idx, 1);
+          del(vm.tiers[key], idx);
         } else {
-          vm.tiers[key].values.splice(idx, 1);
+          del(vm.tiers[key], idx);
         }
 
         if (render) vm.render();

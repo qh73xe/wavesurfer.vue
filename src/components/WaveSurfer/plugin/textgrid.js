@@ -1062,6 +1062,19 @@ export default class TextgridPlugin {
   @log("textgrid.deleteTierValue", DEBUG)
   deleteTierValue(key, idx, render = true, fireEvent = true) {
     const vm = this;
+    // 一時的にメイン関数を作成
+    const del = (tier, idx) => {
+      const record = tier.values[idx];
+      if (tier.type == "interval") {
+        if (tier.values.length != idx + 1) {
+          const next = tier.values[idx + 1];
+          const text = `${record.text}/${next.text}`;
+          tier.values[idx + 1].text = text;
+        }
+      }
+      tier.values.splice(idx, 1);
+    };
+
     this.saveKeyIdxInTier(key, idx, () => {
       const record = vm.tiers[key].values[idx];
       const isParent = vm.hasChildren(key);
@@ -1081,15 +1094,16 @@ export default class TextgridPlugin {
         // 自身が純粋な子の場合, 実処理を行う
         // その際には親操作を実施する
         const ps = vm.getParents(vm.tiers[key].parent);
+
         for (const p of ps) {
           const pi = vm.tiers[p].values.findIndex(x => {
             return x.time == record.time;
           });
-          if (pi != -1) vm.tiers[p].values.splice(pi, 1);
+          if (pi != -1) del(vm.tiers[p], pi);
         }
-        vm.tiers[key].values.splice(idx, 1);
+        del(vm.tiers[key], idx);
       } else {
-        vm.tiers[key].values.splice(idx, 1);
+        del(vm.tiers[key], idx);
       }
 
       if (render) vm.render();
