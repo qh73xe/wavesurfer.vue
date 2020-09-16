@@ -18373,7 +18373,12 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
     key: "loadObj",
     value: function loadObj(obj) {
       var fireEvent = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+
       // TIER の初期化
+      for (var key in this.tiers) {
+        this.removeCanvas(key);
+      }
+
       this.tiers = {}; // 選択状態の初期化
 
       this.current = {
@@ -18382,8 +18387,8 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
         index: null
       }; // Tier の作成
 
-      for (var key in obj) {
-        var tier = obj[key];
+      for (var _key in obj) {
+        var tier = obj[_key];
 
         if (tier.type) {
           if (tier.type == "interval" || tier.type == "point") {
@@ -18421,7 +18426,7 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
               }
             }
 
-            this.tiers[key] = {
+            this.tiers[_key] = {
               type: tier.type,
               values: values,
               parent: tier.parent || null

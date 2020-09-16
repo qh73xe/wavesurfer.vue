@@ -1169,6 +1169,9 @@ export default class TextgridPlugin {
   // file io
   loadObj(obj, fireEvent = true) {
     // TIER の初期化
+    for (const key in this.tiers) {
+      this.removeCanvas(key);
+    }
     this.tiers = {};
 
     // 選択状態の初期化
