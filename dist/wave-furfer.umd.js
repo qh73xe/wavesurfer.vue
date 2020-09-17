@@ -18246,8 +18246,11 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
         if (tier.type == "interval") {
           if (tier.values.length != idx + 1) {
             var next = tier.values[idx + 1];
-            var text = "".concat(record.text, "/").concat(next.text);
-            tier.values[idx + 1].text = text;
+
+            if (record.text && next.text) {
+              var text = "".concat(record.text, "/").concat(next.text);
+              tier.values[idx + 1].text = text;
+            }
           }
         }
 

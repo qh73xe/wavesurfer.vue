@@ -1070,8 +1070,10 @@ export default class TextgridPlugin {
       if (tier.type == "interval") {
         if (tier.values.length != idx + 1) {
           const next = tier.values[idx + 1];
-          const text = `${record.text}/${next.text}`;
-          tier.values[idx + 1].text = text;
+          if (record.text && next.text) {
+            const text = `${record.text}/${next.text}`;
+            tier.values[idx + 1].text = text;
+          }
         }
       }
       tier.values.splice(idx, 1);
