@@ -810,7 +810,9 @@ export default class WaveSurfer extends util.Observer {
   playPause(start = null, end = null) {
     const $start = start == null ? this.getCurrentTime() : start;
     const $end = end == null ? this.getDuration() : end;
-    return this.backend.isPaused() ? this.play($start, $end) : this.pause();
+    return this.backend.isPaused()
+      ? this.play($start || 0, $end)
+      : this.pause();
   }
 
   /**

@@ -14529,7 +14529,7 @@ var wavesurfer_WaveSurfer = /*#__PURE__*/function (_util$Observer) {
       var end = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
       var $start = start == null ? this.getCurrentTime() : start;
       var $end = end == null ? this.getDuration() : end;
-      return this.backend.isPaused() ? this.play($start, $end) : this.pause();
+      return this.backend.isPaused() ? this.play($start || 0, $end) : this.pause();
     }
     /**
      * Get the current playback state
