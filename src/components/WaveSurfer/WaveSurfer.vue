@@ -4,11 +4,20 @@
       ref="spectrogram"
       v-if="showSpectrogram"
       class="overflow-y-auto"
+      tabindex="1"
+      @keyup.stop.prevent="$emit('spectrogram-keyup', $event)"
+      @keydown.stop.prevent="$emit('spectrogram-keydown', $event)"
       :style="`max-height: ${spectrogramMaxHeight}`"
       v-show="!isSpectrogramRendering"
     />
     <slot></slot>
-    <div ref="waveform" v-show="!isSpectrogramRendering" />
+    <div
+      ref="waveform"
+      tabindex="2"
+      @keyup.stop.prevent="$emit('waveform-keyup', $event)"
+      @keydown.stop.prevent="$emit('waveform-keydown', $event)"
+      v-show="!isSpectrogramRendering"
+    />
     <div ref="timeline" v-if="showTimeLine" />
     <div ref="pointline" v-if="showPointLine" />
     <slot name="textform"></slot>
@@ -837,8 +846,9 @@ export default {
       const args = [start, end];
       return this.runWaveSurfer("play", args);
     },
-    playPause: function() {
-      return this.runWaveSurfer("playPause");
+    playPause: function(start, end) {
+      const args = [start, end];
+      return this.runWaveSurfer("playPause", args);
     },
     seekAndCenter: function(progress) {
       return this.runWaveSurfer("seekAndCenter", [progress]);
