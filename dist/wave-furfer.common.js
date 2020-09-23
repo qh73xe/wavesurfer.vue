@@ -13641,6 +13641,7 @@ var mediaelement_webaudio_MediaElementWebAudio = /*#__PURE__*/function (_MediaEl
 
 
 
+
 /*
  * This work is licensed under a BSD-3-Clause License.
  */
@@ -14527,9 +14528,10 @@ var wavesurfer_WaveSurfer = /*#__PURE__*/function (_util$Observer) {
     value: function playPause() {
       var start = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
       var end = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-      var $start = start == null ? this.getCurrentTime() : start;
-      var $end = end == null ? this.getDuration() : end;
-      return this.backend.isPaused() ? this.play($start || 0, $end) : this.pause();
+      var d = this.getDuration();
+      var s = start === null ? this.getCurrentTime() : Number(start);
+      var e = end === null ? d : Number(end);
+      return this.backend.isPaused() ? this.play(s, e) : this.pause();
     }
     /**
      * Get the current playback state
