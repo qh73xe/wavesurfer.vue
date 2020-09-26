@@ -229,10 +229,9 @@ export default class TextgridPlugin {
   @log("textgrid.setCursorTime", DEBUG)
   setCursorTime() {
     if (this.cursorEl) {
-      // 非ズーム 時には WS の minPxPerSec は上手く機能していない
-      const minPxPerSec =
-        this.wavesurfer.drawer.width / this.wavesurfer.getDuration();
-      const _left = Math.round(this.currentTime * minPxPerSec);
+      const width = this.wavesurfer.drawer.width;
+      const duration = this.wavesurfer.getDuration();
+      const _left = (this.currentTime * width) / duration;
       const left = _left ? `${_left}px` : this.cursorEl.style.left;
       this.cursorEl.style.height = this.wrapper.style.height;
       this.cursorEl.style.left = left;

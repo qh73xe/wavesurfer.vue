@@ -3,6 +3,7 @@ import VueRouter from "vue-router";
 import docs from "./docs.js";
 import examples from "./example.js";
 import Home from "../views/Home.vue";
+import Surfer from "../views/Surfer.vue";
 
 Vue.use(VueRouter);
 
@@ -12,6 +13,12 @@ let routes = [
     name: "Home",
     text: "Home",
     component: Home
+  },
+  {
+    path: "/surfer",
+    name: "Surfer",
+    text: "Surfer",
+    component: Surfer
   }
   // {
   //   path: "/about",

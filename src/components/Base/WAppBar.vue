@@ -1,9 +1,9 @@
 <template>
   <v-app-bar
-    :clipped-left="$vuetify.breakpoint.lgAndUp"
     app
-    color="primary"
     dark
+    color="primary"
+    :clipped-left="$vuetify.breakpoint.lgAndUp"
   >
     <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
     <v-toolbar-title style="width: 300px" class="ml-0 pl-4">

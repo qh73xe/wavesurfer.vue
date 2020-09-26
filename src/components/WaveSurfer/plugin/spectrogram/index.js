@@ -379,10 +379,8 @@ export default class SpectrogramPlugin {
 
   loadFrequenciesData(url) {
     const request = this.util.fetchFile({ url: url });
-
     request.on("success", data => this.drawSpectrogram(JSON.parse(data), this));
     request.on("error", e => this.fireEvent("error", e));
-
     return request;
   }
 
@@ -523,7 +521,9 @@ export default class SpectrogramPlugin {
   @log("spectrogram.setCursorTime", DEBUG)
   setCursorTime() {
     if (this.cursorEl) {
-      const _left = this.currentTime * this.wavesurfer.params.minPxPerSec;
+      const duration = this.wavesurfer.getDuration();
+      const width = this.canvas.width;
+      const _left = (this.currentTime * width) / duration;
       const left = _left ? `${_left}px` : this.cursorEl.style.left;
       this.cursorEl.style.left = left;
     }
