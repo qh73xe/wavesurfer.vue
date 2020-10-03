@@ -2838,17 +2838,6 @@ $({ target: 'Array', proto: true, forced: !HAS_SPECIES_SUPPORT || !USES_TO_LENGT
 
 /***/ }),
 
-/***/ "4dec":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_WaveSurfer_vue_vue_type_style_index_0_id_8c23c59a_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("c965");
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_WaveSurfer_vue_vue_type_style_index_0_id_8c23c59a_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_WaveSurfer_vue_vue_type_style_index_0_id_8c23c59a_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__);
-/* unused harmony reexport * */
- /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_WaveSurfer_vue_vue_type_style_index_0_id_8c23c59a_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
-
-/***/ }),
-
 /***/ "4df4":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3616,6 +3605,17 @@ module.exports = {
   DataView: $DataView
 };
 
+
+/***/ }),
+
+/***/ "63a5":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_WaveSurfer_vue_vue_type_style_index_0_id_32448a62_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("8972");
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_WaveSurfer_vue_vue_type_style_index_0_id_32448a62_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_WaveSurfer_vue_vue_type_style_index_0_id_32448a62_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
+ /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_WaveSurfer_vue_vue_type_style_index_0_id_32448a62_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 
@@ -4707,6 +4707,13 @@ if (typeof store.inspectSource != 'function') {
 
 module.exports = store.inspectSource;
 
+
+/***/ }),
+
+/***/ "8972":
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
 
 /***/ }),
 
@@ -7634,13 +7641,6 @@ module.exports = function (METHOD_NAME) {
 
 /***/ }),
 
-/***/ "c965":
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
-
-/***/ }),
-
 /***/ "c975":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -9378,15 +9378,18 @@ if (typeof window !== 'undefined') {
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 var external_commonjs_vue_commonjs2_vue_root_Vue_default = /*#__PURE__*/__webpack_require__.n(external_commonjs_vue_commonjs2_vue_root_Vue_);
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"3cc436be-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/WaveSurfer/WaveSurfer.vue?vue&type=template&id=8c23c59a&scoped=true&
-var WaveSurfervue_type_template_id_8c23c59a_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"ws"},[(_vm.showSpectrogram)?_c('div',{directives:[{name:"show",rawName:"v-show",value:(!_vm.isSpectrogramRendering),expression:"!isSpectrogramRendering"}],ref:"spectrogram",staticClass:"overflow-y-auto",style:(("max-height: " + _vm.spectrogramMaxHeight)),attrs:{"tabindex":"1"},on:{"keyup":function($event){$event.stopPropagation();$event.preventDefault();return _vm.$emit('spectrogram-keyup', $event)},"keydown":function($event){$event.stopPropagation();$event.preventDefault();return _vm.$emit('spectrogram-keydown', $event)}}}):_vm._e(),_vm._t("default"),_c('div',{directives:[{name:"show",rawName:"v-show",value:(!_vm.isSpectrogramRendering),expression:"!isSpectrogramRendering"}],ref:"waveform",attrs:{"tabindex":"2"},on:{"keyup":function($event){$event.stopPropagation();$event.preventDefault();return _vm.$emit('waveform-keyup', $event)},"keydown":function($event){$event.stopPropagation();$event.preventDefault();return _vm.$emit('waveform-keydown', $event)}}}),(_vm.showTimeLine)?_c('div',{ref:"timeline"}):_vm._e(),(_vm.showPointLine)?_c('div',{ref:"pointline"}):_vm._e(),_vm._t("textform"),(_vm.showTextGrid)?_c('div',{ref:"textgrid",staticClass:"overflow-y-auto",style:(("max-height: " + _vm.textgridMaxHeight))}):_vm._e()],2)}
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"3cc436be-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/WaveSurfer/WaveSurfer.vue?vue&type=template&id=32448a62&scoped=true&
+var WaveSurfervue_type_template_id_32448a62_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"ws"},[(_vm.showSpectrogram)?_c('div',{directives:[{name:"show",rawName:"v-show",value:(!_vm.isSpectrogramRendering),expression:"!isSpectrogramRendering"}],ref:"spectrogram",staticClass:"overflow-y-auto",style:(("max-height: " + _vm.spectrogramMaxHeight)),attrs:{"tabindex":"1"},on:{"keyup":function($event){$event.stopPropagation();$event.preventDefault();return _vm.$emit('spectrogram-keyup', $event)},"keydown":function($event){$event.stopPropagation();$event.preventDefault();return _vm.$emit('spectrogram-keydown', $event)}}}):_vm._e(),_vm._t("default"),_c('div',{directives:[{name:"show",rawName:"v-show",value:(!_vm.isSpectrogramRendering),expression:"!isSpectrogramRendering"}],ref:"waveform",attrs:{"tabindex":"2"},on:{"keyup":function($event){$event.stopPropagation();$event.preventDefault();return _vm.$emit('waveform-keyup', $event)},"keydown":function($event){$event.stopPropagation();$event.preventDefault();return _vm.$emit('waveform-keydown', $event)}}}),(_vm.showTimeLine)?_c('div',{ref:"timeline"}):_vm._e(),(_vm.showPointLine)?_c('div',{ref:"pointline"}):_vm._e(),_vm._t("textform"),(_vm.showTextGrid)?_c('div',{ref:"textgrid",staticClass:"overflow-y-auto",style:(("max-height: " + _vm.textgridMaxHeight))}):_vm._e()],2)}
 var staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/components/WaveSurfer/WaveSurfer.vue?vue&type=template&id=8c23c59a&scoped=true&
+// CONCATENATED MODULE: ./src/components/WaveSurfer/WaveSurfer.vue?vue&type=template&id=32448a62&scoped=true&
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.index-of.js
 var es_array_index_of = __webpack_require__("c975");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.iterator.js
+var es_array_iterator = __webpack_require__("e260");
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.function.name.js
 var es_function_name = __webpack_require__("b0c0");
@@ -16818,9 +16821,6 @@ var pointline_PointlinePlugin = (_dec = log("pointline.create", pointline_DEBUG)
   return PointlinePlugin;
 }(), _temp), (_applyDecoratedDescriptor(_class, "create", [_dec], Object.getOwnPropertyDescriptor(_class, "create"), _class), _applyDecoratedDescriptor(_class.prototype, "init", [_dec2], Object.getOwnPropertyDescriptor(_class.prototype, "init"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "destroy", [_dec3], Object.getOwnPropertyDescriptor(_class.prototype, "destroy"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "createWrapper", [_dec4], Object.getOwnPropertyDescriptor(_class.prototype, "createWrapper"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "render", [_dec5], Object.getOwnPropertyDescriptor(_class.prototype, "render"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "genUuid", [_dec6], Object.getOwnPropertyDescriptor(_class.prototype, "genUuid"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "addPoint", [_dec7], Object.getOwnPropertyDescriptor(_class.prototype, "addPoint"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "updatePoint", [_dec8], Object.getOwnPropertyDescriptor(_class.prototype, "updatePoint"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "deletePoint", [_dec9], Object.getOwnPropertyDescriptor(_class.prototype, "deletePoint"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "addCanvas", [_dec10], Object.getOwnPropertyDescriptor(_class.prototype, "addCanvas"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "removeCanvas", [_dec11], Object.getOwnPropertyDescriptor(_class.prototype, "removeCanvas"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "updateCanvases", [_dec12], Object.getOwnPropertyDescriptor(_class.prototype, "updateCanvases"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "updateCanvasesPositioning", [_dec13], Object.getOwnPropertyDescriptor(_class.prototype, "updateCanvasesPositioning"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "renderCanvases", [_dec14], Object.getOwnPropertyDescriptor(_class.prototype, "renderCanvases"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "setFillStyles", [_dec15], Object.getOwnPropertyDescriptor(_class.prototype, "setFillStyles"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "fillRect", [_dec16], Object.getOwnPropertyDescriptor(_class.prototype, "fillRect"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "defaultFormatTimeCallback", [_dec17], Object.getOwnPropertyDescriptor(_class.prototype, "defaultFormatTimeCallback"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "defaultTimeInterval", [_dec18], Object.getOwnPropertyDescriptor(_class.prototype, "defaultTimeInterval"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "defaultPrimaryLabelInterval", [_dec19], Object.getOwnPropertyDescriptor(_class.prototype, "defaultPrimaryLabelInterval"), _class.prototype)), _class));
 
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.iterator.js
-var es_array_iterator = __webpack_require__("e260");
-
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.number.is-finite.js
 var es_number_is_finite = __webpack_require__("f00c");
 
@@ -18643,6 +18643,8 @@ var es_typed_array_uint32_array = __webpack_require__("fb2c");
 
 
 
+
+
 /* eslint-disable complexity, no-redeclare, no-var, one-var */
 
 /**
@@ -19053,6 +19055,7 @@ var spectrogram_SpectrogramPlugin = (spectrogram_dec = log("spectrogram.create",
     this.params = params;
     this.wavesurfer = ws;
     this.util = ws.util;
+    this.frequencies = [];
     this.frequenciesDataUrl = params.frequenciesDataUrl;
 
     this._onRender = function () {
@@ -19328,7 +19331,7 @@ var spectrogram_SpectrogramPlugin = (spectrogram_dec = log("spectrogram.create",
     key: "getFrequencies",
     value: function () {
       var _getFrequencies = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(callback) {
-        var fftSamples, buffer, targetChannel, channelOne, sampleRate, frequencies, noverlap, uniqueSamplesPerPx, fft, currentOffset, segment, spectrum, array;
+        var fftSamples, buffer, targetChannel, channelOne, sampleRate, noverlap, uniqueSamplesPerPx, fft, currentOffset, segment, spectrum, array;
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -19358,7 +19361,7 @@ var spectrogram_SpectrogramPlugin = (spectrogram_dec = log("spectrogram.create",
                   sampleRate = buffer.sampleRate;
                 }
 
-                frequencies = [];
+                this.frequencies = [];
                 noverlap = this.noverlap;
 
                 if (!noverlap) {
@@ -19384,13 +19387,13 @@ var spectrogram_SpectrogramPlugin = (spectrogram_dec = log("spectrogram.create",
                 array = spectrum.slice(0, Math.round(fftSamples / 2)).map(function (x) {
                   return Math.max(-255, Math.log10(x) * 45);
                 });
-                frequencies.push(array);
+                this.frequencies.push(array);
                 currentOffset += fftSamples - noverlap;
                 _context2.next = 12;
                 break;
 
               case 22:
-                callback(frequencies, this);
+                callback(this.frequencies, this);
 
               case 23:
               case "end":
@@ -19993,6 +19996,7 @@ var microphone_MicrophonePlugin = /*#__PURE__*/function () {
 
 
 // CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/WaveSurfer/WaveSurfer.vue?vue&type=script&lang=js&
+
 
 
 
@@ -20783,6 +20787,9 @@ var microphone_MicrophonePlugin = /*#__PURE__*/function () {
     setTextGrid: function setTextGrid(obj) {
       this.wavesurfer.textgrid.loadObj(obj);
     },
+    getFrequencies: function getFrequencies() {
+      return this.wavesurfer.spectrogram.frequencies;
+    },
     downloadTextGrid: function downloadTextGrid(filename) {
       this.wavesurfer.textgrid.downloadTextGrid(filename);
     },
@@ -21039,8 +21046,8 @@ var microphone_MicrophonePlugin = /*#__PURE__*/function () {
 });
 // CONCATENATED MODULE: ./src/components/WaveSurfer/WaveSurfer.vue?vue&type=script&lang=js&
  /* harmony default export */ var WaveSurfer_WaveSurfervue_type_script_lang_js_ = (WaveSurfervue_type_script_lang_js_); 
-// EXTERNAL MODULE: ./src/components/WaveSurfer/WaveSurfer.vue?vue&type=style&index=0&id=8c23c59a&scoped=true&lang=css&
-var WaveSurfervue_type_style_index_0_id_8c23c59a_scoped_true_lang_css_ = __webpack_require__("4dec");
+// EXTERNAL MODULE: ./src/components/WaveSurfer/WaveSurfer.vue?vue&type=style&index=0&id=32448a62&scoped=true&lang=css&
+var WaveSurfervue_type_style_index_0_id_32448a62_scoped_true_lang_css_ = __webpack_require__("63a5");
 
 // CONCATENATED MODULE: ./node_modules/vue-loader/lib/runtime/componentNormalizer.js
 /* globals __VUE_SSR_CONTEXT__ */
@@ -21153,11 +21160,11 @@ function normalizeComponent (
 
 var component = normalizeComponent(
   WaveSurfer_WaveSurfervue_type_script_lang_js_,
-  WaveSurfervue_type_template_id_8c23c59a_scoped_true_render,
+  WaveSurfervue_type_template_id_32448a62_scoped_true_render,
   staticRenderFns,
   false,
   null,
-  "8c23c59a",
+  "32448a62",
   null
   
 )

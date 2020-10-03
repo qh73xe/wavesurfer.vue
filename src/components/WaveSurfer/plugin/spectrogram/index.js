@@ -79,6 +79,7 @@ export default class SpectrogramPlugin {
     this.params = params;
     this.wavesurfer = ws;
     this.util = ws.util;
+    this.frequencies = [];
 
     this.frequenciesDataUrl = params.frequenciesDataUrl;
     this._onRender = () => {
@@ -339,7 +340,6 @@ export default class SpectrogramPlugin {
       this.fireEvent("error", "Web Audio buffer is not available");
       return;
     }
-
     let targetChannel = 0;
     let channelOne;
     let sampleRate;
@@ -352,7 +352,7 @@ export default class SpectrogramPlugin {
       channelOne = buffer.getChannelData(targetChannel);
       sampleRate = buffer.sampleRate;
     }
-    const frequencies = [];
+    this.frequencies = [];
     let noverlap = this.noverlap;
     if (!noverlap) {
       const uniqueSamplesPerPx = buffer.length / this.canvas.width;
@@ -371,10 +371,10 @@ export default class SpectrogramPlugin {
       const array = spectrum.slice(0, Math.round(fftSamples / 2)).map(x => {
         return Math.max(-255, Math.log10(x) * 45);
       });
-      frequencies.push(array);
+      this.frequencies.push(array);
       currentOffset += fftSamples - noverlap;
     }
-    callback(frequencies, this);
+    callback(this.frequencies, this);
   }
 
   loadFrequenciesData(url) {

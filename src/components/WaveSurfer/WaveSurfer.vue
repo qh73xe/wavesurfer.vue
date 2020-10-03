@@ -684,7 +684,9 @@ export default {
     setTextGrid: function(obj) {
       this.wavesurfer.textgrid.loadObj(obj);
     },
-
+    getFrequencies: function() {
+      return this.wavesurfer.spectrogram.frequencies;
+    },
     downloadTextGrid: function(filename) {
       this.wavesurfer.textgrid.downloadTextGrid(filename);
     },
