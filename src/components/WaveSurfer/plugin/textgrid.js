@@ -225,7 +225,7 @@ export default class TextgridPlugin {
     this.drawer.style(cursorEl, {
       left: 0,
       position: "absolute",
-      zIndex: 3,
+      zIndex: 4,
       width: `${cursorWidth}px`,
       borderLeft: `${cursorWidth}px ${btype} ${bcolor}`
     });
@@ -363,7 +363,7 @@ export default class TextgridPlugin {
         timer = setTimeout(function() {
           let time = vm.event2time(e);
           const idx = vm.tiers[key].dragingItemIdx;
-          const text = vm.tiers[key].values[idx].text;
+          const text = vm.tiers[key].values[idx].text || "";
           const duration = vm.wavesurfer.backend.getDuration();
           const pPs = canvas.width / duration;
 
@@ -404,11 +404,13 @@ export default class TextgridPlugin {
           }
         }, 50);
       };
+
       const draggingMousedown = function() {
         vm.tiers[key].isDraging = true;
         canvas.style.cursor = "grabbing";
         canvas.addEventListener("mousemove", draggingMousemove);
       };
+
       const draggingMouseup = function() {
         vm.tiers[key].isDraging = false;
         vm.tiers[key].dragingItemIdx = null;
@@ -424,7 +426,7 @@ export default class TextgridPlugin {
         vm.updateCursor(w, "dashed", bcolor);
       };
 
-      // default mousemove
+      // マウス移動中の確認
       this.tiers[key].onMouseMove = function(e) {
         e.preventDefault();
         const duration = vm.wavesurfer.backend.getDuration();
