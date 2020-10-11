@@ -17212,7 +17212,7 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
       this.drawer.style(cursorEl, {
         left: 0,
         position: "absolute",
-        zIndex: 3,
+        zIndex: 4,
         width: "".concat(cursorWidth, "px"),
         borderLeft: "".concat(cursorWidth, "px ").concat(btype, " ").concat(bcolor)
       });
@@ -17366,7 +17366,7 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
           timer = setTimeout(function () {
             var time = vm.event2time(e);
             var idx = vm.tiers[key].dragingItemIdx;
-            var text = vm.tiers[key].values[idx].text;
+            var text = vm.tiers[key].values[idx].text || "";
             var duration = vm.wavesurfer.backend.getDuration();
             var pPs = canvas.width / duration; // 他の Tier に同時刻のものがあるかを確認
 
@@ -17431,7 +17431,7 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
           var w = vm.wavesurfer.params.cursorWidth || 1;
           var bcolor = vm.wavesurfer.params.cursorColor;
           vm.updateCursor(w, "dashed", bcolor);
-        }; // default mousemove
+        }; // マウス移動中の確認
 
 
         this.tiers[key].onMouseMove = function (e) {
