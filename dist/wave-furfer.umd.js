@@ -17118,6 +17118,7 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
     this.util = _ws.util;
     this.params = Object.assign({}, {
       activeColor: "#FF6D00",
+      matchedColor: "#0277BD",
       color: "#000",
       fontColor: "#000",
       fontFamily: "Arial",
@@ -17125,9 +17126,14 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
       height: 50,
       maxHeight: null,
       playingOffset: 1,
+      matchedSize: 3,
+      // 同一時刻であると判定するピクセル数
       tiers: {},
       zoomDebounce: false
     }, params);
+    this.matchedSize = this.params.matchedSize;
+    this.isMatched = false; // ドラック中に他のTIERと同じ時刻を持つか
+
     this.wrapper = null;
     this.drawer = null;
     this.pixelRatio = null;
@@ -17210,12 +17216,14 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
       var cursorEl = this.cursorEl = document.createElement("div");
       cursorEl.classList.add("textgrid-cursor");
       var cursorWidth = this.wavesurfer.params.cursorWidth || 1;
+      var bcolor = this.wavesurfer.params.cursorColor;
+      var btype = "dashed";
       this.drawer.style(cursorEl, {
         left: 0,
         position: "absolute",
         zIndex: 3,
         width: "".concat(cursorWidth, "px"),
-        borderLeft: "".concat(cursorWidth, "px dashed ").concat(this.wavesurfer.params.cursorColor)
+        borderLeft: "".concat(cursorWidth, "px ").concat(btype, " ").concat(bcolor)
       });
       this.wrapper.appendChild(cursorEl);
     }
@@ -17285,6 +17293,11 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
 
       this.currentTime = this.wavesurfer.getCurrentTime();
       this.setCursorTime();
+    }
+  }, {
+    key: "updateCursor",
+    value: function updateCursor(w, type, color) {
+      this.cursorEl.style.borderLeft = "".concat(w, "px ").concat(type, " ").concat(color);
     }
     /**
      * Add new textgrid canvas
@@ -17360,14 +17373,51 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
           canvas.style.cursor = "grabbing";
           clearTimeout(timer);
           timer = setTimeout(function () {
+            var time = vm.event2time(e);
             var idx = vm.tiers[key].dragingItemIdx;
+            var text = vm.tiers[key].values[idx].text;
+            var duration = vm.wavesurfer.backend.getDuration();
+            var pPs = canvas.width / duration; // 他の Tier に同時刻のものがあるかを確認
+
+            var oTiers = Object.keys(vm.tiers).filter(function (okey) {
+              return okey != key;
+            });
+            var mTiers = oTiers.filter(function (okey) {
+              return vm.tiers[okey].values.filter( // 対象との差が vm.matchedSize 以下の場合検索に成功とする
+              function (r) {
+                return distance(pPs * r.time, pPs * time) < vm.matchedSize;
+              }).length > 0;
+            });
+
+            if (mTiers.length) {
+              vm.isMatched = true; // カーサー強調
+
+              var w = vm.wavesurfer.params.cursorWidth || 1;
+              var bcolor = vm.params.matchedColor;
+              vm.updateCursor(w * 3, "solid", bcolor); // 時刻補正
+
+              time = vm.tiers[mTiers[mTiers.length - 1]].values.filter(function (r) {
+                return distance(pPs * r.time, pPs * time) < vm.matchedSize;
+              }).map(function (r) {
+                return r.time;
+              })[0] || time;
+            } else {
+              // カーサーの状態を戻す
+              var _w = vm.wavesurfer.params.cursorWidth || 1;
+
+              var _bcolor = vm.wavesurfer.params.cursorColor;
+              vm.updateCursor(_w, "dashed", _bcolor);
+              vm.isMatched = false;
+            }
 
             if (vm.tiers[key].values[idx]) {
-              var item = {
-                time: vm.event2time(e),
-                text: vm.tiers[key].values[idx].text
-              };
-              vm.setTierValue(key, idx, item, false);
+              vm.setTierValue(key, idx, {
+                time: time,
+                text: text
+              }, false);
+              setTimeout(function () {
+                vm.wavesurfer.seekTo(time / duration);
+              });
             }
           }, 50);
         };
@@ -17385,7 +17435,11 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
           canvas.removeEventListener("mousedown", draggingMousedown);
           canvas.removeEventListener("mousemove", draggingMousemove);
           canvas.removeEventListener("mouseup", draggingMouseup);
-          vm.wavesurfer.fireEvent("textgrid-update", vm.tiers);
+          vm.wavesurfer.fireEvent("textgrid-update", vm.tiers); // カーサーの状態を戻す
+
+          var w = vm.wavesurfer.params.cursorWidth || 1;
+          var bcolor = vm.wavesurfer.params.cursorColor;
+          vm.updateCursor(w, "dashed", bcolor);
         }; // default mousemove
 
 

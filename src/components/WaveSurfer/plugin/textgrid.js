@@ -125,6 +125,7 @@ export default class TextgridPlugin {
       {},
       {
         activeColor: "#FF6D00",
+        matchedColor: "#0277BD",
         color: "#000",
         fontColor: "#000",
         fontFamily: "Arial",
@@ -132,11 +133,14 @@ export default class TextgridPlugin {
         height: 50,
         maxHeight: null,
         playingOffset: 1,
+        matchedSize: 3, // 同一時刻であると判定するピクセル数
         tiers: {},
         zoomDebounce: false
       },
       params
     );
+    this.matchedSize = this.params.matchedSize;
+    this.isMatched = false; // ドラック中に他のTIERと同じ時刻を持つか
     this.wrapper = null;
     this.drawer = null;
     this.pixelRatio = null;
@@ -216,12 +220,14 @@ export default class TextgridPlugin {
     const cursorEl = (this.cursorEl = document.createElement("div"));
     cursorEl.classList.add("textgrid-cursor");
     const cursorWidth = this.wavesurfer.params.cursorWidth || 1;
+    const bcolor = this.wavesurfer.params.cursorColor;
+    const btype = "dashed";
     this.drawer.style(cursorEl, {
       left: 0,
       position: "absolute",
       zIndex: 3,
       width: `${cursorWidth}px`,
-      borderLeft: `${cursorWidth}px dashed ${this.wavesurfer.params.cursorColor}`
+      borderLeft: `${cursorWidth}px ${btype} ${bcolor}`
     });
     this.wrapper.appendChild(cursorEl);
   }
@@ -282,6 +288,10 @@ export default class TextgridPlugin {
     }
     this.currentTime = this.wavesurfer.getCurrentTime();
     this.setCursorTime();
+  }
+
+  updateCursor(w, type, color) {
+    this.cursorEl.style.borderLeft = `${w}px ${type} ${color}`;
   }
 
   /**
@@ -351,13 +361,46 @@ export default class TextgridPlugin {
         canvas.style.cursor = "grabbing";
         clearTimeout(timer);
         timer = setTimeout(function() {
+          let time = vm.event2time(e);
           const idx = vm.tiers[key].dragingItemIdx;
+          const text = vm.tiers[key].values[idx].text;
+          const duration = vm.wavesurfer.backend.getDuration();
+          const pPs = canvas.width / duration;
+
+          // 他の Tier に同時刻のものがあるかを確認
+          const oTiers = Object.keys(vm.tiers).filter(okey => okey != key);
+          const mTiers = oTiers.filter(
+            okey =>
+              vm.tiers[okey].values.filter(
+                // 対象との差が vm.matchedSize 以下の場合検索に成功とする
+                r => distance(pPs * r.time, pPs * time) < vm.matchedSize
+              ).length > 0
+          );
+          if (mTiers.length) {
+            vm.isMatched = true;
+            // カーサー強調
+            const w = vm.wavesurfer.params.cursorWidth || 1;
+            const bcolor = vm.params.matchedColor;
+            vm.updateCursor(w * 3, "solid", bcolor);
+            // 時刻補正
+            time =
+              vm.tiers[mTiers[mTiers.length - 1]].values
+                .filter(
+                  r => distance(pPs * r.time, pPs * time) < vm.matchedSize
+                )
+                .map(r => r.time)[0] || time;
+          } else {
+            // カーサーの状態を戻す
+            const w = vm.wavesurfer.params.cursorWidth || 1;
+            const bcolor = vm.wavesurfer.params.cursorColor;
+            vm.updateCursor(w, "dashed", bcolor);
+            vm.isMatched = false;
+          }
           if (vm.tiers[key].values[idx]) {
-            const item = {
-              time: vm.event2time(e),
-              text: vm.tiers[key].values[idx].text
-            };
-            vm.setTierValue(key, idx, item, false);
+            vm.setTierValue(key, idx, { time, text }, false);
+            setTimeout(() => {
+              vm.wavesurfer.seekTo(time / duration);
+            });
           }
         }, 50);
       };
@@ -374,6 +417,11 @@ export default class TextgridPlugin {
         canvas.removeEventListener("mousemove", draggingMousemove);
         canvas.removeEventListener("mouseup", draggingMouseup);
         vm.wavesurfer.fireEvent("textgrid-update", vm.tiers);
+
+        // カーサーの状態を戻す
+        const w = vm.wavesurfer.params.cursorWidth || 1;
+        const bcolor = vm.wavesurfer.params.cursorColor;
+        vm.updateCursor(w, "dashed", bcolor);
       };
 
       // default mousemove
