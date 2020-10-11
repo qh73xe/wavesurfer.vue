@@ -124,7 +124,7 @@ import MediaElementWebAudio from "./mediaelement-webaudio";
  *     credentials: 'same-origin',
  *     redirect: 'follow',
  *     referrer: 'client',
- *     headers: [
+ *     requestHeaders: [
  *         {
  *             key: 'Authorization',
  *             value: 'my-token'
@@ -158,8 +158,7 @@ import MediaElementWebAudio from "./mediaelement-webaudio";
  *
  * @extends {Observer}
  */
-
-/* eslint-disable  no-unused-vars*/
+/* eslint-disable  no-unused-vars */
 class PluginClass {
   /**
    * Plugin definition factory
@@ -303,7 +302,8 @@ export default class WaveSurfer extends util.Observer {
    * @example
    * console.log('Using wavesurfer.js ' + WaveSurfer.VERSION);
    */
-  // static VERSION = __VERSION__; // eslint-disable-line no-undef
+  // static VERSION = __VERSION__;
+  static VERSION = null;
 
   /**
    * Functions in the `util` property are available as a prototype property to
@@ -346,7 +346,8 @@ export default class WaveSurfer extends util.Observer {
     this.container =
       "string" == typeof params.container
         ? document.querySelector(this.params.container)
-        : params.container;
+        : this.params.container;
+
     if (!this.container) {
       throw new Error("Container element not found");
     }
@@ -807,11 +808,8 @@ export default class WaveSurfer extends util.Observer {
    * @example wavesurfer.playPause();
    * @return {Promise} Result of the backend play or pause method
    */
-  playPause(start = null, end = null) {
-    const d = this.getDuration();
-    const s = start === null ? this.getCurrentTime() : Number(start);
-    const e = end === null ? d : Number(end);
-    return this.backend.isPaused() ? this.play(s, e) : this.pause();
+  playPause() {
+    return this.backend.isPaused() ? this.play() : this.pause();
   }
 
   /**
@@ -899,20 +897,12 @@ export default class WaveSurfer extends util.Observer {
     }
     this.fireEvent("interaction", () => this.seekTo(progress));
 
-    const paused = this.backend.isPaused();
-    // avoid draw wrong position while playing backward seeking
-    if (!paused) {
-      this.backend.pause();
-    }
     // avoid small scrolls while paused seeking
     const oldScrollParent = this.params.scrollParent;
     this.params.scrollParent = false;
     this.backend.seekTo(progress * this.getDuration());
     this.drawer.progress(progress);
 
-    if (!paused) {
-      this.backend.play();
-    }
     this.params.scrollParent = oldScrollParent;
     this.fireEvent("seek", progress);
   }
@@ -1554,6 +1544,7 @@ export default class WaveSurfer extends util.Observer {
    * @param {number} end End index
    * @return {Promise} Promise that resolves with array of peaks
    */
+  /* eslint-disable  no-unused-vars */
   exportPCM(length, accuracy, noWindow, start, end) {
     length = length || 1024;
     start = start || 0;
@@ -1564,9 +1555,9 @@ export default class WaveSurfer extends util.Observer {
       peaks,
       val => Math.round(val * accuracy) / accuracy
     );
-    /* eslint-disable  no-unused-vars*/
     return new Promise((resolve, reject) => {
       const json = JSON.stringify(arr);
+
       if (!noWindow) {
         window.open(
           "data:application/json;charset=utf-8," + encodeURIComponent(json)
@@ -1574,8 +1565,8 @@ export default class WaveSurfer extends util.Observer {
       }
       resolve(json);
     });
-    /* eslint-enable */
   }
+  /* eslint-enable */
 
   /**
    * Save waveform image as data URI.
@@ -1614,6 +1605,18 @@ export default class WaveSurfer extends util.Observer {
    */
   cancelAjax() {
     if (this.currentRequest && this.currentRequest.controller) {
+      // If the current request has a ProgressHandler, then its ReadableStream might need to be cancelled too
+      // See: Wavesurfer issue #2042
+      // See Firefox bug: https://bugzilla.mozilla.org/show_bug.cgi?id=1583815
+      if (this.currentRequest._reader) {
+        // Ignoring exceptions thrown by call to cancel()
+        this.currentRequest._reader.cancel().catch(err => {
+          // eslint-disable-next-line no-console
+          console.error(err);
+          // stop invalid values from being used
+        });
+      }
+
       this.currentRequest.controller.abort();
       this.currentRequest = null;
     }
@@ -1650,8 +1653,8 @@ export default class WaveSurfer extends util.Observer {
    * @emits WaveSurfer#destroy
    */
   destroy() {
-    // this.fireEvent("destroy");
     this.destroyAllPlugins();
+    this.fireEvent("destroy");
     this.cancelAjax();
     this.clearTmpEvents();
     this.unAll();

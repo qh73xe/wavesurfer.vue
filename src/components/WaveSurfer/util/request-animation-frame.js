@@ -5,7 +5,7 @@
  *
  * @return {function} Available `requestAnimationFrame` function for the browser
  */
-/* eslint-disable  no-unused-vars*/
+/* eslint-disable  no-unused-vars */
 export default (
   window.requestAnimationFrame ||
   window.webkitRequestAnimationFrame ||

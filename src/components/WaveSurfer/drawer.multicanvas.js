@@ -266,7 +266,7 @@ export default class MultiCanvas extends Drawer {
    * rendered
    * @returns {void}
    */
-  /* eslint-disable  no-unused-vars*/
+  /* eslint-disable  no-unused-vars */
   drawBars(peaks, channelIndex, start, end) {
     return this.prepareDraw(
       peaks,
@@ -331,7 +331,7 @@ export default class MultiCanvas extends Drawer {
    * rendered
    * @returns {void}
    */
-  /* eslint-disable  no-unused-vars*/
+  /* eslint-disable  no-unused-vars */
   drawWave(peaks, channelIndex, start, end) {
     return this.prepareDraw(
       peaks,
@@ -390,7 +390,7 @@ export default class MultiCanvas extends Drawer {
    * should be rendered
    * @param {channelIndex} channelIndex The channel index of the line drawn
    */
-  /* eslint-disable  no-unused-vars*/
+  /* eslint-disable  no-unused-vars */
   drawLine(peaks, absmax, halfH, offsetY, start, end, channelIndex) {
     const { waveColor, progressColor } =
       this.params.splitChannelsOptions.channelColors[channelIndex] || {};

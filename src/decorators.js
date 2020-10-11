@@ -4,7 +4,9 @@ export function perf(key, func) {
   const res = func();
   const sec = (performance.now() - start) / 1000;
   if (DEBUG) {
+    // eslint-disable-next-line no-console
     console.log(key, `run: ${sec.toFixed(3)} sec`);
+    // stop invalid values from being used
   }
   return res;
 }
@@ -19,12 +21,16 @@ export function log(name, isShow = false) {
           const result = original.apply(this, args);
           const sec = (performance.now() - start) / 1000;
           if (isShow) {
+            // eslint-disable-next-line no-console
             console.log(name, `run: ${sec.toFixed(3)} sec`);
+            // stop invalid values from being used
           }
           return result;
         } catch (e) {
           if (DEBUG) {
+            // eslint-disable-next-line no-console
             console.log(`Error from ${name}: ${e}`);
+            // stop invalid values from being used
           }
           throw e;
         }

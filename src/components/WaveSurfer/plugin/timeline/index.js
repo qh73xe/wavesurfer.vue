@@ -454,6 +454,7 @@ export default class TimelinePlugin {
   fillRect(x, y, width, height) {
     this.canvases.forEach((canvas, i) => {
       const leftOffset = i * this.maxCanvasWidth;
+
       const intersection = {
         x1: Math.max(x, i * this.maxCanvasWidth),
         y1: y,

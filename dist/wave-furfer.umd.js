@@ -3018,6 +3018,13 @@ module.exports = function (it) {
 
 /***/ }),
 
+/***/ "5b54":
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ }),
+
 /***/ "5c6c":
 /***/ (function(module, exports) {
 
@@ -3614,17 +3621,6 @@ module.exports = {
   DataView: $DataView
 };
 
-
-/***/ }),
-
-/***/ "63a5":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_WaveSurfer_vue_vue_type_style_index_0_id_32448a62_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("8972");
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_WaveSurfer_vue_vue_type_style_index_0_id_32448a62_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_WaveSurfer_vue_vue_type_style_index_0_id_32448a62_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__);
-/* unused harmony reexport * */
- /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_WaveSurfer_vue_vue_type_style_index_0_id_32448a62_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 
@@ -4716,13 +4712,6 @@ if (typeof store.inspectSource != 'function') {
 
 module.exports = store.inspectSource;
 
-
-/***/ }),
-
-/***/ "8972":
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
 
 /***/ }),
 
@@ -7942,6 +7931,17 @@ exportTypedArrayMethod('find', function find(predicate /* , thisArg */) {
 
 /***/ }),
 
+/***/ "d1dd":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_WaveSurfer_vue_vue_type_style_index_0_id_2327617f_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("5b54");
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_WaveSurfer_vue_vue_type_style_index_0_id_2327617f_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_WaveSurfer_vue_vue_type_style_index_0_id_2327617f_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
+ /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_WaveSurfer_vue_vue_type_style_index_0_id_2327617f_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
+/***/ }),
+
 /***/ "d1e7":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -9345,12 +9345,9 @@ __webpack_require__.r(__webpack_exports__);
 // NAMESPACE OBJECT: ./src/components/WaveSurfer/util/index.js
 var util_namespaceObject = {};
 __webpack_require__.r(util_namespaceObject);
-__webpack_require__.d(util_namespaceObject, "ajax", function() { return ajax; });
 __webpack_require__.d(util_namespaceObject, "getId", function() { return getId; });
 __webpack_require__.d(util_namespaceObject, "max", function() { return max_max; });
 __webpack_require__.d(util_namespaceObject, "min", function() { return min_min; });
-__webpack_require__.d(util_namespaceObject, "round", function() { return round; });
-__webpack_require__.d(util_namespaceObject, "distance", function() { return distance; });
 __webpack_require__.d(util_namespaceObject, "Observer", function() { return observer_Observer; });
 __webpack_require__.d(util_namespaceObject, "style", function() { return style_style; });
 __webpack_require__.d(util_namespaceObject, "requestAnimationFrame", function() { return request_animation_frame; });
@@ -9358,6 +9355,8 @@ __webpack_require__.d(util_namespaceObject, "frame", function() { return frame_f
 __webpack_require__.d(util_namespaceObject, "debounce", function() { return debounce_default.a; });
 __webpack_require__.d(util_namespaceObject, "preventClick", function() { return preventClick; });
 __webpack_require__.d(util_namespaceObject, "fetchFile", function() { return fetchFile; });
+__webpack_require__.d(util_namespaceObject, "clamp", function() { return clamp; });
+__webpack_require__.d(util_namespaceObject, "distance", function() { return distance; });
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
 // This file is imported into lib/wc client bundles.
@@ -9387,12 +9386,12 @@ if (typeof window !== 'undefined') {
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 var external_commonjs_vue_commonjs2_vue_root_Vue_default = /*#__PURE__*/__webpack_require__.n(external_commonjs_vue_commonjs2_vue_root_Vue_);
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"3cc436be-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/WaveSurfer/WaveSurfer.vue?vue&type=template&id=32448a62&scoped=true&
-var WaveSurfervue_type_template_id_32448a62_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"ws"},[(_vm.showSpectrogram)?_c('div',{directives:[{name:"show",rawName:"v-show",value:(!_vm.isSpectrogramRendering),expression:"!isSpectrogramRendering"}],ref:"spectrogram",staticClass:"overflow-y-auto",style:(("max-height: " + _vm.spectrogramMaxHeight)),attrs:{"tabindex":"1"},on:{"keyup":function($event){$event.stopPropagation();$event.preventDefault();return _vm.$emit('spectrogram-keyup', $event)},"keydown":function($event){$event.stopPropagation();$event.preventDefault();return _vm.$emit('spectrogram-keydown', $event)}}}):_vm._e(),_vm._t("default"),_c('div',{directives:[{name:"show",rawName:"v-show",value:(!_vm.isSpectrogramRendering),expression:"!isSpectrogramRendering"}],ref:"waveform",attrs:{"tabindex":"2"},on:{"keyup":function($event){$event.stopPropagation();$event.preventDefault();return _vm.$emit('waveform-keyup', $event)},"keydown":function($event){$event.stopPropagation();$event.preventDefault();return _vm.$emit('waveform-keydown', $event)}}}),(_vm.showTimeLine)?_c('div',{ref:"timeline"}):_vm._e(),(_vm.showPointLine)?_c('div',{ref:"pointline"}):_vm._e(),_vm._t("textform"),(_vm.showTextGrid)?_c('div',{ref:"textgrid",staticClass:"overflow-y-auto",style:(("max-height: " + _vm.textgridMaxHeight))}):_vm._e()],2)}
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"1aae7852-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/WaveSurfer/WaveSurfer.vue?vue&type=template&id=2327617f&scoped=true&
+var WaveSurfervue_type_template_id_2327617f_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"ws"},[(_vm.showSpectrogram)?_c('div',{directives:[{name:"show",rawName:"v-show",value:(!_vm.isSpectrogramRendering),expression:"!isSpectrogramRendering"}],ref:"spectrogram",staticClass:"overflow-y-auto",style:(("max-height: " + _vm.spectrogramMaxHeight)),attrs:{"tabindex":"1"},on:{"keyup":function($event){$event.stopPropagation();$event.preventDefault();return _vm.$emit('spectrogram-keyup', $event)},"keydown":function($event){$event.stopPropagation();$event.preventDefault();return _vm.$emit('spectrogram-keydown', $event)}}}):_vm._e(),_vm._t("default"),_c('div',{directives:[{name:"show",rawName:"v-show",value:(!_vm.isSpectrogramRendering),expression:"!isSpectrogramRendering"}],ref:"waveform",attrs:{"tabindex":"2"},on:{"keyup":function($event){$event.stopPropagation();$event.preventDefault();return _vm.$emit('waveform-keyup', $event)},"keydown":function($event){$event.stopPropagation();$event.preventDefault();return _vm.$emit('waveform-keydown', $event)}}}),(_vm.showTimeLine)?_c('div',{ref:"timeline"}):_vm._e(),(_vm.showPointLine)?_c('div',{ref:"pointline"}):_vm._e(),_vm._t("textform"),(_vm.showTextGrid)?_c('div',{ref:"textgrid",staticClass:"overflow-y-auto",style:(("max-height: " + _vm.textgridMaxHeight))}):_vm._e()],2)}
 var staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/components/WaveSurfer/WaveSurfer.vue?vue&type=template&id=32448a62&scoped=true&
+// CONCATENATED MODULE: ./src/components/WaveSurfer/WaveSurfer.vue?vue&type=template&id=2327617f&scoped=true&
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.index-of.js
 var es_array_index_of = __webpack_require__("c975");
@@ -9453,6 +9452,7 @@ var es_array_from = __webpack_require__("a630");
 
 
 
+
 function _iterableToArray(iter) {
   if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);
 }
@@ -9491,6 +9491,7 @@ function _toConsumableArray(arr) {
   return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
 }
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/createForOfIteratorHelper.js
+
 
 
 
@@ -9555,6 +9556,7 @@ function _createForOfIteratorHelper(o, allowArrayLike) {
   };
 }
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/typeof.js
+
 
 
 
@@ -9733,6 +9735,71 @@ function _createClass(Constructor, protoProps, staticProps) {
   if (protoProps) _defineProperties(Constructor.prototype, protoProps);
   if (staticProps) _defineProperties(Constructor, staticProps);
   return Constructor;
+}
+// CONCATENATED MODULE: ./src/components/WaveSurfer/util/get-id.js
+
+
+
+/**
+ * Get a random prefixed ID
+ *
+ * @param {String} prefix Prefix to use. Default is `'wavesurfer_'`.
+ * @returns {String} Random prefixed ID
+ * @example
+ * console.log(getId()); // logs 'wavesurfer_b5pors4ru6g'
+ *
+ * let prefix = 'foo-';
+ * console.log(getId(prefix)); // logs 'foo-b5pors4ru6g'
+ */
+function getId(prefix) {
+  if (prefix === undefined) {
+    prefix = "wavesurfer_";
+  }
+
+  return prefix + Math.random().toString(32).substring(2);
+}
+// CONCATENATED MODULE: ./src/components/WaveSurfer/util/max.js
+
+
+
+
+/**
+ * Get the largest value
+ *
+ * @param   {Array} values Array of numbers
+ * @returns {Number} Largest number found
+ * @example console.log(max([1, 2, 3])); // logs 3
+ */
+function max_max(values) {
+  var largest = -Infinity;
+  Object.keys(values).forEach(function (i) {
+    if (values[i] > largest) {
+      largest = values[i];
+    }
+  });
+  return largest;
+}
+// CONCATENATED MODULE: ./src/components/WaveSurfer/util/min.js
+
+
+
+
+
+/**
+ * Get the smallest value
+ *
+ * @param   {Array} values Array of numbers
+ * @returns {Number} Smallest number found
+ * @example console.log(min([1, 2, 3])); // logs 1
+ */
+function min_min(values) {
+  var smallest = Number(Infinity);
+  Object.keys(values).forEach(function (i) {
+    if (values[i] < smallest) {
+      smallest = values[i];
+    }
+  });
+  return smallest;
 }
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.includes.js
 var es_array_includes = __webpack_require__("caad");
@@ -9935,174 +10002,6 @@ var observer_Observer = /*#__PURE__*/function () {
 }();
 
 
-// CONCATENATED MODULE: ./src/components/WaveSurfer/util/ajax.js
-
-
-
-/**
- * Perform an ajax request using `XMLHttpRequest`.
- *
- * @deprecated Use `util.fetchFile` instead.
- *
- * @param {Object} options AJAX options to use. See example below for options.
- * @returns {Observer} Observer instance
- * @example
- * // default options
- * let options = {
- *     method: 'GET',
- *     url: undefined,
- *     responseType: 'json',
- *     xhr: {}
- * };
- *
- * // override default options
- * options.url = '../media/demo.wav';
- * options.responseType = 'arraybuffer';
- * options.xhr = {
- *     requestHeaders: [
- *         {
- *             key: 'Authorization',
- *             value: 'my-token'
- *         }
- *     ],
- *     withCredentials: true
- * };
- *
- * // make ajax call
- * let ajaxCall = util.ajax(options);
- * ajaxCall.on('progress', e => {
- *     console.log('progress', e);
- * });
- * ajaxCall.on('success', (data, e) => {
- *     console.log('success!', data);
- * });
- * ajaxCall.on('error', e => {
- *     console.warn('ajax error: ' + e.target.statusText);
- * });
- */
-
-function ajax(options) {
-  var instance = new observer_Observer();
-  var xhr = new XMLHttpRequest();
-  var fired100 = false;
-  xhr.open(options.method || "GET", options.url, true);
-  xhr.responseType = options.responseType || "json";
-
-  if (options.xhr) {
-    if (options.xhr.requestHeaders) {
-      // add custom request headers
-      options.xhr.requestHeaders.forEach(function (header) {
-        xhr.setRequestHeader(header.key, header.value);
-      });
-    }
-
-    if (options.xhr.withCredentials) {
-      // use credentials
-      xhr.withCredentials = true;
-    }
-  }
-
-  xhr.addEventListener("progress", function (e) {
-    instance.fireEvent("progress", e);
-
-    if (e.lengthComputable && e.loaded == e.total) {
-      fired100 = true;
-    }
-  });
-  xhr.addEventListener("load", function (e) {
-    if (!fired100) {
-      instance.fireEvent("progress", e);
-    }
-
-    instance.fireEvent("load", e);
-
-    if (200 == xhr.status || 206 == xhr.status) {
-      instance.fireEvent("success", xhr.response, e);
-    } else {
-      instance.fireEvent("error", e);
-    }
-  });
-  xhr.addEventListener("error", function (e) {
-    return instance.fireEvent("error", e);
-  });
-  xhr.send();
-  instance.xhr = xhr;
-  return instance;
-}
-// CONCATENATED MODULE: ./src/components/WaveSurfer/util/get-id.js
-
-
-
-/**
- * Get a random prefixed ID
- *
- * @param {String} prefix Prefix to use. Default is `'wavesurfer_'`.
- * @returns {String} Random prefixed ID
- * @example
- * console.log(getId()); // logs 'wavesurfer_b5pors4ru6g'
- *
- * let prefix = 'foo-';
- * console.log(getId(prefix)); // logs 'foo-b5pors4ru6g'
- */
-function getId(prefix) {
-  if (prefix === undefined) {
-    prefix = "wavesurfer_";
-  }
-
-  return prefix + Math.random().toString(32).substring(2);
-}
-// CONCATENATED MODULE: ./src/components/WaveSurfer/util/max.js
-
-
-
-
-/**
- * Get the largest value
- *
- * @param   {Array} values Array of numbers
- * @returns {Number} Largest number found
- * @example console.log(max([1, 2, 3])); // logs 3
- */
-function max_max(values) {
-  var largest = -Infinity;
-  Object.keys(values).forEach(function (i) {
-    if (values[i] > largest) {
-      largest = values[i];
-    }
-  });
-  return largest;
-}
-// CONCATENATED MODULE: ./src/components/WaveSurfer/util/min.js
-
-
-
-
-
-/**
- * Get the smallest value
- *
- * @param   {Array} values Array of numbers
- * @returns {Number} Smallest number found
- * @example console.log(min([1, 2, 3])); // logs 1
- */
-function min_min(values) {
-  var smallest = Number(Infinity);
-  Object.keys(values).forEach(function (i) {
-    if (values[i] < smallest) {
-      smallest = values[i];
-    }
-  });
-  return smallest;
-}
-// CONCATENATED MODULE: ./src/components/WaveSurfer/util/round.js
-function round(value, significant) {
-  var tmp = Math.pow(10, significant);
-  return Math.Round(value * tmp) / tmp;
-}
-// CONCATENATED MODULE: ./src/components/WaveSurfer/util/distance.js
-function distance(a, b) {
-  return Math.abs(a - b);
-}
 // CONCATENATED MODULE: ./src/components/WaveSurfer/util/style.js
 
 
@@ -10134,7 +10033,7 @@ function style_style(el, styles) {
  * @return {function} Available `requestAnimationFrame` function for the browser
  */
 
-/* eslint-disable  no-unused-vars*/
+/* eslint-disable  no-unused-vars */
 /* harmony default export */ var request_animation_frame = ((window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame || function (callback, element) {
   return setTimeout(callback, 1000 / 60);
 }).bind(window));
@@ -10190,6 +10089,7 @@ function preventClick(values) {
 }
 /* eslint-enable */
 // CONCATENATED MODULE: ./src/components/WaveSurfer/util/fetch.js
+
 
 
 
@@ -10422,8 +10322,23 @@ function fetchFile(options) {
   instance.fetchRequest = fetchRequest;
   return instance;
 }
+// CONCATENATED MODULE: ./src/components/WaveSurfer/util/clamp.js
+/**
+ * Returns a number limited to the given range.
+ *
+ * @param {number} val The number to be limited to a range
+ * @param {number} min The lower boundary of the limit range
+ * @param {number} max The upper boundary of the limit range
+ * @returns {number} A number in the range [min, max]
+ */
+function clamp(val, min, max) {
+  return Math.min(Math.max(min, val), max);
+}
+// CONCATENATED MODULE: ./src/components/WaveSurfer/util/distance.js
+function distance(a, b) {
+  return Math.abs(a - b);
+}
 // CONCATENATED MODULE: ./src/components/WaveSurfer/util/index.js
-
 
 
 
@@ -10554,15 +10469,11 @@ var drawer_Drawer = /*#__PURE__*/function (_util$Observer) {
 
       if (!this.params.fillParent && nominalWidth < parentWidth) {
         progress = (this.params.rtl ? bbox.right - clientX : clientX - bbox.left) * (this.params.pixelRatio / nominalWidth) || 0;
-
-        if (progress > 1) {
-          progress = 1;
-        }
       } else {
         progress = ((this.params.rtl ? bbox.right - clientX : clientX - bbox.left) + this.wrapper.scrollLeft) / this.wrapper.scrollWidth || 0;
       }
 
-      return progress;
+      return clamp(progress, 0, 1);
     }
   }, {
     key: "setupWrapperEvents",
@@ -10902,6 +10813,7 @@ var drawer_Drawer = /*#__PURE__*/function (_util$Observer) {
 var es_array_fill = __webpack_require__("cb29");
 
 // CONCATENATED MODULE: ./src/components/WaveSurfer/drawer.canvasentry.js
+
 
 
 
@@ -11299,6 +11211,8 @@ var drawer_canvasentry_CanvasEntry = /*#__PURE__*/function () {
 
 
 
+
+
 /**
  * MultiCanvas renderer for wavesurfer. Is currently the default and sole
  * builtin renderer.
@@ -11577,7 +11491,7 @@ var drawer_multicanvas_MultiCanvas = /*#__PURE__*/function (_Drawer) {
      * @returns {void}
      */
 
-    /* eslint-disable  no-unused-vars*/
+    /* eslint-disable  no-unused-vars */
 
   }, {
     key: "drawBars",
@@ -11637,7 +11551,7 @@ var drawer_multicanvas_MultiCanvas = /*#__PURE__*/function (_Drawer) {
      * @returns {void}
      */
 
-    /* eslint-disable  no-unused-vars*/
+    /* eslint-disable  no-unused-vars */
 
   }, {
     key: "drawWave",
@@ -11692,7 +11606,7 @@ var drawer_multicanvas_MultiCanvas = /*#__PURE__*/function (_Drawer) {
      * @param {channelIndex} channelIndex The channel index of the line drawn
      */
 
-    /* eslint-disable  no-unused-vars*/
+    /* eslint-disable  no-unused-vars */
 
   }, {
     key: "drawLine",
@@ -11902,6 +11816,7 @@ var drawer_multicanvas_MultiCanvas = /*#__PURE__*/function (_Drawer) {
 var es_array_reduce = __webpack_require__("13d5");
 
 // CONCATENATED MODULE: ./src/components/WaveSurfer/webaudio.js
+
 
 
 
@@ -12324,9 +12239,18 @@ var webaudio_WebAudio = /*#__PURE__*/function (_util$Observer) {
         this.offlineAc = this.getOfflineAudioContext(this.ac && this.ac.sampleRate ? this.ac.sampleRate : 44100);
       }
 
-      this.offlineAc.decodeAudioData(arraybuffer, function (data) {
-        return callback(data);
-      }, errback);
+      if ("AudioContext" in window) {
+        this.offlineAc.decodeAudioData(arraybuffer).then(function (data) {
+          return callback(data);
+        }).catch(function (err) {
+          return errback(err);
+        });
+      } else {
+        // Safari: no support for Promise-based decodeAudioData yet
+        this.offlineAc.decodeAudioData(arraybuffer, function (data) {
+          return callback(data);
+        }, errback);
+      }
     }
     /**
      * Set pre-decoded peaks
@@ -12801,6 +12725,7 @@ function get_get(target, property, receiver) {
   return get_get(target, property, receiver || target);
 }
 // CONCATENATED MODULE: ./src/components/WaveSurfer/mediaelement.js
+
 
 
 
@@ -13644,7 +13569,6 @@ var mediaelement_webaudio_MediaElementWebAudio = /*#__PURE__*/function (_MediaEl
 
 
 
-
 /*
  * This work is licensed under a BSD-3-Clause License.
  */
@@ -13770,7 +13694,7 @@ var mediaelement_webaudio_MediaElementWebAudio = /*#__PURE__*/function (_MediaEl
  *     credentials: 'same-origin',
  *     redirect: 'follow',
  *     referrer: 'client',
- *     headers: [
+ *     requestHeaders: [
  *         {
  *             key: 'Authorization',
  *             value: 'my-token'
@@ -13805,7 +13729,7 @@ var mediaelement_webaudio_MediaElementWebAudio = /*#__PURE__*/function (_MediaEl
  * @extends {Observer}
  */
 
-/* eslint-disable  no-unused-vars*/
+/* eslint-disable  no-unused-vars */
 
 var wavesurfer_PluginClass = /*#__PURE__*/function () {
   _createClass(PluginClass, [{
@@ -13915,17 +13839,7 @@ var wavesurfer_WaveSurfer = /*#__PURE__*/function (_util$Observer) {
      * @example
      * console.log('Using wavesurfer.js ' + WaveSurfer.VERSION);
      */
-    // static VERSION = __VERSION__; // eslint-disable-line no-undef
-
-    /**
-     * Functions in the `util` property are available as a prototype property to
-     * all instances
-     *
-     * @type {Object}
-     * @example
-     * const wavesurfer = WaveSurfer.create(params);
-     * wavesurfer.util.style(myElement, { background: 'blue' });
-     */
+    // static VERSION = __VERSION__;
 
   }]);
 
@@ -14015,7 +13929,7 @@ var wavesurfer_WaveSurfer = /*#__PURE__*/function (_util$Observer) {
     _this.params = Object.assign({}, _this.defaultParams, params);
     /** @private */
 
-    _this.container = "string" == typeof params.container ? document.querySelector(_this.params.container) : params.container;
+    _this.container = "string" == typeof params.container ? document.querySelector(_this.params.container) : _this.params.container;
 
     if (!_this.container) {
       throw new Error("Container element not found");
@@ -14529,12 +14443,7 @@ var wavesurfer_WaveSurfer = /*#__PURE__*/function (_util$Observer) {
   }, {
     key: "playPause",
     value: function playPause() {
-      var start = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-      var end = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-      var d = this.getDuration();
-      var s = start === null ? this.getCurrentTime() : Number(start);
-      var e = end === null ? d : Number(end);
-      return this.backend.isPaused() ? this.play(s, e) : this.pause();
+      return this.backend.isPaused() ? this.play() : this.pause();
     }
     /**
      * Get the current playback state
@@ -14630,23 +14539,12 @@ var wavesurfer_WaveSurfer = /*#__PURE__*/function (_util$Observer) {
 
       this.fireEvent("interaction", function () {
         return _this8.seekTo(progress);
-      });
-      var paused = this.backend.isPaused(); // avoid draw wrong position while playing backward seeking
-
-      if (!paused) {
-        this.backend.pause();
-      } // avoid small scrolls while paused seeking
-
+      }); // avoid small scrolls while paused seeking
 
       var oldScrollParent = this.params.scrollParent;
       this.params.scrollParent = false;
       this.backend.seekTo(progress * this.getDuration());
       this.drawer.progress(progress);
-
-      if (!paused) {
-        this.backend.play();
-      }
-
       this.params.scrollParent = oldScrollParent;
       this.fireEvent("seek", progress);
     }
@@ -15363,6 +15261,8 @@ var wavesurfer_WaveSurfer = /*#__PURE__*/function (_util$Observer) {
      * @return {Promise} Promise that resolves with array of peaks
      */
 
+    /* eslint-disable  no-unused-vars */
+
   }, {
     key: "exportPCM",
     value: function exportPCM(length, accuracy, noWindow, start, end) {
@@ -15374,8 +15274,6 @@ var wavesurfer_WaveSurfer = /*#__PURE__*/function (_util$Observer) {
       var arr = [].map.call(peaks, function (val) {
         return Math.round(val * accuracy) / accuracy;
       });
-      /* eslint-disable  no-unused-vars*/
-
       return new Promise(function (resolve, reject) {
         var json = JSON.stringify(arr);
 
@@ -15385,8 +15283,9 @@ var wavesurfer_WaveSurfer = /*#__PURE__*/function (_util$Observer) {
 
         resolve(json);
       });
-      /* eslint-enable */
     }
+    /* eslint-enable */
+
     /**
      * Save waveform image as data URI.
      *
@@ -15431,6 +15330,17 @@ var wavesurfer_WaveSurfer = /*#__PURE__*/function (_util$Observer) {
     key: "cancelAjax",
     value: function cancelAjax() {
       if (this.currentRequest && this.currentRequest.controller) {
+        // If the current request has a ProgressHandler, then its ReadableStream might need to be cancelled too
+        // See: Wavesurfer issue #2042
+        // See Firefox bug: https://bugzilla.mozilla.org/show_bug.cgi?id=1583815
+        if (this.currentRequest._reader) {
+          // Ignoring exceptions thrown by call to cancel()
+          this.currentRequest._reader.cancel().catch(function (err) {
+            // eslint-disable-next-line no-console
+            console.error(err); // stop invalid values from being used
+          });
+        }
+
         this.currentRequest.controller.abort();
         this.currentRequest = null;
       }
@@ -15477,8 +15387,8 @@ var wavesurfer_WaveSurfer = /*#__PURE__*/function (_util$Observer) {
   }, {
     key: "destroy",
     value: function destroy() {
-      // this.fireEvent("destroy");
       this.destroyAllPlugins();
+      this.fireEvent("destroy");
       this.cancelAjax();
       this.clearTmpEvents();
       this.unAll();
@@ -15505,10 +15415,13 @@ var wavesurfer_WaveSurfer = /*#__PURE__*/function (_util$Observer) {
   return WaveSurfer;
 }(observer_Observer);
 
+_defineProperty(wavesurfer_WaveSurfer, "VERSION", null);
+
 _defineProperty(wavesurfer_WaveSurfer, "util", util_namespaceObject);
 
 
-// CONCATENATED MODULE: ./src/components/WaveSurfer/plugin/timeline.js
+// CONCATENATED MODULE: ./src/components/WaveSurfer/plugin/timeline/index.js
+
 
 
 
@@ -16163,7 +16076,8 @@ function perf(key, func) {
   var sec = (performance.now() - start) / 1000;
 
   if (DEBUG) {
-    console.log(key, "run: ".concat(sec.toFixed(3), " sec"));
+    // eslint-disable-next-line no-console
+    console.log(key, "run: ".concat(sec.toFixed(3), " sec")); // stop invalid values from being used
   }
 
   return res;
@@ -16186,13 +16100,15 @@ function log(name) {
           var sec = (performance.now() - start) / 1000;
 
           if (isShow) {
-            console.log(name, "run: ".concat(sec.toFixed(3), " sec"));
+            // eslint-disable-next-line no-console
+            console.log(name, "run: ".concat(sec.toFixed(3), " sec")); // stop invalid values from being used
           }
 
           return result;
         } catch (e) {
           if (DEBUG) {
-            console.log("Error from ".concat(name, ": ").concat(e));
+            // eslint-disable-next-line no-console
+            console.log("Error from ".concat(name, ": ").concat(e)); // stop invalid values from being used
           }
 
           throw e;
@@ -16211,6 +16127,7 @@ function logger() {
   }
 }
 // CONCATENATED MODULE: ./src/components/WaveSurfer/plugin/pointline.js
+
 
 
 
@@ -16840,6 +16757,7 @@ var es_string_match = __webpack_require__("466d");
 var es_string_trim = __webpack_require__("498a");
 
 // CONCATENATED MODULE: ./src/io/textgrid.js
+
 
 
 
@@ -18581,6 +18499,7 @@ var runtime = __webpack_require__("96cf");
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js
 
 
+
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
   try {
     var info = gen[key](arg);
@@ -19578,6 +19497,7 @@ var spectrogram_SpectrogramPlugin = (spectrogram_dec = log("spectrogram.create",
 }(), (_applyDecoratedDescriptor(spectrogram_class, "create", [spectrogram_dec], Object.getOwnPropertyDescriptor(spectrogram_class, "create"), spectrogram_class), _applyDecoratedDescriptor(spectrogram_class.prototype, "init", [spectrogram_dec2], Object.getOwnPropertyDescriptor(spectrogram_class.prototype, "init"), spectrogram_class.prototype), _applyDecoratedDescriptor(spectrogram_class.prototype, "destroy", [spectrogram_dec3], Object.getOwnPropertyDescriptor(spectrogram_class.prototype, "destroy"), spectrogram_class.prototype), _applyDecoratedDescriptor(spectrogram_class.prototype, "createWrapper", [spectrogram_dec4], Object.getOwnPropertyDescriptor(spectrogram_class.prototype, "createWrapper"), spectrogram_class.prototype), _applyDecoratedDescriptor(spectrogram_class.prototype, "_wrapperClickHandler", [spectrogram_dec5], Object.getOwnPropertyDescriptor(spectrogram_class.prototype, "_wrapperClickHandler"), spectrogram_class.prototype), _applyDecoratedDescriptor(spectrogram_class.prototype, "_wrapperScrollHandler", [spectrogram_dec6], Object.getOwnPropertyDescriptor(spectrogram_class.prototype, "_wrapperScrollHandler"), spectrogram_class.prototype), _applyDecoratedDescriptor(spectrogram_class.prototype, "createCanvas", [spectrogram_dec7], Object.getOwnPropertyDescriptor(spectrogram_class.prototype, "createCanvas"), spectrogram_class.prototype), _applyDecoratedDescriptor(spectrogram_class.prototype, "render", [spectrogram_dec8], Object.getOwnPropertyDescriptor(spectrogram_class.prototype, "render"), spectrogram_class.prototype), _applyDecoratedDescriptor(spectrogram_class.prototype, "updateCanvasStyle", [spectrogram_dec9], Object.getOwnPropertyDescriptor(spectrogram_class.prototype, "updateCanvasStyle"), spectrogram_class.prototype), _applyDecoratedDescriptor(spectrogram_class.prototype, "drawSpectrogram", [spectrogram_dec10], Object.getOwnPropertyDescriptor(spectrogram_class.prototype, "drawSpectrogram"), spectrogram_class.prototype), _applyDecoratedDescriptor(spectrogram_class.prototype, "getFrequencies", [spectrogram_dec11], Object.getOwnPropertyDescriptor(spectrogram_class.prototype, "getFrequencies"), spectrogram_class.prototype), _applyDecoratedDescriptor(spectrogram_class.prototype, "loadLabels", [spectrogram_dec12], Object.getOwnPropertyDescriptor(spectrogram_class.prototype, "loadLabels"), spectrogram_class.prototype), _applyDecoratedDescriptor(spectrogram_class.prototype, "resample", [spectrogram_dec13], Object.getOwnPropertyDescriptor(spectrogram_class.prototype, "resample"), spectrogram_class.prototype), _applyDecoratedDescriptor(spectrogram_class.prototype, "setCursorTime", [spectrogram_dec14], Object.getOwnPropertyDescriptor(spectrogram_class.prototype, "setCursorTime"), spectrogram_class.prototype)), spectrogram_class));
 
 // CONCATENATED MODULE: ./src/components/WaveSurfer/plugin/microphone/index.js
+
 
 
 
@@ -21055,8 +20975,8 @@ var microphone_MicrophonePlugin = /*#__PURE__*/function () {
 });
 // CONCATENATED MODULE: ./src/components/WaveSurfer/WaveSurfer.vue?vue&type=script&lang=js&
  /* harmony default export */ var WaveSurfer_WaveSurfervue_type_script_lang_js_ = (WaveSurfervue_type_script_lang_js_); 
-// EXTERNAL MODULE: ./src/components/WaveSurfer/WaveSurfer.vue?vue&type=style&index=0&id=32448a62&scoped=true&lang=css&
-var WaveSurfervue_type_style_index_0_id_32448a62_scoped_true_lang_css_ = __webpack_require__("63a5");
+// EXTERNAL MODULE: ./src/components/WaveSurfer/WaveSurfer.vue?vue&type=style&index=0&id=2327617f&scoped=true&lang=css&
+var WaveSurfervue_type_style_index_0_id_2327617f_scoped_true_lang_css_ = __webpack_require__("d1dd");
 
 // CONCATENATED MODULE: ./node_modules/vue-loader/lib/runtime/componentNormalizer.js
 /* globals __VUE_SSR_CONTEXT__ */
@@ -21169,11 +21089,11 @@ function normalizeComponent (
 
 var component = normalizeComponent(
   WaveSurfer_WaveSurfervue_type_script_lang_js_,
-  WaveSurfervue_type_template_id_32448a62_scoped_true_render,
+  WaveSurfervue_type_template_id_2327617f_scoped_true_render,
   staticRenderFns,
   false,
   null,
-  "32448a62",
+  "2327617f",
   null
   
 )

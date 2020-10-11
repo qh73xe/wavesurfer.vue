@@ -31,7 +31,7 @@
 </template>
 <script>
 import WaveSurfer from "./wavesurfer.js";
-import Timeline from "./plugin/timeline.js";
+import Timeline from "./plugin/timeline/index.js";
 import Pointline from "./plugin/pointline.js";
 import Textgrid from "./plugin/textgrid.js";
 import Spectrogram from "./plugin/spectrogram/index.js";
