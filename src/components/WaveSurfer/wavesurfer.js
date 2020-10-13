@@ -808,8 +808,10 @@ export default class WaveSurfer extends util.Observer {
    * @example wavesurfer.playPause();
    * @return {Promise} Result of the backend play or pause method
    */
-  playPause() {
-    return this.backend.isPaused() ? this.play() : this.pause();
+  playPause(start, end) {
+    const cTime = this.getCurrentTime();
+    const $start = start ? start : cTime || 0;
+    return this.backend.isPaused() ? this.play($start, end) : this.pause();
   }
 
   /**

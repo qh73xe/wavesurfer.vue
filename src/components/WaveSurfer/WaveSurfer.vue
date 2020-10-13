@@ -156,6 +156,10 @@ export default {
       type: Number,
       default: 1
     },
+    duration: {
+      validator: prop => typeof prop === "number" || prop === null,
+      default: null
+    },
     drawingContextAttributes: {
       type: Object,
       default: function() {
@@ -586,6 +590,7 @@ export default {
             closeAudioContext: this.closeAudioContext,
             cursorColor: this.cursorColor,
             cursorWidth: this.cursorWidth,
+            duration: this.duration,
             drawingContextAttributes: this.drawingContextAttributes,
             fillParent: this.fillParent,
             forceDecode: this.forceDecode,
