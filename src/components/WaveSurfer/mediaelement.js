@@ -229,7 +229,8 @@ export default class MediaElement extends WebAudio {
     if (this.explicitDuration) {
       return this.explicitDuration;
     }
-    let duration = (this.buffer || this.media).duration;
+    // let duration = (this.buffer || this.media).duration;
+    let duration = (this.media || this.buffer).duration;
     if (duration >= Infinity) {
       // streaming audio
       duration = this.media.seekable.end(0);

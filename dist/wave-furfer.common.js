@@ -13007,9 +13007,10 @@ var mediaelement_MediaElement = /*#__PURE__*/function (_WebAudio) {
     value: function getDuration() {
       if (this.explicitDuration) {
         return this.explicitDuration;
-      }
+      } // let duration = (this.buffer || this.media).duration;
 
-      var duration = (this.buffer || this.media).duration;
+
+      var duration = (this.media || this.buffer).duration;
 
       if (duration >= Infinity) {
         // streaming audio
