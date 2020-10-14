@@ -225,7 +225,7 @@ export default class TextgridPlugin {
     this.drawer.style(cursorEl, {
       left: 0,
       position: "absolute",
-      zIndex: 4,
+      zIndex: 3,
       width: `${cursorWidth}px`,
       borderLeft: `${cursorWidth}px ${btype} ${bcolor}`
     });
@@ -331,7 +331,6 @@ export default class TextgridPlugin {
           meta: e.metaKey
         };
         vm.wavesurfer.fireEvent("textgrid-click", payload);
-
         if (e.detail === 1) {
           // set curent item
           let canditates = vm.tiers[key].values.filter(x => {
@@ -362,8 +361,8 @@ export default class TextgridPlugin {
         clearTimeout(timer);
         timer = setTimeout(function() {
           let time = vm.event2time(e);
-          const idx = vm.tiers[key].dragingItemIdx;
-          const text = vm.tiers[key].values[idx].text || "";
+          const tier = vm.tiers[key];
+          const idx = tier.dragingItemIdx;
           const duration = vm.wavesurfer.backend.getDuration();
           const pPs = canvas.width / duration;
 
@@ -396,7 +395,8 @@ export default class TextgridPlugin {
             vm.updateCursor(w, "dashed", bcolor);
             vm.isMatched = false;
           }
-          if (vm.tiers[key].values[idx]) {
+          if (tier.values[idx]) {
+            const text = tier.values[idx].text || "";
             vm.setTierValue(key, idx, { time, text }, false);
             setTimeout(() => {
               vm.wavesurfer.seekTo(time / duration);
@@ -412,9 +412,9 @@ export default class TextgridPlugin {
       };
 
       const draggingMouseup = function() {
+        canvas.style.cursor = "grab";
         vm.tiers[key].isDraging = false;
         vm.tiers[key].dragingItemIdx = null;
-        canvas.style.cursor = "grab";
         canvas.removeEventListener("mousedown", draggingMousedown);
         canvas.removeEventListener("mousemove", draggingMousemove);
         canvas.removeEventListener("mouseup", draggingMouseup);
@@ -424,6 +424,7 @@ export default class TextgridPlugin {
         const w = vm.wavesurfer.params.cursorWidth || 1;
         const bcolor = vm.wavesurfer.params.cursorColor;
         vm.updateCursor(w, "dashed", bcolor);
+        canvas.style.cursor = "default";
       };
 
       // マウス移動中の確認
@@ -438,9 +439,8 @@ export default class TextgridPlugin {
             return distance(relX, x.time * pixelsPerSecond) < 1;
           });
         }
-
-        if (vm.tiers[key].dragingItemIdx > -1) {
-          canvas.style.cursor = "grab";
+        if (vm.tiers[key].dragingItemIdx != -1) {
+          canvas.style.cursor = "pointer";
           canvas.addEventListener("mousedown", draggingMousedown, false);
           canvas.addEventListener("mouseup", draggingMouseup, false);
         } else {

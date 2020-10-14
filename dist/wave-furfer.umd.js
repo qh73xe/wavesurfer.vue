@@ -17224,7 +17224,7 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
       this.drawer.style(cursorEl, {
         left: 0,
         position: "absolute",
-        zIndex: 4,
+        zIndex: 3,
         width: "".concat(cursorWidth, "px"),
         borderLeft: "".concat(cursorWidth, "px ").concat(btype, " ").concat(bcolor)
       });
@@ -17377,8 +17377,8 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
           clearTimeout(timer);
           timer = setTimeout(function () {
             var time = vm.event2time(e);
-            var idx = vm.tiers[key].dragingItemIdx;
-            var text = vm.tiers[key].values[idx].text || "";
+            var tier = vm.tiers[key];
+            var idx = tier.dragingItemIdx;
             var duration = vm.wavesurfer.backend.getDuration();
             var pPs = canvas.width / duration; // 他の Tier に同時刻のものがあるかを確認
 
@@ -17413,7 +17413,8 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
               vm.isMatched = false;
             }
 
-            if (vm.tiers[key].values[idx]) {
+            if (tier.values[idx]) {
+              var text = tier.values[idx].text || "";
               vm.setTierValue(key, idx, {
                 time: time,
                 text: text
@@ -17432,9 +17433,9 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
         };
 
         var draggingMouseup = function draggingMouseup() {
+          canvas.style.cursor = "grab";
           vm.tiers[key].isDraging = false;
           vm.tiers[key].dragingItemIdx = null;
-          canvas.style.cursor = "grab";
           canvas.removeEventListener("mousedown", draggingMousedown);
           canvas.removeEventListener("mousemove", draggingMousemove);
           canvas.removeEventListener("mouseup", draggingMouseup);
@@ -17443,6 +17444,7 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
           var w = vm.wavesurfer.params.cursorWidth || 1;
           var bcolor = vm.wavesurfer.params.cursorColor;
           vm.updateCursor(w, "dashed", bcolor);
+          canvas.style.cursor = "default";
         }; // マウス移動中の確認
 
 
@@ -17458,8 +17460,8 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
             });
           }
 
-          if (vm.tiers[key].dragingItemIdx > -1) {
-            canvas.style.cursor = "grab";
+          if (vm.tiers[key].dragingItemIdx != -1) {
+            canvas.style.cursor = "pointer";
             canvas.addEventListener("mousedown", draggingMousedown, false);
             canvas.addEventListener("mouseup", draggingMouseup, false);
           } else {
