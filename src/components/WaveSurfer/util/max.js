@@ -7,7 +7,7 @@
  */
 export default function max(values) {
   let largest = -Infinity;
-  Object.keys(values).forEach(i => {
+  Object.keys(values).forEach((i) => {
     if (values[i] > largest) {
       largest = values[i];
     }

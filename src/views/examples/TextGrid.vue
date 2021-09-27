@@ -102,9 +102,7 @@
           </template>
           <v-card>
             <v-card-title>
-              <span class="headline">
-                New Tier
-              </span>
+              <span class="headline"> New Tier </span>
             </v-card-title>
             <v-card-text>
               <v-container>
@@ -207,9 +205,7 @@
             <v-icon small class="mr-2" @click="editValue(item)">
               mdi-pencil
             </v-icon>
-            <v-icon small @click="deleteTierValue(item)">
-              mdi-delete
-            </v-icon>
+            <v-icon small @click="deleteTierValue(item)"> mdi-delete </v-icon>
           </template>
         </v-data-table>
       </v-tabs-items>
@@ -240,7 +236,7 @@ export default {
     WExampleDemoCard,
     WExampleDemoCardActions,
     WExampleHelpDialog,
-    WaveSurfer
+    WaveSurfer,
   },
   data: () => ({
     source: null,
@@ -250,7 +246,7 @@ export default {
       text: null,
       time: null,
       idx: null,
-      values: []
+      values: [],
     },
     isReady: false,
     zoom: 1,
@@ -260,27 +256,27 @@ export default {
       { text: "", val: null },
       { text: "100px", val: "100px" },
       { text: "30%", val: "30%" },
-      { text: "30vh", val: "30vh" }
+      { text: "30vh", val: "30vh" },
     ],
     valueDialog: {
       show: false,
       text: "",
-      time: 0
+      time: 0,
     },
     tierDialog: {
       show: false,
       name: "",
-      type: "interval"
+      type: "interval",
     },
     tabs: [],
     headers: [
       { text: "time", value: "time" },
       { text: "text", value: "text" },
-      { text: "Actions", value: "actions", sortable: false }
+      { text: "Actions", value: "actions", sortable: false },
     ],
     snackbar: {
       show: false,
-      text: ""
+      text: "",
     },
     locale: locale,
     title: `wavesurfer.vue>example>${name}`,
@@ -735,10 +731,10 @@ export default {
         }
       }
     };
-    `
+    `,
   }),
   watch: {
-    tab: function(val) {
+    tab: function (val) {
       if (val === null) {
         this.current.key = "";
         this.current.values = [];
@@ -748,22 +744,22 @@ export default {
           this.current.values = this.textgrid[this.current.key].values;
         }
       }
-    }
+    },
   },
   methods: {
-    closeTierDialog: function() {
+    closeTierDialog: function () {
       this.tierDialog.show = false;
       this.tierDialog.name = "";
       this.tierDialog.type = "interval";
     },
-    saveTierDialog: function() {
+    saveTierDialog: function () {
       this.$refs.wavesurfer.addTier(this.tierDialog.name, this.tierDialog.type);
       this.closeTierDialog();
       if (this.tab !== null) {
         this.tab++;
       }
     },
-    deleteTier: function(key) {
+    deleteTier: function (key) {
       this.$refs.wavesurfer.deleteTier(key);
       if (this.tab == 0) {
         this.tab = null;
@@ -771,20 +767,22 @@ export default {
         this.tab = this.tab - 1;
       }
     },
-    closeValueDialog: function() {
+    closeValueDialog: function () {
       this.valueDialog.show = false;
       this.valueDialog.text = "";
       this.valueDialog.time = 0;
     },
-    saveValueDialog: function() {
+    saveValueDialog: function () {
       const key = this.current.key;
       const item = {
         time: this.valueDialog.time,
-        text: this.valueDialog.text
+        text: this.valueDialog.text,
       };
       this.current.time = item.time;
       this.current.text = item.text;
-      const idx = this.textgrid[key].values.findIndex(x => x.time == item.time);
+      const idx = this.textgrid[key].values.findIndex(
+        (x) => x.time == item.time
+      );
       if (idx > -1) {
         this.saveTierValue();
       } else {
@@ -795,7 +793,7 @@ export default {
     playTextGrid(value) {
       const key = this.current.key;
       const idx = this.textgrid[this.current.key].values.findIndex(
-        x => x.time == value.time
+        (x) => x.time == value.time
       );
       if (idx > -1) {
         this.$refs.wavesurfer.playTextGrid(key, idx);
@@ -803,7 +801,7 @@ export default {
     },
     editValue(value) {
       const idx = this.textgrid[this.current.key].values.findIndex(
-        x => x.time == value.time
+        (x) => x.time == value.time
       );
       if (idx > -1) {
         this.current.idx = idx;
@@ -812,30 +810,32 @@ export default {
         this.valueDialog.show = true;
       }
     },
-    saveTierValue: function() {
+    saveTierValue: function () {
       const key = this.current.key;
       const item = {
         time: this.current.time,
-        text: this.current.text
+        text: this.current.text,
       };
       const idx = this.current.idx;
       this.$refs.wavesurfer.setTierValue(key, idx, item);
     },
     deleteTierValue(item) {
       const key = this.current.key;
-      const idx = this.textgrid[key].values.findIndex(x => x.time == item.time);
+      const idx = this.textgrid[key].values.findIndex(
+        (x) => x.time == item.time
+      );
       this.$refs.wavesurfer.deleteTierValue(key, idx);
     },
-    downloadTextGrid: function() {
+    downloadTextGrid: function () {
       const filename = "test.TextGrid";
       this.$refs.wavesurfer.downloadTextGrid(filename);
     },
-    onTextGridFileChange: function(file) {
+    onTextGridFileChange: function (file) {
       if (file) {
         this.$refs.wavesurfer.loadTextGrid(file);
       }
     },
-    onFileChange: function(file) {
+    onFileChange: function (file) {
       this.source = null;
       this.textgrid = {};
       this.isReady = false;
@@ -846,17 +846,17 @@ export default {
         text: null,
         time: null,
         idx: null,
-        values: []
+        values: [],
       };
       this.valueDialog = {
         show: false,
         text: "",
-        time: 0
+        time: 0,
       };
       this.tierDialog = {
         show: false,
         name: "",
-        type: "interval"
+        type: "interval",
       };
       this.tabs = [];
       if (file) {
@@ -867,52 +867,52 @@ export default {
         });
       }
     },
-    onZoomEnd: function(val) {
+    onZoomEnd: function (val) {
       this.$refs.wavesurfer.zoom(Number(val) * 100);
     },
-    onReady: function() {
+    onReady: function () {
       this.isReady = true;
       this.snackbar.text = "on ready";
       this.snackbar.show = true;
     },
-    onError: function(e) {
+    onError: function (e) {
       this.snackbar.text = `error: ${e.message}`;
       this.snackbar.show = true;
     },
-    onPlay: function() {
+    onPlay: function () {
       this.snackbar.text = "on play";
       this.snackbar.show = true;
     },
-    onPause: function() {
+    onPause: function () {
       this.snackbar.text = "on pause";
       this.snackbar.show = true;
     },
-    onDestroy: function() {
+    onDestroy: function () {
       this.snackbar.text = "on destroy";
       this.snackbar.show = true;
     },
-    onDblclick: function(obj) {
+    onDblclick: function (obj) {
       const key = obj.key;
       const item = {
         time: obj.time,
-        text: ""
+        text: "",
       };
       this.$refs.wavesurfer.addTierValue(key, item);
     },
-    onClick: function(obj) {
+    onClick: function (obj) {
       if (obj.item) {
         this.current.key = obj.key;
         this.current.text = obj.item.text;
         this.current.time = obj.item.time;
       }
     },
-    onTextGridUpdate: function(textgrid) {
+    onTextGridUpdate: function (textgrid) {
       this.textgrid = textgrid;
       this.tabs = Object.keys(this.textgrid);
     },
-    onTextGridCurrentUpdate: function(current) {
+    onTextGridCurrentUpdate: function (current) {
       this.current.key = current.key;
-      const tabIdx = this.tabs.findIndex(x => {
+      const tabIdx = this.tabs.findIndex((x) => {
         return x == current.key;
       });
       if (tabIdx > -1) {
@@ -926,9 +926,9 @@ export default {
         this.current.time = 0;
         this.current.text = "";
       }
-    }
+    },
   },
-  mounted: function() {
+  mounted: function () {
     this.source = null;
     this.textgrid = {};
     this.isReady = false;
@@ -939,20 +939,20 @@ export default {
       text: null,
       time: null,
       idx: null,
-      values: []
+      values: [],
     };
     this.valueDialog = {
       show: false,
       text: "",
-      time: 0
+      time: 0,
     };
     this.tierDialog = {
       show: false,
       name: "",
-      type: "interval"
+      type: "interval",
     };
     this.tabs = [];
-  }
+  },
 };
 </script>
 <style scoped></style>

@@ -49,13 +49,13 @@ export default class ElanPlugin {
       name: "elan",
       deferInit: params && params.deferInit ? params.deferInit : false,
       params: params,
-      instance: ElanPlugin
+      instance: ElanPlugin,
     };
   }
 
   Types = {
     ALIGNABLE_ANNOTATION: "ALIGNABLE_ANNOTATION",
-    REF_ANNOTATION: "REF_ANNOTATION"
+    REF_ANNOTATION: "REF_ANNOTATION",
   };
 
   /* eslint-disable  no-unused-vars */
@@ -87,7 +87,7 @@ export default class ElanPlugin {
   }
 
   load(url) {
-    this.loadXML(url, xml => {
+    this.loadXML(url, (xml) => {
       this.data = this.parseElan(xml);
       this.render();
       this.fireEvent("ready", this.data);
@@ -99,7 +99,7 @@ export default class ElanPlugin {
     xhr.open("GET", url, true);
     xhr.responseType = "document";
     xhr.send();
-    xhr.addEventListener("load", e => {
+    xhr.addEventListener("load", (e) => {
       callback && callback(e.target.responseXML);
     });
   }
@@ -113,7 +113,7 @@ export default class ElanPlugin {
       timeOrder: {},
       tiers: [],
       annotations: {},
-      alignableAnnotations: []
+      alignableAnnotations: [],
     };
 
     const header = xml.querySelector("HEADER");
@@ -124,7 +124,7 @@ export default class ElanPlugin {
 
     const timeSlots = xml.querySelectorAll("TIME_ORDER TIME_SLOT");
     const timeOrder = {};
-    _forEach.call(timeSlots, slot => {
+    _forEach.call(timeSlots, (slot) => {
       let value = parseFloat(slot.getAttribute("TIME_VALUE"));
       // If in milliseconds, convert to seconds with rounding
       if (inMilliseconds) {
@@ -133,18 +133,18 @@ export default class ElanPlugin {
       timeOrder[slot.getAttribute("TIME_SLOT_ID")] = value;
     });
 
-    data.tiers = _map.call(xml.querySelectorAll("TIER"), tier => ({
+    data.tiers = _map.call(xml.querySelectorAll("TIER"), (tier) => ({
       id: tier.getAttribute("TIER_ID"),
       linguisticTypeRef: tier.getAttribute("LINGUISTIC_TYPE_REF"),
       defaultLocale: tier.getAttribute("DEFAULT_LOCALE"),
       annotations: _map.call(
         tier.querySelectorAll("REF_ANNOTATION, ALIGNABLE_ANNOTATION"),
-        node => {
+        (node) => {
           const annot = {
             type: node.nodeName,
             id: node.getAttribute("ANNOTATION_ID"),
             ref: node.getAttribute("ANNOTATION_REF"),
-            value: node.querySelector("ANNOTATION_VALUE").textContent.trim()
+            value: node.querySelector("ANNOTATION_VALUE").textContent.trim(),
           };
 
           if (this.Types.ALIGNABLE_ANNOTATION == annot.type) {
@@ -160,12 +160,12 @@ export default class ElanPlugin {
 
           return annot;
         }
-      )
+      ),
     }));
 
     // Create JavaScript references between annotations
-    data.tiers.forEach(tier => {
-      tier.annotations.forEach(annot => {
+    data.tiers.forEach((tier) => {
+      tier.annotations.forEach((annot) => {
         if (null != annot.ref) {
           annot.reference = data.annotations[annot.ref];
         }
@@ -190,14 +190,14 @@ export default class ElanPlugin {
     // apply tiers filter
     let tiers = this.data.tiers;
     if (this.params.tiers) {
-      tiers = tiers.filter(tier => tier.id in this.params.tiers);
+      tiers = tiers.filter((tier) => tier.id in this.params.tiers);
     }
 
     // denormalize references to alignable annotations
     const backRefs = {};
     let indeces = {};
     tiers.forEach((tier, index) => {
-      tier.annotations.forEach(annot => {
+      tier.annotations.forEach((annot) => {
         if (
           annot.reference &&
           annot.reference.type == this.Types.ALIGNABLE_ANNOTATION
@@ -213,7 +213,7 @@ export default class ElanPlugin {
     indeces = Object.keys(indeces).sort();
 
     this.renderedAlignable = this.data.alignableAnnotations.filter(
-      alignable => backRefs[alignable.id]
+      (alignable) => backRefs[alignable.id]
     );
 
     // table
@@ -229,7 +229,7 @@ export default class ElanPlugin {
     th.textContent = "Time";
     th.className = "wavesurfer-time";
     headRow.appendChild(th);
-    indeces.forEach(index => {
+    indeces.forEach((index) => {
       const tier = tiers[index];
       const th = document.createElement("th");
       th.className = "wavesurfer-tier-" + tier.id;
@@ -243,7 +243,7 @@ export default class ElanPlugin {
     // body
     const tbody = document.createElement("tbody");
     table.appendChild(tbody);
-    this.renderedAlignable.forEach(alignable => {
+    this.renderedAlignable.forEach((alignable) => {
       const row = document.createElement("tr");
       row.id = "wavesurfer-alignable-" + alignable.id;
       tbody.appendChild(row);
@@ -255,7 +255,7 @@ export default class ElanPlugin {
       row.appendChild(td);
 
       const backRef = backRefs[alignable.id];
-      indeces.forEach(index => {
+      indeces.forEach((index) => {
         const tier = tiers[index];
         const td = document.createElement("td");
         const annotation = backRef[index];
@@ -276,7 +276,7 @@ export default class ElanPlugin {
   }
 
   bindClick() {
-    this._onClick = e => {
+    this._onClick = (e) => {
       const ref = e.target.dataset.ref;
       if (null != ref) {
         const annot = this.data.annotations[ref];
@@ -290,7 +290,7 @@ export default class ElanPlugin {
 
   getRenderedAnnotation(time) {
     let result;
-    this.renderedAlignable.some(annotation => {
+    this.renderedAlignable.some((annotation) => {
       if (annotation.start <= time && annotation.end >= time) {
         result = annotation;
         return true;

@@ -362,7 +362,7 @@ export default class CanvasEntry {
    */
   getImage(format, quality, type) {
     if (type === "blob") {
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         this.wave.toBlob(resolve, format, quality);
       });
     } else if (type === "dataURL") {

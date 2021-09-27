@@ -27,7 +27,7 @@ export default class MediaElement extends WebAudio {
       playbackRate: 1,
       play() {},
       pause() {},
-      volume: 0
+      volume: 0,
     };
 
     /** @private */
@@ -81,13 +81,13 @@ export default class MediaElement extends WebAudio {
     };
 
     /* eslint-disable  no-unused-vars*/
-    this.mediaListeners.seeked = event => {
+    this.mediaListeners.seeked = (event) => {
       this.fireEvent("seek");
     };
     /* eslint-enable */
 
     /* eslint-disable  no-unused-vars*/
-    this.mediaListeners.volumechange = event => {
+    this.mediaListeners.volumechange = (event) => {
       this.isMuted = this.media.muted;
       if (this.isMuted) {
         this.volume = 0;
@@ -99,7 +99,7 @@ export default class MediaElement extends WebAudio {
     /* eslint-enable */
 
     // reset event listeners
-    Object.keys(this.mediaListeners).forEach(id => {
+    Object.keys(this.mediaListeners).forEach((id) => {
       this.media.removeEventListener(id, this.mediaListeners[id]);
       this.media.addEventListener(id, this.mediaListeners[id]);
     });
@@ -338,7 +338,7 @@ export default class MediaElement extends WebAudio {
    */
   setPlayEnd(end) {
     this.clearPlayEnd();
-    this._onPlayEnd = time => {
+    this._onPlayEnd = (time) => {
       if (time >= end) {
         this.pause();
         this.seekTo(end);
@@ -436,7 +436,7 @@ export default class MediaElement extends WebAudio {
     this.destroyed = true;
 
     // cleanup media event listeners
-    Object.keys(this.mediaListeners).forEach(id => {
+    Object.keys(this.mediaListeners).forEach((id) => {
       if (this.media) {
         this.media.removeEventListener(id, this.mediaListeners[id]);
       }

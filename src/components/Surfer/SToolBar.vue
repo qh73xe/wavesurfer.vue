@@ -50,8 +50,8 @@ export default {
     SDownloadList,
     SViewList,
     SMTierList,
-    SMRecordList
-  }
+    SMRecordList,
+  },
 };
 </script>
 

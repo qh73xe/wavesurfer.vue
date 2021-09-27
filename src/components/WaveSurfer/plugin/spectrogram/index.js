@@ -69,9 +69,9 @@ export default class SpectrogramPlugin {
       deferInit: params && params.deferInit ? params.deferInit : false,
       params: params,
       staticProps: {
-        FFT: FFT
+        FFT: FFT,
       },
-      instance: SpectrogramPlugin
+      instance: SpectrogramPlugin,
     };
   }
 
@@ -85,10 +85,10 @@ export default class SpectrogramPlugin {
     this._onRender = () => {
       this.render();
     };
-    this._onWrapperScroll = e => {
+    this._onWrapperScroll = (e) => {
       this._wrapperScrollHandler(e);
     };
-    this._onWrapperClick = e => {
+    this._onWrapperClick = (e) => {
       this._wrapperClickHandler(e, ws);
     };
     this._onReady = () => {
@@ -134,11 +134,11 @@ export default class SpectrogramPlugin {
       this.render();
       drawer.wrapper.addEventListener("scroll", this._onWrapperScroll);
       ws.on("redraw", this._onRender);
-      ws.backend.on("audioprocess", time => {
+      ws.backend.on("audioprocess", (time) => {
         this.currentTime = time;
         this.setCursorTime();
       });
-      ws.on("seek", progress => {
+      ws.on("seek", (progress) => {
         const time = progress * this.wavesurfer.getDuration();
         this.currentTime = time;
         this.setCursorTime();
@@ -192,7 +192,7 @@ export default class SpectrogramPlugin {
         position: "absolute",
         zIndex: 4,
         height: `${canvasHeight}px`,
-        width: `${55 / this.pixelRatio}px`
+        width: `${55 / this.pixelRatio}px`,
       });
       this.wrapper.appendChild(labelsEl);
     }
@@ -207,7 +207,7 @@ export default class SpectrogramPlugin {
       zIndex: 3,
       height: `${canvasHeight}px`,
       width: `${cursorWidth}px`,
-      borderLeft: `${cursorWidth}px dashed ${this.wavesurfer.params.cursorColor}`
+      borderLeft: `${cursorWidth}px dashed ${this.wavesurfer.params.cursorColor}`,
     });
     this.wrapper.appendChild(cursorEl);
 
@@ -217,14 +217,14 @@ export default class SpectrogramPlugin {
       position: "relative",
       userSelect: "none",
       webkitUserSelect: "none",
-      height: `${canvasHeight}px`
+      height: `${canvasHeight}px`,
     });
 
     if (wsParams.fillParent || wsParams.scrollParent) {
       this.drawer.style(this.wrapper, {
         width: "100%",
         overflowX: "hidden",
-        overflowY: "hidden"
+        overflowY: "hidden",
       });
     }
     this.container.appendChild(this.wrapper);
@@ -257,7 +257,7 @@ export default class SpectrogramPlugin {
 
     this.util.style(canvas, {
       position: "absolute",
-      zIndex: 2
+      zIndex: 2,
     });
   }
 
@@ -319,8 +319,9 @@ export default class SpectrogramPlugin {
     for (i = 0; i < pixels.length; i++) {
       for (j = 0; j < Math.round(pixels[i].length * freqRate); j++) {
         const colorMap = vm.colorMap[pixels[i][j]];
-        vm.spectrCc.fillStyle = `rgba(${colorMap[0] * 256}, ${colorMap[1] *
-          256}, ${colorMap[2] * 256}, ${colorMap[3]})`;
+        vm.spectrCc.fillStyle = `rgba(${colorMap[0] * 256}, ${
+          colorMap[1] * 256
+        }, ${colorMap[2] * 256}, ${colorMap[3]})`;
         vm.spectrCc.fillRect(
           Math.round(i * widthFactor),
           Math.round(height - j * (heightFactor / freqRate)),
@@ -368,7 +369,7 @@ export default class SpectrogramPlugin {
         currentOffset + fftSamples
       );
       const spectrum = await fft.async_calculateSpectrum(segment);
-      const array = spectrum.slice(0, Math.round(fftSamples / 2)).map(x => {
+      const array = spectrum.slice(0, Math.round(fftSamples / 2)).map((x) => {
         return Math.max(-255, Math.log10(x) * 45);
       });
       this.frequencies.push(array);
@@ -379,8 +380,10 @@ export default class SpectrogramPlugin {
 
   loadFrequenciesData(url) {
     const request = this.util.fetchFile({ url: url });
-    request.on("success", data => this.drawSpectrogram(JSON.parse(data), this));
-    request.on("error", e => this.fireEvent("error", e));
+    request.on("success", (data) =>
+      this.drawSpectrogram(JSON.parse(data), this)
+    );
+    request.on("error", (e) => this.fireEvent("error", e));
     return request;
   }
 

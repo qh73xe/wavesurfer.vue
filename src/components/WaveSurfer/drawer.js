@@ -60,14 +60,14 @@ export default class Drawer extends util.Observer {
       position: "relative",
       userSelect: "none",
       webkitUserSelect: "none",
-      height: this.params.height + "px"
+      height: this.params.height + "px",
     });
 
     if (this.params.fillParent || this.params.scrollParent) {
       this.style(this.wrapper, {
         width: "100%",
         overflowX: this.params.hideScrollbar ? "hidden" : "auto",
-        overflowY: "hidden"
+        overflowY: "hidden",
       });
     }
 
@@ -106,7 +106,7 @@ export default class Drawer extends util.Observer {
   }
 
   setupWrapperEvents() {
-    this.wrapper.addEventListener("click", e => {
+    this.wrapper.addEventListener("click", (e) => {
       const scrollbarHeight =
         this.wrapper.offsetHeight - this.wrapper.clientHeight;
       if (scrollbarHeight !== 0) {
@@ -123,13 +123,13 @@ export default class Drawer extends util.Observer {
       }
     });
 
-    this.wrapper.addEventListener("dblclick", e => {
+    this.wrapper.addEventListener("dblclick", (e) => {
       if (this.params.interact) {
         this.fireEvent("dblclick", e, this.handleEvent(e));
       }
     });
 
-    this.wrapper.addEventListener("scroll", e => this.fireEvent("scroll", e));
+    this.wrapper.addEventListener("scroll", (e) => this.fireEvent("scroll", e));
   }
 
   /**
@@ -263,11 +263,11 @@ export default class Drawer extends util.Observer {
 
     if (this.params.fillParent || this.params.scrollParent) {
       this.style(this.wrapper, {
-        width: ""
+        width: "",
       });
     } else {
       this.style(this.wrapper, {
-        width: ~~(this.width / this.params.pixelRatio) + "px"
+        width: ~~(this.width / this.params.pixelRatio) + "px",
       });
     }
 
@@ -288,7 +288,7 @@ export default class Drawer extends util.Observer {
     this.height = height;
 
     this.style(this.wrapper, {
-      height: ~~(this.height / this.params.pixelRatio) + "px"
+      height: ~~(this.height / this.params.pixelRatio) + "px",
     });
 
     this.updateSize();

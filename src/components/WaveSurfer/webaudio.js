@@ -29,7 +29,7 @@ export default class WebAudio extends util.Observer {
       },
       getCurrentTime() {
         return this.startPosition + this.getPlayedTime();
-      }
+      },
     },
     [PAUSED]: {
       init() {
@@ -41,7 +41,7 @@ export default class WebAudio extends util.Observer {
       },
       getCurrentTime() {
         return this.startPosition;
-      }
+      },
     },
     [FINISHED]: {
       init() {
@@ -53,8 +53,8 @@ export default class WebAudio extends util.Observer {
       },
       getCurrentTime() {
         return this.getDuration();
-      }
-    }
+      },
+    },
   };
 
   /**
@@ -117,7 +117,7 @@ export default class WebAudio extends util.Observer {
     this.states = {
       [PLAYING]: Object.create(this.stateBehaviors[PLAYING]),
       [PAUSED]: Object.create(this.stateBehaviors[PAUSED]),
-      [FINISHED]: Object.create(this.stateBehaviors[FINISHED])
+      [FINISHED]: Object.create(this.stateBehaviors[FINISHED]),
     };
     /** @private */
     this.buffer = null;
@@ -167,7 +167,7 @@ export default class WebAudio extends util.Observer {
   /** @private */
   disconnectFilters() {
     if (this.filters) {
-      this.filters.forEach(filter => {
+      this.filters.forEach((filter) => {
         filter && filter.disconnect();
       });
       this.filters = null;
@@ -351,13 +351,13 @@ export default class WebAudio extends util.Observer {
     if ("AudioContext" in window) {
       this.offlineAc
         .decodeAudioData(arraybuffer)
-        .then(data => callback(data))
-        .catch(err => errback(err));
+        .then((data) => callback(data))
+        .catch((err) => errback(err));
     } else {
       // Safari: no support for Promise-based decodeAudioData yet
       this.offlineAc.decodeAudioData(
         arraybuffer,
-        data => callback(data),
+        (data) => callback(data),
         errback
       );
     }
@@ -647,7 +647,7 @@ export default class WebAudio extends util.Observer {
 
     return {
       start: start,
-      end: end
+      end: end,
     };
   }
 

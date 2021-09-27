@@ -38,7 +38,7 @@ export default {
   name: "surfer",
   components: {
     SToolBar,
-    WaveSurfer
+    WaveSurfer,
   },
   data: () => ({
     isReady: false,
@@ -52,24 +52,24 @@ export default {
       record: {
         text: "",
         time: 0,
-        idx: 0
+        idx: 0,
       },
       tier: {
-        values: []
-      }
+        values: [],
+      },
     },
     zoom: 1,
-    tab: null
+    tab: null,
   }),
   methods: {
-    initCurrent: function() {
+    initCurrent: function () {
       this.current.key = "";
       this.current.record.text = "";
       this.current.record.time = 0;
       this.current.record.idx = 0;
       this.current.tier.values = [];
     },
-    initData: function() {
+    initData: function () {
       this.source = null;
       this.textgrid = {};
       this.isReady = false;
@@ -93,8 +93,8 @@ export default {
           this.loadAudio($event.files[0]);
         }
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

@@ -61,7 +61,7 @@ export default class CursorPlugin {
       deferInit: params && params.deferInit ? params.deferInit : false,
       params: params,
       staticProps: {},
-      instance: CursorPlugin
+      instance: CursorPlugin,
     };
   }
 
@@ -79,13 +79,13 @@ export default class CursorPlugin {
     customShowTimeStyle: {},
     showTime: false,
     followCursorY: false,
-    formatTimeCallback: null
+    formatTimeCallback: null,
   };
 
   /**
    * @param {object} e Mouse move event
    */
-  _onMousemove = e => {
+  _onMousemove = (e) => {
     const bbox = this.wavesurfer.container.getBoundingClientRect();
     let y = 0;
     let x = e.clientX - bbox.left;
@@ -162,7 +162,7 @@ export default class CursorPlugin {
             borderRightWidth: this.params.width,
             borderRightColor: this.params.color,
             opacity: this.params.opacity,
-            pointerEvents: "none"
+            pointerEvents: "none",
           },
           this.params.customStyle
         )
@@ -183,7 +183,7 @@ export default class CursorPlugin {
               display: "flex",
               opacity: this.params.opacity,
               pointerEvents: "none",
-              height: "100%"
+              height: "100%",
             },
             this.params.customStyle
           )
@@ -197,7 +197,7 @@ export default class CursorPlugin {
               display: "inline",
               pointerEvents: "none",
               margin: "auto",
-              visibility: "hidden" // initial value will be hidden just for measuring purpose
+              visibility: "hidden", // initial value will be hidden just for measuring purpose
             },
             this.params.customShowTimeStyle
           )
@@ -240,7 +240,7 @@ export default class CursorPlugin {
    */
   updateCursorPosition(xpos, ypos, flip = false) {
     this.style(this.cursor, {
-      left: `${xpos}px`
+      left: `${xpos}px`,
     });
     if (this.params.showTime) {
       const duration = this.wavesurfer.getDuration();
@@ -260,10 +260,10 @@ export default class CursorPlugin {
       }
       this.style(this.showTime, {
         left: `${xpos}px`,
-        top: `${ypos}px`
+        top: `${ypos}px`,
       });
       this.style(this.displayTime, {
-        visibility: "visible"
+        visibility: "visible",
       });
       this.displayTime.innerHTML = `${formatValue}`;
     }
@@ -274,11 +274,11 @@ export default class CursorPlugin {
    */
   showCursor() {
     this.style(this.cursor, {
-      display: "flex"
+      display: "flex",
     });
     if (this.params.showTime) {
       this.style(this.showTime, {
-        display: "flex"
+        display: "flex",
       });
     }
   }
@@ -288,11 +288,11 @@ export default class CursorPlugin {
    */
   hideCursor() {
     this.style(this.cursor, {
-      display: "none"
+      display: "none",
     });
     if (this.params.showTime) {
       this.style(this.showTime, {
-        display: "none"
+        display: "none",
       });
     }
   }
@@ -309,11 +309,11 @@ export default class CursorPlugin {
     if (this.params.formatTimeCallback) {
       return this.params.formatTimeCallback(cursorTime);
     }
-    return [cursorTime].map(time =>
+    return [cursorTime].map((time) =>
       [
         Math.floor((time % 3600) / 60), // minutes
         ("00" + Math.floor(time % 60)).slice(-2), // seconds
-        ("000" + Math.floor((time % 1) * 1000)).slice(-3) // milliseconds
+        ("000" + Math.floor((time % 1) * 1000)).slice(-3), // milliseconds
       ].join(":")
     );
   }

@@ -2,7 +2,7 @@ export default {
   namespaced: true,
   state: () => ({
     drawer: false,
-    search: ""
+    search: "",
   }),
   mutations: {
     set_drawer(state, val) {
@@ -10,7 +10,7 @@ export default {
     },
     set_search(state, val) {
       state.search = val;
-    }
+    },
   },
-  actions: {}
+  actions: {},
 };

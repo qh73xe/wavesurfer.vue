@@ -24,26 +24,26 @@ export default {
   name: "w-example-demo-card-actions",
   props: {
     ws: {
-      type: Object
-    }
+      type: Object,
+    },
   },
   methods: {
-    play: function() {
+    play: function () {
       if (this.ws) this.ws.play();
     },
-    pause: function() {
+    pause: function () {
       if (this.ws) this.ws.pause();
     },
-    playPause: function() {
+    playPause: function () {
       if (this.ws) this.ws.playPause();
     },
-    skipBackward: function() {
+    skipBackward: function () {
       if (this.ws) this.ws.skipBackward();
     },
-    skipForward: function() {
+    skipForward: function () {
       if (this.ws) this.ws.skipForward();
-    }
-  }
+    },
+  },
 };
 </script>
 

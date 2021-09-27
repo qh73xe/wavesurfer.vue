@@ -52,7 +52,7 @@ export default {
     WExampleLayout,
     WExampleDemoCard,
     WExampleDemoCardActions,
-    WaveSurfer
+    WaveSurfer,
   },
   data: () => ({
     locale: locale,
@@ -61,7 +61,7 @@ export default {
     desc: "How to show the audio time line.",
     snackbar: {
       show: false,
-      text: ""
+      text: "",
     },
     template: `
     <v-card class="mx-auto">
@@ -165,10 +165,10 @@ export default {
     };
     `,
     source: null,
-    isReady: false
+    isReady: false,
   }),
   methods: {
-    onFileChange: function(file) {
+    onFileChange: function (file) {
       this.source = null;
       if (file) {
         const fr = new FileReader();
@@ -178,24 +178,24 @@ export default {
         });
       }
     },
-    onReady: function() {
+    onReady: function () {
       this.isReady = true;
       this.snackbar.text = "on ready";
       this.snackbar.show = true;
     },
-    onPlay: function() {
+    onPlay: function () {
       this.snackbar.text = "on play";
       this.snackbar.show = true;
     },
-    onPause: function() {
+    onPause: function () {
       this.snackbar.text = "on pause";
       this.snackbar.show = true;
     },
-    onDestroy: function() {
+    onDestroy: function () {
       this.snackbar.text = "on destroy";
       this.snackbar.show = true;
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped></style>

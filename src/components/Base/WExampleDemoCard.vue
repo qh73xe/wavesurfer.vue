@@ -23,9 +23,9 @@ export default {
   props: {
     title: {
       type: String,
-      default: "wave-surfer-demo"
-    }
-  }
+      default: "wave-surfer-demo",
+    },
+  },
 };
 </script>
 

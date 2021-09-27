@@ -57,15 +57,15 @@ export default {
       { icon: "mdi-code-array", text: "Surfer", name: "Surfer" },
       { icon: "mdi-help-circle", text: "About", name: "About" },
       { icon: "mdi-file-document", text: "Document", children: [] },
-      { icon: "mdi-xml", text: "Example", children: [] }
-    ]
+      { icon: "mdi-xml", text: "Example", children: [] },
+    ],
   }),
   methods: {
-    to: function(name) {
+    to: function (name) {
       if (name != this.$route.name) {
         this.$router.push({ name: name });
       }
-    }
+    },
   },
   computed: {
     drawer: {
@@ -74,10 +74,10 @@ export default {
       },
       set(val) {
         this.$store.commit("app_bar/set_drawer", val);
-      }
-    }
+      },
+    },
   },
-  mounted: function() {
+  mounted: function () {
     for (const item of this.$router.options.routes) {
       if (item.name.match(/docs-/)) {
         this.items[3].children.push(item);
@@ -85,7 +85,7 @@ export default {
         this.items[4].children.push(item);
       }
     }
-  }
+  },
 };
 </script>
 

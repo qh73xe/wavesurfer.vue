@@ -32,18 +32,18 @@
 export default {
   name: "w-example-help-dialog",
   data: () => ({
-    dialog: false
+    dialog: false,
   }),
   props: {
     icon: {
       type: Boolean,
-      default: true
+      default: true,
     },
     width: {
       type: String,
-      default: "600px"
-    }
-  }
+      default: "600px",
+    },
+  },
 };
 </script>
 

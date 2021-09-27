@@ -1,20 +1,12 @@
 import Vue from "vue";
-import Vuetify from "vuetify/lib";
-import ja from "@/locale/ja.ts";
-import en from "@/locale/en.ts";
+import Vuetify from "vuetify/lib/framework";
 
 Vue.use(Vuetify);
-Vue.component("my-component", {
-  methods: {
-    changeLocale() {
-      this.$vuetify.lang.current = "ja";
-    }
-  }
-});
 
-export default new Vuetify({
+export const options = {
   lang: {
-    locales: { ja, en },
-    current: "ja"
-  }
-});
+    current: "ja",
+  },
+};
+
+export default new Vuetify(options);

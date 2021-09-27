@@ -52,7 +52,7 @@ export default {
       },
       set(val) {
         this.$store.commit("app_bar/set_drawer", val);
-      }
+      },
     },
     search: {
       get() {
@@ -60,9 +60,9 @@ export default {
       },
       set(val) {
         this.$store.commit("app_bar/set_search", val);
-      }
-    }
-  }
+      },
+    },
+  },
 };
 </script>
 

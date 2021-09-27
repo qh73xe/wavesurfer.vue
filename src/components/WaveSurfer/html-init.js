@@ -81,7 +81,7 @@ class Init {
         // usable with native media element controls
         defaults: {
           backend: "MediaElement",
-          mediaControls: true
+          mediaControls: true,
         },
         // containers to instantiate on, can be selector string or NodeList
         containers: "wavesurfer",
@@ -101,7 +101,7 @@ class Init {
             }
             cb(window.WaveSurfer[name]);
           });
-        }
+        },
       },
       params
     ));
@@ -130,7 +130,7 @@ class Init {
    */
   initAllEls() {
     // iterate over all the container elements
-    Array.prototype.forEach.call(this.containers, el => {
+    Array.prototype.forEach.call(this.containers, (el) => {
       // load the plugins as an array of plugin names
       const plugins = el.dataset.plugins ? el.dataset.plugins.split(",") : [];
 
@@ -142,7 +142,7 @@ class Init {
       plugins.forEach((name, i) => {
         // plugin is not cached already, load it
         if (!this.pluginCache[name]) {
-          this.params.loadPlugin(name, lib => {
+          this.params.loadPlugin(name, (lib) => {
             this.pluginCache[name] = lib;
             // plugins were all loaded, render the element
             if (i + 1 === plugins.length) {
@@ -167,7 +167,7 @@ class Init {
   initEl(el, plugins = []) {
     const jsonRegex = /^[[|{]/;
     // initialize plugins with the correct options
-    const initialisedPlugins = plugins.map(plugin => {
+    const initialisedPlugins = plugins.map((plugin) => {
       const options = {};
       // the regex to find this plugin attributes
       const attrNameRegex = new RegExp("^" + plugin);

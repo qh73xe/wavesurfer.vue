@@ -7,9 +7,9 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     app_name: "wavesurfer.vue",
-    github: "https://github.com/qh73xe/wavesurfer.vue"
+    github: "https://github.com/qh73xe/wavesurfer.vue",
   },
   mutations: {},
   actions: {},
-  modules: { app_bar: AppBar }
+  modules: { app_bar: AppBar },
 });

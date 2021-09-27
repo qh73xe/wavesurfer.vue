@@ -48,19 +48,19 @@ export default {
     audioChunks: [],
     audioUrl: null,
     isSpectrogramRendering: false,
-    isMouseEntered: false
+    isMouseEntered: false,
   }),
   props: {
     flat: {
       type: Boolean,
-      default: false
+      default: false,
     },
     tile: {
       type: Boolean,
-      default: false
+      default: false,
     },
     source: {
-      validator: function(value) {
+      validator: function (value) {
         const value_type = typeof value;
         if (value_type == "string") {
           return true;
@@ -74,118 +74,118 @@ export default {
         }
         return false;
       },
-      default: ""
+      default: "",
     },
     showTextGrid: {
       type: Boolean,
-      default: false
+      default: false,
     },
     showTimeLine: {
       type: Boolean,
-      default: false
+      default: false,
     },
     showPointLine: {
       type: Boolean,
-      default: false
+      default: false,
     },
     showSpectrogram: {
       type: Boolean,
-      default: false
+      default: false,
     },
     showFreqLabel: {
       type: Boolean,
-      default: false
+      default: false,
     },
     rec: {
       type: Boolean,
-      default: false
+      default: false,
     },
     audioRate: {
       type: Number,
-      default: 1
+      default: 1,
     },
     audioContext: {
       type: Object,
-      default: () => {}
+      default: () => {},
     },
     audioScriptProcessor: {
       type: Object,
-      default: () => {}
+      default: () => {},
     },
     autoCenter: {
       type: Boolean,
-      default: true
+      default: true,
     },
     backend: {
       type: String,
-      default: "WebAudio"
+      default: "WebAudio",
     },
     backgroundColor: {
       type: String,
-      default: ""
+      default: "",
     },
     barGap: {
-      validator: prop => typeof prop === "number" || prop === null,
-      default: null
+      validator: (prop) => typeof prop === "number" || prop === null,
+      default: null,
     },
     barHeight: {
       type: Number,
-      default: 1
+      default: 1,
     },
     barMinHeight: {
-      validator: prop => typeof prop === "number" || prop === null,
-      default: null
+      validator: (prop) => typeof prop === "number" || prop === null,
+      default: null,
     },
     barRadius: {
       type: Number,
-      default: 0
+      default: 0,
     },
     barWidth: {
-      validator: prop => typeof prop === "number" || prop === null,
-      default: null
+      validator: (prop) => typeof prop === "number" || prop === null,
+      default: null,
     },
     closeAudioContext: {
       type: Boolean,
-      default: false
+      default: false,
     },
     cursorColor: {
       type: String,
-      default: "#333"
+      default: "#333",
     },
     cursorWidth: {
       type: Number,
-      default: 1
+      default: 1,
     },
     duration: {
-      validator: prop => typeof prop === "number" || prop === null,
-      default: null
+      validator: (prop) => typeof prop === "number" || prop === null,
+      default: null,
     },
     drawingContextAttributes: {
       type: Object,
-      default: function() {
+      default: function () {
         return { desynchronized: true };
-      }
+      },
     },
     fillParent: {
       type: Boolean,
-      default: true
+      default: true,
     },
     forceDecode: {
       type: Boolean,
-      default: false
+      default: false,
     },
     height: {
       type: Number,
-      default: function() {
+      default: function () {
         if (this.showSpectrogram) {
           return 64;
         }
         return 128;
-      }
+      },
     },
     hideScrollbar: {
       type: Boolean,
-      default: false
+      default: false,
     },
     interact: { type: Boolean, default: true },
     loopSelection: { type: Boolean, default: true },
@@ -200,7 +200,7 @@ export default {
     removeMediaElementOnDestroy: { type: Boolean, default: true },
     responsive: {
       type: Boolean,
-      default: false
+      default: false,
     },
     scrollParent: { type: Boolean, default: false },
     skipLength: { type: Number, default: 2 },
@@ -209,25 +209,25 @@ export default {
     waveColor: { type: String, default: "#999" },
     xhr: {
       type: Object,
-      default: function() {
+      default: function () {
         return {};
-      }
+      },
     },
     // Spectrogram Plugin
     freqRate: {
       type: Number,
-      default: 1
+      default: 1,
     },
     freqFontSize: {
       type: Number,
-      default: 12
+      default: 12,
     },
     unitFontSize: {
       type: Number,
-      default: 10
+      default: 10,
     },
     spectrogramMaxHeight: {
-      validator: function(value) {
+      validator: function (value) {
         if (value == null) return true;
         if (typeof value == "string") {
           if (~value.indexOf("px")) return true;
@@ -236,16 +236,16 @@ export default {
         }
         return false;
       },
-      default: "100%"
+      default: "100%",
     },
     spectrogramHeight: {
       type: Number,
-      default: 256
+      default: 256,
     },
     // Point Plugin
     pointWidth: { type: Number, default: 1 },
     points: {
-      validator: function(value) {
+      validator: function (value) {
         if (Array.isArray(value)) {
           for (const obj of value) {
             if (!("time" in obj)) return false;
@@ -255,11 +255,11 @@ export default {
         }
         return false;
       },
-      default: () => []
+      default: () => [],
     },
     // TextGrid Plugin
     textgridMaxHeight: {
-      validator: function(value) {
+      validator: function (value) {
         if (value == null) return true;
         if (typeof value == "string") {
           if (~value.indexOf("px")) return true;
@@ -268,12 +268,12 @@ export default {
         }
         return false;
       },
-      default: "100%"
+      default: "100%",
     },
     playingOffset: {
       type: Number,
-      default: 1
-    }
+      default: 1,
+    },
   },
   watch: {
     source(val, old_val) {
@@ -422,10 +422,10 @@ export default {
           this.wavesurfer.destroyPlugin(this.spectrogram.name);
         }
       }
-    }
+    },
   },
   methods: {
-    initWaveSurferEvent: function() {
+    initWaveSurferEvent: function () {
       if (this.wavesurfer) {
         this.wavesurfer.on("audioprocess", this.onAudioprocess);
         this.wavesurfer.on("dblclick", this.onDblClick);
@@ -444,7 +444,7 @@ export default {
         this.wavesurfer.on("zoom", this.onZoom);
       }
     },
-    initRecOptions: function(options) {
+    initRecOptions: function (options) {
       if (this.rec) {
         const isSafari = /^((?!chrome|android).)*safari/i.test(
           navigator.userAgent
@@ -452,26 +452,23 @@ export default {
         if (isSafari) {
           const AudioContext = window.AudioContext || window.webkitAudioContext;
           options.audioContext = new AudioContext();
-          options.audioScriptProcessor = this.audioContext.createScriptProcessor(
-            1024,
-            1,
-            1
-          );
+          options.audioScriptProcessor =
+            this.audioContext.createScriptProcessor(1024, 1, 1);
         }
         options.cursorWidth = 0;
         options.interact = false;
       }
       return options;
     },
-    initTileLinePlugin: function() {
+    initTileLinePlugin: function () {
       if (this.showTimeLine) {
         this.timeline = Timeline.create({
-          container: this.$refs.timeline
+          container: this.$refs.timeline,
         });
         this.wavesurfer.addPlugin(this.timeline).initPlugin("timeline");
       }
     },
-    initSpectrogramPlugin: function() {
+    initSpectrogramPlugin: function () {
       if (this.showSpectrogram) {
         this.spectrogram = Spectrogram.create({
           labels: this.showFreqLabel,
@@ -480,7 +477,7 @@ export default {
           freqFontSize: this.freqFontSize,
           unitFontSize: this.unitFontSize,
           targetChannel: this.targetChannel,
-          container: this.$refs.spectrogram
+          container: this.$refs.spectrogram,
         });
         this.wavesurfer.addPlugin(this.spectrogram).initPlugin("spectrogram");
         this.wavesurfer.on(
@@ -493,11 +490,11 @@ export default {
         );
       }
     },
-    initTextGridPlugin: function() {
+    initTextGridPlugin: function () {
       if (this.showTextGrid) {
         this.textgrid = Textgrid.create({
           container: this.$refs.textgrid,
-          playingOffset: this.playingOffset
+          playingOffset: this.playingOffset,
         });
         this.wavesurfer.addPlugin(this.textgrid).initPlugin("textgrid");
         this.wavesurfer.on("textgrid-dblclick", this.onTextGridDblClick);
@@ -511,34 +508,34 @@ export default {
           "textgrid-current-update",
           this.onTextGridCurrentUpdate
         );
-        this.wavesurfer.on("textgrid-keydown", payload => {
+        this.wavesurfer.on("textgrid-keydown", (payload) => {
           this.$emit("textgrid-keydown", payload);
         });
-        this.wavesurfer.on("textgrid-keyup", payload => {
+        this.wavesurfer.on("textgrid-keyup", (payload) => {
           this.$emit("textgrid-keyup", payload);
         });
       }
     },
-    initPointLinePlugin: function() {
+    initPointLinePlugin: function () {
       if (this.showPointLine) {
         this.pointline = Pointline.create({
           container: this.$refs.pointline,
           points: this.points,
-          pointWidth: this.pointWidth
+          pointWidth: this.pointWidth,
         });
         this.wavesurfer.addPlugin(this.pointline).initPlugin("pointline");
-        this.wavesurfer.pointline.on("addPoint", point => {
+        this.wavesurfer.pointline.on("addPoint", (point) => {
           this.$emit("addPoint", point);
         });
-        this.wavesurfer.pointline.on("updatePoint", point => {
+        this.wavesurfer.pointline.on("updatePoint", (point) => {
           this.$emit("updatePoint", point);
         });
-        this.wavesurfer.pointline.on("deletePoint", point => {
+        this.wavesurfer.pointline.on("deletePoint", (point) => {
           this.$emit("deletePoint", point);
         });
       }
     },
-    initRecPlugin: function() {
+    initRecPlugin: function () {
       if (this.rec) {
         this.microphone = Microphone.create({
           bufferSize: 4096,
@@ -546,14 +543,14 @@ export default {
           numberOfOutputChannels: 1,
           constraints: {
             video: false,
-            audio: true
-          }
+            audio: true,
+          },
         });
         this.wavesurfer.addPlugin(this.microphone).initPlugin("microphone");
-        this.wavesurfer.microphone.on("deviceReady", stream => {
+        this.wavesurfer.microphone.on("deviceReady", (stream) => {
           const mediaRecorder = new MediaRecorder(stream);
           mediaRecorder.start();
-          mediaRecorder.addEventListener("dataavailable", event => {
+          mediaRecorder.addEventListener("dataavailable", (event) => {
             this.audioChunks.push(event.data);
           });
           mediaRecorder.addEventListener("stop", () => {
@@ -562,7 +559,7 @@ export default {
             this.downloadWave();
           });
         });
-        this.wavesurfer.microphone.on("deviceError", code => {
+        this.wavesurfer.microphone.on("deviceError", (code) => {
           this.$emit("deviceError", code);
         });
       } else {
@@ -571,7 +568,7 @@ export default {
         }
       }
     },
-    initWaveSurfer: function() {
+    initWaveSurfer: function () {
       if (this.wavesurfer === null) {
         this.$nextTick(() => {
           let options = {
@@ -612,7 +609,7 @@ export default {
             skipLength: this.skipLength,
             splitChannels: this.splitChannels,
             waveColor: this.waveColor,
-            xhr: this.xhr
+            xhr: this.xhr,
           };
           options = this.initRecOptions(options);
 
@@ -628,13 +625,13 @@ export default {
         });
       }
     },
-    updateDrawer: function(key, val) {
+    updateDrawer: function (key, val) {
       if (this.wavesurfer) {
         this.wavesurfer.params[key] = val;
         this.wavesurfer.drawer.fireEvent("redraw");
       }
     },
-    runWaveSurfer: function(func, args = null) {
+    runWaveSurfer: function (func, args = null) {
       if (this.wavesurfer) {
         if (args) {
           return this.wavesurfer[func](...args);
@@ -644,94 +641,94 @@ export default {
       }
       return null;
     },
-    addPoint: function(point) {
+    addPoint: function (point) {
       this.wavesurfer.pointline.addPoint(point);
     },
-    deletePoint: function(id) {
+    deletePoint: function (id) {
       this.wavesurfer.pointline.deletePoint(id);
     },
-    updatePoint: function(id, point) {
+    updatePoint: function (id, point) {
       this.wavesurfer.pointline.updatePoint(id, point);
     },
-    addTier: function(key, type, parent = null) {
+    addTier: function (key, type, parent = null) {
       this.wavesurfer.textgrid.addTier(key, type, parent);
     },
-    updateTier: function(key, obj) {
+    updateTier: function (key, obj) {
       this.wavesurfer.textgrid.updateTier(key, obj);
     },
-    deleteTier: function(key) {
+    deleteTier: function (key) {
       this.wavesurfer.textgrid.deleteTier(key);
     },
-    copyTier: function(ref, key, type, parent, withText = true) {
+    copyTier: function (ref, key, type, parent, withText = true) {
       this.wavesurfer.textgrid.copyTier(ref, key, type, parent, withText);
     },
-    addTierValue: function(key, obj) {
+    addTierValue: function (key, obj) {
       this.wavesurfer.textgrid.addTierValue(key, obj);
     },
-    setTierValue: function(key, idx, object) {
+    setTierValue: function (key, idx, object) {
       this.wavesurfer.textgrid.setTierValue(key, idx, object);
     },
-    deleteTierValue: function(key, idx) {
+    deleteTierValue: function (key, idx) {
       this.wavesurfer.textgrid.deleteTierValue(key, idx);
     },
     splitTierValue(key, idx, opt = null) {
       this.wavesurfer.textgrid.splitTierValue(key, idx, opt);
     },
-    playTextGrid: function(key, idx) {
+    playTextGrid: function (key, idx) {
       this.wavesurfer.textgrid.play(key, idx);
     },
-    loadTextGrid: function(file) {
+    loadTextGrid: function (file) {
       this.wavesurfer.textgrid.loadTextGrid(file);
     },
-    loadJson: function(file) {
+    loadJson: function (file) {
       this.wavesurfer.textgrid.loadJson(file);
     },
-    setTextGrid: function(obj) {
+    setTextGrid: function (obj) {
       this.wavesurfer.textgrid.loadObj(obj);
     },
-    getFrequencies: function() {
+    getFrequencies: function () {
       return this.wavesurfer.spectrogram.frequencies;
     },
-    downloadTextGrid: function(filename) {
+    downloadTextGrid: function (filename) {
       this.wavesurfer.textgrid.downloadTextGrid(filename);
     },
-    onAudioprocess: function(e) {
+    onAudioprocess: function (e) {
       this.$emit("audioprocess", e);
     },
-    onDblclick: function(e) {
+    onDblclick: function (e) {
       this.$emit("dblclick", e);
     },
-    onDestroy: function(e) {
+    onDestroy: function (e) {
       this.$emit("destroy", e);
     },
-    onError: function(e) {
+    onError: function (e) {
       this.$emit("error", e);
     },
-    onFinish: function(e) {
+    onFinish: function (e) {
       this.$emit("finish", e);
     },
-    onInteraction: function(e) {
+    onInteraction: function (e) {
       this.$emit("interaction", e);
     },
-    onLoading: function(e) {
+    onLoading: function (e) {
       this.$emit("loading", e);
     },
-    onMute: function(e) {
+    onMute: function (e) {
       this.$emit("mute", e);
     },
-    onPause: function(e) {
+    onPause: function (e) {
       this.$emit("pause", e);
     },
-    onPlay: function(e) {
+    onPlay: function (e) {
       this.$emit("play", e);
     },
-    onReady: function(e) {
+    onReady: function (e) {
       this.$emit("ready", e);
     },
-    onScroll: function(e) {
+    onScroll: function (e) {
       this.$emit("scroll", e);
     },
-    onSeek: function(e) {
+    onSeek: function (e) {
       this.$emit("seek", e);
     },
     onTextGridClick(e) {
@@ -763,169 +760,169 @@ export default {
       this.isSpectrogramRendering = false;
       this.$emit("spectrogram-render-end", e);
     },
-    onVolume: function(e) {
+    onVolume: function (e) {
       this.$emit("volume", e);
     },
-    onZoom: function(e) {
+    onZoom: function (e) {
       this.$emit("zoom", e);
     },
-    onWaveformReady: function(e) {
+    onWaveformReady: function (e) {
       this.$emit("waveform-ready", e);
     },
-    cancelAjax: function() {
+    cancelAjax: function () {
       return this.runWaveSurfer("cancelAjax");
     },
-    destroy: function() {
+    destroy: function () {
       const res = this.runWaveSurfer("destroy");
       this.wavesurfer = null;
       this.onDestroy();
       return res;
     },
-    empty: function() {
+    empty: function () {
       return this.runWaveSurfer("empty");
     },
-    getActivePlugins: function() {
+    getActivePlugins: function () {
       return this.runWaveSurfer("getActivePlugins");
     },
-    getBackgroundColor: function() {
+    getBackgroundColor: function () {
       return this.runWaveSurfer("getBackgroundColor");
     },
-    getCurrentTime: function() {
+    getCurrentTime: function () {
       return this.runWaveSurfer("getCurrentTime");
     },
-    getCursorColor: function() {
+    getCursorColor: function () {
       return this.runWaveSurfer("getCursorColor");
     },
-    getDuration: function() {
+    getDuration: function () {
       return this.runWaveSurfer("getDuration");
     },
-    getPlaybackRate: function() {
+    getPlaybackRate: function () {
       return this.runWaveSurfer("getPlaybackRate");
     },
-    getProgressColor: function() {
+    getProgressColor: function () {
       return this.runWaveSurfer("getProgressColor");
     },
-    getVolume: function() {
+    getVolume: function () {
       return this.runWaveSurfer("getVolume");
     },
-    getMute: function() {
+    getMute: function () {
       return this.runWaveSurfer("getMute");
     },
-    getFilters: function() {
+    getFilters: function () {
       return this.runWaveSurfer("getFilters");
     },
-    getWaveColor: function() {
+    getWaveColor: function () {
       return this.runWaveSurfer("getWaveColor");
     },
     exportPCM(length, accuracy, noWindow, start) {
       const args = [length, accuracy, noWindow, start];
       return this.runWaveSurfer("exportPCM", args);
     },
-    isPlaying: function() {
+    isPlaying: function () {
       return this.runWaveSurfer("isPlaying");
     },
-    load: function(url, peaks, preload) {
+    load: function (url, peaks, preload) {
       const args = [url, peaks, preload];
       const vm = this;
-      setTimeout(function() {
+      setTimeout(function () {
         vm.runWaveSurfer("load", args);
       }, 1);
     },
-    loadBlob: function(url) {
+    loadBlob: function (url) {
       const args = [url];
       return this.runWaveSurfer("loadBlob", args);
     },
-    on: function(eventName, callback) {
+    on: function (eventName, callback) {
       const args = [eventName, callback];
       return this.runWaveSurfer("on", args);
     },
-    un: function(eventName, callback) {
+    un: function (eventName, callback) {
       const args = [eventName, callback];
       return this.runWaveSurfer("un", args);
     },
-    unAll: function() {
+    unAll: function () {
       return this.runWaveSurfer("unAll");
     },
-    pause: function() {
+    pause: function () {
       return this.runWaveSurfer("pause");
     },
-    play: function(start, end) {
+    play: function (start, end) {
       const args = [start, end];
       return this.runWaveSurfer("play", args);
     },
-    playPause: function(start, end) {
+    playPause: function (start, end) {
       const args = [start, end];
       return this.runWaveSurfer("playPause", args);
     },
-    seekAndCenter: function(progress) {
+    seekAndCenter: function (progress) {
       return this.runWaveSurfer("seekAndCenter", [progress]);
     },
-    seekTo: function(progress) {
+    seekTo: function (progress) {
       return this.runWaveSurfer("seekTo", [progress]);
     },
-    setBackgroundColor: function(color) {
+    setBackgroundColor: function (color) {
       return this.runWaveSurfer("setBackgroundColor", [color]);
     },
-    setCursorColor: function(color) {
+    setCursorColor: function (color) {
       return this.runWaveSurfer("setCursorColor", [color]);
     },
-    setHeight: function(height) {
+    setHeight: function (height) {
       return this.runWaveSurfer("setHeight", [height]);
     },
-    setFilter: function(filters) {
+    setFilter: function (filters) {
       return this.runWaveSurfer("setFilter", [filters]);
     },
-    setPlaybackRate: function(rate) {
+    setPlaybackRate: function (rate) {
       return this.runWaveSurfer("setPlaybackRate", [rate]);
     },
-    setPlayEnd: function(position) {
+    setPlayEnd: function (position) {
       return this.runWaveSurfer("setPlayEnd", [position]);
     },
-    setVolume: function(newVolume) {
+    setVolume: function (newVolume) {
       return this.runWaveSurfer("setVolume", [newVolume]);
     },
-    setMute: function(mute) {
+    setMute: function (mute) {
       return this.runWaveSurfer("mute", [mute]);
     },
-    setProgressColor: function(color) {
+    setProgressColor: function (color) {
       return this.runWaveSurfer("setProgressColor", [color]);
     },
-    setWaveColor: function(color) {
+    setWaveColor: function (color) {
       return this.runWaveSurfer("setWaveColor", [color]);
     },
-    skip: function(offset) {
+    skip: function (offset) {
       return this.runWaveSurfer("skip", [offset]);
     },
-    skipBackward: function() {
+    skipBackward: function () {
       return this.runWaveSurfer("skipBackward");
     },
-    skipForward: function() {
+    skipForward: function () {
       return this.runWaveSurfer("skipForward");
     },
-    setSinkId: function(deviceId) {
+    setSinkId: function (deviceId) {
       return this.runWaveSurfer("setSinkId", [deviceId]);
     },
-    stop: function() {
+    stop: function () {
       return this.runWaveSurfer("stop");
     },
-    toggleMute: function() {
+    toggleMute: function () {
       return this.runWaveSurfer("toggleMute");
     },
-    toggleInteraction: function() {
+    toggleInteraction: function () {
       return this.runWaveSurfer("toggleInteraction");
     },
-    toggleScroll: function() {
+    toggleScroll: function () {
       return this.runWaveSurfer("toggleScroll");
     },
-    zoom: function(pxPerSec) {
+    zoom: function (pxPerSec) {
       return this.runWaveSurfer("zoom", [pxPerSec]);
     },
-    recStart: function() {
+    recStart: function () {
       if (this.rec) {
         if (this.wavesurfer) this.wavesurfer.microphone.start();
       }
     },
-    recStop: function() {
+    recStop: function () {
       if (this.rec) {
         if (this.wavesurfer) {
           if (this.wavesurfer.microphone.active)
@@ -933,19 +930,19 @@ export default {
         }
       }
     },
-    downloadWave: function() {
+    downloadWave: function () {
       let link = document.createElement("a");
       link.href = this.audioUrl;
       link.download = "rec.wav";
       link.click();
-    }
+    },
   },
-  mounted: function() {
+  mounted: function () {
     this.initWaveSurfer();
   },
-  beforeDestroy: function() {
+  beforeDestroy: function () {
     this.destroy();
-  }
+  },
 };
 </script>
 <style scoped>

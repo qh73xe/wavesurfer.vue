@@ -109,7 +109,7 @@ export default class MultiCanvas extends Drawer {
         display: "none",
         boxSizing: "border-box",
         borderRightStyle: "solid",
-        pointerEvents: "none"
+        pointerEvents: "none",
       })
     );
 
@@ -123,7 +123,7 @@ export default class MultiCanvas extends Drawer {
   updateCursor() {
     this.style(this.progressWave, {
       borderRightWidth: this.params.cursorWidth + "px",
-      borderRightColor: this.params.cursorColor
+      borderRightColor: this.params.cursorColor,
     });
   }
 
@@ -179,7 +179,7 @@ export default class MultiCanvas extends Drawer {
           top: 0,
           bottom: 0,
           height: "100%",
-          pointerEvents: "none"
+          pointerEvents: "none",
         })
       )
     );
@@ -193,7 +193,7 @@ export default class MultiCanvas extends Drawer {
             left: leftOffset + "px",
             top: 0,
             bottom: 0,
-            height: "100%"
+            height: "100%",
           })
         )
       );
@@ -249,7 +249,7 @@ export default class MultiCanvas extends Drawer {
    */
   clearWave() {
     util.frame(() => {
-      this.canvases.forEach(entry => entry.clearWave());
+      this.canvases.forEach((entry) => entry.clearWave());
     })();
   }
 
@@ -425,7 +425,7 @@ export default class MultiCanvas extends Drawer {
         x1: Math.max(x, i * this.maxCanvasWidth),
         y1: y,
         x2: Math.min(x + width, i * this.maxCanvasWidth + entry.wave.width),
-        y2: y + height
+        y2: y + height,
       };
 
       if (intersection.x1 < intersection.x2) {
@@ -520,7 +520,7 @@ export default class MultiCanvas extends Drawer {
 
       // Bar wave draws the bottom only as a reflection of the top,
       // so we don't need negative values
-      const hasMinVals = [].some.call(peaks, val => val < 0);
+      const hasMinVals = [].some.call(peaks, (val) => val < 0);
       const height = this.params.height * this.params.pixelRatio;
       const offsetY = height * drawIndex || 0;
       const halfH = height / 2;
@@ -532,7 +532,7 @@ export default class MultiCanvas extends Drawer {
         offsetY: offsetY,
         halfH: halfH,
         peaks: peaks,
-        channelIndex: channelIndex
+        channelIndex: channelIndex,
       });
     })();
   }
@@ -569,12 +569,12 @@ export default class MultiCanvas extends Drawer {
   getImage(format, quality, type) {
     if (type === "blob") {
       return Promise.all(
-        this.canvases.map(entry => {
+        this.canvases.map((entry) => {
           return entry.getImage(format, quality, type);
         })
       );
     } else if (type === "dataURL") {
-      let images = this.canvases.map(entry =>
+      let images = this.canvases.map((entry) =>
         entry.getImage(format, quality, type)
       );
       return images.length > 1 ? images : images[0];

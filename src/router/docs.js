@@ -8,18 +8,18 @@ export default [
     path: `/${basename}/options`,
     name: `${basename}-option`,
     text: `Options`,
-    component: Options
+    component: Options,
   },
   {
     path: `/${basename}/methods`,
     name: `${basename}-methods`,
     text: `Methods`,
-    component: Methods
+    component: Methods,
   },
   {
     path: `/${basename}/events`,
     name: `${basename}-events`,
     text: `Events`,
-    component: Events
-  }
+    component: Events,
+  },
 ];

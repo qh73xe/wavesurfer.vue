@@ -1,4 +1,4 @@
-const dumpPointTier = function(values) {
+const dumpPointTier = function (values) {
   const lines = [];
   for (const i in values) {
     lines.push(`        points [${Number(i) + 1}]:`);
@@ -7,7 +7,7 @@ const dumpPointTier = function(values) {
   }
   return lines;
 };
-const dumpIntervalTier = function(values, duration) {
+const dumpIntervalTier = function (values, duration) {
   const lines = [];
   for (const i in values) {
     lines.push(`        intervals [${Number(i) + 1}]:`);
@@ -26,7 +26,7 @@ const dumpIntervalTier = function(values, duration) {
   return lines;
 };
 
-const getItemIndex = function(lines) {
+const getItemIndex = function (lines) {
   const indexes = [];
   let itemSize = 0;
   for (const i in lines) {
@@ -42,12 +42,8 @@ const getItemIndex = function(lines) {
   return indexes;
 };
 
-const parsePointTier = function(lines) {
-  const name = lines[1]
-    .split("=")[1]
-    .trim()
-    .slice(1)
-    .slice(0, -1);
+const parsePointTier = function (lines) {
+  const name = lines[1].split("=")[1].trim().slice(1).slice(0, -1);
   const values = [];
   for (const i in lines) {
     if (~lines[i].indexOf("number")) {
@@ -63,20 +59,12 @@ const parsePointTier = function(lines) {
   return { name: name, values: values, type: "point" };
 };
 
-const parseIntervalTier = function(lines) {
-  const name = lines[1]
-    .split("=")[1]
-    .trim()
-    .slice(1)
-    .slice(0, -1);
+const parseIntervalTier = function (lines) {
+  const name = lines[1].split("=")[1].trim().slice(1).slice(0, -1);
   const values = [];
   for (const i in lines) {
     if (~lines[i].indexOf("text")) {
-      const text = lines[Number(i)]
-        .split("=")[1]
-        .trim()
-        .slice(1)
-        .slice(0, -1);
+      const text = lines[Number(i)].split("=")[1].trim().slice(1).slice(0, -1);
       const xmax = parseFloat(lines[Number(i) - 1].split("=")[1].trim());
       values.push({ time: xmax, text: text });
     }
@@ -84,17 +72,17 @@ const parseIntervalTier = function(lines) {
   return {
     name: name,
     values: values,
-    type: "interval"
+    type: "interval",
   };
 };
 
 export default {
-  load: function(text) {
+  load: function (text) {
     const lines = text.split("\n");
-    const itemLines = getItemIndex(lines).map(range => {
+    const itemLines = getItemIndex(lines).map((range) => {
       return lines.slice(range.start, range.end);
     });
-    const items = itemLines.map(lines => {
+    const items = itemLines.map((lines) => {
       if (~lines[0].indexOf("TextTier")) {
         return parsePointTier(lines);
       } else if (~lines[0].indexOf("IntervalTier")) {
@@ -105,12 +93,12 @@ export default {
     for (const item of items) {
       result[item.name] = {
         type: item.type,
-        values: item.values
+        values: item.values,
       };
     }
     return result;
   },
-  dump: function(duration, tiers) {
+  dump: function (duration, tiers) {
     let lines = [
       'File type = "ooTextFile"',
       'Object class = "TextGrid"',
@@ -119,7 +107,7 @@ export default {
       `xmax = ${duration} `,
       "tiers? <exists> ",
       `size = ${Object.keys(tiers).length} `,
-      "item []: "
+      "item []: ",
     ];
     let i = 1;
     for (const key in tiers) {
@@ -146,5 +134,5 @@ export default {
       i++;
     }
     return lines.join("\n");
-  }
+  },
 };

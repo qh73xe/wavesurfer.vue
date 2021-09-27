@@ -11,19 +11,19 @@ export default {
       return [
         {
           text: "Zoom in",
-          val: "ZOOM:IN"
+          val: "ZOOM:IN",
         },
         {
           text: "Zoom out",
-          val: "ZOOM:OUT"
+          val: "ZOOM:OUT",
         },
         {
           text: "Zoom to Selection",
-          val: "ZOOM:SELECTED"
-        }
+          val: "ZOOM:SELECTED",
+        },
       ];
-    }
-  }
+    },
+  },
 };
 </script>
 

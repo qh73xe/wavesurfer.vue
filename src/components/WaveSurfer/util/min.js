@@ -7,7 +7,7 @@
  */
 export default function min(values) {
   let smallest = Number(Infinity);
-  Object.keys(values).forEach(i => {
+  Object.keys(values).forEach((i) => {
     if (values[i] < smallest) {
       smallest = values[i];
     }

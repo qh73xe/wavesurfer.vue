@@ -239,7 +239,7 @@ export default class WaveSurfer extends util.Observer {
       // Boolean that hints the user agent to reduce the latency
       // by desynchronizing the canvas paint cycle from the event
       // loop
-      desynchronized: false
+      desynchronized: false,
     },
     duration: null,
     fillParent: true,
@@ -269,17 +269,17 @@ export default class WaveSurfer extends util.Observer {
     splitChannelsOptions: {
       overlay: false,
       channelColors: {},
-      filterChannels: []
+      filterChannels: [],
     },
     waveColor: "#999",
-    xhr: {}
+    xhr: {},
   };
 
   /** @private */
   backends = {
     MediaElement,
     WebAudio,
-    MediaElementWebAudio
+    MediaElementWebAudio,
   };
 
   /**
@@ -501,10 +501,10 @@ export default class WaveSurfer extends util.Observer {
    */
   registerPlugins(plugins) {
     // first instantiate all the plugins
-    plugins.forEach(plugin => this.addPlugin(plugin));
+    plugins.forEach((plugin) => this.addPlugin(plugin));
 
     // now run the init functions
-    plugins.forEach(plugin => {
+    plugins.forEach((plugin) => {
       // call init function of the plugin if deferInit is falsey
       // in that case you would manually use initPlugins()
       if (!plugin.deferInit) {
@@ -545,7 +545,7 @@ export default class WaveSurfer extends util.Observer {
 
     // staticProps properties are applied to wavesurfer instance
     if (plugin.staticProps) {
-      Object.keys(plugin.staticProps).forEach(pluginStaticProp => {
+      Object.keys(plugin.staticProps).forEach((pluginStaticProp) => {
         /**
          * Properties defined in a plugin definition's `staticProps` property are added as
          * staticProps properties of the WaveSurfer instance
@@ -560,7 +560,7 @@ export default class WaveSurfer extends util.Observer {
     const observerPrototypeKeys = Object.getOwnPropertyNames(
       util.Observer.prototype
     );
-    observerPrototypeKeys.forEach(key => {
+    observerPrototypeKeys.forEach((key) => {
       Instance.prototype[key] = util.Observer.prototype[key];
     });
 
@@ -630,7 +630,7 @@ export default class WaveSurfer extends util.Observer {
    * @private
    */
   destroyAllPlugins() {
-    Object.keys(this.initialisedPluginList).forEach(name =>
+    Object.keys(this.initialisedPluginList).forEach((name) =>
       this.destroyPlugin(name)
     );
   }
@@ -662,7 +662,7 @@ export default class WaveSurfer extends util.Observer {
     });
 
     // Relay the scroll event from the drawer
-    this.drawer.on("scroll", e => {
+    this.drawer.on("scroll", (e) => {
       if (this.params.partialRender) {
         this.drawBuffer();
       }
@@ -692,7 +692,7 @@ export default class WaveSurfer extends util.Observer {
     this.backend.on("play", () => this.fireEvent("play"));
     this.backend.on("pause", () => this.fireEvent("pause"));
 
-    this.backend.on("audioprocess", time => {
+    this.backend.on("audioprocess", (time) => {
       this.drawer.progress(this.backend.getPlayedPercents());
       this.fireEvent("audioprocess", time);
     });
@@ -1262,7 +1262,7 @@ export default class WaveSurfer extends util.Observer {
    * @param {ArrayBuffer} arraybuffer Buffer to process
    */
   loadArrayBuffer(arraybuffer) {
-    this.decodeArrayBuffer(arraybuffer, data => {
+    this.decodeArrayBuffer(arraybuffer, (data) => {
       if (!this.isDestroyed) {
         this.loadDecodedBuffer(data);
       }
@@ -1292,8 +1292,10 @@ export default class WaveSurfer extends util.Observer {
   loadBlob(blob) {
     // Create file reader
     const reader = new FileReader();
-    reader.addEventListener("progress", e => this.onProgress(e));
-    reader.addEventListener("load", e => this.loadArrayBuffer(e.target.result));
+    reader.addEventListener("progress", (e) => this.onProgress(e));
+    reader.addEventListener("load", (e) =>
+      this.loadArrayBuffer(e.target.result)
+    );
     reader.addEventListener("error", () =>
       this.fireEvent("error", "Error reading file")
     );
@@ -1344,10 +1346,10 @@ export default class WaveSurfer extends util.Observer {
           ["MediaElement", "MediaElementWebAudio"].indexOf(
             this.params.backend
           ) === -1,
-        "Url is not of type string": typeof url !== "string"
+        "Url is not of type string": typeof url !== "string",
       };
       const activeReasons = Object.keys(preloadIgnoreReasons).filter(
-        reason => preloadIgnoreReasons[reason]
+        (reason) => preloadIgnoreReasons[reason]
       );
       if (activeReasons.length) {
         // eslint-disable-next-line no-console
@@ -1379,11 +1381,11 @@ export default class WaveSurfer extends util.Observer {
    * @returns {void}
    */
   loadBuffer(url, peaks, duration) {
-    const load = action => {
+    const load = (action) => {
       if (action) {
         this.tmpEvents.push(this.once("ready", action));
       }
-      return this.getArrayBuffer(url, data => this.loadArrayBuffer(data));
+      return this.getArrayBuffer(url, (data) => this.loadArrayBuffer(data));
     };
 
     if (peaks) {
@@ -1430,7 +1432,7 @@ export default class WaveSurfer extends util.Observer {
           this.fireEvent("ready");
         }
       }),
-      this.backend.once("error", err => this.fireEvent("error", err))
+      this.backend.once("error", (err) => this.fireEvent("error", err))
     );
 
     if (peaks) {
@@ -1445,8 +1447,8 @@ export default class WaveSurfer extends util.Observer {
       (!peaks || this.params.forceDecode) &&
       this.backend.supportsWebAudio()
     ) {
-      this.getArrayBuffer(url, arraybuffer => {
-        this.decodeArrayBuffer(arraybuffer, buffer => {
+      this.getArrayBuffer(url, (arraybuffer) => {
+        this.decodeArrayBuffer(arraybuffer, (buffer) => {
           this.backend.buffer = buffer;
           this.backend.setPeaks(null);
           this.drawBuffer();
@@ -1467,7 +1469,7 @@ export default class WaveSurfer extends util.Observer {
     this.arraybuffer = arraybuffer;
     this.backend.decodeArrayBuffer(
       arraybuffer,
-      data => {
+      (data) => {
         // Only use the decoded data if we haven't been destroyed or
         // another decode started in the meantime
         if (!this.isDestroyed && this.arraybuffer == arraybuffer) {
@@ -1491,7 +1493,7 @@ export default class WaveSurfer extends util.Observer {
     let options = Object.assign(
       {
         url: url,
-        responseType: "arraybuffer"
+        responseType: "arraybuffer",
       },
       this.params.xhr
     );
@@ -1500,14 +1502,14 @@ export default class WaveSurfer extends util.Observer {
     this.currentRequest = request;
 
     this.tmpEvents.push(
-      request.on("progress", e => {
+      request.on("progress", (e) => {
         this.onProgress(e);
       }),
-      request.on("success", data => {
+      request.on("success", (data) => {
         callback(data);
         this.currentRequest = null;
       }),
-      request.on("error", e => {
+      request.on("error", (e) => {
         this.fireEvent("error", e);
         this.currentRequest = null;
       })
@@ -1555,7 +1557,7 @@ export default class WaveSurfer extends util.Observer {
     const peaks = this.backend.getPeaks(length, start, end);
     const arr = [].map.call(
       peaks,
-      val => Math.round(val * accuracy) / accuracy
+      (val) => Math.round(val * accuracy) / accuracy
     );
     return new Promise((resolve, reject) => {
       const json = JSON.stringify(arr);
@@ -1612,7 +1614,7 @@ export default class WaveSurfer extends util.Observer {
       // See Firefox bug: https://bugzilla.mozilla.org/show_bug.cgi?id=1583815
       if (this.currentRequest._reader) {
         // Ignoring exceptions thrown by call to cancel()
-        this.currentRequest._reader.cancel().catch(err => {
+        this.currentRequest._reader.cancel().catch((err) => {
           // eslint-disable-next-line no-console
           console.error(err);
           // stop invalid values from being used
@@ -1628,7 +1630,7 @@ export default class WaveSurfer extends util.Observer {
    * @private
    */
   clearTmpEvents() {
-    this.tmpEvents.forEach(e => e.un());
+    this.tmpEvents.forEach((e) => e.un());
   }
 
   /**

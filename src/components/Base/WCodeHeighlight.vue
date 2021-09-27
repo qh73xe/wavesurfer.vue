@@ -14,12 +14,12 @@ export default {
       bind(el) {
         const html = el.innerHTML;
         el.textContent = html;
-      }
-    }
+      },
+    },
   },
   components: {
-    CodeHighlight
-  }
+    CodeHighlight,
+  },
 };
 </script>
 

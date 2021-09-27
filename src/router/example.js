@@ -14,60 +14,60 @@ export default [
     path: `/${basename}/audio-element`,
     name: `${basename}-audio-element`,
     text: `Audio-Element`,
-    component: AudioElement
+    component: AudioElement,
   },
   {
     path: `/${basename}/bars`,
     name: `${basename}-bars`,
     text: `Bars`,
-    component: Bars
+    component: Bars,
   },
   {
     path: `/${basename}/split-cannels`,
     name: `${basename}-split-cannels`,
     text: `SplitChannels`,
-    component: SplitChannels
+    component: SplitChannels,
   },
   {
     path: `/${basename}/timeline`,
     name: `${basename}-timeline`,
     text: `Timeline`,
-    component: Timeline
+    component: Timeline,
   },
   {
     path: `/${basename}/pointline`,
     name: `${basename}-pointline`,
     text: `Pointline`,
-    component: Pointline
+    component: Pointline,
   },
   {
     path: `/${basename}/textgrid`,
     name: `${basename}-textgrid`,
     text: `TextGrid`,
-    component: TextGrid
+    component: TextGrid,
   },
   {
     path: `/${basename}/spectrogram`,
     name: `${basename}-spectrogram`,
     text: `Spectrogram`,
-    component: Spectrogram
+    component: Spectrogram,
   },
   {
     path: `/${basename}/video-element`,
     name: `${basename}-video-element`,
     text: `Video-Element`,
-    component: VideoElement
+    component: VideoElement,
   },
   {
     path: `/${basename}/video-spectrogram`,
     name: `${basename}-video-spectrogram`,
     text: `Video-Spectrogram`,
-    component: VideoSpectrogram
+    component: VideoSpectrogram,
   },
   {
     path: `/${basename}/recording`,
     name: `${basename}-recording`,
     text: `Recording`,
-    component: Recording
-  }
+    component: Recording,
+  },
 ];

@@ -15,7 +15,7 @@ export function log(name, isShow = false) {
   return function decorator(t, n, descriptor) {
     const original = descriptor.value;
     if (typeof original === "function") {
-      descriptor.value = function(...args) {
+      descriptor.value = function (...args) {
         try {
           const start = performance.now();
           const result = original.apply(this, args);

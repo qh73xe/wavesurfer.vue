@@ -5,7 +5,7 @@
       :accept="clicked.accept"
       @change="onChange"
       type="file"
-      style="display:none"
+      style="display: none"
     />
     <v-list-item v-for="(item, i) in items" :key="i" @click="onClick(item)">
       <v-list-item-title>{{ item.text }}</v-list-item-title>
@@ -19,8 +19,8 @@ export default {
     clicked: {
       text: "",
       val: "",
-      accept: ""
-    }
+      accept: "",
+    },
   }),
   computed: {
     items: () => {
@@ -28,26 +28,26 @@ export default {
         {
           text: "Read From Audio File ...",
           val: "AUDIO",
-          accept: "audio/*"
+          accept: "audio/*",
         },
         {
           text: "Read From Textgrid File ...",
           val: "TEXTGRID",
-          accept: ".TextGrid,.textgrid,.Textgrid"
-        }
+          accept: ".TextGrid,.textgrid,.Textgrid",
+        },
       ];
-    }
+    },
   },
   methods: {
     init() {
       this.clicked = {
         text: "",
         val: "",
-        accept: ""
+        accept: "",
       };
     },
     open(val) {
-      const idx = this.items.findIndex(x => x.val == val);
+      const idx = this.items.findIndex((x) => x.val == val);
       if (idx !== -1) {
         this.clicked = this.items[idx];
         this.$nextTick(() => {
@@ -65,12 +65,12 @@ export default {
       const item = {
         type: "OPEN",
         click: this.clicked.val,
-        files: this.$refs.input.files
+        files: this.$refs.input.files,
       };
       this.$emit("click", item);
       this.init();
-    }
-  }
+    },
+  },
 };
 </script>
 

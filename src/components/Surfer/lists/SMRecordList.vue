@@ -11,19 +11,19 @@ export default {
       return [
         {
           text: "Add record ...",
-          val: "ADD"
+          val: "ADD",
         },
         {
           text: "Edit record ...",
-          val: "Edit"
+          val: "Edit",
         },
         {
           text: "Remove record ...",
-          val: "Remove"
-        }
+          val: "Remove",
+        },
       ];
-    }
-  }
+    },
+  },
 };
 </script>
 

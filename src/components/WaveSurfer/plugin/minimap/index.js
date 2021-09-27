@@ -50,7 +50,7 @@ export default class MinimapPlugin {
       deferInit: params && params.deferInit ? params.deferInit : false,
       params: params,
       staticProps: {},
-      instance: MinimapPlugin
+      instance: MinimapPlugin,
     };
   }
 
@@ -67,12 +67,12 @@ export default class MinimapPlugin {
         overviewBorderSize: 2,
         // the container should be different
         container: false,
-        height: Math.max(Math.round(ws.params.height / 4), 20)
+        height: Math.max(Math.round(ws.params.height / 4), 20),
       },
       params,
       {
         scrollParent: false,
-        fillParent: true
+        fillParent: true,
       }
     );
     // if container is a selector, get the element
@@ -88,7 +88,7 @@ export default class MinimapPlugin {
     // if no container is specified add a new element and insert it
     if (!params.container) {
       this.params.container = ws.util.style(document.createElement("minimap"), {
-        display: "block"
+        display: "block",
       });
     }
     this.drawer = new ws.Drawer(this.params.container, this.params);
@@ -131,7 +131,7 @@ export default class MinimapPlugin {
       this.render();
     };
 
-    this._onAudioprocess = currentTime => {
+    this._onAudioprocess = (currentTime) => {
       this.drawer.progress(this.wavesurfer.backend.getPlayedPercents());
     };
 
@@ -139,12 +139,12 @@ export default class MinimapPlugin {
     this._onSeek = () => this.drawer.progress(ws.backend.getPlayedPercents());
 
     // event listeners for the overview region
-    this._onScroll = e => {
+    this._onScroll = (e) => {
       if (!this.draggingOverview) {
         this.moveOverviewRegion(e.target.scrollLeft / this.ratio);
       }
     };
-    this._onMouseover = e => {
+    this._onMouseover = (e) => {
       if (this.draggingOverview) {
         this.draggingOverview = false;
       }
@@ -157,7 +157,7 @@ export default class MinimapPlugin {
         this.drawer.progress(this.wavesurfer.backend.getPlayedPercents());
       }
     });
-    this._onZoom = e => {
+    this._onZoom = (e) => {
       this.render();
     };
     this.wavesurfer.on("zoom", this._onZoom);
@@ -191,17 +191,17 @@ export default class MinimapPlugin {
   regions() {
     this.regions = {};
 
-    this.wavesurfer.on("region-created", region => {
+    this.wavesurfer.on("region-created", (region) => {
       this.regions[region.id] = region;
       this.drawer.wrapper && this.renderRegions();
     });
 
-    this.wavesurfer.on("region-updated", region => {
+    this.wavesurfer.on("region-updated", (region) => {
       this.regions[region.id] = region;
       this.drawer.wrapper && this.renderRegions();
     });
 
-    this.wavesurfer.on("region-removed", region => {
+    this.wavesurfer.on("region-removed", (region) => {
       delete this.regions[region.id];
       this.drawer.wrapper && this.renderRegions();
     });
@@ -214,7 +214,7 @@ export default class MinimapPlugin {
       this.drawer.wrapper.removeChild(regionElements[i]);
     }
 
-    Object.keys(this.regions).forEach(id => {
+    Object.keys(this.regions).forEach((id) => {
       const region = this.regions[id];
       const width =
         this.getWidth() *
@@ -227,7 +227,7 @@ export default class MinimapPlugin {
         width: width + "px",
         left: left + "px",
         display: "block",
-        position: "absolute"
+        position: "absolute",
       });
       regionElement.classList.add(id);
       this.drawer.wrapper.appendChild(regionElement);
@@ -251,7 +251,7 @@ export default class MinimapPlugin {
             "px solid " +
             this.params.overviewBorderColor,
           zIndex: 2,
-          opacity: this.params.overviewOpacity
+          opacity: this.params.overviewOpacity,
         }
       );
       this.drawer.wrapper.appendChild(this.overviewRegion);
@@ -275,7 +275,7 @@ export default class MinimapPlugin {
   bindMinimapEvents() {
     const positionMouseDown = {
       clientX: 0,
-      clientY: 0
+      clientY: 0,
     };
     let relativePositionX = 0;
     let seek = true;
@@ -284,7 +284,7 @@ export default class MinimapPlugin {
     // this.unAll() and nullifying the DOM node references after
     // removing them
     if (this.params.interact) {
-      this.drawer.wrapper.addEventListener("click", event => {
+      this.drawer.wrapper.addEventListener("click", (event) => {
         this.fireEvent("click", event, this.drawer.handleEvent(event));
       });
 
@@ -299,14 +299,14 @@ export default class MinimapPlugin {
     }
 
     if (this.params.showOverview) {
-      this.overviewRegion.addEventListener("mousedown", event => {
+      this.overviewRegion.addEventListener("mousedown", (event) => {
         this.draggingOverview = true;
         relativePositionX = event.layerX;
         positionMouseDown.clientX = event.clientX;
         positionMouseDown.clientY = event.clientY;
       });
 
-      this.drawer.wrapper.addEventListener("mousemove", event => {
+      this.drawer.wrapper.addEventListener("mousemove", (event) => {
         if (this.draggingOverview) {
           this.moveOverviewRegion(
             event.clientX -
@@ -316,7 +316,7 @@ export default class MinimapPlugin {
         }
       });
 
-      this.drawer.wrapper.addEventListener("mouseup", event => {
+      this.drawer.wrapper.addEventListener("mouseup", (event) => {
         if (
           positionMouseDown.clientX - event.clientX === 0 &&
           positionMouseDown.clientX - event.clientX === 0

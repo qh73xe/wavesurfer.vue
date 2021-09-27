@@ -54,7 +54,7 @@ export default class MicrophonePlugin {
       name: "microphone",
       deferInit: params && params.deferInit ? params.deferInit : false,
       params: params,
-      instance: MicrophonePlugin
+      instance: MicrophonePlugin,
     };
   }
 
@@ -66,7 +66,7 @@ export default class MicrophonePlugin {
     this.active = false;
     this.paused = false;
     this.browser = this.detectBrowser();
-    this.reloadBufferFunction = e => this.reloadBuffer(e);
+    this.reloadBufferFunction = (e) => this.reloadBuffer(e);
 
     // cross-browser getUserMedia
     const promisifiedOldGUM = (constraints, successCallback, errorCallback) => {
@@ -108,7 +108,7 @@ export default class MicrophonePlugin {
     }
     this.constraints = this.params.constraints || {
       video: false,
-      audio: true
+      audio: true,
     };
     this.bufferSize = this.params.bufferSize || 4096;
     this.numberOfInputChannels = this.params.numberOfInputChannels || 1;
@@ -147,8 +147,8 @@ export default class MicrophonePlugin {
   start() {
     navigator.mediaDevices
       .getUserMedia(this.constraints)
-      .then(data => this.gotStream(data))
-      .catch(data => this.deviceError(data));
+      .then((data) => this.gotStream(data))
+      .catch((data) => this.deviceError(data));
   }
 
   /**
@@ -226,7 +226,7 @@ export default class MicrophonePlugin {
       ) {
         if (this.stream.getTracks) {
           // note that this should not be a call
-          this.stream.getTracks().forEach(stream => stream.stop());
+          this.stream.getTracks().forEach((stream) => stream.stop());
           return;
         }
       }

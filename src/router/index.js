@@ -12,14 +12,14 @@ let routes = [
     path: "/",
     name: "Home",
     text: "Home",
-    component: Home
+    component: Home,
   },
   {
     path: "/surfer",
     name: "Surfer",
     text: "Surfer",
-    component: Surfer
-  }
+    component: Surfer,
+  },
   // {
   //   path: "/about",
   //   name: "About",
@@ -34,5 +34,5 @@ routes = routes.concat(examples);
 export default new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
-  routes
+  routes,
 });

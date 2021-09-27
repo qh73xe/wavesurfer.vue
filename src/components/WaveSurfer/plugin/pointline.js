@@ -54,7 +54,7 @@ export default class PointlinePlugin {
       name: "pointline",
       deferInit: params && params.deferInit ? params.deferInit : false,
       params: params,
-      instance: PointlinePlugin
+      instance: PointlinePlugin,
     };
   }
 
@@ -93,7 +93,7 @@ export default class PointlinePlugin {
    * @private
    * @param {object} e Click event
    */
-  _onWrapperClick = e => {
+  _onWrapperClick = (e) => {
     e.preventDefault();
     const relX = "offsetX" in e ? e.offsetX : e.layerX;
     this.fireEvent("click", relX / this.wrapper.scrollWidth || 0);
@@ -129,14 +129,14 @@ export default class PointlinePlugin {
           height: 100,
           pointWidth: 3,
           duration: null,
-          zoomDebounce: false
+          zoomDebounce: false,
         },
         params
       );
 
       /** @private */
       if (this.params.points.length > 0) {
-        this.params.points = this.params.points.map(x => {
+        this.params.points = this.params.points.map((x) => {
           if (x.id === undefined) {
             x.id = this.genUuid();
           }
@@ -225,14 +225,14 @@ export default class PointlinePlugin {
       position: "relative",
       userSelect: "none",
       webkitUserSelect: "none",
-      height: `${this.params.height}px`
+      height: `${this.params.height}px`,
     });
 
     if (wsParams.fillParent || wsParams.scrollParent) {
       this.util.style(this.wrapper, {
         width: "100%",
         overflowX: "hidden",
-        overflowY: "hidden"
+        overflowY: "hidden",
       });
     }
 
@@ -277,7 +277,7 @@ export default class PointlinePlugin {
       time: obj.time,
       value: obj.value,
       color: obj.color,
-      size: obj.size
+      size: obj.size,
     };
     this.params.points.push(point);
     this.render();
@@ -286,7 +286,7 @@ export default class PointlinePlugin {
 
   @log("pointline.updatePoint", DEBUG)
   updatePoint(id, point) {
-    const idx = this.params.points.findIndex(x => x.id == id);
+    const idx = this.params.points.findIndex((x) => x.id == id);
     if (idx > -1) {
       point.id = this.params.points[idx].id;
       this.params.points[idx] = point;
@@ -297,7 +297,7 @@ export default class PointlinePlugin {
 
   @log("pointline.deletePoint", DEBUG)
   deletePoint(id) {
-    const idx = this.params.points.findIndex(x => x.id == id);
+    const idx = this.params.points.findIndex((x) => x.id == id);
     if (idx > -1) {
       const point = this.params.points[idx];
       this.params.points.splice(idx, 1);
@@ -317,7 +317,7 @@ export default class PointlinePlugin {
     this.canvases.push(canvas);
     this.util.style(canvas, {
       position: "absolute",
-      zIndex: 4
+      zIndex: 4,
     });
   }
 
@@ -375,7 +375,7 @@ export default class PointlinePlugin {
       this.util.style(canvas, {
         width: `${canvasWidth}px`,
         height: `${this.params.height}px`,
-        left: `${i * this.maxCanvasElementWidth}px`
+        left: `${i * this.maxCanvasElementWidth}px`,
       });
     });
   }
@@ -408,25 +408,25 @@ export default class PointlinePlugin {
     const positioning = [];
     const minVal = Math.min.apply(
       null,
-      vm.params.points.map(x => {
+      vm.params.points.map((x) => {
         return x.value;
       })
     );
-    const tmps = this.params.points.map(function(x) {
+    const tmps = this.params.points.map(function (x) {
       const color = "color" in x ? x.color : "#000";
       const size = "size" in x ? Number(x.size) : vm.params.pointWidth;
       return {
         time: x.time,
         value: x.value - minVal,
         color: color,
-        size: size
+        size: size,
       };
     });
     const maxVal = Math.max.apply(
       null,
-      tmps.map(x => x.value)
+      tmps.map((x) => x.value)
     );
-    const points = tmps.map(function(x) {
+    const points = tmps.map(function (x) {
       const value = x.value == 0 ? x.value : x.value / maxVal;
       return { time: x.time, value: value, color: x.color, size: x.size };
     });
@@ -436,8 +436,8 @@ export default class PointlinePlugin {
       positioning.push([curSeconds, curPixel, x.value, x.color, x.size]);
     }
     // iterate over each position
-    const renderPositions = cb => {
-      positioning.forEach(pos => {
+    const renderPositions = (cb) => {
+      positioning.forEach((pos) => {
         cb(pos[0], pos[1], pos[2], pos[3], pos[4]);
       });
     };
@@ -457,7 +457,7 @@ export default class PointlinePlugin {
    */
   @log("pointline.setFillStyles", DEBUG)
   setFillStyles(fillStyle) {
-    this.canvases.forEach(canvas => {
+    this.canvases.forEach((canvas) => {
       canvas.getContext("2d").fillStyle = fillStyle;
     });
   }
@@ -479,7 +479,7 @@ export default class PointlinePlugin {
       const leftOffset = i * this.maxCanvasWidth;
       const intersection = {
         x1: Math.max(x, i * this.maxCanvasWidth),
-        x2: Math.min(x + width, i * this.maxCanvasWidth + canvas.width)
+        x2: Math.min(x + width, i * this.maxCanvasWidth + canvas.width),
       };
       if (intersection.x1 < intersection.x2) {
         const val = y * canvas.height;

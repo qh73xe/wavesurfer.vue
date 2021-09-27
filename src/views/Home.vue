@@ -105,7 +105,7 @@ export default {
   components: {
     WJumbotron,
     WaveSurfer,
-    WCodeHeighlight
+    WCodeHeighlight,
   },
   data: () => ({
     source:
@@ -127,24 +127,24 @@ export default {
       }),
     };
     <\/script>
-    `
+    `,
     /* eslint-enable */
   }),
   computed: {
-    routes: function() {
+    routes: function () {
       const items = {
         main: {
           icon: "mdi-apps",
-          items: []
+          items: [],
         },
         documents: {
           icon: "mdi-file-document",
-          items: []
+          items: [],
         },
         examples: {
           icon: "mdi-xml",
-          items: []
-        }
+          items: [],
+        },
       };
       for (const item of this.$router.options.routes) {
         if (item.name.match(/docs-/)) {
@@ -157,13 +157,13 @@ export default {
       }
       return items;
     },
-    code_string: function() {
+    code_string: function () {
       const codes = [];
       for (const x of this.code.split("\n")) {
         codes.push(x);
       }
       return `${codes.join("\n")}`;
-    }
-  }
+    },
+  },
 };
 </script>

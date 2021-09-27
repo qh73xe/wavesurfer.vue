@@ -2,11 +2,11 @@
   <w-documentation-layout :heading="heading" :desc="$vuetify.lang.t(desc)">
     <v-data-table
       :headers="
-        headers.map(x => {
+        headers.map((x) => {
           return {
             text: $vuetify.lang.t(x.text),
             sortable: x.sortable,
-            value: x.value
+            value: x.value,
           };
         })
       "
@@ -23,7 +23,7 @@ const locale = "$vuetify.document.options";
 export default {
   name: "Options.vue",
   components: {
-    WDocumentationLayout
+    WDocumentationLayout,
   },
   data: () => ({
     locale: locale,
@@ -36,10 +36,10 @@ export default {
       {
         text: `${locale}.headers.description`,
         value: "description",
-        sortable: false
-      }
+        sortable: false,
+      },
     ],
-    options: []
+    options: [],
   }),
   computed: {
     search: {
@@ -48,273 +48,273 @@ export default {
       },
       set(val) {
         this.$store.commit("app_bar/set_search", val);
-      }
-    }
+      },
+    },
   },
-  mounted: function() {
+  mounted: function () {
     const options = [
       {
         option: "source",
         type: "string or HTML Video Element or HTML Audio Element",
-        default: "''"
+        default: "''",
       },
       {
         option: "showTextGrid",
         type: "boolean",
-        default: "false"
+        default: "false",
       },
       {
         option: "showTimeLine",
         type: "boolean",
-        default: "false"
+        default: "false",
       },
       {
         option: "showPointLine",
         type: "boolean",
-        default: "false"
+        default: "false",
       },
       {
         option: "showSpectrogram",
         type: "boolean",
-        default: "false"
+        default: "false",
       },
       {
         option: "showFreqLabel",
         type: "boolean",
-        default: "false"
+        default: "false",
       },
       {
         option: "rec",
         type: "boolean",
-        default: "false"
+        default: "false",
       },
       {
         option: "audioRate",
         type: "float",
-        default: "1"
+        default: "1",
       },
       {
         option: "audioContext",
         type: "object",
-        default: "{}"
+        default: "{}",
       },
       {
         option: "audioScriptProcessor",
         type: "object",
-        default: "{}"
+        default: "{}",
       },
       {
         option: "autoCenter",
         type: "boolean",
-        default: "true"
+        default: "true",
       },
       {
         option: "backend",
         type: "string",
-        default: "WebAudio"
+        default: "WebAudio",
       },
       {
         option: "backgroundColor",
         type: "string",
-        default: "none"
+        default: "none",
       },
       {
         option: "barGap",
         type: "number",
-        default: "none"
+        default: "none",
       },
       {
         option: "barHeight",
         type: "number",
-        default: "1"
+        default: "1",
       },
       {
         option: "barMinHeight",
         type: "number",
-        default: "null"
+        default: "null",
       },
       {
         option: "barRadius",
         type: "number",
-        default: "0"
+        default: "0",
       },
       {
         option: "barWidth",
         type: "number",
-        default: "none"
+        default: "none",
       },
       {
         option: "closeAudioContext",
         type: "boolean",
-        default: "false"
+        default: "false",
       },
       {
         option: "cursorColor",
         type: "string",
-        default: "#333"
+        default: "#333",
       },
       {
         option: "cursorWidth",
         type: "integer",
-        default: "1"
+        default: "1",
       },
       {
         option: "drawingContextAttributes",
         type: "object",
-        default: "{desynchronized: true}"
+        default: "{desynchronized: true}",
       },
       {
         option: "fillParent",
         type: "boolean",
-        default: "true"
+        default: "true",
       },
       {
         option: "forceDecode",
         type: "boolean",
-        default: "false"
+        default: "false",
       },
       {
         option: "height",
         type: "integer",
-        default: "128"
+        default: "128",
       },
       {
         option: "hideScrollbar",
         type: "boolean",
-        default: "false"
+        default: "false",
       },
       {
         option: "interact",
         type: "boolean",
-        default: "true"
+        default: "true",
       },
       {
         option: "loopSelection",
         type: "boolean",
-        default: "true"
+        default: "true",
       },
       {
         option: "maxCanvasWidth",
         type: "integer",
-        default: "4000"
+        default: "4000",
       },
       {
         option: "mediaControls",
         type: "boolean",
-        default: "false"
+        default: "false",
       },
       {
         option: "mediaType",
         type: "string",
-        default: "audio"
+        default: "audio",
       },
       {
         option: "minPxPerSec",
         type: "integer",
-        default: "50"
+        default: "50",
       },
       {
         option: "normalize",
         type: "boolean",
-        default: "false"
+        default: "false",
       },
       {
         option: "partialRender",
         type: "boolean",
-        default: "false"
+        default: "false",
       },
       {
         option: "pixelRatio",
         type: "integer",
-        default: "window.devicePixelRatio"
+        default: "window.devicePixelRatio",
       },
       {
         option: "progressColor",
         type: "string",
-        default: "#555"
+        default: "#555",
       },
       {
         option: "removeMediaElementOnDestroy",
         type: "boolean",
-        default: "true"
+        default: "true",
       },
       {
         option: "responsive",
         type: "boolean or float",
-        default: "false"
+        default: "false",
       },
       {
         option: "scrollParent",
         type: "boolean",
-        default: "false"
+        default: "false",
       },
       {
         option: "skipLength",
         type: "float",
-        default: "2"
+        default: "2",
       },
       {
         option: "splitChannels",
         type: "boolean",
-        default: "false"
+        default: "false",
       },
       {
         option: "targetChannel",
         type: "number",
-        default: "0"
+        default: "0",
       },
       {
         option: "waveColor",
         type: "string",
-        default: "#999"
+        default: "#999",
       },
       {
         option: "xhr",
         type: "Object",
-        default: "{}"
+        default: "{}",
       },
       {
         option: "freqRate",
         type: "Number",
-        default: 1
+        default: 1,
       },
       {
         option: "freqFontSize",
         type: "Number",
-        default: 12
+        default: 12,
       },
       {
         option: "unitFontSize",
         type: "Number",
-        default: 10
+        default: 10,
       },
       {
         option: "spectrogramHeight",
         type: "Number",
-        default: 256
+        default: 256,
       },
       {
         option: "pointWidth",
         type: "Number",
-        default: 1
+        default: 1,
       },
       {
         option: "points",
         type: "Array",
-        default: "[]"
+        default: "[]",
       },
       {
         option: "playingOffset",
         type: "number",
-        default: "1"
+        default: "1",
       },
       {
         option: "textgridMaxHeight",
         type: "string or null",
-        default: "null"
-      }
+        default: "null",
+      },
     ];
-    this.options = options.map(x => {
+    this.options = options.map((x) => {
       x.description = this.$vuetify.lang.t(
         `${this.locale}.options.${x.option}`
       );
@@ -327,7 +327,7 @@ export default {
         return -1;
       }
     });
-  }
+  },
 };
 </script>
 

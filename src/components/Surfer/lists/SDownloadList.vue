@@ -11,15 +11,15 @@ export default {
       return [
         {
           text: "Save as Textgrid File ...",
-          val: "TEXTGRID"
+          val: "TEXTGRID",
         },
         {
           text: "Save as Json File ...",
-          val: "TEXTGRID"
-        }
+          val: "TEXTGRID",
+        },
       ];
-    }
-  }
+    },
+  },
 };
 </script>
 

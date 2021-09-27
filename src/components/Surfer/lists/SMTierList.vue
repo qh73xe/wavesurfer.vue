@@ -11,27 +11,27 @@ export default {
       return [
         {
           text: "Add tier ...",
-          val: "ADD"
+          val: "ADD",
         },
         {
           text: "Duplicate tier ...",
-          val: "Duplicate"
+          val: "Duplicate",
         },
         {
           text: "Edit tier ...",
-          val: "Edit"
+          val: "Edit",
         },
         {
           text: "Remove tier ...",
-          val: "Remove"
+          val: "Remove",
         },
         {
           text: "Remove all text from tier",
-          val: "Remove:text"
-        }
+          val: "Remove:text",
+        },
       ];
-    }
-  }
+    },
+  },
 };
 </script>
 

@@ -72,7 +72,7 @@ export default class TimelinePlugin {
       name: "timeline",
       deferInit: params && params.deferInit ? params.deferInit : false,
       params: params,
-      instance: TimelinePlugin
+      instance: TimelinePlugin,
     };
   }
 
@@ -108,7 +108,7 @@ export default class TimelinePlugin {
   /**
    * @param {object} e Click event
    */
-  _onWrapperClick = e => {
+  _onWrapperClick = (e) => {
     e.preventDefault();
     const relX = "offsetX" in e ? e.offsetX : e.layerX;
     this.fireEvent("click", relX / this.wrapper.scrollWidth || 0);
@@ -153,7 +153,7 @@ export default class TimelinePlugin {
         timeInterval: this.defaultTimeInterval,
         primaryLabelInterval: this.defaultPrimaryLabelInterval,
         secondaryLabelInterval: this.defaultSecondaryLabelInterval,
-        offset: 0
+        offset: 0,
       },
       params
     );
@@ -227,14 +227,14 @@ export default class TimelinePlugin {
       position: "relative",
       userSelect: "none",
       webkitUserSelect: "none",
-      height: `${this.params.height}px`
+      height: `${this.params.height}px`,
     });
 
     if (wsParams.fillParent || wsParams.scrollParent) {
       this.util.style(this.wrapper, {
         width: "100%",
         overflowX: "hidden",
-        overflowY: "hidden"
+        overflowY: "hidden",
       });
     }
 
@@ -263,7 +263,7 @@ export default class TimelinePlugin {
     this.canvases.push(canvas);
     this.util.style(canvas, {
       position: "absolute",
-      zIndex: 4
+      zIndex: 4,
     });
   }
 
@@ -317,7 +317,7 @@ export default class TimelinePlugin {
       this.util.style(canvas, {
         width: `${canvasWidth}px`,
         height: `${this.params.height}px`,
-        left: `${i * this.maxCanvasElementWidth}px`
+        left: `${i * this.maxCanvasElementWidth}px`,
       });
     });
   }
@@ -350,7 +350,7 @@ export default class TimelinePlugin {
     const formatTime = this.params.formatTimeCallback;
     // if parameter is function, call the function with
     // pixelsPerSecond, otherwise simply take the value as-is
-    const intervalFnOrVal = option =>
+    const intervalFnOrVal = (option) =>
       typeof option === "function" ? option(pixelsPerSecond) : option;
     const timeInterval = intervalFnOrVal(this.params.timeInterval);
     const primaryLabelInterval = intervalFnOrVal(
@@ -373,8 +373,8 @@ export default class TimelinePlugin {
     }
 
     // iterate over each position
-    const renderPositions = cb => {
-      positioning.forEach(pos => {
+    const renderPositions = (cb) => {
+      positioning.forEach((pos) => {
         cb(pos[0], pos[1], pos[2]);
       });
     };
@@ -425,7 +425,7 @@ export default class TimelinePlugin {
    * use
    */
   setFillStyles(fillStyle) {
-    this.canvases.forEach(canvas => {
+    this.canvases.forEach((canvas) => {
       canvas.getContext("2d").fillStyle = fillStyle;
     });
   }
@@ -436,7 +436,7 @@ export default class TimelinePlugin {
    * @param {DOMString} font Font to use
    */
   setFonts(font) {
-    this.canvases.forEach(canvas => {
+    this.canvases.forEach((canvas) => {
       canvas.getContext("2d").font = font;
     });
   }
@@ -459,7 +459,7 @@ export default class TimelinePlugin {
         x1: Math.max(x, i * this.maxCanvasWidth),
         y1: y,
         x2: Math.min(x + width, i * this.maxCanvasWidth + canvas.width),
-        y2: y + height
+        y2: y + height,
       };
 
       if (intersection.x1 < intersection.x2) {
@@ -486,7 +486,7 @@ export default class TimelinePlugin {
     let textWidth;
     let xOffset = 0;
 
-    this.canvases.forEach(canvas => {
+    this.canvases.forEach((canvas) => {
       const context = canvas.getContext("2d");
       const canvasWidth = context.canvas.width;
 

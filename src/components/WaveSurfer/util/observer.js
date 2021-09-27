@@ -43,7 +43,7 @@ export default class Observer {
     return {
       name: event,
       callback: fn,
-      un: (e, fn) => this.un(e, fn)
+      un: (e, fn) => this.un(e, fn),
     };
   }
 
@@ -140,7 +140,7 @@ export default class Observer {
 
     const handlers = this.handlers[event];
     handlers &&
-      handlers.forEach(fn => {
+      handlers.forEach((fn) => {
         fn(...args);
       });
   }

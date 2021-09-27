@@ -11,22 +11,22 @@ export default {
   props: {
     items: {
       type: Array,
-      required: true
+      required: true,
     },
     type: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   methods: {
     onClick(item) {
       const payload = {
         type: this.type,
-        click: item.val
+        click: item.val,
       };
       this.$emit("click", payload);
-    }
-  }
+    },
+  },
 };
 </script>
 

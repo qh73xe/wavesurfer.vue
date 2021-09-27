@@ -113,7 +113,7 @@ export default class PeakCache {
     for (i = 0; i < this.peakCacheRanges.length; i += 2) {
       peakCacheRangePairs.push([
         this.peakCacheRanges[i],
-        this.peakCacheRanges[i + 1]
+        this.peakCacheRanges[i + 1],
       ]);
     }
     return peakCacheRangePairs;

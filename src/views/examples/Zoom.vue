@@ -60,10 +60,8 @@
               step="0.25"
               :min="0.25"
               :max="1"
-              :hint="
-                `モノラル音源の場合: ${freqRate * 12} kHz,
-                ステレオ音源の場合: ${freqRate * 24} kHz までを表示します`
-              "
+              :hint="`モノラル音源の場合: ${freqRate * 12} kHz,
+                ステレオ音源の場合: ${freqRate * 24} kHz までを表示します`"
               label="MaxFreq"
             >
               <template v-slot:thumb-label="{ value }">
@@ -121,7 +119,7 @@ export default {
     WExampleLayout,
     WExampleDemoCard,
     WExampleDemoCardActions,
-    WaveSurfer
+    WaveSurfer,
   },
   data: () => ({
     locale: locale,
@@ -135,7 +133,7 @@ export default {
     targetChannel: 0,
     snackbar: {
       show: false,
-      text: ""
+      text: "",
     },
     template: `
     <v-card class="mx-auto">
@@ -321,21 +319,21 @@ export default {
     };
     `,
     source: null,
-    isReady: false
+    isReady: false,
   }),
   computed: {
-    minPxPerSec: function() {
+    minPxPerSec: function () {
       if (this.isScroll) {
         return 100;
       }
       return 50;
     },
-    scrollParent: function() {
+    scrollParent: function () {
       return this.isScroll;
-    }
+    },
   },
   methods: {
-    onFileChange: function(file) {
+    onFileChange: function (file) {
       this.source = null;
       if (file) {
         const fr = new FileReader();
@@ -345,7 +343,7 @@ export default {
         });
       }
     },
-    onZoomEnd: function(val) {
+    onZoomEnd: function (val) {
       this.$refs.wavesurfer.zoom(Number(val));
     },
     onSpectrogramRenderEnd() {
@@ -354,24 +352,24 @@ export default {
     onSpectrogramRenderStart() {
       this.isLoading = true;
     },
-    onReady: function() {
+    onReady: function () {
       this.isReady = true;
       this.snackbar.text = "on ready";
       this.snackbar.show = true;
     },
-    onPlay: function() {
+    onPlay: function () {
       this.snackbar.text = "on play";
       this.snackbar.show = true;
     },
-    onPause: function() {
+    onPause: function () {
       this.snackbar.text = "on pause";
       this.snackbar.show = true;
     },
-    onDestroy: function() {
+    onDestroy: function () {
       this.snackbar.text = "on destroy";
       this.snackbar.show = true;
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped></style>

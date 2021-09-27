@@ -2,7 +2,7 @@
   <w-documentation-layout :heading="heading" :desc="$vuetify.lang.t(desc)">
     <v-list two-line v-if="search.length > 0">
       <v-list-item
-        v-for="(item, key) in items.filter(x => ~x[0].indexOf(search))"
+        v-for="(item, key) in items.filter((x) => ~x[0].indexOf(search))"
         :key="key"
       >
         <v-list-item-content>
@@ -31,7 +31,7 @@ const locale = "$vuetify.document.events";
 export default {
   name: "Events.vue",
   components: {
-    WDocumentationLayout
+    WDocumentationLayout,
   },
   data: () => ({
     heading: "wavesurfer.vue/documentation/events",
@@ -53,8 +53,8 @@ export default {
       "seek",
       "volume",
       "waveform-ready",
-      "zoom"
-    ]
+      "zoom",
+    ],
   }),
   computed: {
     search: {
@@ -63,9 +63,9 @@ export default {
       },
       set(val) {
         this.$store.commit("app_bar/set_search", val);
-      }
-    }
-  }
+      },
+    },
+  },
 };
 </script>
 <style scoped></style>

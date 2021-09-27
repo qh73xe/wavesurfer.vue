@@ -43,7 +43,7 @@ class ProgressHandler {
               this.instance.onProgress.call(this.instance, {
                 loaded: this.loaded,
                 total: this.total,
-                lengthComputable: false
+                lengthComputable: false,
               });
             }
             // no more data needs to be consumed, close the stream
@@ -55,13 +55,13 @@ class ProgressHandler {
           this.instance.onProgress.call(this.instance, {
             loaded: this.loaded,
             total: this.total,
-            lengthComputable: !(this.total === 0)
+            lengthComputable: !(this.total === 0),
           });
           // enqueue the next data chunk into our target stream
           controller.enqueue(value);
           read();
         })
-        .catch(error => {
+        .catch((error) => {
           controller.error(error);
         });
     };
@@ -127,7 +127,7 @@ export default function fetchFile(options) {
   // check if headers have to be added
   if (options && options.requestHeaders) {
     // add custom request headers
-    options.requestHeaders.forEach(header => {
+    options.requestHeaders.forEach((header) => {
       fetchHeaders.append(header.key, header.value);
     });
   }
@@ -142,11 +142,11 @@ export default function fetchFile(options) {
     cache: options.cache || "default",
     redirect: options.redirect || "follow",
     referrer: options.referrer || "client",
-    signal: instance.controller.signal
+    signal: instance.controller.signal,
   };
 
   fetch(fetchRequest, fetchOptions)
-    .then(response => {
+    .then((response) => {
       // store response reference
       instance.response = response;
 
@@ -172,7 +172,7 @@ export default function fetchFile(options) {
       }
 
       // fire progress event when during load
-      instance.onProgress = e => {
+      instance.onProgress = (e) => {
         instance.fireEvent("progress", e);
       };
 
@@ -183,7 +183,7 @@ export default function fetchFile(options) {
         fetchOptions
       );
     })
-    .then(response => {
+    .then((response) => {
       let errMsg;
       if (response.ok) {
         switch (responseType) {
@@ -209,10 +209,10 @@ export default function fetchFile(options) {
       }
       throw new Error(errMsg);
     })
-    .then(response => {
+    .then((response) => {
       instance.fireEvent("success", response);
     })
-    .catch(error => {
+    .catch((error) => {
       instance.fireEvent("error", error);
     });
 

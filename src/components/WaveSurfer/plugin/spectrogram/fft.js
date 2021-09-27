@@ -121,7 +121,7 @@ export default function FFT(bufferSize, sampleRate, windowFunc, alpha) {
     this.cosTable[i] = Math.cos(-Math.PI / i);
   }
 
-  this.calculateSpectrum = function(buffer) {
+  this.calculateSpectrum = function (buffer) {
     // Locally scope variables for speed up
     const bufferSize = this.bufferSize;
     const cosTable = this.cosTable;
@@ -142,7 +142,7 @@ export default function FFT(bufferSize, sampleRate, windowFunc, alpha) {
     if (bufferSize !== buffer.length) {
       const msg = [
         "Supplied buffer is not the same size as defined FFT.",
-        `FFT Size: ${bufferSize} Buffer Size: ${buffer.length}`
+        `FFT Size: ${bufferSize} Buffer Size: ${buffer.length}`,
       ].join(" ");
       throw msg;
     }
@@ -206,7 +206,7 @@ export default function FFT(bufferSize, sampleRate, windowFunc, alpha) {
     return spectrum;
   };
 
-  this.async_calculateSpectrum = function(buffer) {
+  this.async_calculateSpectrum = function (buffer) {
     // Locally scope variables for speed up
     return new Promise((resolve, reject) => {
       const bufferSize = this.bufferSize;
@@ -227,7 +227,7 @@ export default function FFT(bufferSize, sampleRate, windowFunc, alpha) {
       if (bufferSize !== buffer.length) {
         const msg = [
           "Supplied buffer is not the same size as defined FFT.",
-          `FFT Size: ${bufferSize} Buffer Size: ${buffer.length}`
+          `FFT Size: ${bufferSize} Buffer Size: ${buffer.length}`,
         ].join(" ");
         reject(new Error(msg));
       }

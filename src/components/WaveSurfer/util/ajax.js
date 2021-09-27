@@ -51,7 +51,7 @@ export default function ajax(options) {
   if (options.xhr) {
     if (options.xhr.requestHeaders) {
       // add custom request headers
-      options.xhr.requestHeaders.forEach(header => {
+      options.xhr.requestHeaders.forEach((header) => {
         xhr.setRequestHeader(header.key, header.value);
       });
     }
@@ -61,13 +61,13 @@ export default function ajax(options) {
     }
   }
 
-  xhr.addEventListener("progress", e => {
+  xhr.addEventListener("progress", (e) => {
     instance.fireEvent("progress", e);
     if (e.lengthComputable && e.loaded == e.total) {
       fired100 = true;
     }
   });
-  xhr.addEventListener("load", e => {
+  xhr.addEventListener("load", (e) => {
     if (!fired100) {
       instance.fireEvent("progress", e);
     }
@@ -78,7 +78,7 @@ export default function ajax(options) {
       instance.fireEvent("error", e);
     }
   });
-  xhr.addEventListener("error", e => instance.fireEvent("error", e));
+  xhr.addEventListener("error", (e) => instance.fireEvent("error", e));
   xhr.send();
   instance.xhr = xhr;
   return instance;

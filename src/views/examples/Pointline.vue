@@ -133,9 +133,7 @@
           <v-icon small class="mr-2" @click="editPoint(item)">
             mdi-pencil
           </v-icon>
-          <v-icon small @click="deletePoint(item)">
-            mdi-delete
-          </v-icon>
+          <v-icon small @click="deletePoint(item)"> mdi-delete </v-icon>
         </template>
       </v-data-table>
       <v-snackbar v-model="snackbar.show">
@@ -159,7 +157,7 @@ export default {
     WExampleLayout,
     WExampleDemoCard,
     WExampleDemoCardActions,
-    WaveSurfer
+    WaveSurfer,
   },
   data: () => ({
     locale: locale,
@@ -171,27 +169,27 @@ export default {
       size: 3,
       color: "#4353FF",
       time: 0,
-      value: 0
+      value: 0,
     },
     points: [
       {
         size: 3,
         color: "#4353FF",
         time: 0,
-        value: 0
+        value: 0,
       },
       {
         size: 3,
         color: "#4353FF",
         time: 0.1,
-        value: 10
+        value: 10,
       },
       {
         size: 3,
         color: "#4353FF",
         time: 0.2,
-        value: 5
-      }
+        value: 5,
+      },
     ],
     headers: [
       { text: "id", value: "id" },
@@ -199,11 +197,11 @@ export default {
       { text: "value", value: "value" },
       { text: "color", value: "color" },
       { text: "size", value: "size" },
-      { text: "Actions", value: "actions", sortable: false }
+      { text: "Actions", value: "actions", sortable: false },
     ],
     snackbar: {
       show: false,
-      text: ""
+      text: "",
     },
     dialog: false,
     template: `
@@ -474,7 +472,7 @@ export default {
     };
     `,
     source: null,
-    isReady: false
+    isReady: false,
   }),
   methods: {
     editPoint(item) {
@@ -501,12 +499,12 @@ export default {
             size: 3,
             color: "#4353FF",
             time: 0,
-            value: 0
+            value: 0,
           }
         );
       });
     },
-    onFileChange: function(file) {
+    onFileChange: function (file) {
       this.source = null;
       if (file) {
         const fr = new FileReader();
@@ -516,27 +514,27 @@ export default {
         });
       }
     },
-    onZoomEnd: function(val) {
+    onZoomEnd: function (val) {
       this.$refs.wavesurfer.zoom(Number(val));
     },
-    addPoint: function() {
+    addPoint: function () {
       this.$refs.wavesurfer.addPoint(this.point);
     },
-    onAddPoint: function(point) {
+    onAddPoint: function (point) {
       this.points.push(point);
       this.isReady = true;
       this.snackbar.text = `on added point. id = ${point.id}`;
       this.snackbar.show = true;
     },
-    onUpdatePoint: function(point) {
-      const idx = this.points.findIndex(x => x.id == point.id);
+    onUpdatePoint: function (point) {
+      const idx = this.points.findIndex((x) => x.id == point.id);
       this.points[idx] = point;
       this.isReady = true;
       this.snackbar.text = `on updated point. id = ${point.id}`;
       this.snackbar.show = true;
     },
-    onDeletePoint: function(point) {
-      const idx = this.points.findIndex(x => x.id == point.id);
+    onDeletePoint: function (point) {
+      const idx = this.points.findIndex((x) => x.id == point.id);
       if (idx > -1) {
         this.points.splice(idx, 1);
       }
@@ -544,24 +542,24 @@ export default {
       this.snackbar.text = `on deleted point. id = ${point.id}`;
       this.snackbar.show = true;
     },
-    onReady: function() {
+    onReady: function () {
       this.isReady = true;
       this.snackbar.text = "on ready";
       this.snackbar.show = true;
     },
-    onPlay: function() {
+    onPlay: function () {
       this.snackbar.text = "on play";
       this.snackbar.show = true;
     },
-    onPause: function() {
+    onPause: function () {
       this.snackbar.text = "on pause";
       this.snackbar.show = true;
     },
-    onDestroy: function() {
+    onDestroy: function () {
       this.snackbar.text = "on destroy";
       this.snackbar.show = true;
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped></style>

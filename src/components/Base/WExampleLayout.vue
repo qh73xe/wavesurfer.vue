@@ -53,74 +53,74 @@ export default {
   name: "WExampleLayout.vue",
   components: {
     WJumbotron,
-    WCodeHeighlight
+    WCodeHeighlight,
   },
   data: () => ({
     tab: null,
     items: [
       { tab: "Template", content: "template" },
       { tab: "Script", content: "script" },
-      { tab: "Style", content: "style" }
-    ]
+      { tab: "Style", content: "style" },
+    ],
   }),
   props: {
     heading: {
-      type: String
+      type: String,
     },
     desc: {
-      type: String
+      type: String,
     },
     template_code: {
       type: String,
-      default: ""
+      default: "",
     },
     script_code: {
       type: String,
-      default: ""
+      default: "",
     },
     style_code: {
       type: String,
-      default: ""
-    }
+      default: "",
+    },
   },
   computed: {
-    template_string: function() {
+    template_string: function () {
       if (this.template_code.length == 0) {
         return "<template></template>";
       }
       const codes = [];
       for (const x of this.template_code
         .split("\n")
-        .filter(x => x.trim().length > 0)) {
+        .filter((x) => x.trim().length > 0)) {
         codes.push(x);
       }
       return `<template>\n${codes.join("\n")}\n</template>`;
     },
-    script_string: function() {
+    script_string: function () {
       if (this.script_code.length == 0) {
         return `<script><\/script>`; // eslint-disable-line no-useless-escape
       }
       const codes = [];
       for (const x of this.script_code
         .split("\n")
-        .filter(x => x.trim().length > 0)) {
+        .filter((x) => x.trim().length > 0)) {
         codes.push(x);
       }
       return `<script>\n${codes.join("\n")}\n<\/script>`; // eslint-disable-line no-useless-escape
     },
-    style_string: function() {
+    style_string: function () {
       if (this.style_code.length == 0) {
         return "<style scoped></style>";
       }
       const codes = [];
       for (const x of this.style_code
         .split("\n")
-        .filter(x => x.trim().length > 0)) {
+        .filter((x) => x.trim().length > 0)) {
         codes.push(x);
       }
       return `<style scoped>\n${codes.join("\n")}\n</style>`;
-    }
-  }
+    },
+  },
 };
 </script>
 

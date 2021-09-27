@@ -57,7 +57,7 @@ export default class TextgridPlugin {
       name: "textgrid",
       deferInit: params && params.deferInit ? params.deferInit : false,
       params: params,
-      instance: TextgridPlugin
+      instance: TextgridPlugin,
     };
   }
 
@@ -68,13 +68,13 @@ export default class TextgridPlugin {
     }
   };
 
-  _onSeek = progress => {
+  _onSeek = (progress) => {
     const time = progress * this.wavesurfer.getDuration();
     this.currentTime = time;
     this.setCursorTime();
   };
 
-  _onAudioProcess = time => {
+  _onAudioProcess = (time) => {
     this.currentTime = time;
     this.setCursorTime();
   };
@@ -135,7 +135,7 @@ export default class TextgridPlugin {
         playingOffset: 1,
         matchedSize: 3, // 同一時刻であると判定するピクセル数
         tiers: {},
-        zoomDebounce: false
+        zoomDebounce: false,
       },
       params
     );
@@ -150,7 +150,7 @@ export default class TextgridPlugin {
     this.current = {
       key: null,
       item: null,
-      index: null
+      index: null,
     };
     /**
      * This event handler has to be in the constructor function because it
@@ -227,7 +227,7 @@ export default class TextgridPlugin {
       position: "absolute",
       zIndex: 3,
       width: `${cursorWidth}px`,
-      borderLeft: `${cursorWidth}px ${btype} ${bcolor}`
+      borderLeft: `${cursorWidth}px ${btype} ${bcolor}`,
     });
     this.wrapper.appendChild(cursorEl);
   }
@@ -260,12 +260,12 @@ export default class TextgridPlugin {
       position: "relative",
       userSelect: "none",
       webkitUserSelect: "none",
-      height: `${this.params.height * Object.keys(this.tiers).length}px`
+      height: `${this.params.height * Object.keys(this.tiers).length}px`,
     });
 
     if (this.wsParams.fillParent || this.wsParams.scrollParent) {
       this.util.style(this.wrapper, {
-        width: "100%"
+        width: "100%",
       });
       if (this.params.maxHeight !== null) {
         this.setMaxHeight(this.params.maxHeight);
@@ -307,14 +307,14 @@ export default class TextgridPlugin {
         top: `${i * this.params.height}px`,
         left: `${0 * this.maxCanvasElementWidth}px`,
         "border-top": `solid 1px ${this.params.color}`,
-        "border-bottom": `solid 1px ${this.params.color}`
+        "border-bottom": `solid 1px ${this.params.color}`,
       });
 
       // add canvas events
       const vm = this;
 
       // クリックイベントの取得
-      this.tiers[key].onClick = function(e) {
+      this.tiers[key].onClick = function (e) {
         e.preventDefault();
         // seek to click point
         const progress = vm.event2progress(e);
@@ -328,12 +328,12 @@ export default class TextgridPlugin {
           shift: e.shiftKey,
           ctrl: e.ctrlKey,
           alt: e.altKey,
-          meta: e.metaKey
+          meta: e.metaKey,
         };
         vm.wavesurfer.fireEvent("textgrid-click", payload);
         if (e.detail === 1) {
           // set curent item
-          let canditates = vm.tiers[key].values.filter(x => {
+          let canditates = vm.tiers[key].values.filter((x) => {
             return x.time >= time;
           });
           canditates.sort((a, b) => a.time - b.time);
@@ -344,7 +344,7 @@ export default class TextgridPlugin {
         }
       };
 
-      this.tiers[key].onDblClick = function(e) {
+      this.tiers[key].onDblClick = function (e) {
         e.preventDefault();
         const time = vm.event2time(e);
         const item = { key: key, time: time };
@@ -356,10 +356,10 @@ export default class TextgridPlugin {
       this.tiers[key].dragingItemIdx = null;
 
       let timer;
-      const draggingMousemove = function(e) {
+      const draggingMousemove = function (e) {
         canvas.style.cursor = "grabbing";
         clearTimeout(timer);
-        timer = setTimeout(function() {
+        timer = setTimeout(function () {
           let time = vm.event2time(e);
           const tier = vm.tiers[key];
           const idx = tier.dragingItemIdx;
@@ -367,12 +367,12 @@ export default class TextgridPlugin {
           const pPs = canvas.width / duration;
 
           // 他の Tier に同時刻のものがあるかを確認
-          const oTiers = Object.keys(vm.tiers).filter(okey => okey != key);
+          const oTiers = Object.keys(vm.tiers).filter((okey) => okey != key);
           const mTiers = oTiers.filter(
-            okey =>
+            (okey) =>
               vm.tiers[okey].values.filter(
                 // 対象との差が vm.matchedSize 以下の場合検索に成功とする
-                r => distance(pPs * r.time, pPs * time) < vm.matchedSize
+                (r) => distance(pPs * r.time, pPs * time) < vm.matchedSize
               ).length > 0
           );
           if (mTiers.length) {
@@ -385,9 +385,9 @@ export default class TextgridPlugin {
             time =
               vm.tiers[mTiers[mTiers.length - 1]].values
                 .filter(
-                  r => distance(pPs * r.time, pPs * time) < vm.matchedSize
+                  (r) => distance(pPs * r.time, pPs * time) < vm.matchedSize
                 )
-                .map(r => r.time)[0] || time;
+                .map((r) => r.time)[0] || time;
           } else {
             // カーサーの状態を戻す
             const w = vm.wavesurfer.params.cursorWidth || 1;
@@ -405,13 +405,13 @@ export default class TextgridPlugin {
         }, 50);
       };
 
-      const draggingMousedown = function() {
+      const draggingMousedown = function () {
         vm.tiers[key].isDraging = true;
         canvas.style.cursor = "grabbing";
         canvas.addEventListener("mousemove", draggingMousemove);
       };
 
-      const draggingMouseup = function() {
+      const draggingMouseup = function () {
         canvas.style.cursor = "grab";
         vm.tiers[key].isDraging = false;
         vm.tiers[key].dragingItemIdx = null;
@@ -428,14 +428,14 @@ export default class TextgridPlugin {
       };
 
       // マウス移動中の確認
-      this.tiers[key].onMouseMove = function(e) {
+      this.tiers[key].onMouseMove = function (e) {
         e.preventDefault();
         const duration = vm.wavesurfer.backend.getDuration();
         const pixelsPerSecond = canvas.width / duration;
         const relX = "offsetX" in e ? e.offsetX : e.layerX;
 
         if (!vm.tiers[key].isDraging) {
-          vm.tiers[key].dragingItemIdx = vm.tiers[key].values.findIndex(x => {
+          vm.tiers[key].dragingItemIdx = vm.tiers[key].values.findIndex((x) => {
             return distance(relX, x.time * pixelsPerSecond) < 1;
           });
         }
@@ -452,7 +452,7 @@ export default class TextgridPlugin {
       };
 
       // キーボードイベントの取得
-      this.tiers[key].onKeydown = function(e) {
+      this.tiers[key].onKeydown = function (e) {
         e.preventDefault();
         const payload = {
           keycode: e.which,
@@ -460,12 +460,12 @@ export default class TextgridPlugin {
           ctrl: e.ctrlKey,
           alt: e.altKey,
           meta: e.metaKey,
-          current: vm.current
+          current: vm.current,
         };
         vm.wavesurfer.fireEvent("textgrid-keydown", payload);
       };
 
-      this.tiers[key].onKeyup = function(e) {
+      this.tiers[key].onKeyup = function (e) {
         e.preventDefault();
         const payload = {
           keycode: e.which,
@@ -473,7 +473,7 @@ export default class TextgridPlugin {
           ctrl: e.ctrlKey,
           alt: e.altKey,
           meta: e.metaKey,
-          current: vm.current
+          current: vm.current,
         };
         vm.wavesurfer.fireEvent("textgrid-keyup", payload);
       };
@@ -495,7 +495,7 @@ export default class TextgridPlugin {
         position: "absolute",
         zIndex: 4,
         top: `${i * this.params.height}px`,
-        width: "${this.params.fontSize + 4}px"
+        width: "${this.params.fontSize + 4}px",
       });
       this.tiers[key].label = label;
     } else {
@@ -504,7 +504,7 @@ export default class TextgridPlugin {
         position: "absolute",
         zIndex: 4,
         top: `${i * this.params.height}px`,
-        width: "${this.params.fontSize + 4}px"
+        width: "${this.params.fontSize + 4}px",
       });
     }
   }
@@ -544,7 +544,7 @@ export default class TextgridPlugin {
       top: `${i * this.params.height}px`,
       left: `${0 * this.maxCanvasElementWidth}px`,
       width: `${this.wavesurfer.drawer.width}px`,
-      height: `${this.params.height}px`
+      height: `${this.params.height}px`,
     });
   }
 
@@ -594,8 +594,8 @@ export default class TextgridPlugin {
   renderIntervalTier(key, positioning) {
     const height = this.params.height * this.pixelRatio;
     this.fillRect(key, 0, 0, 1, height);
-    const renderPositions = cb => {
-      positioning.forEach(pos => {
+    const renderPositions = (cb) => {
+      positioning.forEach((pos) => {
         cb(pos[0], pos[1], pos[2], pos[3]);
       });
     };
@@ -642,8 +642,8 @@ export default class TextgridPlugin {
 
   renderPointTier(key, positioning) {
     const height = this.params.height * this.pixelRatio;
-    const renderPositions = cb => {
-      positioning.forEach(pos => {
+    const renderPositions = (cb) => {
+      positioning.forEach((pos) => {
         cb(pos[0], pos[1], pos[2], pos[3]);
       });
     };
@@ -743,7 +743,7 @@ export default class TextgridPlugin {
       x1: Math.max(x, 0),
       y1: y,
       x2: Math.min(x + width, canvas.width),
-      y2: y + height
+      y2: y + height,
     };
 
     if (intersection.x1 < intersection.x2) {
@@ -783,7 +783,7 @@ export default class TextgridPlugin {
     this.current.key = key;
     this.current.item = item;
     this.current.index = this.tiers[key].values.findIndex(
-      x => x.time == this.current.item.time
+      (x) => x.time == this.current.item.time
     );
     this.render();
     this.wavesurfer.fireEvent("textgrid-current-update", this.current);
@@ -903,7 +903,7 @@ export default class TextgridPlugin {
       this.tiers[key] = {
         type: type,
         values: values,
-        parent: parent || null
+        parent: parent || null,
       };
       this.render();
       this.wavesurfer.fireEvent("tier-add", this.tiers);
@@ -952,7 +952,7 @@ export default class TextgridPlugin {
           vm.tiers[obj.name] = {
             values: ref.values || [],
             type: "type" in obj ? obj.type : ref.type,
-            parent: "parent" in obj ? obj.parent : ref.parent
+            parent: "parent" in obj ? obj.parent : ref.parent,
           };
 
           // 子要素の参照を変更
@@ -994,10 +994,10 @@ export default class TextgridPlugin {
     }
 
     const base = this.tiers[ref];
-    const values = base.values.map(x => {
+    const values = base.values.map((x) => {
       return {
         time: x.time,
-        text: withText ? x.text : ""
+        text: withText ? x.text : "",
       };
     });
 
@@ -1005,7 +1005,7 @@ export default class TextgridPlugin {
       this.tiers[key] = {
         type: type,
         values: values,
-        parent: parent || null
+        parent: parent || null,
       };
       this.render();
       this.wavesurfer.fireEvent("tier-add", this.tiers);
@@ -1037,21 +1037,21 @@ export default class TextgridPlugin {
   addTierValue(key, obj, fireEvent = true, render = true) {
     const vm = this;
     this.saveKeyInTier(key, () => {
-      const idx = vm.tiers[key].values.findIndex(x => {
+      const idx = vm.tiers[key].values.findIndex((x) => {
         return x.time == obj.time;
       });
 
       if (idx == -1) {
         const item = {
           time: obj.time || null,
-          text: obj.text || ""
+          text: obj.text || "",
         };
         vm.tiers[key].values.push(item);
 
         // 親が追加された場合子も追加する
         for (const ckey in vm.tiers) {
           if (key == vm.tiers[ckey].parent) {
-            const ci = vm.tiers[ckey].values.findIndex(x => {
+            const ci = vm.tiers[ckey].values.findIndex((x) => {
               return x.time == item.time;
             });
             if (ci == -1) vm.addTierValue(ckey, item, false, false);
@@ -1081,7 +1081,7 @@ export default class TextgridPlugin {
           for (const ckey in vm.tiers) {
             if (key == vm.tiers[ckey].parent) {
               const record = vm.tiers[key].values[idx];
-              const ci = vm.tiers[ckey].values.findIndex(x => {
+              const ci = vm.tiers[ckey].values.findIndex((x) => {
                 return x.time == record.time;
               });
               if (ci != -1) {
@@ -1093,7 +1093,7 @@ export default class TextgridPlugin {
           // 子要素が動いた場合, 親の同時刻を移動する
           const ps = vm.getParents(vm.tiers[key].parent);
           for (const p of ps) {
-            const pi = vm.tiers[p].values.findIndex(x => {
+            const pi = vm.tiers[p].values.findIndex((x) => {
               return x.time == record.time;
             });
             if (pi != -1) vm.tiers[p].values[pi].time = object.time;
@@ -1137,7 +1137,7 @@ export default class TextgridPlugin {
         // 親である場合, 子に向けて再帰呼出を行う
         for (const ckey in vm.tiers) {
           if (key == vm.tiers[ckey].parent) {
-            const ci = vm.tiers[ckey].values.findIndex(x => {
+            const ci = vm.tiers[ckey].values.findIndex((x) => {
               return x.time == record.time;
             });
             if (ci != -1) vm.deleteTierValue(ckey, ci, false, false);
@@ -1149,7 +1149,7 @@ export default class TextgridPlugin {
         const ps = vm.getParents(vm.tiers[key].parent);
 
         for (const p of ps) {
-          const pi = vm.tiers[p].values.findIndex(x => {
+          const pi = vm.tiers[p].values.findIndex((x) => {
             return x.time == record.time;
           });
           if (pi != -1) del(vm.tiers[p], pi);
@@ -1229,7 +1229,7 @@ export default class TextgridPlugin {
     this.current = {
       key: null,
       item: null,
-      index: null
+      index: null,
     };
 
     // Tier の作成
@@ -1251,7 +1251,7 @@ export default class TextgridPlugin {
                   if (v.time !== this.wavesurfer.getDuration()) {
                     values.push({
                       text: "",
-                      time: this.wavesurfer.getDuration()
+                      time: this.wavesurfer.getDuration(),
                     });
                   }
                 }
@@ -1261,7 +1261,7 @@ export default class TextgridPlugin {
             if (tier.type == "interval") {
               values.push({
                 text: "",
-                time: this.wavesurfer.getDuration()
+                time: this.wavesurfer.getDuration(),
               });
             }
           }
@@ -1269,7 +1269,7 @@ export default class TextgridPlugin {
           this.tiers[key] = {
             type: tier.type,
             values: values,
-            parent: tier.parent || null
+            parent: tier.parent || null,
           };
         }
       }
@@ -1316,7 +1316,7 @@ export default class TextgridPlugin {
     downloadLink.dataset.downloadurl = [
       "text/plain",
       downloadLink.download,
-      downloadLink.href
+      downloadLink.href,
     ].join(":");
     downloadLink.click();
   }

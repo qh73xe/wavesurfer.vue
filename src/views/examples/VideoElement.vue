@@ -59,7 +59,7 @@ export default {
     WExampleLayout,
     WExampleDemoCard,
     WExampleDemoCardActions,
-    WaveSurfer
+    WaveSurfer,
   },
   data: () => ({
     locale: locale,
@@ -68,7 +68,7 @@ export default {
     desc: "How to load the video.",
     snackbar: {
       show: false,
-      text: ""
+      text: "",
     },
     source: null,
     videoSource: null,
@@ -186,10 +186,10 @@ export default {
       }
     };
     `,
-    isReady: false
+    isReady: false,
   }),
   methods: {
-    onFileChange: function(file) {
+    onFileChange: function (file) {
       this.source = null;
       this.videoSource = null;
       if (file) {
@@ -200,25 +200,25 @@ export default {
         });
       }
     },
-    onLoadedData: function() {
+    onLoadedData: function () {
       this.videoSource = this.$refs.video;
     },
-    onReady: function() {
+    onReady: function () {
       this.isReady = true;
     },
-    onPlay: function() {
+    onPlay: function () {
       this.snackbar.text = "on play";
       this.snackbar.show = true;
     },
-    onPause: function() {
+    onPause: function () {
       this.snackbar.text = "on pause";
       this.snackbar.show = true;
     },
-    onDestroy: function() {
+    onDestroy: function () {
       this.snackbar.text = "on destroy";
       this.snackbar.show = true;
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped>

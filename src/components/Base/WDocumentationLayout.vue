@@ -17,16 +17,16 @@ import WJumbotron from "@/components/Base/WJumbotron.vue";
 export default {
   name: "WDocumentationLayout.vue",
   components: {
-    WJumbotron
+    WJumbotron,
   },
   props: {
     heading: {
-      type: String
+      type: String,
     },
     desc: {
-      type: String
-    }
-  }
+      type: String,
+    },
+  },
 };
 </script>
 

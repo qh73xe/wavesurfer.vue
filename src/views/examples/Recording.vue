@@ -50,7 +50,7 @@ export default {
   components: {
     WExampleLayout,
     WExampleDemoCard,
-    WaveSurfer
+    WaveSurfer,
   },
   data: () => ({
     locale: locale,
@@ -62,7 +62,7 @@ export default {
     waveColor: "black",
     snackbar: {
       show: false,
-      text: ""
+      text: "",
     },
     template: `
     <v-card class="mx-auto">
@@ -118,20 +118,20 @@ export default {
     };
     `,
     source: null,
-    isReady: false
+    isReady: false,
   }),
   methods: {
-    recStart: function() {
+    recStart: function () {
       if (this.$refs.wavesurfer) this.$refs.wavesurfer.recStart();
     },
-    recStop: function() {
+    recStop: function () {
       if (this.$refs.wavesurfer) this.$refs.wavesurfer.recStop();
     },
-    onDestroy: function() {
+    onDestroy: function () {
       this.snackbar.text = "on destroy";
       this.snackbar.show = true;
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped></style>

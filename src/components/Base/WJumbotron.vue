@@ -10,13 +10,13 @@ export default {
   props: {
     heading: {
       type: String,
-      default: ""
+      default: "",
     },
     desc: {
       type: String,
-      default: ""
-    }
-  }
+      default: "",
+    },
+  },
 };
 </script>
 <style scoped></style>
