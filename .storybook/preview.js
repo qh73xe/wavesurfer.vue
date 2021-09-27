@@ -2,6 +2,7 @@ import Vue from "vue";
 import Vuetify from "vuetify";
 import "vuetify/dist/vuetify.min.css";
 import { options } from "@/plugins/vuetify.js";
+import store from "@/store";
 
 Vue.use(Vuetify);
 const vuetify = new Vuetify(options);
@@ -21,6 +22,7 @@ export const decorators = [
     const wrapped = story(context);
     return Vue.extend({
       vuetify,
+      store,
       components: { wrapped },
       template: `
         <v-app>
