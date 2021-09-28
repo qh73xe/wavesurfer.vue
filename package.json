@@ -1,12 +1,24 @@
 {
   "name": "wavesurfer.vue",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
+  "license": "MIT",
+  "files": [
+    "dist"
+  ],
+  "keywords": [
+    "Vue",
+    "Vue.js",
+    "wavesurfer",
+    "sound",
+    "video"
+  ],
+  "author": "qh73xe",
   "scripts": {
     "start": "vue-cli-service serve",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "build:lib": "vue-cli-service build --target lib --name wave-vuewer src/components/index.js",
+    "build:lib": "vue-cli-service build --target lib --name wavesurfer src/components/index.js",
     "test:unit": "vue-cli-service test:unit",
     "test:e2e": "vue-cli-service test:e2e",
     "lint": "vue-cli-service lint",

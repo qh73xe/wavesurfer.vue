@@ -14,8 +14,7 @@ function preventClickHandler(event) {
  *
  * @param {object} values Values
  */
-/* eslint-disable  no-unused-vars */
+// eslint-disable-next-line no-unused-vars
 export default function preventClick(values) {
   document.body.addEventListener("click", preventClickHandler, true);
 }
-/* eslint-enable */

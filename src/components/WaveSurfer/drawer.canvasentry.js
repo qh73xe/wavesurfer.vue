@@ -1,6 +1,7 @@
 /**
  * @since 3.0.0
  */
+
 import style from "./util/style";
 import getId from "./util/get-id";
 
@@ -144,15 +145,60 @@ export default class CanvasEntry {
 
   /**
    * Set the fill styles for wave and progress
-   *
-   * @param {string} waveColor Fill color for the wave canvas
-   * @param {?string} progressColor Fill color for the progress canvas
+   * @param {string|string[]} waveColor Fill color for the wave canvas,
+   * or an array of colors to apply as a gradient
+   * @param {?string|string[]} progressColor Fill color for the progress canvas,
+   * or an array of colors to apply as a gradient
    */
   setFillStyles(waveColor, progressColor) {
-    this.waveCtx.fillStyle = waveColor;
+    this.waveCtx.fillStyle = this.getFillStyle(this.waveCtx, waveColor);
 
     if (this.hasProgressCanvas) {
-      this.progressCtx.fillStyle = progressColor;
+      this.progressCtx.fillStyle = this.getFillStyle(
+        this.progressCtx,
+        progressColor
+      );
+    }
+  }
+
+  /**
+   * Utility function to handle wave color arguments
+   *
+   * When the color argument type is a string, it will be returned as is.
+   * Otherwise, it will be treated as an array, and a canvas gradient will
+   * be returned
+   *
+   * @since 5.3.0
+   * @param {CanvasRenderingContext2D} ctx Rendering context of target canvas
+   * @param {string|string[]} color Fill color for the wave canvas, or an array of colors to apply as a gradient
+   * @returns {string|CanvasGradient} Returns a string fillstyle value, or a canvas gradient
+   */
+  getFillStyle(ctx, color) {
+    if (typeof color == "string") {
+      return color;
+    }
+
+    const waveGradient = ctx.createLinearGradient(0, 0, 0, ctx.canvas.height);
+    color.forEach((value, index) =>
+      waveGradient.addColorStop(index / color.length, value)
+    );
+
+    return waveGradient;
+  }
+
+  /**
+   * Set the canvas transforms for wave and progress
+   *
+   * @param {boolean} vertical Whether to render vertically
+   */
+  applyCanvasTransforms(vertical) {
+    if (vertical) {
+      // Reflect the waveform across the line y = -x
+      this.waveCtx.setTransform(0, 1, 1, 0, 0, 0);
+
+      if (this.hasProgressCanvas) {
+        this.progressCtx.setTransform(0, 1, 1, 0, 0, 0);
+      }
     }
   }
 
@@ -281,7 +327,7 @@ export default class CanvasEntry {
    * @param {number} end The x-offset of the end of the area that
    * should be rendered
    */
-  /* eslint-disable  no-unused-vars*/
+  // eslint-disable-next-line no-unused-vars
   drawLineToContext(ctx, peaks, absmax, halfH, offsetY, start, end) {
     if (!ctx) {
       return;
@@ -334,7 +380,6 @@ export default class CanvasEntry {
     ctx.closePath();
     ctx.fill();
   }
-  /* eslint-enable */
 
   /**
    * Destroys this entry

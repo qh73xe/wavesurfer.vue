@@ -79,14 +79,11 @@ export default class MediaElement extends WebAudio {
     this.mediaListeners.pause = () => {
       this.fireEvent("pause");
     };
-
-    /* eslint-disable  no-unused-vars*/
+    // eslint-disable-next-line no-unused-vars
     this.mediaListeners.seeked = (event) => {
       this.fireEvent("seek");
     };
-    /* eslint-enable */
-
-    /* eslint-disable  no-unused-vars*/
+    // eslint-disable-next-line no-unused-vars
     this.mediaListeners.volumechange = (event) => {
       this.isMuted = this.media.muted;
       if (this.isMuted) {
@@ -96,7 +93,6 @@ export default class MediaElement extends WebAudio {
       }
       this.fireEvent("volume");
     };
-    /* eslint-enable */
 
     // reset event listeners
     Object.keys(this.mediaListeners).forEach((id) => {
@@ -229,8 +225,7 @@ export default class MediaElement extends WebAudio {
     if (this.explicitDuration) {
       return this.explicitDuration;
     }
-    // let duration = (this.buffer || this.media).duration;
-    let duration = (this.media || this.buffer).duration;
+    let duration = (this.buffer || this.media).duration;
     if (duration >= Infinity) {
       // streaming audio
       duration = this.media.seekable.end(0);
@@ -298,22 +293,13 @@ export default class MediaElement extends WebAudio {
    * @return {Promise} Result
    */
   play(start, end) {
-    if (end == undefined) {
-      end = this.getDuration();
-    }
-    if (start == undefined) {
-      const currentTime = Math.round(this.getDuration() * 1000) / 1000;
-      const endTime = Math.round(end * 1000) / 1000;
-      if (currentTime >= endTime) {
-        this.seekTo(0);
-      }
-    } else {
-      this.seekTo(start);
-    }
+    this.seekTo(start);
     const promise = this.media.play();
-    this.setPlayEnd(end);
+    end && this.setPlayEnd(end);
+
     return promise;
   }
+
   /**
    * Pauses the loaded audio.
    *
@@ -338,6 +324,7 @@ export default class MediaElement extends WebAudio {
    */
   setPlayEnd(end) {
     this.clearPlayEnd();
+
     this._onPlayEnd = (time) => {
       if (time >= end) {
         this.pause();

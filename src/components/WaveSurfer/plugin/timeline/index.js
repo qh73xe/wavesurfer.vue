@@ -426,7 +426,10 @@ export default class TimelinePlugin {
    */
   setFillStyles(fillStyle) {
     this.canvases.forEach((canvas) => {
-      canvas.getContext("2d").fillStyle = fillStyle;
+      const context = canvas.getContext("2d");
+      if (context) {
+        context.fillStyle = fillStyle;
+      }
     });
   }
 
@@ -437,7 +440,10 @@ export default class TimelinePlugin {
    */
   setFonts(font) {
     this.canvases.forEach((canvas) => {
-      canvas.getContext("2d").font = font;
+      const context = canvas.getContext("2d");
+      if (context) {
+        context.font = font;
+      }
     });
   }
 
@@ -463,14 +469,15 @@ export default class TimelinePlugin {
       };
 
       if (intersection.x1 < intersection.x2) {
-        canvas
-          .getContext("2d")
-          .fillRect(
+        const context = canvas.getContext("2d");
+        if (context) {
+          context.fillRect(
             intersection.x1 - leftOffset,
             intersection.y1,
             intersection.x2 - intersection.x1,
             intersection.y2 - intersection.y1
           );
+        }
       }
     });
   }
@@ -488,18 +495,20 @@ export default class TimelinePlugin {
 
     this.canvases.forEach((canvas) => {
       const context = canvas.getContext("2d");
-      const canvasWidth = context.canvas.width;
+      if (context) {
+        const canvasWidth = context.canvas.width;
 
-      if (xOffset > x + textWidth) {
-        return;
+        if (xOffset > x + textWidth) {
+          return;
+        }
+
+        if (xOffset + canvasWidth > x && context) {
+          textWidth = context.measureText(text).width;
+          context.fillText(text, x - xOffset, y);
+        }
+
+        xOffset += canvasWidth;
       }
-
-      if (xOffset + canvasWidth > x) {
-        textWidth = context.measureText(text).width;
-        context.fillText(text, x - xOffset, y);
-      }
-
-      xOffset += canvasWidth;
     });
   }
 
@@ -510,7 +519,7 @@ export default class TimelinePlugin {
    * @param {number} pxPerSec Pixels per second
    * @returns {number} Time
    */
-  /* eslint-disable  no-unused-vars */
+  // eslint-disable-next-line no-unused-vars
   defaultFormatTimeCallback(seconds, pxPerSec) {
     if (seconds / 60 > 1) {
       // calculate minutes and seconds from seconds count
@@ -522,7 +531,6 @@ export default class TimelinePlugin {
     }
     return Math.round(seconds * 1000) / 1000;
   }
-  /* eslint-enable */
 
   /**
    * Return how many seconds should be between each notch

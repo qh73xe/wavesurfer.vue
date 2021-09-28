@@ -58,7 +58,6 @@ export default class MicrophonePlugin {
     };
   }
 
-  /* eslint-disable  no-unused-vars */
   constructor(params, ws) {
     this.params = params;
     this.wavesurfer = ws;
@@ -69,6 +68,7 @@ export default class MicrophonePlugin {
     this.reloadBufferFunction = (e) => this.reloadBuffer(e);
 
     // cross-browser getUserMedia
+    // eslint-disable-next-line no-unused-vars
     const promisifiedOldGUM = (constraints, successCallback, errorCallback) => {
       // get a hold of getUserMedia, if present
       const getUserMedia =
@@ -119,7 +119,6 @@ export default class MicrophonePlugin {
       this.micContext = this.wavesurfer.backend.getAudioContext();
     };
   }
-  /* eslint-enable */
 
   init() {
     this.wavesurfer.on("backend-created", this._onBackendCreated);
@@ -214,24 +213,8 @@ export default class MicrophonePlugin {
     this.disconnect();
 
     // stop stream from device
-    if (this.stream) {
-      // MediaStream.stop is deprecated since:
-      // - Firefox 44 (https://www.fxsitecompat.com/en-US/docs/2015/mediastream-stop-has-been-deprecated/)
-      // - Chrome 45 (https://developers.google.com/web/updates/2015/07/mediastream-deprecations)
-      if (
-        (this.browser.browser === "chrome" && this.browser.version >= 45) ||
-        (this.browser.browser === "firefox" && this.browser.version >= 44) ||
-        this.browser.browser === "edge" ||
-        this.browser.browser === "safari"
-      ) {
-        if (this.stream.getTracks) {
-          // note that this should not be a call
-          this.stream.getTracks().forEach((stream) => stream.stop());
-          return;
-        }
-      }
-
-      this.stream.stop();
+    if (this.stream && this.stream.getTracks) {
+      this.stream.getTracks().forEach((stream) => stream.stop());
     }
   }
 

@@ -69,6 +69,8 @@ import MediaElementWebAudio from "./mediaelement-webaudio";
  * pixels.
  * @property {boolean} hideScrollbar=false Whether to hide the horizontal
  * scrollbar when one would normally be shown.
+ * @property {boolean} ignoreSilenceMode=false If true, ignores device silence mode
+ * when using the `WebAudio` backend.
  * @property {boolean} interact=true Whether the mouse interaction will be
  * enabled at initialization. You can switch this parameter at any time later
  * on.
@@ -114,6 +116,8 @@ import MediaElementWebAudio from "./mediaelement-webaudio";
  * skipForward() and skipBackward() methods.
  * @property {boolean} splitChannels=false Render with separate waveforms for
  * the channels of the audio
+ * @property {SplitChannelOptions} splitChannelsOptions={} Options for splitChannel rendering
+ * @property {boolean} vertical=false Render the waveform vertically instead of horizontally.
  * @property {string} waveColor='#999' The fill color of the waveform after the
  * cursor.
  * @property {object} xhr={} XHR options. For example:
@@ -150,6 +154,28 @@ import MediaElementWebAudio from "./mediaelement-webaudio";
  */
 
 /**
+ * @typedef {Object} SplitChannelOptions
+ * @desc parameters applied when splitChannels option is true
+ * @property {boolean} overlay=false determines whether channels are rendered on top of each other or on separate tracks
+ * @property {object} channelColors={} object describing color for each channel. Example:
+ * {
+ *     0: {
+ *         progressColor: 'green',
+ *         waveColor: 'pink'
+ *     },
+ *     1: {
+ *         progressColor: 'orange',
+ *         waveColor: 'purple'
+ *     }
+ * }
+ * @property {number[]} filterChannels=[] indexes of channels to be hidden from rendering
+ * @property {boolean} relativeNormalization=false determines whether
+ * normalization is done per channel or maintains proportionality between
+ * channels. Only applied when normalize and splitChannels are both true.
+ * @since 4.3.0
+ */
+
+/**
  * @interface PluginClass
  *
  * @desc This is the interface which is implemented by all plugin classes. Note
@@ -158,7 +184,7 @@ import MediaElementWebAudio from "./mediaelement-webaudio";
  *
  * @extends {Observer}
  */
-/* eslint-disable  no-unused-vars */
+// eslint-disable-next-line no-unused-vars
 class PluginClass {
   /**
    * Plugin definition factory
@@ -170,6 +196,7 @@ class PluginClass {
    *
    * @param {Object} params={} The plugin params (specific to the plugin)
    */
+  // eslint-disable-next-line no-unused-vars
   create(params) {}
   /**
    * Construct the plugin
@@ -177,6 +204,7 @@ class PluginClass {
    * @param {Object} params={} The plugin params (specific to the plugin)
    * @param {Object} ws The wavesurfer instance
    */
+  // eslint-disable-next-line no-unused-vars
   constructor(params, ws) {}
   /**
    * Initialise the plugin
@@ -193,7 +221,6 @@ class PluginClass {
    */
   destroy() {}
 }
-/* eslint-enable */
 
 /**
  * WaveSurfer core library class
@@ -246,6 +273,7 @@ export default class WaveSurfer extends util.Observer {
     forceDecode: false,
     height: 128,
     hideScrollbar: false,
+    ignoreSilenceMode: false,
     interact: true,
     loopSelection: true,
     maxCanvasWidth: 4000,
@@ -270,7 +298,9 @@ export default class WaveSurfer extends util.Observer {
       overlay: false,
       channelColors: {},
       filterChannels: [],
+      relativeNormalization: false,
     },
+    vertical: false,
     waveColor: "#999",
     xhr: {},
   };
@@ -302,8 +332,8 @@ export default class WaveSurfer extends util.Observer {
    * @example
    * console.log('Using wavesurfer.js ' + WaveSurfer.VERSION);
    */
-  // static VERSION = __VERSION__;
-  static VERSION = null;
+  // eslint-disable-next-line no-undef
+  static VERSION = "";
 
   /**
    * Functions in the `util` property are available as a prototype property to
@@ -341,7 +371,11 @@ export default class WaveSurfer extends util.Observer {
      * @private
      */
     this.params = Object.assign({}, this.defaultParams, params);
-
+    this.params.splitChannelsOptions = Object.assign(
+      {},
+      this.defaultParams.splitChannelsOptions,
+      params.splitChannelsOptions
+    );
     /** @private */
     this.container =
       "string" == typeof params.container
@@ -374,7 +408,11 @@ export default class WaveSurfer extends util.Observer {
     }
 
     if (this.params.rtl === true) {
-      util.style(this.container, { transform: "rotateY(180deg)" });
+      if (this.params.vertical === true) {
+        util.style(this.container, { transform: "rotateX(180deg)" });
+      } else {
+        util.style(this.container, { transform: "rotateY(180deg)" });
+      }
     }
 
     if (this.params.backgroundColor) {
@@ -776,6 +814,11 @@ export default class WaveSurfer extends util.Observer {
    * wavesurfer.play(1, 5);
    */
   play(start, end) {
+    if (this.params.ignoreSilenceMode) {
+      // ignores device hardware silence mode
+      util.ignoreSilenceMode();
+    }
+
     this.fireEvent("interaction", () => this.play(start, end));
     return this.backend.play(start, end);
   }
@@ -808,10 +851,8 @@ export default class WaveSurfer extends util.Observer {
    * @example wavesurfer.playPause();
    * @return {Promise} Result of the backend play or pause method
    */
-  playPause(start, end) {
-    const cTime = this.getCurrentTime();
-    const $start = start ? start : cTime || 0;
-    return this.backend.isPaused() ? this.play($start, end) : this.pause();
+  playPause() {
+    return this.backend.isPaused() ? this.play() : this.pause();
   }
 
   /**
@@ -899,11 +940,22 @@ export default class WaveSurfer extends util.Observer {
     }
     this.fireEvent("interaction", () => this.seekTo(progress));
 
+    const isWebAudioBackend = this.params.backend === "WebAudio";
+    const paused = this.backend.isPaused();
+
+    if (isWebAudioBackend && !paused) {
+      this.backend.pause();
+    }
+
     // avoid small scrolls while paused seeking
     const oldScrollParent = this.params.scrollParent;
     this.params.scrollParent = false;
     this.backend.seekTo(progress * this.getDuration());
     this.drawer.progress(progress);
+
+    if (isWebAudioBackend && !paused) {
+      this.backend.play();
+    }
 
     this.params.scrollParent = oldScrollParent;
     this.fireEvent("seek", progress);
@@ -1071,7 +1123,7 @@ export default class WaveSurfer extends util.Observer {
   /**
    * Get the fill color of the waveform after the cursor.
    *
-   * @return {string} A CSS color string.
+   * @return {string|object} A CSS color string, or an array of CSS color strings.
    */
   getWaveColor() {
     return this.params.waveColor;
@@ -1080,7 +1132,7 @@ export default class WaveSurfer extends util.Observer {
   /**
    * Set the fill color of the waveform after the cursor.
    *
-   * @param {string} color A CSS color string.
+   * @param {string|object} color A CSS color string, or an array of CSS color strings.
    * @example wavesurfer.setWaveColor('#ddd');
    */
   setWaveColor(color) {
@@ -1091,7 +1143,7 @@ export default class WaveSurfer extends util.Observer {
   /**
    * Get the fill color of the waveform behind the cursor.
    *
-   * @return {string} A CSS color string.
+   * @return {string|object} A CSS color string, or an array of CSS color strings.
    */
   getProgressColor() {
     return this.params.progressColor;
@@ -1100,7 +1152,7 @@ export default class WaveSurfer extends util.Observer {
   /**
    * Set the fill color of the waveform behind the cursor.
    *
-   * @param {string} color A CSS color string.
+   * @param {string|object} color A CSS color string, or an array of CSS color strings.
    * @example wavesurfer.setProgressColor('#400');
    */
   setProgressColor(color) {
@@ -1362,6 +1414,12 @@ export default class WaveSurfer extends util.Observer {
       }
     }
 
+    // loadBuffer(url, peaks, duration) requires that url is a string
+    // but users can pass in a HTMLMediaElement to WaveSurfer
+    if (this.params.backend === "WebAudio" && url instanceof HTMLMediaElement) {
+      url = url.src;
+    }
+
     switch (this.params.backend) {
       case "WebAudio":
         return this.loadBuffer(url, peaks, duration);
@@ -1375,6 +1433,7 @@ export default class WaveSurfer extends util.Observer {
    * Loads audio using Web Audio buffer backend.
    *
    * @private
+   * @emits WaveSurfer#waveform-ready
    * @param {string} url URL of audio file
    * @param {number[]|Number.<Array[]>} peaks Peaks data
    * @param {?number} duration Optional duration of audio file
@@ -1391,6 +1450,7 @@ export default class WaveSurfer extends util.Observer {
     if (peaks) {
       this.backend.setPeaks(peaks, duration);
       this.drawBuffer();
+      this.fireEvent("waveform-ready");
       this.tmpEvents.push(this.once("interaction", load));
     } else {
       return load();
@@ -1401,6 +1461,7 @@ export default class WaveSurfer extends util.Observer {
    * Either create a media element, or load an existing media element.
    *
    * @private
+   * @emits WaveSurfer#waveform-ready
    * @param {string|HTMLMediaElement} urlOrElt Either a path to a media file, or an
    * existing HTML5 Audio/Video Element
    * @param {number[]|Number.<Array[]>} peaks Array of peaks. Required to bypass web audio
@@ -1435,9 +1496,11 @@ export default class WaveSurfer extends util.Observer {
       this.backend.once("error", (err) => this.fireEvent("error", err))
     );
 
+    // If peaks are provided, render them and fire the `waveform-ready` event.
     if (peaks) {
       this.backend.setPeaks(peaks, duration);
       this.drawBuffer();
+      this.fireEvent("waveform-ready");
     }
 
     // If no pre-decoded peaks are provided, or are provided with
@@ -1466,19 +1529,21 @@ export default class WaveSurfer extends util.Observer {
    * @param {function} callback The function to call on complete
    */
   decodeArrayBuffer(arraybuffer, callback) {
-    this.arraybuffer = arraybuffer;
-    this.backend.decodeArrayBuffer(
-      arraybuffer,
-      (data) => {
-        // Only use the decoded data if we haven't been destroyed or
-        // another decode started in the meantime
-        if (!this.isDestroyed && this.arraybuffer == arraybuffer) {
-          callback(data);
-          this.arraybuffer = null;
-        }
-      },
-      () => this.fireEvent("error", "Error decoding audiobuffer")
-    );
+    if (!this.isDestroyed) {
+      this.arraybuffer = arraybuffer;
+      this.backend.decodeArrayBuffer(
+        arraybuffer,
+        (data) => {
+          // Only use the decoded data if we haven't been destroyed or
+          // another decode started in the meantime
+          if (!this.isDestroyed && this.arraybuffer == arraybuffer) {
+            callback(data);
+            this.arraybuffer = null;
+          }
+        },
+        () => this.fireEvent("error", "Error decoding audiobuffer")
+      );
+    }
   }
 
   /**
@@ -1538,7 +1603,8 @@ export default class WaveSurfer extends util.Observer {
   }
 
   /**
-   * Exports PCM data into a JSON array and opens in a new window.
+   * Exports PCM data into a JSON array and optionally opens in a new window
+   * as valid JSON Blob instance.
    *
    * @param {number} length=1024 The scale in which to export the peaks
    * @param {number} accuracy=10000
@@ -1548,7 +1614,6 @@ export default class WaveSurfer extends util.Observer {
    * @param {number} end End index
    * @return {Promise} Promise that resolves with array of peaks
    */
-  /* eslint-disable  no-unused-vars */
   exportPCM(length, accuracy, noWindow, start, end) {
     length = length || 1024;
     start = start || 0;
@@ -1559,18 +1624,19 @@ export default class WaveSurfer extends util.Observer {
       peaks,
       (val) => Math.round(val * accuracy) / accuracy
     );
+    // eslint-disable-next-line no-unused-vars
     return new Promise((resolve, reject) => {
-      const json = JSON.stringify(arr);
-
       if (!noWindow) {
-        window.open(
-          "data:application/json;charset=utf-8," + encodeURIComponent(json)
-        );
+        const blobJSON = new Blob([JSON.stringify(arr)], {
+          type: "application/json;charset=utf-8",
+        });
+        const objURL = URL.createObjectURL(blobJSON);
+        window.open(objURL);
+        URL.revokeObjectURL(objURL);
       }
-      resolve(json);
+      resolve(arr);
     });
   }
-  /* eslint-enable */
 
   /**
    * Save waveform image as data URI.
@@ -1614,11 +1680,8 @@ export default class WaveSurfer extends util.Observer {
       // See Firefox bug: https://bugzilla.mozilla.org/show_bug.cgi?id=1583815
       if (this.currentRequest._reader) {
         // Ignoring exceptions thrown by call to cancel()
-        this.currentRequest._reader.cancel().catch((err) => {
-          // eslint-disable-next-line no-console
-          console.error(err);
-          // stop invalid values from being used
-        });
+        // eslint-disable-next-line no-unused-vars
+        this.currentRequest._reader.cancel().catch((err) => {});
       }
 
       this.currentRequest.controller.abort();
@@ -1668,6 +1731,8 @@ export default class WaveSurfer extends util.Observer {
     }
     if (this.backend) {
       this.backend.destroy();
+      // clears memory usage
+      this.backend = null;
     }
     if (this.drawer) {
       this.drawer.destroy();

@@ -13,7 +13,7 @@ export default class Drawer extends util.Observer {
   constructor(container, params) {
     super();
 
-    this.container = container;
+    this.container = util.withOrientation(container, params.vertical);
     /**
      * @type {WavesurferParams}
      */
@@ -53,7 +53,10 @@ export default class Drawer extends util.Observer {
    * interaction
    */
   createWrapper() {
-    this.wrapper = this.container.appendChild(document.createElement("wave"));
+    this.wrapper = util.withOrientation(
+      this.container.appendChild(document.createElement("wave")),
+      this.params.vertical
+    );
 
     this.style(this.wrapper, {
       display: "block",
@@ -84,35 +87,46 @@ export default class Drawer extends util.Observer {
   handleEvent(e, noPrevent) {
     !noPrevent && e.preventDefault();
 
-    const clientX = e.targetTouches ? e.targetTouches[0].clientX : e.clientX;
+    const clientX = util.withOrientation(
+      e.targetTouches ? e.targetTouches[0] : e,
+      this.params.vertical
+    ).clientX;
     const bbox = this.wrapper.getBoundingClientRect();
 
     const nominalWidth = this.width;
     const parentWidth = this.getWidth();
+    const progressPixels = this.getProgressPixels(bbox, clientX);
 
     let progress;
     if (!this.params.fillParent && nominalWidth < parentWidth) {
-      progress =
-        (this.params.rtl ? bbox.right - clientX : clientX - bbox.left) *
-          (this.params.pixelRatio / nominalWidth) || 0;
+      progress = progressPixels * (this.params.pixelRatio / nominalWidth) || 0;
     } else {
       progress =
-        ((this.params.rtl ? bbox.right - clientX : clientX - bbox.left) +
-          this.wrapper.scrollLeft) /
-          this.wrapper.scrollWidth || 0;
+        (progressPixels + this.wrapper.scrollLeft) / this.wrapper.scrollWidth ||
+        0;
     }
 
     return util.clamp(progress, 0, 1);
   }
 
+  getProgressPixels(wrapperBbox, clientX) {
+    if (this.params.rtl) {
+      return wrapperBbox.right - clientX;
+    } else {
+      return clientX - wrapperBbox.left;
+    }
+  }
+
   setupWrapperEvents() {
     this.wrapper.addEventListener("click", (e) => {
+      const orientedEvent = util.withOrientation(e, this.params.vertical);
       const scrollbarHeight =
         this.wrapper.offsetHeight - this.wrapper.clientHeight;
+
       if (scrollbarHeight !== 0) {
         // scrollbar is visible.  Check if click was on it
         const bbox = this.wrapper.getBoundingClientRect();
-        if (e.clientY >= bbox.bottom - scrollbarHeight) {
+        if (orientedEvent.clientY >= bbox.bottom - scrollbarHeight) {
           // ignore mousedown as it was on the scrollbar
           return;
         }
@@ -266,8 +280,9 @@ export default class Drawer extends util.Observer {
         width: "",
       });
     } else {
+      const newWidth = ~~(this.width / this.params.pixelRatio) + "px";
       this.style(this.wrapper, {
-        width: ~~(this.width / this.params.pixelRatio) + "px",
+        width: newWidth,
       });
     }
 
@@ -322,8 +337,8 @@ export default class Drawer extends util.Observer {
   destroy() {
     this.unAll();
     if (this.wrapper) {
-      if (this.wrapper.parentNode == this.container) {
-        this.container.removeChild(this.wrapper);
+      if (this.wrapper.parentNode == this.container.domElement) {
+        this.container.removeChild(this.wrapper.domElement);
       }
       this.wrapper = null;
     }
@@ -358,9 +373,8 @@ export default class Drawer extends util.Observer {
    * @param {number} end The x-offset of the end of the area that should be
    * rendered
    */
-  /* eslint-disable  no-unused-vars */
+  // eslint-disable-next-line no-unused-vars
   drawBars(peaks, channelIndex, start, end) {}
-  /* eslint-enable */
 
   /**
    * Draw a waveform
@@ -375,9 +389,8 @@ export default class Drawer extends util.Observer {
    * @param {number} end The x-offset of the end of the area that should be
    * rendered
    */
-  /* eslint-disable  no-unused-vars */
+  // eslint-disable-next-line no-unused-vars
   drawWave(peaks, channelIndex, start, end) {}
-  /* eslint-enable */
 
   /**
    * Clear the waveform
@@ -392,7 +405,6 @@ export default class Drawer extends util.Observer {
    * @abstract
    * @param {number} position X-Offset of progress position in pixels
    */
-  /* eslint-disable  no-unused-vars */
+  // eslint-disable-next-line no-unused-vars
   updateProgress(position) {}
-  /* eslint-enable */
 }

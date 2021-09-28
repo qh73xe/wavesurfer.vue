@@ -58,7 +58,6 @@ class Init {
    * @param {WaveSurfer} WaveSurfer The WaveSurfer library object
    * @param {InitParams} params initialisation options
    */
-  /* eslint-disable  no-unused-vars*/
   constructor(WaveSurfer, params = {}) {
     if (!WaveSurfer) {
       throw new Error("WaveSurfer is not available!");
@@ -123,7 +122,6 @@ class Init {
 
     this.initAllEls();
   }
-  /* eslint-enable */
 
   /**
    * Initialize all container elements

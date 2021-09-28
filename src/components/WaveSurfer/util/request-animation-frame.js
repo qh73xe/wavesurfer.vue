@@ -5,13 +5,12 @@
  *
  * @return {function} Available `requestAnimationFrame` function for the browser
  */
-/* eslint-disable  no-unused-vars */
 export default (
   window.requestAnimationFrame ||
   window.webkitRequestAnimationFrame ||
   window.mozRequestAnimationFrame ||
   window.oRequestAnimationFrame ||
   window.msRequestAnimationFrame ||
+  // eslint-disable-next-line no-unused-vars
   ((callback, element) => setTimeout(callback, 1000 / 60))
 ).bind(window);
-/* eslint-enable */

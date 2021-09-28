@@ -58,7 +58,6 @@ export default class ElanPlugin {
     REF_ANNOTATION: "REF_ANNOTATION",
   };
 
-  /* eslint-disable  no-unused-vars */
   constructor(params, ws) {
     this.data = null;
     this.params = params;
@@ -71,7 +70,6 @@ export default class ElanPlugin {
       throw Error("No container for ELAN");
     }
   }
-  /* eslint-enable */
 
   init() {
     this.bindClick();
