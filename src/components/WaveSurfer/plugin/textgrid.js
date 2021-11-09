@@ -63,8 +63,8 @@ export default class TextgridPlugin {
 
   // event handlers
   _onScroll = () => {
-    if (this.wrapper && this.drawer.wrapper) {
-      this.wrapper.scrollLeft = this.drawer.wrapper.scrollLeft;
+    if (this.wrapper && this.wavesurfer.drawer.wrapper) {
+      this.wrapper.scrollLeft = this.wavesurfer.drawer.wrapper.scrollLeft;
     }
   };
 
@@ -85,7 +85,6 @@ export default class TextgridPlugin {
   _onRedraw = () => this.render();
   _onReady = () => {
     const ws = this.wavesurfer;
-    this.drawer = ws.drawer;
     this.pixelRatio = ws.drawer.params.pixelRatio;
     this.maxCanvasWidth = ws.drawer.maxCanvasWidth || ws.drawer.width;
     this.maxCanvasElementWidth =
@@ -142,7 +141,6 @@ export default class TextgridPlugin {
     this.matchedSize = this.params.matchedSize;
     this.isMatched = false; // ドラック中に他のTIERと同じ時刻を持つか
     this.wrapper = null;
-    this.drawer = null;
     this.pixelRatio = null;
     this.maxCanvasWidth = null;
     this.maxCanvasElementWidth = null;
@@ -185,24 +183,33 @@ export default class TextgridPlugin {
    * Destroy function used by the plugin API
    */
   destroy() {
-    this.unAll();
-    this.wavesurfer.un("redraw", this._onRedraw);
-    this.wavesurfer.un("zoom", this._onZoom);
-    this.wavesurfer.un("ready", this._onReady);
-    this.wavesurfer.un("seek", this._onSeek);
-    this.wavesurfer.drawer.un("audioprocess", this._onAudioProcess);
-    this.wavesurfer.drawer.wrapper.removeEventListener(
-      "scroll",
-      this._onScroll
-    );
-
-    if (this.wrapper && this.wrapper.parentNode) {
-      for (const key in this.tiers) {
-        this.removeCanvas(key);
+    if (this.wavesurfer) {
+      this.unAll();
+      this.wavesurfer.un("redraw", this._onRedraw);
+      this.wavesurfer.un("zoom", this._onZoom);
+      this.wavesurfer.un("ready", this._onReady);
+      this.wavesurfer.un("seek", this._onSeek);
+      if (this.wavesurfer.drawer) {
+        this.wavesurfer.drawer.un("audioprocess", this._onAudioProcess);
+        this.wavesurfer.drawer.wrapper.removeEventListener(
+          "scroll",
+          this._onScroll
+        );
       }
-      this.cursorEl.parentElement.removeChild(this.cursorEl);
-      this.wrapper.parentNode.removeChild(this.wrapper);
-      this.wrapper = null;
+      if (this.wrapper && this.wrapper.parentNode) {
+        for (const key in this.tiers) {
+          this.removeCanvas(key);
+        }
+        // if (this.cursorEl) {
+        //   if (this.cursorEL.parentElement) {
+        //     this.cursorEl.parentElement.removeChild(this.cursorEl);
+        //   }
+        // }
+        if (this.wrapper.parentNode) {
+          this.wrapper.parentNode.removeChild(this.wrapper);
+        }
+        this.wrapper = null;
+      }
     }
   }
 
@@ -222,13 +229,15 @@ export default class TextgridPlugin {
     const cursorWidth = this.wavesurfer.params.cursorWidth || 1;
     const bcolor = this.wavesurfer.params.cursorColor;
     const btype = "dashed";
-    this.drawer.style(cursorEl, {
-      left: 0,
-      position: "absolute",
-      zIndex: 3,
-      width: `${cursorWidth}px`,
-      borderLeft: `${cursorWidth}px ${btype} ${bcolor}`,
-    });
+    if (this.wavesurfer.drawer) {
+      this.wavesurfer.drawer.style(cursorEl, {
+        left: 0,
+        position: "absolute",
+        zIndex: 3,
+        width: `${cursorWidth}px`,
+        borderLeft: `${cursorWidth}px ${btype} ${bcolor}`,
+      });
+    }
     this.wrapper.appendChild(cursorEl);
   }
 
@@ -415,9 +424,11 @@ export default class TextgridPlugin {
         canvas.style.cursor = "grab";
         vm.tiers[key].isDraging = false;
         vm.tiers[key].dragingItemIdx = null;
-        canvas.removeEventListener("mousedown", draggingMousedown);
-        canvas.removeEventListener("mousemove", draggingMousemove);
-        canvas.removeEventListener("mouseup", draggingMouseup);
+        if (canvas) {
+          canvas.removeEventListener("mousedown", draggingMousedown);
+          canvas.removeEventListener("mousemove", draggingMousemove);
+          canvas.removeEventListener("mouseup", draggingMouseup);
+        }
         vm.wavesurfer.fireEvent("textgrid-update", vm.tiers);
 
         // カーサーの状態を戻す
@@ -491,7 +502,7 @@ export default class TextgridPlugin {
       // set lavel of a canvas
       const label = this.wrapper.appendChild(document.createElement("canvas"));
       label.classList.add("tier-labels");
-      this.drawer.style(label, {
+      this.wavesurfer.drawer.style(label, {
         position: "absolute",
         zIndex: 4,
         top: `${i * this.params.height}px`,
@@ -500,7 +511,7 @@ export default class TextgridPlugin {
       this.tiers[key].label = label;
     } else {
       const label = this.tiers[key].label;
-      this.drawer.style(label, {
+      this.wavesurfer.drawer.style(label, {
         position: "absolute",
         zIndex: 4,
         top: `${i * this.params.height}px`,
@@ -515,15 +526,24 @@ export default class TextgridPlugin {
    */
   removeCanvas(key) {
     const canvas = this.tiers[key].canvas;
-    canvas.removeEventListener("click", canvas.onClick);
-    canvas.removeEventListener("dblclick", canvas.onDblClick);
-    canvas.removeEventListener("mousemove", canvas.onMouseMove);
-    canvas.removeEventListener("keyup", canvas.onKeyup);
-    canvas.removeEventListener("keydown", canvas.onKeydown);
-
-    const label = this.tiers[key].label;
-    label.parentElement.removeChild(label);
-    canvas.parentElement.removeChild(canvas);
+    if (canvas) {
+      canvas.removeEventListener("click", canvas.onClick);
+      canvas.removeEventListener("dblclick", canvas.onDblClick);
+      canvas.removeEventListener("mousemove", canvas.onMouseMove);
+      canvas.removeEventListener("keyup", canvas.onKeyup);
+      canvas.removeEventListener("keydown", canvas.onKeydown);
+      const label = this.tiers[key].label;
+      if (label) {
+        if (label.parentElement) {
+          label.parentElement.removeChild(label);
+        }
+      }
+      if (canvas) {
+        if (canvas.parentElement) {
+          canvas.parentElement.removeChild(canvas);
+        }
+      }
+    }
   }
 
   updateCanvas(key, i) {
@@ -559,8 +579,8 @@ export default class TextgridPlugin {
     }
     const width =
       this.wsParams.fillParent && !this.wsParams.scrollParent
-        ? this.drawer.getWidth()
-        : this.drawer.wrapper.scrollWidth * this.wsParams.pixelRatio;
+        ? this.wavesurfer.drawer.getWidth()
+        : this.wavesurfer.drawer.wrapper.scrollWidth * this.wsParams.pixelRatio;
     const pixelsPerSecond = width / duration;
 
     // build an array of position data with index, second and pixel data,
@@ -816,8 +836,8 @@ export default class TextgridPlugin {
     const relX = "offsetX" in e ? e.offsetX : e.layerX;
     const width =
       this.wsParams.fillParent && !this.wsParams.scrollParent
-        ? this.drawer.getWidth()
-        : this.drawer.wrapper.scrollWidth * this.wsParams.pixelRatio;
+        ? this.wavesurfer.drawer.getWidth()
+        : this.wavesurfer.drawer.wrapper.scrollWidth * this.wsParams.pixelRatio;
     return relX / width;
   }
   event2time(e) {
@@ -1278,7 +1298,6 @@ export default class TextgridPlugin {
     // カーサー時刻を調整
     this.currentTime = this.wavesurfer.getCurrentTime();
     this.setCursorTime();
-
     this.render();
     if (fireEvent) this.wavesurfer.fireEvent("textgrid-update", this.tiers);
   }

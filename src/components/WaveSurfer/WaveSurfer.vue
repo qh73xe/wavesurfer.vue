@@ -51,6 +51,9 @@ export default {
     isMouseEntered: false,
   }),
   props: {
+    value: {
+      type: Object,
+    },
     flat: {
       type: Boolean,
       default: false,
@@ -374,9 +377,7 @@ export default {
     playingOffset(val, old_val) {
       if (val != old_val) {
         if (this.wavesurfer) {
-          if (this.wavesurfer) {
-            this.wavesurfer.textgrid.params.playingOffset = val;
-          }
+          this.wavesurfer.textgrid.params.playingOffset = val;
         }
       }
     },
@@ -642,49 +643,71 @@ export default {
       return null;
     },
     addPoint: function (point) {
-      this.wavesurfer.pointline.addPoint(point);
+      if (this.wavesurfer) {
+        this.wavesurfer.pointline.addPoint(point);
+      }
     },
     deletePoint: function (id) {
-      this.wavesurfer.pointline.deletePoint(id);
+      if (this.wavesurfer) {
+        this.wavesurfer.pointline.deletePoint(id);
+      }
     },
     updatePoint: function (id, point) {
-      this.wavesurfer.pointline.updatePoint(id, point);
+      if (this.wavesurfer) {
+        this.wavesurfer.pointline.updatePoint(id, point);
+      }
     },
     addTier: function (key, type, parent = null) {
-      this.wavesurfer.textgrid.addTier(key, type, parent);
+      if (this.wavesurfer) {
+        this.wavesurfer.textgrid.addTier(key, type, parent);
+      }
     },
     updateTier: function (key, obj) {
-      this.wavesurfer.textgrid.updateTier(key, obj);
+      if (this.wavesurfer) {
+        this.wavesurfer.textgrid.updateTier(key, obj);
+      }
     },
     deleteTier: function (key) {
-      this.wavesurfer.textgrid.deleteTier(key);
+      if (this.wavesurfer) {
+        this.wavesurfer.textgrid.deleteTier(key);
+      }
     },
     copyTier: function (ref, key, type, parent, withText = true) {
-      this.wavesurfer.textgrid.copyTier(ref, key, type, parent, withText);
+      if (this.wavesurfer) {
+        this.wavesurfer.textgrid.copyTier(ref, key, type, parent, withText);
+      }
     },
     addTierValue: function (key, obj) {
-      this.wavesurfer.textgrid.addTierValue(key, obj);
+      if (this.wavesurfer) {
+        this.wavesurfer.textgrid.addTierValue(key, obj);
+      }
     },
     setTierValue: function (key, idx, object) {
-      this.wavesurfer.textgrid.setTierValue(key, idx, object);
+      if (this.wavesurfer) {
+        this.wavesurfer.textgrid.setTierValue(key, idx, object);
+      }
     },
     deleteTierValue: function (key, idx) {
-      this.wavesurfer.textgrid.deleteTierValue(key, idx);
+      if (this.wavesurfer) {
+        this.wavesurfer.textgrid.deleteTierValue(key, idx);
+      }
     },
     splitTierValue(key, idx, opt = null) {
-      this.wavesurfer.textgrid.splitTierValue(key, idx, opt);
+      if (this.wavesurfer) {
+        this.wavesurfer.textgrid.splitTierValue(key, idx, opt);
+      }
     },
     playTextGrid: function (key, idx) {
-      this.wavesurfer.textgrid.play(key, idx);
+      if (this.wavesurfer) this.wavesurfer.textgrid.play(key, idx);
     },
     loadTextGrid: function (file) {
-      this.wavesurfer.textgrid.loadTextGrid(file);
+      if (this.wavesurfer) this.wavesurfer.textgrid.loadTextGrid(file);
     },
     loadJson: function (file) {
-      this.wavesurfer.textgrid.loadJson(file);
+      if (this.wavesurfer) this.wavesurfer.textgrid.loadJson(file);
     },
     setTextGrid: function (obj) {
-      this.wavesurfer.textgrid.loadObj(obj);
+      if (this.wavesurfer) this.wavesurfer.textgrid.loadObj(obj);
     },
     getFrequencies: function () {
       return this.wavesurfer.spectrogram.frequencies;
@@ -723,6 +746,9 @@ export default {
       this.$emit("play", e);
     },
     onReady: function (e) {
+      if (this.value && this.showTextGrid) {
+        this.setTextGrid(this.value);
+      }
       this.$emit("ready", e);
     },
     onScroll: function (e) {
@@ -774,8 +800,8 @@ export default {
     },
     destroy: function () {
       const res = this.runWaveSurfer("destroy");
-      this.wavesurfer = null;
       this.onDestroy();
+      this.wavesurfer = null;
       return res;
     },
     empty: function () {
