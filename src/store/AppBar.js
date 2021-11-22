@@ -1,7 +1,7 @@
 export default {
   namespaced: true,
   state: () => ({
-    drawer: false,
+    drawer: true,
     search: "",
   }),
   mutations: {

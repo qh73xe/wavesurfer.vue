@@ -50,46 +50,12 @@
     </v-row>
     <v-row>
       <v-col>
-        <v-alert type="info">
+        <v-alert type="warning">
           <span
-            class="font-weight-light subtitle-1 my-0"
+            class="dark font-weight-light subtitle-1 my-0"
             v-html="$vuetify.lang.t('$vuetify.home.quickStart.warning')"
           />
         </v-alert>
-      </v-col>
-    </v-row>
-
-    <h3>Contents</h3>
-    <v-row>
-      <v-col>
-        <v-card>
-          <v-list>
-            <v-list-group
-              v-for="(links, key) in routes"
-              :key="key"
-              :prepend-icon="links.icon"
-              :value="true"
-            >
-              <template v-slot:activator>
-                <v-list-item-title>
-                  {{ key.toUpperCase() }}
-                </v-list-item-title>
-              </template>
-              <v-list-item
-                v-for="link in links.items"
-                :key="link.name"
-                @click="$router.push({ path: link.path })"
-              >
-                <v-list-item-icon>
-                  <v-icon>
-                    {{ link.icon }}
-                  </v-icon>
-                </v-list-item-icon>
-                <v-list-item-title v-text="link.text" />
-              </v-list-item>
-            </v-list-group>
-          </v-list>
-        </v-card>
       </v-col>
     </v-row>
   </v-container>

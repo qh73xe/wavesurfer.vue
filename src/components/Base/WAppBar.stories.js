@@ -6,9 +6,10 @@ export default {
   title: "Components/WAppBar",
 };
 
-const Template = () => ({
+const Template = (args, { argTypes }) => ({
   components: { WAppBar },
   vuetify,
+  props: Object.keys(argTypes),
   template: "<w-app-bar />",
   data: () => ({}),
 });

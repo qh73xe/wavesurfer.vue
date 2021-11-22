@@ -27,6 +27,7 @@
     "chromatic": "npx chromatic --project-token=c9cedb6c6913"
   },
   "dependencies": {
+    "@mdi/font": "^6.5.95",
     "core-js": "^3.6.5",
     "debounce": "^1.2.1",
     "register-service-worker": "^1.7.1",
