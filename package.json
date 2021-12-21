@@ -1,6 +1,6 @@
 {
   "name": "wavesurfer.vue",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "scripts": {
     "start": "vue-cli-service serve",
@@ -56,6 +56,6 @@
     "vue-template-compiler": "^2.6.11",
     "vuetify-loader": "^1.7.0"
   },
-  "_id": "wavesurfer.vue@0.1.0",
+  "_id": "wavesurfer.vue@0.1.1",
   "readme": "ERROR: No README data found!"
 }
