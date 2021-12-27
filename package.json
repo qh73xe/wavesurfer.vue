@@ -1,6 +1,6 @@
 {
   "name": "wavesurfer.vue",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "private": false,
   "main": "dist/wavesurfer.vue.common.js",
   "unpkg": "./dist/wavesurfer.vue.umd.min.js",

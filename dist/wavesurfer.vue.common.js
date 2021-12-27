@@ -18516,12 +18516,12 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
       tiers: {},
       zoomDebounce: false
     }, params);
+    this.drawer = _ws.drawer;
     this.matchedSize = this.params.matchedSize;
+    this.pixelRatio = this.params.pixelRatio;
     this.isMatched = false; // ドラック中に他のTIERと同じ時刻を持つか
 
     this.wrapper = null;
-    this.drawer = null;
-    this.pixelRatio = null;
     this.maxCanvasWidth = null;
     this.maxCanvasElementWidth = null;
     this.tiers = this.params.tiers;
@@ -18596,7 +18596,11 @@ var textgrid_TextgridPlugin = (textgrid_dec = log("textgrid.create", textgrid_DE
     value: function createWrapper() {
       this.container.innerHTML = "";
       this.currentTime = this.wavesurfer.getCurrentTime() || 0;
-      this.wrapper = this.container.appendChild(document.createElement("textgrid")); // cursor 用のキャンバスを作成
+
+      if (this.wrapper === null) {
+        this.wrapper = this.container.appendChild(document.createElement("textgrid"));
+      } // cursor 用のキャンバスを作成
+
 
       var cursorEl = this.cursorEl = document.createElement("div");
       cursorEl.classList.add("textgrid-cursor");

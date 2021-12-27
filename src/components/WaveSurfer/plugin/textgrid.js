@@ -139,11 +139,11 @@ export default class TextgridPlugin {
       },
       params
     );
+    this.drawer = ws.drawer;
     this.matchedSize = this.params.matchedSize;
+    this.pixelRatio = this.params.pixelRatio;
     this.isMatched = false; // ドラック中に他のTIERと同じ時刻を持つか
     this.wrapper = null;
-    this.drawer = null;
-    this.pixelRatio = null;
     this.maxCanvasWidth = null;
     this.maxCanvasElementWidth = null;
     this.tiers = this.params.tiers;
@@ -213,9 +213,11 @@ export default class TextgridPlugin {
   createWrapper() {
     this.container.innerHTML = "";
     this.currentTime = this.wavesurfer.getCurrentTime() || 0;
-    this.wrapper = this.container.appendChild(
-      document.createElement("textgrid")
-    );
+    if (this.wrapper === null) {
+      this.wrapper = this.container.appendChild(
+        document.createElement("textgrid")
+      );
+    }
     // cursor 用のキャンバスを作成
     const cursorEl = (this.cursorEl = document.createElement("div"));
     cursorEl.classList.add("textgrid-cursor");
