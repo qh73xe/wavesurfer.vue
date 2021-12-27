@@ -1,12 +1,31 @@
 {
   "name": "wavesurfer.vue",
-  "version": "0.1.0",
-  "private": true,
+  "version": "0.1.1",
+  "private": false,
+  "main": "dist/wavesurfer.vue.common.js",
+  "unpkg": "./dist/wavesurfer.vue.umd.min.js",
+  "jsdelivr": "./dist/wavesurfer.vue.umd.min.js",
+  "license": "MIT",
+  "author": "qh73xe",
+  "files": [
+    "dist"
+  ],
+  "keywords": [
+    "Vue",
+    "Vue.js",
+    "waveform",
+    "audio",
+    "music",
+    "player",
+    "wabaudio",
+    "microphone",
+    "visualization"
+  ],
   "scripts": {
     "serve": "vue-cli-service serve",
     "start": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "build:lib": "vue-cli-service build --target lib --name wave-vuewer src/components/index.js",
+    "build:lib": "vue-cli-service build --target lib --name wavesurfer.vue src/components/index.js",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {

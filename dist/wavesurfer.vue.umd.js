@@ -4,9 +4,9 @@
 	else if(typeof define === 'function' && define.amd)
 		define([], factory);
 	else if(typeof exports === 'object')
-		exports["wave-vuewer"] = factory(require("vue"));
+		exports["wavesurfer.vue"] = factory(require("vue"));
 	else
-		root["wave-vuewer"] = factory(root["Vue"]);
+		root["wavesurfer.vue"] = factory(root["Vue"]);
 })((typeof self !== 'undefined' ? self : this), function(__WEBPACK_EXTERNAL_MODULE__8bbf__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
@@ -22765,4 +22765,4 @@ module.exports = global.Promise;
 
 /******/ });
 });
-//# sourceMappingURL=wave-vuewer.umd.js.map
+//# sourceMappingURL=wavesurfer.vue.umd.js.map

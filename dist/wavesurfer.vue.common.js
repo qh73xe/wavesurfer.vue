@@ -22755,4 +22755,4 @@ module.exports = global.Promise;
 /***/ })
 
 /******/ });
-//# sourceMappingURL=wave-vuewer.common.js.map
+//# sourceMappingURL=wavesurfer.vue.common.js.map
