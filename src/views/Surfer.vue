@@ -1,18 +1,18 @@
 <template>
   <v-card tile>
     <s-tool-bar @click="onToolBarClick" />
-    <v-alert class="mb-0" tile type="warning">
-      This page is under renovation.
-    </v-alert>
     <wave-surfer
       ref="ws"
       v-if="source"
-      showSpectrogram
-      showFreqLabel
-      splitChannels
       normalize
       responsive
       scrollParent
+      splitChannels
+      showTextGrid
+      showSpectrogram
+      showFreqLabel
+      backend="MediaElement"
+      textgrid-max-height="80px"
       :source="source"
       :freqRate="freqRate"
       :minPxPerSec="minPxPerSec"
@@ -29,6 +29,10 @@
         />
       </template>
     </wave-surfer>
+    <v-alert v-else class="mb-0" tile type="warning">
+      音声が登録されていません. Open > Read From Audio File ...
+      から音声ファイルを設定してください.
+    </v-alert>
   </v-card>
 </template>
 <script>
@@ -45,7 +49,7 @@ export default {
     source: null,
     textgrid: {},
     text: "",
-    freqRate: 0.5,
+    freqRate: 0.25,
     minPxPerSec: 100,
     current: {
       key: "",

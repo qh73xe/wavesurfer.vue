@@ -53,9 +53,13 @@
 export default {
   data: () => ({
     items: [
-      { icon: "mdi-home", text: "Home", name: "Home" },
-      { icon: "mdi-code-array", text: "Surfer", name: "Surfer" },
-      { icon: "mdi-help-circle", text: "About", name: "About" },
+      { icon: "mdi-home", text: "Home", name: "Home", children: null },
+      {
+        icon: "mdi-code-array",
+        text: "Surfer",
+        name: "Surfer",
+        children: null,
+      },
       { icon: "mdi-file-document", text: "Document", children: [] },
       { icon: "mdi-xml", text: "Example", children: [] },
     ],
@@ -80,9 +84,9 @@ export default {
   mounted: function () {
     for (const item of this.$router.options.routes) {
       if (item.name.match(/docs-/)) {
-        this.items[3].children.push(item);
+        this.items[2].children.push(item);
       } else if (item.name.match(/example-/)) {
-        this.items[4].children.push(item);
+        this.items[3].children.push(item);
       }
     }
   },
