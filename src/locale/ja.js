@@ -3,7 +3,7 @@ export default {
   close: "閉じる",
   dataIterator: {
     noResultsText: "検索結果が見つかりません。",
-    loadingText: "項目をロード中です..."
+    loadingText: "項目をロード中です...",
   },
   dataTable: {
     itemsPerPageText: "1ページあたりの行数：",
@@ -13,9 +13,9 @@ export default {
       sortNone: "ソートされていません。",
       activateNone: "ソートを削除するには有効にしてください。",
       activateDescending: "降順の並び替えのためには有効にしてください。",
-      activateAscending: "昇順のソートのためには有効にしてください。"
+      activateAscending: "昇順のソートのためには有効にしてください。",
     },
-    sortBy: "ソート方式"
+    sortBy: "ソート方式",
   },
   dataFooter: {
     itemsPerPageText: "1ページあたりの件数：",
@@ -24,33 +24,33 @@ export default {
     prevPage: "前のページ",
     firstPage: "一ページ目",
     lastPage: "最後のページ",
-    pageText: "{0}-{1} 件目 / {2}件"
+    pageText: "{0}-{1} 件目 / {2}件",
   },
   datePicker: {
     itemsSelected: "{0}日付選択",
     nextMonthAriaLabel: "来月",
     nextYearAriaLabel: "来年",
     prevMonthAriaLabel: "前月",
-    prevYearAriaLabel: "前年"
+    prevYearAriaLabel: "前年",
   },
   noDataText: "データはありません。",
   carousel: {
     prev: "前のビジュアル",
     next: "次のビジュアル",
     ariaLabel: {
-      delimiter: "Carousel slide {0} of {1}"
-    }
+      delimiter: "Carousel slide {0} of {1}",
+    },
   },
   calendar: {
-    moreEvents: "さらに{0}"
+    moreEvents: "さらに{0}",
   },
   fileInput: {
     counter: "{0} ファイル",
-    counterSize: "{0} ファイル (合計 {1})"
+    counterSize: "{0} ファイル (合計 {1})",
   },
   timePicker: {
     am: "AM",
-    pm: "PM"
+    pm: "PM",
   },
   pagination: {
     ariaLabel: {
@@ -58,11 +58,11 @@ export default {
       next: "次のページ",
       previous: "前のページ",
       page: "ページに移動 {0}",
-      currentPage: "現在のページ、ページ {0}"
-    }
+      currentPage: "現在のページ、ページ {0}",
+    },
   },
   wExampleHelpDialog: {
-    headline: "デモの操作方法"
+    headline: "デモの操作方法",
   },
   home: {
     desc: `
@@ -76,18 +76,17 @@ export default {
       example: "&lt;wave-surfer&gt; コンポーネントは以下のように使用します:",
       result: "結果は以下のようになります:",
       next: `&lt;wave-surfer&gt; コンポーネントの詳細な使用方法については以下のドキュメントを参照してください.`,
-      warning: `サンプルコード実施時には <code><a href="https://vuetifyjs.com/en/">vuetify</a></code> を導入する必要があることに注意してください.`
-    }
+      warning: `サンプルコード実施時には <code><a href="https://vuetifyjs.com/en/">vuetify</a></code> を導入する必要があることに注意してください.`,
+    },
   },
   document: {
     options: {
-      desc:
-        "以下に <wave-suefer /> コンポーネントが受け入れる props の一覧を示します.",
+      desc: "以下に <wave-suefer /> コンポーネントが受け入れる props の一覧を示します.",
       headers: {
         option: "オプション",
         type: "型",
         default: "デフォルト",
-        description: "説明"
+        description: "説明",
       },
       options: {
         source: "音声波形に変換されるメディアソース.",
@@ -163,20 +162,18 @@ export default {
           "オーディオのチャンネルごとに別々の波形でレンダリングします.",
         targetChannel: "スペクトル表示チャンネル.",
         waveColor: "カーソルの後の波形の塗りつぶし色.",
-        xhr:
-          "XHR オプション. 例えば以下のような値になります: `{ cache: 'default', mode: 'cors', method: 'GET', credentials: 'same-origin', redirect: 'follow', referrer: 'client', headers: [ { key: 'Authorization', value: 'my-token' } ]}`",
+        xhr: "XHR オプション. 例えば以下のような値になります: `{ cache: 'default', mode: 'cors', method: 'GET', credentials: 'same-origin', redirect: 'follow', referrer: 'client', headers: [ { key: 'Authorization', value: 'my-token' } ]}`",
         freqFontSize: "スペクトログラム表示時の周波数軸フォントサイズ.",
         unitFontSize: "スペクトログラム表示時の周波数軸単位フォントサイズ.",
         spectrogramHeight: "スペクトログラム表示時のキャンバスの高さ.",
         pointWidth: "ポイントライン表示時のポイント幅.",
         points: "ポイントライン表示時のポイントオブジェクトが格納されたアレイ.",
         playingOffset: "ポイント層再生時のオフセットタイム.",
-        textgridMaxHeight: "テキストグリッド表示の最大高さ."
-      }
+        textgridMaxHeight: "テキストグリッド表示の最大高さ.",
+      },
     },
     events: {
-      desc:
-        "`<wave-surfer>` コンポーネントから様々なプレーヤーイベントを受け取ることができます. ",
+      desc: "`<wave-surfer>` コンポーネントから様々なプレーヤーイベントを受け取ることができます. ",
       descs: {
         audioprocess: "オーディオの再生中, またはシーク時に継続的に発火します.",
         dblclick: "インスタンスがダブルクリックされた時に発火します.",
@@ -187,24 +184,21 @@ export default {
         interaction: "`waveform` とのインタラクションが存在する際に発火します.",
         loading:
           "フェッチまたはドラッグアンドドロップを使用してロードするときに継続的に発火します. コールバックはロードの進行状況をパーセント[0..100] (integer) で受け取ります.",
-        mute:
-          "ミュート変更時に発火します. コールバックは新しいミュート状態 (boolean) を受け取ります.",
+        mute: "ミュート変更時に発火します. コールバックは新しいミュート状態 (boolean) を受け取ります.",
         pause: "音声再生が停止した際に発火します.",
         play: "音声再生が開始した際に発火します.",
         ready:
           "オーディオが読み込まれ, デコードされて, 波形が描画されます. これは, MediaElement を使用しているときに波形が描画される前に発火します. waveform-ready を参照してください.",
         scroll:
           "スクロールバーが移動した際に発火します. コールバックは `ScrollEvent` オブジェクトを受け取ります.",
-        seek:
-          "シーク時に発火します. コールバックは 進行状況 [0..1] (float) を受け取ります.",
+        seek: "シーク時に発火します. コールバックは 進行状況 [0..1] (float) を受け取ります.",
         volume:
           "ボリューム変更時に発火します. コールバックは新しいボリューム (integer) を受け取ります.",
         "waveform-ready":
           "`MediaElement` バックエンドを使用している場合, 波形が描画された後に発火します. `WebAudio` バックエンドを使用している場合には, `ready` を使用できます.",
-        zoom:
-          "ズーム時に発火します. コールバックは `minPxPerSec` (integer) を受け取ります."
-      }
-    }
+        zoom: "ズーム時に発火します. コールバックは `minPxPerSec` (integer) を受け取ります.",
+      },
+    },
   },
   example: {
     audioElement: {
@@ -217,7 +211,7 @@ export default {
       <br />
       例では <code>onFileChange</code> 関数内でユーザから渡された音声ファイルを
       base64 形式に変換し wave-surfer コンポーネントに渡しています
-      `
+      `,
     },
     videoElement: {
       desc: `
@@ -243,7 +237,7 @@ export default {
       <br />
       例では video element に <code>v-if</code> を設定し <code>source</code> が変わるごとに
       HTML Video Element そのものを再記述させています.
-      `
+      `,
     },
     bars: {
       desc: `
@@ -257,13 +251,13 @@ export default {
       </br>
       例えば <code>barWidth</code> は音声を再生しながらでも値の変更が可能ですが
       <code>barRadius</code> や <code>height</code> はそうではありません.
-      `
+      `,
     },
     splitChannels: {
-      desc: `<code>splitChannels</code> プロパティを有効にするとステレオ音源を分割して表示します`
+      desc: `<code>splitChannels</code> プロパティを有効にするとステレオ音源を分割して表示します`,
     },
     timeline: {
-      desc: `<code>showTimeLine</code>  プロパティを設定すると音声波形に時刻情報が付与されます.`
+      desc: `<code>showTimeLine</code>  プロパティを設定すると音声波形に時刻情報が付与されます.`,
     },
     pointline: {
       desc: `
@@ -274,7 +268,7 @@ export default {
       "points" プロパティは "time" および "value" 属性を持つ単なる配列です.
       </br>
       "points" プロパティの意味は定義しません.
-      例えば F0 や パワー あるいは何かのセンサーを値を waveform と共に表示をしたい際に利用できます.  `
+      例えば F0 や パワー あるいは何かのセンサーを値を waveform と共に表示をしたい際に利用できます.  `,
     },
     textgrid: {
       headline: `
@@ -349,7 +343,7 @@ export default {
       選択されたアノテーションオブジェクトが変更された場合に発火.現在選択されている TIER の Key および選択されているアノテーションオブジェクトが渡される
       </li>
       </ul>
-      `
+      `,
     },
     recording: {
       desc: `
@@ -363,7 +357,7 @@ export default {
       </br>
       また,出力される音声ファイルは ".wav" となっていますが wav 形式ではありません.
       </br>
-      筆者の余裕と興味が出たタイミングで種々調整を行います.`
+      筆者の余裕と興味が出たタイミングで種々調整を行います.`,
     },
     spectrogram: {
       desc: `
@@ -393,7 +387,7 @@ export default {
       </br>
       上記サンプルコードでは <code>spectrogram-render-end</code> を監視し
       スペクトログラムのレンダが終了した際にのみビデオを表示するようにしています.
-      `
-    }
-  }
+      `,
+    },
+  },
 };

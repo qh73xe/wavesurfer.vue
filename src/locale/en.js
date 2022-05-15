@@ -3,7 +3,7 @@ export default {
   close: "Close",
   dataIterator: {
     noResultsText: "No matching records found",
-    loadingText: "Loading items..."
+    loadingText: "Loading items...",
   },
   dataTable: {
     itemsPerPageText: "Rows per page:",
@@ -13,9 +13,9 @@ export default {
       sortNone: "Not sorted.",
       activateNone: "Activate to remove sorting.",
       activateDescending: "Activate to sort descending.",
-      activateAscending: "Activate to sort ascending."
+      activateAscending: "Activate to sort ascending.",
     },
-    sortBy: "Sort by"
+    sortBy: "Sort by",
   },
   dataFooter: {
     itemsPerPageText: "Items per page:",
@@ -24,33 +24,33 @@ export default {
     prevPage: "Previous page",
     firstPage: "First page",
     lastPage: "Last page",
-    pageText: "{0}-{1} of {2}"
+    pageText: "{0}-{1} of {2}",
   },
   datePicker: {
     itemsSelected: "{0} selected",
     nextMonthAriaLabel: "Next month",
     nextYearAriaLabel: "Next year",
     prevMonthAriaLabel: "Previous month",
-    prevYearAriaLabel: "Previous year"
+    prevYearAriaLabel: "Previous year",
   },
   noDataText: "No data available",
   carousel: {
     prev: "Previous visual",
     next: "Next visual",
     ariaLabel: {
-      delimiter: "Carousel slide {0} of {1}"
-    }
+      delimiter: "Carousel slide {0} of {1}",
+    },
   },
   calendar: {
-    moreEvents: "{0} more"
+    moreEvents: "{0} more",
   },
   fileInput: {
     counter: "{0} files",
-    counterSize: "{0} files ({1} in total)"
+    counterSize: "{0} files ({1} in total)",
   },
   timePicker: {
     am: "AM",
-    pm: "PM"
+    pm: "PM",
   },
   pagination: {
     ariaLabel: {
@@ -58,11 +58,11 @@ export default {
       next: "Next page",
       previous: "Previous page",
       page: "Goto Page {0}",
-      currentPage: "Current Page, Page {0}"
-    }
+      currentPage: "Current Page, Page {0}",
+    },
   },
   wExampleHelpDialog: {
-    headline: "How to use this demo"
+    headline: "How to use this demo",
   },
   home: {
     desc: `
@@ -76,18 +76,17 @@ export default {
         "Use the &lt;wave-surfer&gt; components in your components as follows:",
       result: "The result is as follows:",
       next: `For more information on how to use the &lt;wave-surfer&gt; component, see the following documents.`,
-      warning: `Please note that <code><a href="https://vuetifyjs.com">vuetify</a></code> is required to run the sample code.`
-    }
+      warning: `Please note that <code><a href="https://vuetifyjs.com">vuetify</a></code> is required to run the sample code.`,
+    },
   },
   document: {
     options: {
-      desc:
-        "This is the list of props you can pass to <wave-suefer /> to create an instance of the player.",
+      desc: "This is the list of props you can pass to <wave-suefer /> to create an instance of the player.",
       headers: {
         option: "props",
         type: "type",
         default: "default",
-        description: "description"
+        description: "description",
       },
       options: {
         source: "Media source converted to audio waveform.",
@@ -97,8 +96,7 @@ export default {
         showSpectrogram: "Whether to display the spectrogram.",
         showFreqLabel:
           "Whether to display the frequency label when using showSpectrogram option.",
-        rec:
-          "Whether to execute the recording mode.This feature is experimental.",
+        rec: "Whether to execute the recording mode.This feature is experimental.",
         audioRate: "Speed at which to play audio. Lower number is slower.",
         audioContext:
           "Use your own previously initialized AudioContext or leave blank.",
@@ -166,8 +164,7 @@ export default {
           "Render with seperate waveforms for the channels of the audio.",
         targetChannel: "Channel for spectrum display",
         waveColor: "The fill color of the waveform after the cursor.",
-        xhr:
-          "XHR options. For example: let xhr = { cache: 'default', mode: 'cors', method: 'GET', credentials: 'same-origin', redirect: 'follow', referrer: 'client', headers: [ { key: 'Authorization', value: 'my-token' } ]};",
+        xhr: "XHR options. For example: let xhr = { cache: 'default', mode: 'cors', method: 'GET', credentials: 'same-origin', redirect: 'follow', referrer: 'client', headers: [ { key: 'Authorization', value: 'my-token' } ]};",
         freqFontSize:
           "The font size of the frequency label when displaying the audio spectrogram.",
         unitFontSize:
@@ -176,12 +173,11 @@ export default {
         pointWidth: "The width of the point when the point line is displayed.",
         points: "The point object array displayed on the point line.",
         playingOffset: "The offset time when playing point tier object.",
-        textgridMaxHeight: "Maximum height of textgrid display."
-      }
+        textgridMaxHeight: "Maximum height of textgrid display.",
+      },
     },
     events: {
-      desc:
-        "You can receive various player events from the `<wave-surfer>` component.",
+      desc: "You can receive various player events from the `<wave-surfer>` component.",
       descs: {
         audioprocess:
           "Fires continuously as the audio plays. Also fires on seeking.",
@@ -192,8 +188,7 @@ export default {
         interaction: "When there's interaction with the waveform.",
         loading:
           "Fires continuously when loading using fetch or drag'n'drop. Callback will receive (integer) loading progress in percents [0..100].",
-        mute:
-          "On mute change. Callback will receive (boolean) new mute status.",
+        mute: "On mute change. Callback will receive (boolean) new mute status.",
         pause: "When audio is paused.",
         play: "When playback starts.",
         ready:
@@ -204,9 +199,9 @@ export default {
         volume: "On volume change. Callback will receive (integer) new volume.",
         "waveform-ready":
           "Fires after the waveform is drawn when using the MediaElement backend. If you're using the WebAudio backend, you can use ready.",
-        zoom: "On zooming. Callback will receive (integer) minPxPerSec."
-      }
-    }
+        zoom: "On zooming. Callback will receive (integer) minPxPerSec.",
+      },
+    },
   },
   example: {
     audioElement: {
@@ -217,7 +212,7 @@ export default {
       <br />
       <br />
       In the example below, the audio file passed from the user is converted to base64 format in the onFileChange function.
-      `
+      `,
     },
     videoElement: {
       desc: `
@@ -238,7 +233,7 @@ export default {
       This is because what you are passing to the "source" props is a same HTML Video Element.
       <br />
       In the example, v-if is set for the video element, and the HTML Video Element itself is rewritten each time the source changes.
-      `
+      `,
     },
     bars: {
       desc: `
@@ -251,7 +246,7 @@ export default {
       But note that some props require a complete redraw.
       </br>
       For example, "barWidth" can change the value while playing audio, but "barRadius" and "height" do not.
-      `
+      `,
     },
     spectrogram: {
       desc: `
@@ -277,13 +272,13 @@ export default {
       </br>
       In the sample code, <code>spectrogram-render-end</code> event was used
       to display the video only when the spectrogram rendering has finished.
-      `
+      `,
     },
     splitChannels: {
-      desc: `If the "splitChannels" props is enabled, stereo sound sources will be split and displayed.`
+      desc: `If the "splitChannels" props is enabled, stereo sound sources will be split and displayed.`,
     },
     timeline: {
-      desc: `Set the "showTimeLine" props to add a timeline for the audio waveform.`
+      desc: `Set the "showTimeLine" props to add a timeline for the audio waveform.`,
     },
     pointline: {
       desc: `
@@ -294,7 +289,7 @@ export default {
       </br>
       I don't define the meaning of "points".
       So, You can use "points" props to display any f0s or amplitudes or senser values.
-      `
+      `,
     },
     textgrid: {
       headline: `
@@ -360,7 +355,7 @@ export default {
       </br>
       </br>
       Finally, click the button labeled DOWNLOAD TEXTGRID to download the annotation results in TextGrid format.
-      `
+      `,
     },
     recording: {
       desc: `
@@ -375,7 +370,7 @@ export default {
       Also, the output audio file is ".wav", but it is not in wav format.
       </br>
       I will make various adjustments depending on my margin and timing when I am interested.
-      `
-    }
-  }
+      `,
+    },
+  },
 };
