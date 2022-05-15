@@ -384,7 +384,7 @@ export class Region {
   bindDragEvents() {
     const container = this.wavesurfer.drawer.container;
     const scrollSpeed = this.scrollSpeed;
-    const scrollThreshold = this.scrollThreshold;
+    // const scrollThreshold = this.scrollThreshold;
     let startTime;
     let touchId;
     let drag;
@@ -585,7 +585,7 @@ export class Region {
         return;
       }
 
-      const oldTime = startTime;
+      // const oldTime = startTime;
       let time = this.regionsUtil.getRegionSnapToGridValue(
         this.wavesurfer.drawer.handleEvent(e) * duration
       );
