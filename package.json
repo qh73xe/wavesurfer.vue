@@ -28,7 +28,8 @@
     "build:lib": "vue-cli-service build --target lib --name wavesurfer.vue src/components/index.js",
     "lint": "vue-cli-service lint",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "chromatic": "chromatic"
   },
   "dependencies": {
     "core-js": "^3.6.5",
@@ -52,6 +53,7 @@
     "@vue/cli-service": "~4.5.0",
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.2.5",
+    "chromatic": "^6.24.1",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^6.2.2",
     "sass": "~1.32.0",

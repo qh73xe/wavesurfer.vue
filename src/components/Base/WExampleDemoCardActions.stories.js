@@ -1,24 +1,21 @@
-import vuetify from "@/plugins/vuetify";
 import WExampleDemoCardActions from "./WExampleDemoCardActions";
 import WExampleDemoCard from "./WExampleDemoCard";
 
 export default {
   component: WExampleDemoCardActions,
-  title: "Components/WExampleDemoCardActions",
 };
 
-const Template = (args) => ({
+const Template = (_, { argTypes }) => ({
   components: { WExampleDemoCardActions, WExampleDemoCard },
-  vuetify,
-  setup() {
-    return args;
-  },
+  props: Object.keys(argTypes),
   template: `
   <w-example-demo-card>
-    <w-example-demo-cards-actions v-bind="args" />
+    <WExampleDemoCardActions :ws="ws" />
   </w-example-demo-card>
   `,
 });
 
 export const Default = Template.bind({});
-Default.args = {};
+Default.args = {
+  ws: {},
+};

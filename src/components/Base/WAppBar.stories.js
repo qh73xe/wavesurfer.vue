@@ -3,7 +3,6 @@ import WAppBar from "./WAppBar";
 
 export default {
   component: WAppBar,
-  title: "Components/WAppBar",
 };
 
 const Template = () => ({

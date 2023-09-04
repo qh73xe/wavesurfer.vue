@@ -3,7 +3,6 @@ import WCodeHeighlight from "@/components/Base/WCodeHeighlight.vue";
 
 export default {
   component: WCodeHeighlight,
-  title: "Components/WCodeHeighlight",
 };
 
 const Template = () => ({

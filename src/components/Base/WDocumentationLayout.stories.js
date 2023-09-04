@@ -3,7 +3,6 @@ import WDocumentationLayout from "./WDocumentationLayout";
 
 export default {
   component: WDocumentationLayout,
-  title: "Components/WDocumentationLayout",
 };
 
 const Template = (args, { argTypes }) => ({

@@ -3,7 +3,6 @@ import WExampleHelpDialog from "./WExampleHelpDialog";
 
 export default {
   component: WExampleHelpDialog,
-  title: "Components/WExampleHelpDialog",
 };
 
 const Template = () => ({
