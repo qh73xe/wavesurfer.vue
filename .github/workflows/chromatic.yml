@@ -11,9 +11,9 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - name: Install dependencies
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v1
         with:
-          node-version: "16"
+          node-version: 16
         run: yarn install
       - name: Publish to Chromatic
         uses: chromaui/action@v1
