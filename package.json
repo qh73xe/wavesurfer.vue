@@ -38,7 +38,8 @@
     "chromatic": "chromatic"
   },
   "dependencies": {
-    "vue": "^3.3.4"
+    "vue": "^3.3.4",
+    "wavesurfer.js": "^7.2.1"
   },
   "devDependencies": {
     "@storybook/addon-essentials": "^7.4.0",
