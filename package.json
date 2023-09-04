@@ -2,11 +2,17 @@
   "name": "wavesurfer.vue",
   "version": "0.1.3",
   "private": false,
+  "license": "MIT",
+  "author": "qh73xe",
+  "description": "the wrapper of wavesurfer.js for vue.",
+  "homepage": "https://qh73xe.github.io/wavesurfer.vue/",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:qh73xe/wavesurfer.vue.git"
+  },
   "main": "dist/wavesurfer.vue.common.js",
   "unpkg": "./dist/wavesurfer.vue.umd.min.js",
   "jsdelivr": "./dist/wavesurfer.vue.umd.min.js",
-  "license": "MIT",
-  "author": "qh73xe",
   "files": [
     "dist"
   ],
