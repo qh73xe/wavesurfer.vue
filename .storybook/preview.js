@@ -1,8 +1,12 @@
 import Vue from "vue";
 import Vuetify from "vuetify";
+
 import "vuetify/dist/vuetify.min.css";
 import { options } from "@/plugins/vuetify.js";
 import store from "@/store";
+
+Vue.use(Vuetify);
+const vuetify = new Vuetify(options);
 
 export const parameters = {
   actions: { argTypesRegex: "^on[A-Z].*" },
@@ -17,7 +21,6 @@ export const parameters = {
 export const decorators = [
   (story, context) => {
     const wrapped = story(context);
-    const vuetify = new Vuetify(options);
     return Vue.extend({
       vuetify,
       store,
