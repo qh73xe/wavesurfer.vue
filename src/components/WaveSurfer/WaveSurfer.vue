@@ -6,9 +6,12 @@
 </template>
 
 <script setup lang="ts">
+import { isEqual } from 'lodash';
 import WaveSurfer from 'wavesurfer.js';
 import type { WaveSurferOptions } from 'wavesurfer.js';
-import { ref, computed, onMounted } from 'vue';
+import {
+  ref, computed, watch, onMounted,
+} from 'vue';
 
 const wavesurfer = ref<null | WaveSurfer>(null);
 const waveform = ref<HTMLDivElement>();
@@ -127,6 +130,20 @@ const load = async (url: string, channelData?: WaveSurferOptions['peaks'], durat
     await wavesurfer.value.load(url, channelData, duration);
   }
 };
+
+/** 新しいオプションを反映します */
+const redender = (options: WaveSurferOptions) => {
+  if (wavesurfer.value) {
+    wavesurfer.value.setOptions(options);
+  }
+};
+
+/** wsOptions を監視し, 変更があった場合再レンダを実施する */
+watch(wsOptions, (newValue, oldValue) => {
+  if (!isEqual(newValue, oldValue)) {
+    redender(newValue);
+  }
+});
 
 onMounted(async () => {
   initWaveSurfer();

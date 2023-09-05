@@ -38,6 +38,7 @@
     "chromatic": "chromatic"
   },
   "dependencies": {
+    "lodash": "^4.17.21",
     "vue": "^3.3.4",
     "wavesurfer.js": "^7.2.1"
   },
