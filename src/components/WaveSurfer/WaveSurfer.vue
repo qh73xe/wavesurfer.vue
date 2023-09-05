@@ -6,7 +6,6 @@
 </template>
 
 <script setup lang="ts">
-import { isEqual } from 'lodash';
 import WaveSurfer from 'wavesurfer.js';
 import type { WaveSurferOptions } from 'wavesurfer.js';
 import {
@@ -83,6 +82,7 @@ const props = defineProps({
   normalize: { type: Boolean, default: false },
 });
 
+/** メディアエレメント */
 const media = computed((): HTMLMediaElement | undefined => {
   if (props.source instanceof HTMLMediaElement) {
     return props.source;
@@ -90,6 +90,7 @@ const media = computed((): HTMLMediaElement | undefined => {
   return undefined;
 });
 
+/** WaveSurfer 初期化時オプション */
 const wsOptions = computed((): WaveSurferOptions => ({
   container: waveform.value || '',
   height: props.height === -1 ? 'auto' : props.height,
@@ -120,28 +121,66 @@ const wsOptions = computed((): WaveSurferOptions => ({
 
 /** WaveSurfer のインスタンス化を実施します */
 const initWaveSurfer = () => {
-  if (wavesurfer.value) wavesurfer.value.destroy();
-  wavesurfer.value = WaveSurfer.create(wsOptions.value);
+  if (wavesurfer.value) {
+    wavesurfer.value.destroy();
+  }
+  try {
+    wavesurfer.value = WaveSurfer.create(wsOptions.value);
+  } catch {
+    wavesurfer.value = null;
+  }
 };
 
-/** Load an audio file by URL, with optional pre-decoded audio data */
+/** 音声データを読み込み, wavesurfer に反映させます / */
 const load = async (url: string, channelData?: WaveSurferOptions['peaks'], duration?: number) => {
   if (wavesurfer.value) {
     await wavesurfer.value.load(url, channelData, duration);
   }
 };
 
-/** 新しいオプションを反映します */
+/** 新しいオプションを, wavesurfer に反映させます */
 const redender = (options: WaveSurferOptions) => {
   if (wavesurfer.value) {
     wavesurfer.value.setOptions(options);
   }
 };
 
+/** media が loadeddata イベントを発火した際のハンドラ */
+const onMediaLoadeddata = async () => {
+  if (media.value) {
+    await load(media.value.currentSrc);
+  }
+};
+
 /** wsOptions を監視し, 変更があった場合再レンダを実施する */
 watch(wsOptions, (newValue, oldValue) => {
-  if (!isEqual(newValue, oldValue)) {
+  if (newValue.media && oldValue.media === undefined) {
+    initWaveSurfer();
+  } else {
     redender(newValue);
+  }
+});
+
+/** props.source を監視し, 変更があった場合再レンダを実施する.
+ *
+ * source が HTMLMediaElement の場合には,onMediaLoadeddata が呼ばれるため
+ * それ以外の場合のみ load 関数を実施するようにします.
+ */
+watch(props, async (newValue) => {
+  const { source } = newValue;
+  if (source && !(source instanceof HTMLMediaElement)) {
+    await load(source);
+  }
+});
+
+/** media 情報を監視し, loadeddata にイベントハンドラを付与する */
+watch(media, (newValue, oldValue) => {
+  const event = 'loadeddata';
+  if (oldValue) {
+    oldValue.removeEventListener(event, onMediaLoadeddata, false);
+  }
+  if (newValue) {
+    newValue.addEventListener(event, onMediaLoadeddata, false);
   }
 });
 

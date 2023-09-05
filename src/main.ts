@@ -1,5 +1,8 @@
-import { createApp } from 'vue';
-import './style.css';
-import App from './App.vue';
+import type { App } from 'vue';
+import WaveSurfer from './components/WaveSurfer/WaveSurfer.vue';
 
-createApp(App).mount('#app');
+export default {
+  install(app: App) {
+    app.component('WaveSurfer', WaveSurfer);
+  },
+};

@@ -1,10 +1,24 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
+import type { WaveSurferOptions } from 'wavesurfer.js';
 import WaveSurfer from './WaveSurfer.vue';
 
+type Options = Omit<WaveSurferOptions, 'container'>
+
+const dataURL = 'https://raw.githubusercontent.com/qh73xe/wavesurfer.vue/master/misc';
+const sourceOptions = [
+  `${dataURL}/demo.wav`,
+  `${dataURL}/nasa.mp4`,
+  `${dataURL}/demo_video.mp4`,
+  `${dataURL}/speech.wav`,
+  `${dataURL}/stereo.mp3`,
+];
 const meta = {
   component: WaveSurfer,
+  argTypes: {
+    source: { options: sourceOptions },
+  },
   tags: ['autodocs'],
 } satisfies Meta<typeof WaveSurfer>;
 
@@ -12,7 +26,7 @@ export default meta;
 type Story = StoryObj<typeof meta>
 export const Default: Story = {
   args: {
-    source: 'https://raw.githubusercontent.com/qh73xe/wavesurfer.vue/master/misc/demo.wav',
+    source: sourceOptions[0],
     height: -1,
     waveColor: '#999',
     progressColor: '#555',
@@ -42,19 +56,28 @@ export const Default: Story = {
 export const Video: Story = {
   args: {
     ...Default.args,
-    source: 'https://raw.githubusercontent.com/qh73xe/wavesurfer.vue/master/misc/nasa.mp4',
+    source: sourceOptions[1],
     autoCenter: true,
   },
   render: (args) => ({
     components: { WaveSurfer },
     setup() {
-      const media = ref<HTMLMediaElement>();
       const { source, ...options } = args;
-      return { source, options, media };
+      const media = ref<HTMLMediaElement>();
+      const src = ref<string>(source);
+      const wsOptions = ref<Options>(options);
+
+      watch(args, (value) => {
+        src.value = value.source;
+        wsOptions.value = { ...value, source: undefined };
+      });
+
+      return { src, wsOptions, media };
     },
     template: `
-      <video ref="media" :src="source" controls/>
-      <WaveSurfer v-if="media" v-bind="options" :source="media" />
+      <WaveSurfer v-bind="wsOptions" :source="media">
+        <video ref="media" width=500 :src="src" controls playsinline />
+      </WaveSurfer>
     `,
   }),
 };
