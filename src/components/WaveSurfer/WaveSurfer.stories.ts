@@ -66,7 +66,6 @@ export const Video: Story = {
       const media = ref<HTMLMediaElement>();
       const src = ref<string>(source);
       const wsOptions = ref<Options>(options);
-
       watch(args, (value) => {
         src.value = value.source;
         wsOptions.value = { ...value, source: undefined };
