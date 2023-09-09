@@ -3,8 +3,7 @@ import type { Meta, StoryObj } from '@storybook/vue3';
 import { ref, watch } from 'vue';
 import type { WaveSurferOptions } from 'wavesurfer.js';
 import WaveSurfer from './WaveSurfer.vue';
-
-type Options = Omit<WaveSurferOptions, 'container'>
+import { WaveSurferProps } from './types.ts';
 
 const dataURL = 'https://raw.githubusercontent.com/qh73xe/wavesurfer.vue/master/misc';
 const sourceOptions = [
@@ -16,14 +15,12 @@ const sourceOptions = [
 ];
 const meta = {
   component: WaveSurfer,
-  argTypes: {
-    source: { options: sourceOptions },
-  },
+  argTypes: { source: { options: sourceOptions } },
   tags: ['autodocs'],
 } satisfies Meta<typeof WaveSurfer>;
 
 export default meta;
-type Story = StoryObj<typeof meta>
+type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     source: sourceOptions[0],
@@ -36,7 +33,7 @@ export const Default: Story = {
     barGap: 0,
     barRadius: 0,
     barHeight: 1,
-    barAlign: 'center',
+    barAlign: undefined,
     minPxPerSec: 50,
     fillParent: true,
     duration: undefined,
@@ -65,7 +62,7 @@ export const Video: Story = {
       const { source, ...options } = args;
       const media = ref<HTMLMediaElement>();
       const src = ref<string>(source);
-      const wsOptions = ref<Options>(options);
+      const wsOptions = ref<WaveSurferProps>(options);
       watch(args, (value) => {
         src.value = value.source;
         wsOptions.value = { ...value, source: undefined };

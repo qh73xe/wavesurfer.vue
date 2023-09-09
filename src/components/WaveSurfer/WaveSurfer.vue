@@ -8,79 +8,37 @@
 <script setup lang="ts">
 import WaveSurfer from 'wavesurfer.js';
 import type { WaveSurferOptions } from 'wavesurfer.js';
-import {
-  ref, computed, watch, onMounted,
-} from 'vue';
+import { ref, computed, watch, onMounted } from 'vue';
 
 const wavesurfer = ref<null | WaveSurfer>(null);
 const waveform = ref<HTMLDivElement>();
 
-const props = defineProps({
-  source: {
-    type: [String, HTMLMediaElement],
-    default: '',
-  },
-  /** The height of the waveform in pixels, or "auto" to fill the container height */
-  height: { type: Number, default: -1 },
-  /** The color of the waveform */
-  waveColor: { type: String, default: '#999' },
-  /** The color of the progress mask */
-  progressColor: { type: String, default: '#555' },
-  /** The color of the playpack cursor */
-  cursorColor: { type: String, default: '#333' },
-  /** The cursor width */
-  cursorWidth: { type: Number, default: 1 },
-  /** If set, the waveform will be rendered with bars like this: ▁ ▂ ▇ ▃ ▅ ▂ */
-  barWidth: { type: Number, default: 0 },
-  /** Spacing between bars in pixels */
-  barGap: { type: Number, default: 0 },
-  /** Rounded borders for bars */
-  barRadius: { type: Number, default: 0 },
-  /** A vertical scaling factor for the waveform */
-  barHeight: { type: Number, default: 1 },
-  /** Vertical bar alignment */
-  barAlign: {
-    validator: (prop) => {
-      if (prop === undefined) return true;
-      if (typeof prop === 'string') {
-        if (prop === 'top') return true;
-        if (prop === 'bottom') return true;
-        if (prop === 'center') return true;
-      }
-      return false;
-    },
-    default: undefined,
-  },
-  /** Minimum pixels per second of audio (i.e. the zoom level) */
-  minPxPerSec: { type: Number, default: 50 },
-  /** Stretch the waveform to fill the container, true by default */
-  fillParent: { type: Boolean, default: true },
-  /** Pre-computed audio duration in seconds */
-  duration: {
-    validator: (prop) => typeof prop === 'number' || prop === undefined,
-    default: undefined,
-  },
-  /** Whether to show default audio element controls */
-  mediaControls: { type: Boolean, default: false },
-  /** Play the audio on load */
-  autoplay: { type: Boolean, default: false },
-  /** Pass false to disable clicks on the waveform */
-  interact: { type: Boolean, default: true },
-  /** Allow to drag the cursor to seek to a new position */
-  dragToSeek: { type: Boolean, default: true },
-  /** Hide the scrollbar */
-  hideScrollbar: { type: Boolean, default: false },
-  /** Audio rate, i.e. the playback speed */
-  audioRate: { type: Number, default: 1 },
-  /** Automatically scroll the container to keep the current position in viewport */
-  autoScroll: { type: Boolean, default: false },
-  /** If autoScroll is enabled, keep the cursor in the center of the waveform during playback */
-  autoCenter: { type: Boolean, default: true },
-  /** Decoding sample rate. Doesn't affect the playback. Defaults to 8000 */
-  sampleRate: { type: Number, default: 8000 },
-  /** Stretch the waveform to the full height */
-  normalize: { type: Boolean, default: false },
-});
+const props = withDefaults(defineProps<{
+  source: string | HTMLMediaElement,
+  height?: number | 'auto',
+  waveColor?: string | string[] | CanvasGradient,
+  progressColor?: string | string[] | CanvasGradient,
+  cursorColor?: string,
+  cursorWidth?: number,
+  barWidth?: number,
+  barGap?: number,
+  barRadius?: number,
+  barHeight?: number,
+  barAlign?: 'top' | 'bottom',
+  minPxPerSec?: number,
+  fillParent?: boolean,
+  duration?: number,
+  mediaControls?: boolean,
+  autoplay?: boolean,
+  interact?: boolean,
+  dragToSeek?: boolean,
+  hideScrollbar?: boolean,
+  audioRate?: number,
+  autoScroll?: boolean,
+  autoCenter?: boolean,
+  sampleRate?: number,
+  normalize?: boolean,
+}>(), { source: "" });
 
 /** メディアエレメント */
 const media = computed((): HTMLMediaElement | undefined => {
@@ -102,7 +60,7 @@ const wsOptions = computed((): WaveSurferOptions => ({
   barGap: props.barGap === 0 ? undefined : props.barGap,
   barRadius: props.barRadius,
   barHeight: props.barHeight,
-  barAlign: props.barAlign === 'center' ? undefined : props.barAlign,
+  barAlign: props.barAlign,
   minPxPerSec: props.minPxPerSec,
   fillParent: props.fillParent,
   duration: props.duration,
