@@ -1,9 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 
 import { ref, watch } from 'vue';
-import type { WaveSurferOptions } from 'wavesurfer.js';
-import WaveSurfer from './WaveSurfer.vue';
-import { WaveSurferProps } from './types.ts';
+import WaveSurfer, {Props as WaveSurferProps } from './WaveSurfer.vue';
 
 const dataURL = 'https://raw.githubusercontent.com/qh73xe/wavesurfer.vue/master/misc';
 const sourceOptions = [
@@ -15,7 +13,26 @@ const sourceOptions = [
 ];
 const meta = {
   component: WaveSurfer,
-  argTypes: { source: { options: sourceOptions } },
+  argTypes: { 
+    source: { options: sourceOptions },
+    onAudioProcess: { action: 'onAudioProcess' },
+    onClick: { action: 'onClick' },
+    onDecode: { action: 'onDecode' },
+    onDestroy: { action: 'onDestroy' },
+    onDrag: { action: 'onDrag' },
+    onFinish: { action: 'onFinish' },
+    onInteraction: { action: 'onInteraction' },
+    onLoad: { action: 'onLoad' },
+    onLoading: { action: 'onLoading' },
+    onPause: { action: 'onPause' },
+    onPlay: { action: 'onPlay' },
+    onReady: { action: 'onReady' },
+    onRedraw: { action: 'onRedraw' },
+    onScroll: { action: 'onScroll' },
+    onSeeking: { action: 'onSeeking' },
+    onTimeupdate: { action: 'onTimeupdate' },
+    onZoom: { action: 'onZoom' },
+  },
   tags: ['autodocs'],
 } satisfies Meta<typeof WaveSurfer>;
 
