@@ -1,4 +1,5 @@
 import type { Preview } from '@storybook/vue3'
+import WaveSurferProvider from '../src/providers/WaveSurferProvider.vue';
 
 const preview: Preview = {
   parameters: {
@@ -9,7 +10,13 @@ const preview: Preview = {
         date: /Date$/
       }
     }
-  }
+  },
+  decorators: [
+    (story) => ({
+      components: { story, WaveSurferProvider },
+      template: '<WaveSurferProvider><story /></WaveSurferProvider>',
+    }),
+  ],
 }
 
 export default preview

@@ -1,8 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 
 import WS from 'wavesurfer.js';
-import { ref, watch } from 'vue';
+import { ref, watch, inject } from 'vue';
 import WaveSurfer, { Props as WaveSurferProps } from './WaveSurfer.vue';
+import WSKey from "../../providers/WaveSurferProvider"
+import type { WSStore } from "../../providers/WaveSurferProvider"
+
 
 const dataURL = 'https://raw.githubusercontent.com/qh73xe/wavesurfer.vue/master/misc';
 const sourceOptions = [
@@ -74,63 +77,46 @@ export const Zoom: Story = {
   render: (args) => ({
     components: { WaveSurfer },
     setup() {
-      const wavesurfer = ref<null | WS>(null);
-
-      const onLoaded = (ws: WS) => {
-        wavesurfer.value = ws;
-      };
-
+      const wsStore = inject(WSKey) as WSStore
       const onZoom = (event: Event) => {
         if (event.target instanceof HTMLInputElement) {
           const minPxPerSec = event.target.valueAsNumber;
-          if (wavesurfer.value) {
-            wavesurfer.value.zoom(minPxPerSec);
-          }
+          if (wsStore) wsStore.zoom(minPxPerSec);
         }
       };
-
       const onChange = (event: Event) => {
         if (event.target instanceof HTMLInputElement) {
           const checked = event.target.checked;
-          if (wavesurfer.value) {
-            wavesurfer.value.setOptions({ [event.target.value]: checked });
-          }
+          if (wsStore) wsStore.setOptions({ [event.target.value]: checked });
         }
       };
-
       const onPlayPause = () => {
-        if (wavesurfer.value) {
-          wavesurfer.value.playPause();
-        }
+        if (wsStore) wsStore.playPause();
       };
 
       const onForward = () => {
-        if (wavesurfer.value) {
-          wavesurfer.value.skip(5);
-        }
+        if (wsStore) wsStore.skip(5);
       };
 
       const onBack = () => {
-        if (wavesurfer.value) {
-          wavesurfer.value.skip(-5);
-        }
+        if (wsStore) wsStore.skip(-5);
       };
 
-      return { args, onLoaded, onZoom, onChange, onPlayPause, onForward, onBack };
+      return { args, onZoom, onChange, onPlayPause, onForward, onBack };
     },
     template: `
-      <WaveSurfer v-bind="args" @loaded="onLoaded">
-          <label>
-            Zoom: <input type="range" min="10" max="1000" value="100" @input="onZoom" />
-          </label>
-          <label><input type="checkbox" checked value="scrollbar" @change="onChange" /> Scroll bar</label>
-          <label><input type="checkbox" checked value="fillParent" @change="onChange" /> Fill parent</label>
-          <label><input type="checkbox" checked value="autoCenter" @change="onChange" /> Auto center</label>
-          <div style="margin: 1em 0 2em;">
-            <button @click="onPlayPause">Play/Pause</button>
-            <button id="backward" @click="onBack">Backward 5s</button>
-            <button id="forward" @click="onForward">Forward 5s</button>
-          </div>
+      <WaveSurfer v-bind="args">
+        <label>
+          Zoom: <input type="range" min="10" max="1000" value="100" @input="onZoom" />
+        </label>
+        <label><input type="checkbox" checked value="scrollbar" @change="onChange" /> Scroll bar</label>
+        <label><input type="checkbox" checked value="fillParent" @change="onChange" /> Fill parent</label>
+        <label><input type="checkbox" checked value="autoCenter" @change="onChange" /> Auto center</label>
+        <div style="margin: 1em 0 2em;">
+          <button @click="onPlayPause">Play/Pause</button>
+          <button id="backward" @click="onBack">Backward 5s</button>
+          <button id="forward" @click="onForward">Forward 5s</button>
+        </div>
       </WaveSurfer>
     `,
   }),

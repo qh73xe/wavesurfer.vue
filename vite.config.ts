@@ -15,11 +15,7 @@ export default defineConfig({
     },
     rollupOptions: {
       external: ['vue'],
-      output: {
-        globals: {
-          vue: 'Vue',
-        },
-      },
+      output: { globals: { vue: 'Vue' } },
     },
   },
   plugins: [
@@ -27,9 +23,7 @@ export default defineConfig({
     vue(),
     checker({
       vueTsc: true,
-      eslint: {
-        lintCommand: 'eslint "./src/**/*.{ts,vue}"',
-      },
+      eslint: { lintCommand: 'eslint "./src/**/*.{ts,vue}"' },
     }),
   ],
 });

@@ -6,12 +6,11 @@
 </template>
 
 <script setup lang="ts">
-import WaveSurfer from 'wavesurfer.js';
 import type { WaveSurferOptions } from 'wavesurfer.js';
-import { ref, computed, watch, onMounted } from 'vue';
+import { ref, computed, watch, onMounted, inject } from 'vue';
 
-const wavesurfer = ref<null | WaveSurfer>(null);
-const waveform = ref<HTMLDivElement>();
+import WSKey from "../../providers/WaveSurferProvider"
+import type { WSStore } from "../../providers/WaveSurferProvider"
 
 export interface Props {
   source: string | HTMLMediaElement;
@@ -39,7 +38,6 @@ export interface Props {
   sampleRate?: number;
   normalize?: boolean;
 }
-
 const props = withDefaults(defineProps<Props>(), { source: '' });
 
 const emit = defineEmits<{
@@ -62,6 +60,9 @@ const emit = defineEmits<{
   (e: 'timeupdate', currentTime: number): void;
   (e: 'zoom', minPxPerSec: number): void;
 }>();
+
+const wsStore = inject(WSKey) as WSStore
+const waveform = ref<HTMLDivElement>();
 
 /** メディアエレメント */
 const media = computed((): HTMLMediaElement | undefined => {
@@ -104,87 +105,76 @@ const wsOptions = computed(
 
 /** WaveSurfer のインスタンス化を実施します */
 const initWaveSurfer = () => {
-  if (wavesurfer.value) {
-    wavesurfer.value.destroy();
-  }
-  try {
-    wavesurfer.value = WaveSurfer.create(wsOptions.value);
-    wavesurfer.value.on('audioprocess', (currentTime: number) => {
+  wsStore.init(wsOptions.value)
+  if (wsStore.wavesurfer.value) {
+    wsStore.wavesurfer.value.on('audioprocess', (currentTime: number) => {
       emit('audioprocess', currentTime);
     });
-    wavesurfer.value.on('click', (relativeX: number) => {
+    wsStore.wavesurfer.value.on('click', (relativeX: number) => {
       emit('click', relativeX);
     });
-    wavesurfer.value.on('decode', (duration: number) => {
+    wsStore.wavesurfer.value.on('decode', (duration: number) => {
       emit('decode', duration);
     });
-    wavesurfer.value.on('destroy', () => {
+    wsStore.wavesurfer.value.on('destroy', () => {
       emit('destroy');
     });
-    wavesurfer.value.on('drag', (relativeX: number) => {
+    wsStore.wavesurfer.value.on('drag', (relativeX: number) => {
       emit('drag', relativeX);
     });
-    wavesurfer.value.on('finish', () => {
+    wsStore.wavesurfer.value.on('finish', () => {
       emit('finish');
     });
-    wavesurfer.value.on('interaction', (newTime: number) => {
+    wsStore.wavesurfer.value.on('interaction', (newTime: number) => {
       emit('interaction', newTime);
     });
-    wavesurfer.value.on('load', (url: string) => {
+    wsStore.wavesurfer.value.on('load', (url: string) => {
       emit('load', url);
-      emit('loaded', wavesurfer.value);
+      emit('loaded', wsStore.wavesurfer.value);
     });
-    wavesurfer.value.on('loading', (percent: number) => {
+    wsStore.wavesurfer.value.on('loading', (percent: number) => {
       emit('loading', percent);
     });
-    wavesurfer.value.on('pause', () => {
+    wsStore.wavesurfer.value.on('pause', () => {
       emit('pause');
     });
-    wavesurfer.value.on('play', () => {
+    wsStore.wavesurfer.value.on('play', () => {
       emit('play');
     });
-    wavesurfer.value.on('ready', (duration: number) => {
+    wsStore.wavesurfer.value.on('ready', (duration: number) => {
       emit('ready', duration);
     });
-    wavesurfer.value.on('redraw', () => {
+    wsStore.wavesurfer.value.on('redraw', () => {
       emit('redraw');
     });
-    wavesurfer.value.on('scroll', (visibleStartTime: number, visibleEndTime: number) => {
+    wsStore.wavesurfer.value.on('scroll', (visibleStartTime: number, visibleEndTime: number) => {
       emit('scroll', visibleStartTime, visibleEndTime);
     });
-    wavesurfer.value.on('seeking', (currentTime: number) => {
+    wsStore.wavesurfer.value.on('seeking', (currentTime: number) => {
       emit('seeking', currentTime);
     });
-    wavesurfer.value.on('timeupdate', (currentTime: number) => {
+    wsStore.wavesurfer.value.on('timeupdate', (currentTime: number) => {
       emit('timeupdate', currentTime);
     });
-    wavesurfer.value.on('zoom', (minPxPerSec: number) => {
+    wsStore.wavesurfer.value.on('zoom', (minPxPerSec: number) => {
       emit('zoom', minPxPerSec);
     });
-  } catch {
-    wavesurfer.value = null;
   }
 };
 
 /** 音声データを読み込み, wavesurfer に反映させます / */
 const load = async (url: string, channelData?: WaveSurferOptions['peaks'], duration?: number) => {
-  if (wavesurfer.value) {
-    await wavesurfer.value.load(url, channelData, duration);
-  }
+  wsStore.load(url, channelData, duration)
 };
 
 /** 新しいオプションを, wavesurfer に反映させます */
 const redender = (options: WaveSurferOptions) => {
-  if (wavesurfer.value) {
-    wavesurfer.value.setOptions(options);
-  }
+  wsStore.setOptions(options)
 };
 
 /** media が loadeddata イベントを発火した際のハンドラ */
 const onMediaLoadeddata = async () => {
-  if (media.value) {
-    await load(media.value.currentSrc);
-  }
+  if (media.value) await wsStore.load(media.value.currentSrc)
 };
 
 /** wsOptions を監視し, 変更があった場合再レンダを実施する */
