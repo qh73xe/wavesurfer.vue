@@ -78,8 +78,8 @@ export const Video: Story = {
     setup() {
       const { source, ...options } = args;
       const media = ref<HTMLMediaElement>();
-      const src = ref<string>(source);
-      const wsOptions = ref<WaveSurferProps>(options);
+      const src = ref<string | HTMLMediaElement>(source);
+      const wsOptions = ref<WaveSurferProps>({...options, source: ""});
       watch(args, (value) => {
         src.value = value.source;
         wsOptions.value = { ...value, source: undefined };
