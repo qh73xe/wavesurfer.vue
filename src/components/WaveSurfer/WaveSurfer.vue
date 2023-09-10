@@ -40,12 +40,9 @@ export interface Props {
   normalize?: boolean;
 }
 
-export interface ScrollEmit {
-  visibleStartTime: number;
-  visibleEndTime: number;
-}
+const props = withDefaults(defineProps<Props>(), { source: '' });
 
-export interface Emit {
+const emit = defineEmits<{
   (e: 'audioprocess', currentTime: number): void;
   (e: 'click', relativeX: number): void;
   (e: 'decode', duration: number): void;
@@ -55,23 +52,16 @@ export interface Emit {
   (e: 'interaction', newTime: number): void;
   (e: 'load', url: string): void;
   (e: 'loading', percent: number): void;
+  (e: 'loaded', ws: typeof wavesurfer.value): void;
   (e: 'pause'): void;
   (e: 'play'): void;
   (e: 'ready', duration: number): void;
   (e: 'redraw'): void;
-  (e: 'scroll', callback: ScrollEmit): void;
+  (e: 'scroll', visibleStartTime: number, visibleEndTime: number): void;
   (e: 'seeking', currentTime: number): void;
   (e: 'timeupdate', currentTime: number): void;
   (e: 'zoom', minPxPerSec: number): void;
-}
-
-const props = withDefaults(
-  defineProps<Props>(),
-  { source: '' },
-);
-
-const emit = defineEmits<Emit>()
-
+}>();
 
 /** メディアエレメント */
 const media = computed((): HTMLMediaElement | undefined => {
@@ -120,57 +110,57 @@ const initWaveSurfer = () => {
   try {
     wavesurfer.value = WaveSurfer.create(wsOptions.value);
     wavesurfer.value.on('audioprocess', (currentTime: number) => {
-      emit('audioprocess', currentTime)
-    })
+      emit('audioprocess', currentTime);
+    });
     wavesurfer.value.on('click', (relativeX: number) => {
-      emit('click', relativeX)
-    })
+      emit('click', relativeX);
+    });
     wavesurfer.value.on('decode', (duration: number) => {
-      emit('decode', duration)
-    })
+      emit('decode', duration);
+    });
     wavesurfer.value.on('destroy', () => {
-      emit('destroy')
-    })
+      emit('destroy');
+    });
     wavesurfer.value.on('drag', (relativeX: number) => {
-      emit('drag', relativeX)
-    })
+      emit('drag', relativeX);
+    });
     wavesurfer.value.on('finish', () => {
-      emit('finish')
-    })
+      emit('finish');
+    });
     wavesurfer.value.on('interaction', (newTime: number) => {
-      emit('interaction', newTime)
-    })
+      emit('interaction', newTime);
+    });
     wavesurfer.value.on('load', (url: string) => {
-      emit('load', url)
-    })
+      emit('load', url);
+      emit('loaded', wavesurfer.value);
+    });
     wavesurfer.value.on('loading', (percent: number) => {
-      emit('loading', percent)
-    })
+      emit('loading', percent);
+    });
     wavesurfer.value.on('pause', () => {
-      emit('pause')
-    })
+      emit('pause');
+    });
     wavesurfer.value.on('play', () => {
-      emit('play')
-    })
+      emit('play');
+    });
     wavesurfer.value.on('ready', (duration: number) => {
-      emit('ready', duration)
-    })
+      emit('ready', duration);
+    });
     wavesurfer.value.on('redraw', () => {
-      emit('redraw')
-    })
+      emit('redraw');
+    });
     wavesurfer.value.on('scroll', (visibleStartTime: number, visibleEndTime: number) => {
-      const payload = {visibleStartTime, visibleEndTime}
-      emit('scroll', payload)
-    })
+      emit('scroll', visibleStartTime, visibleEndTime);
+    });
     wavesurfer.value.on('seeking', (currentTime: number) => {
-      emit('seeking', currentTime)
-    })
+      emit('seeking', currentTime);
+    });
     wavesurfer.value.on('timeupdate', (currentTime: number) => {
-      emit('timeupdate', currentTime)
-    })
+      emit('timeupdate', currentTime);
+    });
     wavesurfer.value.on('zoom', (minPxPerSec: number) => {
-      emit('zoom', minPxPerSec)
-    })
+      emit('zoom', minPxPerSec);
+    });
   } catch {
     wavesurfer.value = null;
   }
@@ -205,6 +195,7 @@ watch(wsOptions, (newValue, oldValue) => {
     redender(newValue);
   }
 });
+
 
 /** props.source を監視し, 変更があった場合再レンダを実施する.
  *
