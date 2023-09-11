@@ -37,7 +37,7 @@
     "lint": "eslint ./src/**/*.{ts,vue}",
     "storybook": "storybook dev -p 6006",
     "chromatic": "chromatic",
-    "build-storybook": "storybook build",
+    "build-storybook": "storybook build"
   },
   "dependencies": {
     "lodash": "^4.17.21",
