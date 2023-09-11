@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 
-import WS from 'wavesurfer.js';
 import { ref, watch, inject } from 'vue';
 import WaveSurfer, { Props as WaveSurferProps } from './WaveSurfer.vue';
 import WSKey from "../../providers/WaveSurferProvider"

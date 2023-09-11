@@ -16,7 +16,7 @@
   ],
   "main": "./dist/wavesurfer.vue.lib.umd.cjs",
   "module": "./dist/wavesurfer.vue.lib.js",
-  "types": "./dist/components/index.d.ts",
+  "types": "./dist/main.d.ts",
   "keywords": [
     "Vue",
     "Vue.js",
@@ -56,7 +56,6 @@
     "@vue/eslint-config-prettier": "^8.0.0",
     "chromatic": "^7.0.0",
     "eslint": "^7.32.0 || ^8.2.0",
-    "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.25.2",
     "eslint-plugin-storybook": "^0.6.13",
     "eslint-plugin-vue": "^9.17.0",
