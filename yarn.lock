@@ -9908,9 +9908,9 @@ watchpack@^2.2.0:
     graceful-fs "^4.1.2"
 
 wavesurfer.js@^7.2.1:
-  version "7.2.1"
-  resolved "https://registry.yarnpkg.com/wavesurfer.js/-/wavesurfer.js-7.2.1.tgz#73001676b7e6a5a5537bd2a7392cf84d31f81555"
-  integrity sha512-62ZrNaBeVaVUzwWkQtc+yUnDpvBccRtcdjifNbn/ktxS/eEugXXWwdiImCjG+b7DiU2Jmuvh1obZWP8zGYUrZg==
+  version "7.3.1"
+  resolved "https://registry.yarnpkg.com/wavesurfer.js/-/wavesurfer.js-7.3.1.tgz#a936e81f8163afa0116dde4469cc9204682d6113"
+  integrity sha512-mjnWcAsOrXq8hIfAJv/OwQWnNrpbZYbQ6rKKfFdVpuucYipi4pG57jY9i+jL4tWLfz262BX4EOxZT2PC3uY2xA==
 
 wcwidth@^1.0.1:
   version "1.0.1"
