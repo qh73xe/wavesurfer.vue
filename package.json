@@ -31,10 +31,11 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc && vite build",
+    "test:storybook": "test-storybook",
+    "build:storybook": "storybook build",
     "preview": "vite preview",
     "lint": "eslint ./src/**/*.{ts,vue}",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build",
     "chromatic": "chromatic"
   },
   "dependencies": {
@@ -47,6 +48,8 @@
     "@storybook/addon-interactions": "^7.4.0",
     "@storybook/addon-links": "^7.4.0",
     "@storybook/blocks": "^7.4.0",
+    "@storybook/jest": "^0.2.2",
+    "@storybook/test-runner": "^0.13.0",
     "@storybook/testing-library": "^0.2.0",
     "@storybook/vue3": "^7.4.0",
     "@storybook/vue3-vite": "^7.4.0",
