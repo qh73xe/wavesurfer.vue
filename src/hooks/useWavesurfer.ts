@@ -19,7 +19,8 @@ export default function useWaveSurfer() {
     if (wavesurfer.value) {
       wavesurfer.value.destroy();
     }
-    wavesurfer.value = WaveSurfer.create(option);
+    const ws = WaveSurfer.create(option);
+    wavesurfer.value = ws
   }
 
   /** Unmount wavesurfer */
