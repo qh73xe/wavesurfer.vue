@@ -109,7 +109,7 @@ const wsOptions = computed(
 );
 
 /** WaveSurfer のインスタンス化を実施します */
-const initWaveSurfer = () => {
+const init = () => {
   if (wsStore) {
     wsStore.init(wsOptions.value)
     if (wsStore.wavesurfer.value) {
@@ -173,11 +173,6 @@ const load = async (url: string, channelData?: WaveSurferOptions['peaks'], durat
   if (wsStore) wsStore.load(url, channelData, duration)
 };
 
-/** 新しいオプションを, wavesurfer に反映させます */
-const redender = (options: WaveSurferOptions) => {
-  if (wsStore) wsStore.setOptions(options)
-};
-
 /** media が loadeddata イベントを発火した際のハンドラ */
 const onMediaLoadeddata = async () => {
   if (media.value && wsStore) await wsStore.load(media.value.currentSrc)
@@ -186,9 +181,9 @@ const onMediaLoadeddata = async () => {
 /** wsOptions を監視し, 変更があった場合再レンダを実施する */
 watch(wsOptions, (newValue, oldValue) => {
   if (newValue.media && oldValue.media === undefined) {
-    initWaveSurfer();
+    init();
   } else {
-    redender(newValue);
+    if (wsStore) wsStore.setOptions(newValue)
   }
 });
 
@@ -216,7 +211,7 @@ watch(media, (newValue, oldValue) => {
 });
 
 onMounted(async () => {
-  initWaveSurfer();
+  init();
   if (props.source && !(props.source instanceof HTMLMediaElement)) {
     await load(props.source);
   }
