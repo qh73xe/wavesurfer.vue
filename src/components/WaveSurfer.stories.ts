@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 
 import { ref, watch, inject } from 'vue';
-import WaveSurfer, { Props as WaveSurferProps } from './WaveSurfer.vue';
-import WSKey from "../../providers/WaveSurferProvider"
-import type { WSStore } from "../../providers/WaveSurferProvider"
+import WaveSurfer, { WaveSurferProps } from './WaveSurfer.vue';
+import WSKey from "../providers/WaveSurferProvider"
+import type { WSStore } from "../providers/WaveSurferProvider"
 
 
 const dataURL = 'https://raw.githubusercontent.com/qh73xe/wavesurfer.vue/master/misc';

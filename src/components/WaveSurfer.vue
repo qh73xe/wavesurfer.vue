@@ -1,18 +1,11 @@
-<template>
-  <div class="ws" tabindex="-1">
-    <slot></slot>
-    <div ref="waveform" />
-  </div>
-</template>
-
 <script setup lang="ts">
 import type { WaveSurferOptions } from 'wavesurfer.js';
 import { ref, computed, watch, onMounted, inject } from 'vue';
 
-import WSKey from "../../providers/WaveSurferProvider"
-import type { WSStore } from "../../providers/WaveSurferProvider"
+import WSKey from "../providers/WaveSurferProvider"
+import type { WSStore } from "../providers/WaveSurferProvider"
 
-export interface Props {
+export interface WaveSurferProps {
   source: string | HTMLMediaElement;
   height?: number | 'auto';
   waveColor?: string | string[] | CanvasGradient;
@@ -38,7 +31,8 @@ export interface Props {
   sampleRate?: number;
   normalize?: boolean;
 }
-const props = withDefaults(defineProps<Props>(), { 
+
+const props = withDefaults(defineProps<WaveSurferProps>(), { 
   source: '',
   waveColor: "#999",
   progressColor: "#555",
@@ -217,3 +211,9 @@ onMounted(async () => {
   }
 });
 </script>
+<template>
+  <div class="ws" tabindex="-1">
+    <slot></slot>
+    <div ref="waveform" />
+  </div>
+</template>
