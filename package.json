@@ -1,0 +1,81 @@
+{
+  "name": "wavesurfer.vue",
+  "private": false,
+  "version": "0.2.0",
+  "type": "module",
+  "license": "MIT",
+  "author": "qh73xe <takuya.waseda.1119@gmail.com>",
+  "description": "the wrapper of wavesurfer.js for vue",
+  "homepage": "https://qh73xe.github.io/wavesurfer.vue/",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:qh73xe/wavesurfer.vue.git"
+  },
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/wavesurfer.vue.lib.umd.cjs",
+  "module": "./dist/wavesurfer.vue.lib.js",
+  "types": "./dist/main.d.ts",
+  "keywords": [
+    "Vue",
+    "Vue.js",
+    "waveform",
+    "audio",
+    "music",
+    "player",
+    "wabaudio",
+    "microphone",
+    "visualization"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc && vite build",
+    "test:storybook": "test-storybook",
+    "build:storybook": "storybook build",
+    "preview": "vite preview",
+    "lint": "eslint ./src/**/*.{ts,vue}",
+    "storybook": "storybook dev -p 6006",
+    "chromatic": "chromatic",
+    "build-storybook": "storybook build"
+  },
+  "dependencies": {
+    "lodash": "^4.17.21",
+    "vue": "^3.3.4",
+    "wavesurfer.js": "^7.2.1"
+  },
+  "devDependencies": {
+    "@storybook/addon-essentials": "^7.4.1",
+    "@storybook/addon-interactions": "^7.4.1",
+    "@storybook/addon-links": "^7.4.1",
+    "@storybook/addon-mdx-gfm": "^7.4.1",
+    "@storybook/blocks": "^7.4.1",
+    "@storybook/jest": "^0.2.2",
+    "@storybook/test-runner": "^0.13.0",
+    "@storybook/testing-library": "^0.2.0",
+    "@storybook/vue3": "^7.4.1",
+    "@storybook/vue3-vite": "^7.4.1",
+    "@typescript-eslint/eslint-plugin": "^6.5.0",
+    "@typescript-eslint/parser": "^6.5.0",
+    "@vitejs/plugin-vue": "^4.2.3",
+    "@vue/eslint-config-prettier": "^8.0.0",
+    "chromatic": "^7.0.0",
+    "eslint": "^7.32.0 || ^8.2.0",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-storybook": "^0.6.13",
+    "eslint-plugin-vue": "^9.17.0",
+    "husky": "^8.0.3",
+    "prettier": "^3.0.3",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "storybook": "^7.4.1",
+    "typescript": "^5.0.2",
+    "vite": "^4.4.5",
+    "vite-plugin-checker": "^0.6.2",
+    "vite-plugin-dts": "^3.5.3",
+    "vue-tsc": "^1.8.5"
+  },
+  "resolutions": {
+    "jackspeak": "2.1.1"
+  }
+}
