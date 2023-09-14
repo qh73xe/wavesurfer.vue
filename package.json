@@ -37,7 +37,8 @@
     "lint": "eslint ./src/**/*.{ts,vue}",
     "storybook": "storybook dev -p 6006",
     "chromatic": "chromatic",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "prepare": "husky install"
   },
   "dependencies": {
     "lodash": "^4.17.21",
@@ -64,7 +65,7 @@
     "eslint-plugin-import": "^2.25.2",
     "eslint-plugin-storybook": "^0.6.13",
     "eslint-plugin-vue": "^9.17.0",
-    "husky": "^8.0.3",
+    "husky": "^8.0.0",
     "prettier": "^3.0.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
