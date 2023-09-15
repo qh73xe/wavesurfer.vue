@@ -42,33 +42,33 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Basic: Story = {
-  args: {
+export const Basic: Story = { args: { source: sourceOptions[0] } };
+
+export const Options: Story = {
+  args: { 
     source: sourceOptions[0],
-    height: -1,
-    waveColor: '#999',
-    progressColor: '#555',
-    cursorColor: '#333',
-    cursorWidth: 1,
-    barWidth: 0,
+    height: 128,
+    waveColor: '#ff4e00',
+    progressColor: '#dd5e98',
+    cursorColor: '#ddd5e9',
+    cursorWidth: 2,
     barGap: 0,
+    barWidth: 0,
     barRadius: 0,
-    barHeight: 1,
-    barAlign: undefined,
-    minPxPerSec: 50,
+    barHeight: 0,
+    normalize: false,
+    barAlign: 'center',
+    minPxPerSec: 1,
     fillParent: true,
-    duration: undefined,
-    mediaControls: false,
-    autoplay: false,
+    mediaControls: true,
     interact: true,
-    dragToSeek: true,
+    dragToSeek: false,
     hideScrollbar: false,
     audioRate: 1,
-    autoScroll: false,
+    autoScroll: true,
     autoCenter: true,
     sampleRate: 8000,
-    normalize: false,
-  },
+  }
 };
 
 export const Zoom: Story = {
