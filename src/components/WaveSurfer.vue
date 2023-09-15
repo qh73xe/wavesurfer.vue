@@ -16,12 +16,10 @@ export interface WaveSurferProps {
   barGap?: number;
   barRadius?: number;
   barHeight?: number;
-  barAlign?: 'top' | 'bottom';
+  barAlign?: 'center'| 'top' | 'bottom';
   minPxPerSec?: number;
   fillParent?: boolean;
-  duration?: number;
   mediaControls?: boolean;
-  autoplay?: boolean;
   interact?: boolean;
   dragToSeek?: boolean;
   hideScrollbar?: boolean;
@@ -36,6 +34,7 @@ const props = withDefaults(defineProps<WaveSurferProps>(), {
   source: '',
   waveColor: "#999",
   progressColor: "#555",
+  cursorWidth: 1,
   cursorColor: "#333",
   fillParent: true,
 });
@@ -84,12 +83,10 @@ const wsOptions = computed(
     barGap: props.barGap === 0 ? undefined : props.barGap,
     barRadius: props.barRadius,
     barHeight: props.barHeight,
-    barAlign: props.barAlign,
+    barAlign: props.barAlign !== 'center' ? props.barAlign : undefined,
     minPxPerSec: props.minPxPerSec,
     fillParent: props.fillParent,
-    duration: props.duration,
     mediaControls: props.mediaControls,
-    autoplay: props.autoplay,
     interact: props.interact,
     dragToSeek: props.dragToSeek,
     hideScrollbar: props.hideScrollbar,
