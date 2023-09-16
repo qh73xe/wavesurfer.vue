@@ -2,9 +2,8 @@ import type { Meta, StoryObj } from '@storybook/vue3';
 
 import { ref, watch, inject } from 'vue';
 import WaveSurfer, { WaveSurferProps } from './WaveSurfer.vue';
-import WSKey from "../providers/WaveSurferProvider"
-import type { WSStore } from "../providers/WaveSurferProvider"
-
+import WSKey from '../providers/WaveSurferProvider';
+import type { WSStore } from '../providers/WaveSurferProvider';
 
 const dataURL = 'https://raw.githubusercontent.com/qh73xe/wavesurfer.vue/master/misc';
 const sourceOptions = [
@@ -35,6 +34,7 @@ const meta = {
     onSeeking: { action: 'onSeeking' },
     onTimeupdate: { action: 'onTimeupdate' },
     onZoom: { action: 'onZoom' },
+    onKeydown: { action: 'onKeydown' },
   },
   tags: ['autodocs'],
 } satisfies Meta<typeof WaveSurfer>;
@@ -45,7 +45,7 @@ type Story = StoryObj<typeof meta>;
 export const Basic: Story = { args: { source: sourceOptions[0] } };
 
 export const Options: Story = {
-  args: { 
+  args: {
     source: sourceOptions[0],
     height: 128,
     waveColor: '#ff4e00',
@@ -68,7 +68,7 @@ export const Options: Story = {
     autoScroll: true,
     autoCenter: true,
     sampleRate: 8000,
-  }
+  },
 };
 
 export const Zoom: Story = {
@@ -76,7 +76,7 @@ export const Zoom: Story = {
   render: (args) => ({
     components: { WaveSurfer },
     setup() {
-      const wsStore = inject(WSKey) as WSStore
+      const wsStore = inject(WSKey) as WSStore;
       const onZoom = (event: Event) => {
         if (event.target instanceof HTMLInputElement) {
           const minPxPerSec = event.target.valueAsNumber;

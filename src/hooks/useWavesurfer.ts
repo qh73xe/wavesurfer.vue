@@ -79,6 +79,15 @@ export default function useWaveSurfer() {
     return 0
   }
 
+  /** Get the minPxPerSec of the params in wavesurfer  */
+  const getMinPxPerSec = (): number => {
+    if (wavesurfer.value) {
+      return wavesurfer.value.options.minPxPerSec || 0
+    }
+    return 0
+  }
+
+
   /** Get the HTML media element */
   const getMediaElement = (): HTMLMediaElement|null => {
     if (wavesurfer.value) {
@@ -236,6 +245,7 @@ export default function useWaveSurfer() {
     getDecodedData,
     getDuration,
     getMediaElement,
+    getMinPxPerSec,
     getMuted,
     getPlaybackRate,
     getScroll,
