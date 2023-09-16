@@ -2,8 +2,19 @@
 import type { WaveSurferOptions } from 'wavesurfer.js';
 import { ref, computed, watch, onMounted, inject } from 'vue';
 
-import WSKey from "../providers/WaveSurferProvider"
-import type { WSStore } from "../providers/WaveSurferProvider"
+import useKeybord from '../hooks/useKeybord';
+import WSKey from '../providers/WaveSurferProvider';
+import type { WSStore } from '../providers/WaveSurferProvider';
+
+export interface KeyMap {
+  key: string;
+  repeat: boolean;
+  altKey: boolean;
+  ctrlKey: boolean;
+  metaKey: boolean;
+  shiftKey?: boolean;
+  callback: () => void;
+}
 
 export interface WaveSurferProps {
   source: string | HTMLMediaElement;
@@ -16,7 +27,7 @@ export interface WaveSurferProps {
   barGap?: number;
   barRadius?: number;
   barHeight?: number;
-  barAlign?: 'center'| 'top' | 'bottom';
+  barAlign?: 'center' | 'top' | 'bottom';
   minPxPerSec?: number;
   fillParent?: boolean;
   mediaControls?: boolean;
@@ -28,14 +39,15 @@ export interface WaveSurferProps {
   autoCenter?: boolean;
   sampleRate?: number;
   normalize?: boolean;
+  keymaps?: KeyMap[];
 }
 
-const props = withDefaults(defineProps<WaveSurferProps>(), { 
+const props = withDefaults(defineProps<WaveSurferProps>(), {
   source: '',
-  waveColor: "#999",
-  progressColor: "#555",
+  waveColor: '#999',
+  progressColor: '#555',
   cursorWidth: 1,
-  cursorColor: "#333",
+  cursorColor: '#333',
   fillParent: true,
 });
 
@@ -57,9 +69,10 @@ const emit = defineEmits<{
   (e: 'seeking', currentTime: number): void;
   (e: 'timeupdate', currentTime: number): void;
   (e: 'zoom', minPxPerSec: number): void;
+  (e: 'keydown', event: KeyboardEvent): void;
 }>();
 
-const wsStore = inject(WSKey) as WSStore
+const wsStore = inject(WSKey) as WSStore;
 const waveform = ref<HTMLDivElement>();
 
 /** メディアエレメント */
@@ -102,7 +115,7 @@ const wsOptions = computed(
 /** WaveSurfer のインスタンス化を実施します */
 const init = () => {
   if (wsStore) {
-    wsStore.init(wsOptions.value)
+    wsStore.init(wsOptions.value);
     if (wsStore.wavesurfer.value) {
       wsStore.wavesurfer.value.on('audioprocess', (currentTime: number) => {
         emit('audioprocess', currentTime);
@@ -161,20 +174,73 @@ const init = () => {
 
 /** 音声データを読み込み, wavesurfer に反映させます / */
 const load = async (url: string, channelData?: WaveSurferOptions['peaks'], duration?: number) => {
-  if (wsStore) wsStore.load(url, channelData, duration)
+  if (wsStore) wsStore.load(url, channelData, duration);
 };
 
-/** media が loadeddata イベントを発火した際のハンドラ */
+/** media の loadeddata イベントハンドラ */
 const onMediaLoadeddata = async () => {
-  if (media.value && wsStore) await wsStore.load(media.value.currentSrc)
+  if (media.value && wsStore) await wsStore.load(media.value.currentSrc);
 };
+
+/** waveform のキーダウンイベント定義 */
+const keymaps: KeyMap[] = props.keymaps || [
+  {
+    key: 'Tab',
+    repeat: false,
+    altKey: false,
+    ctrlKey: false,
+    metaKey: false,
+    shiftKey: false,
+    callback: () => {
+      if (wsStore) wsStore.playPause();
+      if (waveform.value) waveform.value.focus();
+    },
+  },
+  {
+    key: '+',
+    repeat: true,
+    altKey: false,
+    ctrlKey: false,
+    metaKey: false,
+    callback: () => {
+      if (wsStore) {
+        const minPxPerSec = wsStore.getMinPxPerSec();
+        const newValue = minPxPerSec + 10
+        if (newValue < 1000) wsStore.zoom(newValue);
+      }
+    },
+  },
+  {
+    key: '-',
+    repeat: true,
+    altKey: false,
+    ctrlKey: false,
+    metaKey: false,
+    callback: () => {
+      if (wsStore) {
+        const minPxPerSec = wsStore.getMinPxPerSec();
+        const newValue = minPxPerSec - 10
+        if (newValue > 0) wsStore.zoom(newValue);
+      }
+    },
+  },
+
+];
+
+/** waveform のデフォルトキーダウンイベントハンドラ */
+const onDefaultKeyDown = (event: KeyboardEvent) => {
+  emit('keydown', event);
+};
+
+/** waveform のキーダウンイベントハンドラ */
+const { onKeyDown } = useKeybord(keymaps, onDefaultKeyDown);
 
 /** wsOptions を監視し, 変更があった場合再レンダを実施する */
 watch(wsOptions, (newValue, oldValue) => {
   if (newValue.media && oldValue.media === undefined) {
     init();
   } else {
-    if (wsStore) wsStore.setOptions(newValue)
+    if (wsStore) wsStore.setOptions(newValue);
   }
 });
 
@@ -208,9 +274,16 @@ onMounted(async () => {
   }
 });
 </script>
+
 <template>
-  <div class="ws" tabindex="-1">
+  <div class="ws">
     <slot></slot>
-    <div ref="waveform" />
+    <div class="waveform" ref="waveform" tabindex="-1" @keydown="onKeyDown" />
   </div>
 </template>
+
+<style>
+.waveform {
+  outline: none;
+}
+</style>
