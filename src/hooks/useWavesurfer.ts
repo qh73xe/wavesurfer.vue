@@ -13,6 +13,7 @@ export type WaveSurferObj = null | WaveSurfer
 
 export default function useWaveSurfer() {
   const wavesurfer = ref<WaveSurferObj>(null);
+  const loaded = ref<boolean>(false);
 
   /** Create a new WaveSurfer instance */
   const init = (option: WaveSurferOptions) => {
@@ -28,6 +29,7 @@ export default function useWaveSurfer() {
     if (wavesurfer.value) {
       wavesurfer.value.unAll();
       wavesurfer.value.destroy();
+      loaded.value = false;
       wavesurfer.value = null
     }
   }
@@ -36,6 +38,7 @@ export default function useWaveSurfer() {
   const empty = (): void => {
     if (wavesurfer.value) {
       wavesurfer.value.empty();
+      loaded.value = false;
     }
   }
 
@@ -146,14 +149,18 @@ export default function useWaveSurfer() {
   /** Load an audio file by URL, with optional pre-decoded audio data */
   const load = async(url: string, channelData?: WaveSurferOptions['peaks'], duration?: number) => {
     if (wavesurfer.value) {
-      return await wavesurfer.value.load(url, channelData, duration);
+      const result = await wavesurfer.value.load(url, channelData, duration);
+      loaded.value = true;
+      return result
     }
   }
 
   /** Load an audio blob */
   const loadBlob = async(blob: Blob, channelData?: WaveSurferOptions['peaks'], duration?: number) => {
     if (wavesurfer.value) {
-      return await wavesurfer.value.loadBlob(blob, channelData, duration);
+      const result = await wavesurfer.value.loadBlob(blob, channelData, duration);
+      loaded.value = true;
+      return result
     }
   }
 
@@ -236,6 +243,7 @@ export default function useWaveSurfer() {
 
   return {
     wavesurfer,
+    loaded,
     init,
     destroy,
     empty,

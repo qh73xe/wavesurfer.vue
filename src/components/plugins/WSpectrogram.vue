@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { inject, onMounted } from 'vue';
+import { inject, ref, watch } from 'vue';
 import Spectrogram from 'wavesurfer.js/plugins/spectrogram';
 
 import WSKey from '../../providers/WaveSurferProvider';
@@ -32,41 +32,68 @@ export interface SpectrogramProps {
   /** The window function to be used. */
   windowFunc?: WindowFunc;
   /** Some window functions have this extra value. (Between 0 and 1) */
-  alpha?: number
+  alpha?: number;
   /** Min frequency to scale spectrogram. */
-  frequencyMin?: number
+  frequencyMin?: number;
   /** Max frequency to scale spectrogram. Set this to samplerate/2 to draw whole range of spectrogram. */
-  frequencyMax?: number
+  frequencyMax?: number;
   /**
    * A 256 long array of 4-element arrays. Each entry should contain a float between 0 and 1 and specify r, g, b, and alpha.
    * Each entry should contain a float between 0 and 1 and specify r, g, b, and alpha.
    */
-  colorMap?: number[][]
+  colorMap?: number[][];
   /** Render a spectrogram for each channel independently when true. */
-  splitChannels?: boolean
+  splitChannels?: boolean;
 }
 
-const props = withDefaults(defineProps<SpectrogramProps>(), { 
+const props = withDefaults(defineProps<SpectrogramProps>(), {
   labels: true,
   height: 128,
   splitChannels: true,
 });
 
+const spectrogram = ref<Spectrogram | null>(null);
 const wsStore = inject(WSKey) as WSStore;
+const loaded = wsStore.loaded;
 
+/** Spectrogram インスタンスを WaveSurfer に登録する */
 const init = () => {
   if (wsStore) {
-    wsStore.registerPlugin(
-      Spectrogram.create(props),
-    );
+    spectrogram.value = Spectrogram.create(props);
+    /* @ts-ignore */
+    wsStore.registerPlugin(spectrogram.value);
   }
 };
 
-onMounted(() => {
-  if (wsStore && wsStore.wavesurfer.value) {
+/** Spectrogram のレンダーを実行する */
+const render = () => {
+  if (spectrogram.value) {
+    try {
+      spectrogram.value.render();
+    } catch (e) {
+      console.error(e)
+    }
+  }
+};
+
+/** media 読み込みを監視し Spectrogram の初期化を行う */
+watch(loaded, (newValue) => {
+  if (newValue) {
     init();
+    render();
+  }
+});
+
+/** props を監視し Spectrogram に反映する */
+watch(props, (newValue) => {
+  if (spectrogram.value) {
+    spectrogram.value.destroy()
+    spectrogram.value = Spectrogram.create(newValue);
+    /* @ts-ignore */
+    wsStore.registerPlugin<Spectrogram>(spectrogram.value);
+    render();
   }
 });
 </script>
 
-<template><div/></template>
+<template><slot v-if="!loaded" /></template>

@@ -18,49 +18,6 @@ const sourceOptions = [
 const meta = {
   component: WSpectrogram,
   argTypes: {},
-  render: (args) => ({
-    components: { WaveSurfer, WSpectrogram },
-    setup() {
-      const wsStore = inject(WSKey) as WSStore;
-      const source = sourceOptions[0];
-      const showSpec = ref<boolean>(false);
-
-      const onLoad = () => {
-        showSpec.value = true;
-      };
-
-      const onZoom = (event: Event) => {
-        if (event.target instanceof HTMLInputElement) {
-          const minPxPerSec = event.target.valueAsNumber;
-          if (wsStore) wsStore.zoom(minPxPerSec);
-        }
-      };
-
-      const onPlayPause = () => {
-        if (wsStore) wsStore.playPause();
-      };
-
-      return { source, args, showSpec, onLoad, onZoom, onPlayPause };
-    },
-    template: `
-      <WaveSurfer
-        interact
-        progressColor="#555"
-        cursorColor="#333"
-        :cursorWidth="1"
-        :source="source"
-        @load="onLoad"
-      >
-        <label>
-          Zoom: <input type="range" min="10" max="1000" value="100" @input="onZoom" />
-        </label>
-        <div>
-          <button @click="onPlayPause">Play/Pause</button>
-        </div>
-        <WSpectrogram v-if="showSpec" v-bind="args" />
-      </WaveSurfer>
-    `,
-  }),
   tags: ['autodocs'],
 } satisfies Meta<typeof WSpectrogram>;
 
@@ -73,4 +30,102 @@ export const Basic: Story = {
     height: 128,
     splitChannels: true,
   },
+  render: (args) => ({
+    components: { WaveSurfer, WSpectrogram },
+    setup() {
+      const wsStore = inject(WSKey) as WSStore;
+      const source = sourceOptions[0];
+
+      const onZoom = (event: Event) => {
+        if (event.target instanceof HTMLInputElement) {
+          const minPxPerSec = event.target.valueAsNumber;
+          if (wsStore) wsStore.zoom(minPxPerSec);
+        }
+      };
+
+      const onPlayPause = () => {
+        if (wsStore) wsStore.playPause();
+      };
+
+      return { source, args, onZoom, onPlayPause };
+    },
+    template: `
+      <WaveSurfer
+        interact
+        progressColor="#555"
+        cursorColor="#333"
+        :cursorWidth="1"
+        :source="source"
+      >
+        <label>
+          Zoom: <input type="range" min="10" max="1000" value="100" @input="onZoom" />
+        </label>
+        <div>
+          <button @click="onPlayPause">Play/Pause</button>
+        </div>
+        <WSpectrogram v-bind="args" />
+      </WaveSurfer>
+    `,
+  }),
 };
+
+export const Video: Story = { 
+  args: { 
+    ...Basic.args,
+    splitChannels: false,
+  },
+  render: (args) => ({
+    components: { WaveSurfer, WSpectrogram },
+    setup() {
+      const source = sourceOptions[1];
+      const media = ref<HTMLMediaElement>();
+
+      return { source, media, args };
+    },
+    template: `
+      <WaveSurfer
+        interact
+        progressColor="#555"
+        cursorColor="#333"
+        :cursorWidth="1"
+        :source="media"
+      >
+        <video ref="media" width=500 :src="source" controls playsinline />
+        <WSpectrogram v-bind="args" />
+      </WaveSurfer>
+    `,
+  }),
+};
+
+export const SlotExample: Story = {
+  args: {
+    labels: true,
+    height: 128,
+    splitChannels: true,
+  },
+  render: (args) => ({
+    components: { WaveSurfer, WSpectrogram },
+    setup() {
+      const source = ref("")
+      const onClick = () => {
+        source.value = sourceOptions[0]; 
+      };
+      return { source, args, onClick };
+    },
+    template: `
+      <WaveSurfer
+        interact
+        progressColor="#555"
+        cursorColor="#333"
+        :cursorWidth="1"
+        :source="source"
+      >
+        <WSpectrogram v-bind="args">
+          <button @click="onClick">load source</button>
+          <div>There is no source for Spectrogram...</div>
+        </WSpectrogram>
+      </WaveSurfer>
+    `,
+  }),
+};
+
