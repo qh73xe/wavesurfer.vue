@@ -205,7 +205,7 @@ const keymaps: KeyMap[] = props.keymaps || [
     callback: () => {
       if (wsStore) {
         const minPxPerSec = wsStore.getMinPxPerSec();
-        const newValue = minPxPerSec + 10
+        const newValue = minPxPerSec + 10;
         if (newValue < 1000) wsStore.zoom(newValue);
       }
     },
@@ -219,12 +219,11 @@ const keymaps: KeyMap[] = props.keymaps || [
     callback: () => {
       if (wsStore) {
         const minPxPerSec = wsStore.getMinPxPerSec();
-        const newValue = minPxPerSec - 10
+        const newValue = minPxPerSec - 10;
         if (newValue > 0) wsStore.zoom(newValue);
       }
     },
   },
-
 ];
 
 /** waveform のデフォルトキーダウンイベントハンドラ */
