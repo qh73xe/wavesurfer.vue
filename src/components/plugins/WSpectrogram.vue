@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { inject, ref, watch } from 'vue';
 import Spectrogram from 'wavesurfer.js/plugins/spectrogram';
+import type SpectrogramPlugin from 'wavesurfer.js/plugins/spectrogram';
 
 import WSKey from '../../providers/WaveSurferProvider';
 import type { WSStore } from '../../providers/WaveSurferProvider';
@@ -52,26 +53,27 @@ const props = withDefaults(defineProps<SpectrogramProps>(), {
   splitChannels: true,
 });
 
-const spectrogram = ref<Spectrogram | null>(null);
+const spectrogram = ref<SpectrogramPlugin | null>(null);
 const wsStore = inject(WSKey) as WSStore;
 const loaded = wsStore.loaded;
 
 /** Spectrogram インスタンスを WaveSurfer に登録する */
-const init = () => {
+const init = (conf?: SpectrogramProps) => {
   if (wsStore) {
-    spectrogram.value = Spectrogram.create(props);
-    /* @ts-ignore */
-    wsStore.registerPlugin(spectrogram.value);
+    const option = conf || props;
+    const spec = Spectrogram.create(option);
+    wsStore.registerPlugin<SpectrogramPlugin>(spec);
+    spectrogram.value = spec;
   }
 };
 
 /** Spectrogram のレンダーを実行する */
 const render = () => {
-  if (spectrogram.value) {
+  if (spectrogram.value && loaded) {
     try {
       spectrogram.value.render();
     } catch (e) {
-      console.error(e)
+      console.error(e);
     }
   }
 };
@@ -87,10 +89,8 @@ watch(loaded, (newValue) => {
 /** props を監視し Spectrogram に反映する */
 watch(props, (newValue) => {
   if (spectrogram.value) {
-    spectrogram.value.destroy()
-    spectrogram.value = Spectrogram.create(newValue);
-    /* @ts-ignore */
-    wsStore.registerPlugin<Spectrogram>(spectrogram.value);
+    spectrogram.value.destroy();
+    init(newValue);
     render();
   }
 });

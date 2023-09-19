@@ -9,7 +9,7 @@ interface NamedParameter {
   maxLength?: number;
   precision?: number;
 }
-export type WaveSurferObj = null | WaveSurfer
+export type WaveSurferObj = null | WaveSurfer;
 
 export default function useWaveSurfer() {
   const wavesurfer = ref<WaveSurferObj>(null);
@@ -21,18 +21,18 @@ export default function useWaveSurfer() {
       wavesurfer.value.destroy();
     }
     const ws = WaveSurfer.create(option);
-    wavesurfer.value = ws
-  }
+    wavesurfer.value = ws;
+  };
 
   /** Unmount wavesurfer */
   const destroy = (): void => {
     if (wavesurfer.value) {
+      loaded.value = false;
       wavesurfer.value.unAll();
       wavesurfer.value.destroy();
-      loaded.value = false;
-      wavesurfer.value = null
+      wavesurfer.value = null;
     }
-  }
+  };
 
   /** Empty the waveform by loading a tiny silent audio */
   const empty = (): void => {
@@ -40,206 +40,205 @@ export default function useWaveSurfer() {
       wavesurfer.value.empty();
       loaded.value = false;
     }
-  }
+  };
 
   /** Get decoded peaks */
   const exportPeaks = (params?: NamedParameter): number[][] => {
     if (wavesurfer.value) {
       return wavesurfer.value.exportPeaks(params);
     }
-    return []
-  }
+    return [];
+  };
 
   /** Get all registered plugins */
   const getActivePlugins = (): GenericPlugin[] => {
     if (wavesurfer.value) {
       return wavesurfer.value.getActivePlugins();
     }
-    return []
-  }
+    return [];
+  };
 
   /** Get the current audio position in seconds */
   const getCurrentTime = (): number => {
     if (wavesurfer.value) {
       return wavesurfer.value.getCurrentTime();
     }
-    return 0
-  }
+    return 0;
+  };
 
   /** Get the decoded audio data */
   const getDecodedData = (): null | AudioBuffer => {
     if (wavesurfer.value) {
       return wavesurfer.value.getDecodedData();
     }
-    return null
-  }
+    return null;
+  };
 
   /** Get the duration of the audio in seconds */
   const getDuration = (): number => {
     if (wavesurfer.value) {
       return wavesurfer.value.getDuration();
     }
-    return 0
-  }
+    return 0;
+  };
 
   /** Get the minPxPerSec of the params in wavesurfer  */
   const getMinPxPerSec = (): number => {
     if (wavesurfer.value) {
-      return wavesurfer.value.options.minPxPerSec || 0
+      return wavesurfer.value.options.minPxPerSec || 0;
     }
-    return 0
-  }
-
+    return 0;
+  };
 
   /** Get the HTML media element */
-  const getMediaElement = (): HTMLMediaElement|null => {
+  const getMediaElement = (): HTMLMediaElement | null => {
     if (wavesurfer.value) {
       return wavesurfer.value.getMediaElement();
     }
-    return null
-  }
+    return null;
+  };
   /** Get the audio muted state */
   const getMuted = (): boolean => {
     if (wavesurfer.value) {
       return wavesurfer.value.getMuted();
     }
-    return false
-  }
+    return false;
+  };
 
   /** Get the playback speed */
   const getPlaybackRate = (): number => {
     if (wavesurfer.value) {
       return wavesurfer.value.getPlaybackRate();
     }
-    return -1
-  }
+    return -1;
+  };
 
   /** Get the current scroll position in pixels */
   const getScroll = (): number => {
     if (wavesurfer.value) {
       return wavesurfer.value.getScroll();
     }
-    return -1
-  }
+    return -1;
+  };
 
   /** Get the audio volume */
   const getVolume = (): number => {
     if (wavesurfer.value) {
       return wavesurfer.value.getVolume();
     }
-    return -1
-  }
+    return -1;
+  };
 
   /** For plugins only: get the waveform wrapper div */
-  const getWrapper = (): HTMLElement | null=> {
+  const getWrapper = (): HTMLElement | null => {
     if (wavesurfer.value) {
       return wavesurfer.value.getWrapper();
     }
-    return null
-  }
+    return null;
+  };
 
   /** Check if the audio is playing */
   const isPlaying = (): boolean => {
     if (wavesurfer.value) {
       return wavesurfer.value.isPlaying();
     }
-    return false
-  }
+    return false;
+  };
 
   /** Load an audio file by URL, with optional pre-decoded audio data */
-  const load = async(url: string, channelData?: WaveSurferOptions['peaks'], duration?: number) => {
+  const load = async (url: string, channelData?: WaveSurferOptions['peaks'], duration?: number) => {
     if (wavesurfer.value) {
       const result = await wavesurfer.value.load(url, channelData, duration);
       loaded.value = true;
-      return result
+      return result;
     }
-  }
+  };
 
   /** Load an audio blob */
-  const loadBlob = async(blob: Blob, channelData?: WaveSurferOptions['peaks'], duration?: number) => {
+  const loadBlob = async (blob: Blob, channelData?: WaveSurferOptions['peaks'], duration?: number) => {
     if (wavesurfer.value) {
       const result = await wavesurfer.value.loadBlob(blob, channelData, duration);
       loaded.value = true;
-      return result
+      return result;
     }
-  }
+  };
 
   /** Pause the audio */
   const pause = (): void => {
     if (wavesurfer.value) wavesurfer.value.pause();
-  }
+  };
 
   /** Start playing the audio */
-  const play = async() => {
+  const play = async () => {
     if (wavesurfer.value) await wavesurfer.value.play();
-  }
+  };
 
   /** Play or pause the audio */
-  const playPause = async() => {
+  const playPause = async () => {
     if (wavesurfer.value) await wavesurfer.value.playPause();
-  }
+  };
 
   /** Register a wavesurfer.js plugin */
   const registerPlugin = <T extends GenericPlugin>(plugin: T): T => {
-    if (wavesurfer.value){
-      return wavesurfer.value.registerPlugin(plugin)
+    if (wavesurfer.value) {
+      return wavesurfer.value.registerPlugin(plugin);
     }
-    return plugin
-  }
+    return plugin;
+  };
 
   /** Seek to a percentage of audio as [0..1] (0 = beginning, 1 = end) */
-  const seekTo = (progress: number) : void => {
-    if (wavesurfer.value) wavesurfer.value.seekTo(progress)
-  }
+  const seekTo = (progress: number): void => {
+    if (wavesurfer.value) wavesurfer.value.seekTo(progress);
+  };
 
-  const setMuted = (muted: boolean) : void => {
-    if (wavesurfer.value) wavesurfer.value.setMuted(muted)
-  }
+  const setMuted = (muted: boolean): void => {
+    if (wavesurfer.value) wavesurfer.value.setMuted(muted);
+  };
 
   /** Set new wavesurfer options and re-render it */
-  const setOptions = (options: Partial<WaveSurferOptions>) : void => {
-    if (wavesurfer.value) wavesurfer.value.setOptions(options)
-  }
+  const setOptions = (options: Partial<WaveSurferOptions>): void => {
+    if (wavesurfer.value) wavesurfer.value.setOptions(options);
+  };
 
   /** Set the playback speed, pass an optional false to NOT preserve the pitch */
   const setPlaybackRate = (rate: number, preservePitch?: boolean): void => {
-    if (wavesurfer.value) wavesurfer.value.setPlaybackRate(rate, preservePitch)
-  }
+    if (wavesurfer.value) wavesurfer.value.setPlaybackRate(rate, preservePitch);
+  };
 
   /** Set a sink id to change the audio output device */
-  const setSinkId = async(sinkId: string) => {
-    if (wavesurfer.value) await wavesurfer.value.setSinkId(sinkId)
-  }
+  const setSinkId = async (sinkId: string) => {
+    if (wavesurfer.value) await wavesurfer.value.setSinkId(sinkId);
+  };
 
   /** Jumpt to a specific time in the audio (in seconds) */
   const setTime = (time: number): void => {
-    if (wavesurfer.value) wavesurfer.value.setTime(time)
-  }
+    if (wavesurfer.value) wavesurfer.value.setTime(time);
+  };
 
   /** Set the audio volume */
   const setVolume = (volume: number): void => {
-    if (wavesurfer.value) wavesurfer.value.setVolume(volume)
-  }
+    if (wavesurfer.value) wavesurfer.value.setVolume(volume);
+  };
 
   /** Skip N or -N seconds from the current position */
   const skip = (seconds: number): void => {
-    if (wavesurfer.value) wavesurfer.value.skip(seconds)
-  }
+    if (wavesurfer.value) wavesurfer.value.skip(seconds);
+  };
 
   /** Stop the audio and go to the beginning */
   const stop = (): void => {
-    if (wavesurfer.value) wavesurfer.value.stop()
-  }
+    if (wavesurfer.value) wavesurfer.value.stop();
+  };
 
   /** Toggle if the waveform should react to clicks */
   const toggleInteraction = (isInteractive: boolean): void => {
-    if (wavesurfer.value) wavesurfer.value.toggleInteraction(isInteractive)
-  }
+    if (wavesurfer.value) wavesurfer.value.toggleInteraction(isInteractive);
+  };
 
   /** Zoom the waveform by a given pixels-per-second factor */
   const zoom = (minPxPerSec: number): void => {
-    if (wavesurfer.value) wavesurfer.value.zoom(minPxPerSec)
-  }
+    if (wavesurfer.value) wavesurfer.value.zoom(minPxPerSec);
+  };
 
   return {
     wavesurfer,

@@ -28,14 +28,13 @@ export const Basic: Story = {
   args: {
     labels: true,
     height: 128,
-    splitChannels: true,
+    splitChannels: false,
   },
   render: (args) => ({
     components: { WaveSurfer, WSpectrogram },
     setup() {
       const wsStore = inject(WSKey) as WSStore;
-      const source = sourceOptions[0];
-
+      const source = sourceOptions[4];
       const onZoom = (event: Event) => {
         if (event.target instanceof HTMLInputElement) {
           const minPxPerSec = event.target.valueAsNumber;
@@ -69,9 +68,27 @@ export const Basic: Story = {
   }),
 };
 
-export const Video: Story = { 
-  args: { 
+export const Options: Story = {
+  args: {
+    fftSamples: 4 * 512,
+    height: 128,
+    labels: true,
+    labelsBackground: "#ff0000",
+    labelsColor: "#fff500",
+    labelsHzColor: "#0002f1",
+    noverlap: 512,
+    windowFunc: "hamming",
+    frequencyMin: 0,
+    frequencyMax: 4000,
+    splitChannels: true,
+  },
+  render: Basic.render
+};
+
+export const Video: Story = {
+  args: {
     ...Basic.args,
+    frequencyMax: 5000,
     splitChannels: false,
   },
   render: (args) => ({
@@ -85,8 +102,10 @@ export const Video: Story = {
     template: `
       <WaveSurfer
         interact
+        autoScroll
         progressColor="#555"
         cursorColor="#333"
+        :minPxPerSec="200"
         :cursorWidth="1"
         :source="media"
       >
@@ -106,9 +125,9 @@ export const SlotExample: Story = {
   render: (args) => ({
     components: { WaveSurfer, WSpectrogram },
     setup() {
-      const source = ref("")
+      const source = ref('');
       const onClick = () => {
-        source.value = sourceOptions[0]; 
+        source.value = sourceOptions[0];
       };
       return { source, args, onClick };
     },
@@ -128,4 +147,3 @@ export const SlotExample: Story = {
     `,
   }),
 };
-
