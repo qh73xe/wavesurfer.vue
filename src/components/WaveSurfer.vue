@@ -52,27 +52,30 @@ const props = withDefaults(defineProps<WaveSurferProps>(), {
 });
 
 const emit = defineEmits<{
-  (e: 'audioprocess', currentTime: number): void;
-  (e: 'click', relativeX: number): void;
-  (e: 'decode', duration: number): void;
-  (e: 'destroy'): void;
-  (e: 'drag', relativeX: number): void;
-  (e: 'finish'): void;
-  (e: 'interaction', newTime: number): void;
-  (e: 'load', url: string): void;
-  (e: 'loading', percent: number): void;
-  (e: 'pause'): void;
-  (e: 'play'): void;
-  (e: 'ready', duration: number): void;
-  (e: 'redraw'): void;
-  (e: 'scroll', visibleStartTime: number, visibleEndTime: number): void;
-  (e: 'seeking', currentTime: number): void;
-  (e: 'timeupdate', currentTime: number): void;
-  (e: 'zoom', minPxPerSec: number): void;
-  (e: 'keydown', event: KeyboardEvent): void;
+  audioprocess: [currentTime: number];
+  click: [relativeX: number];
+  decode: [duration: number];
+  destroy: [];
+  drag: [relativeX: number];
+  finish: [];
+  interaction: [newTime: number];
+  load: [url: string];
+  loading: [percent: number];
+  pause: [];
+  play: [];
+  ready: [duration: number];
+  redraw: [];
+  scroll: [visibleStartTime: number, visibleEndTime: number];
+  seeking: [currentTime: number];
+  timeupdate: [currentTime: number];
+  zoom: [minPxPerSec: number];
+  keydown: [event: KeyboardEvent];
 }>();
 
 const wsStore = inject(WSKey) as WSStore;
+if (wsStore === undefined) {
+  throw new Error('[WaveSurferProvider] is not a route component');
+}
 const waveform = ref<HTMLDivElement>();
 
 /** メディアエレメント */
@@ -252,6 +255,8 @@ watch(props, async (newValue) => {
   const { source } = newValue;
   if (source && !(source instanceof HTMLMediaElement)) {
     await load(source);
+  } else if (source === "") {
+    init()
   }
 });
 
@@ -277,7 +282,7 @@ onMounted(async () => {
 <template>
   <div class="ws">
     <slot></slot>
-    <div class="waveform" ref="waveform" tabindex="-1" @keydown="onKeyDown" />
+    <div class="waveform" ref="waveform" tabindex="-1" @keydown.prevent="onKeyDown" />
   </div>
 </template>
 
