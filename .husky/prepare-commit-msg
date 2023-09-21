@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+issue=$(git symbolic-ref --short HEAD | grep -m1 -o "[0-9]*" | head -n 1)
+username=$(git config user.name)
+perl -i.bak -ne "s/{issue}/$issue/g; print" "$1"
+perl -i.bak -ne "s/{username}/$username/g; print" "$1"
