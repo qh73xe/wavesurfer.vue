@@ -2,14 +2,10 @@ import * as Pitchfinder from 'pitchfinder';
 
 onmessage = (e) => {
   const { peaks, sampleRate = 8000 } = e.data;
-  const detectPitch = Pitchfinder.AMDF({ sampleRate });
+  const detectPitch = Pitchfinder.YIN({ sampleRate });
   const duration = peaks.length / sampleRate;
   const bpm = peaks.length / duration / 60;
-
-  const frequencies = Pitchfinder.frequencies(detectPitch, peaks, {
-    tempo: bpm,
-    quantization: bpm,
-  });
+  const frequencies = Pitchfinder.frequencies(detectPitch, peaks, { tempo: bpm });
 
   // Find the baseline frequency (the value that appears most often)
   const frequencyMap: Record<number, number> = {};
