@@ -1,13 +1,13 @@
 # wavesurfer.vue
 
-`wavesurfer.vue` は `wavesurfer.js` を vue で使用するためのラッパーです.
+`wavesurfer.vue` は [wavesurfer.js](https://wavesurfer-js.org/) を `vue` で使用するためのラッパーです.
 Web Audio API および HTML5 Canvas の上に構築されたカスタマイズ可能な音声波形の視覚化を提供します.
 
 ## Quick Start
 
 以下のコマンドより導入可能です.
 
-```
+```bash
 $ yarn add wavesurfer.vue
 ```
 
@@ -41,12 +41,12 @@ const source = `${dataURL}/demo.wav`
 
 ### Project setup
 
-```
+```bash
 yarn install
 ```
 
 #### Compiles and hot-reloads for development
 
-```
+```bash
 yarn dev
 ```

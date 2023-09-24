@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { inject, ref, watch } from 'vue';
-import Spectrogram from 'wavesurfer.js/plugins/spectrogram';
-import type SpectrogramPlugin from 'wavesurfer.js/plugins/spectrogram';
 
 import WSKey from '../../providers/WaveSurferProvider';
 import type { WSStore } from '../../providers/WaveSurferProvider';
+
+import Spectrogram from './Spectrogram';
+import type SpectrogramPlugin from './Spectrogram';
 
 export type WindowFunc =
   | 'bartlett'
@@ -53,6 +54,11 @@ const props = withDefaults(defineProps<SpectrogramProps>(), {
   splitChannels: true,
 });
 
+const emit = defineEmits<{
+  ready: [];
+  click: [relativeX: number];
+}>();
+
 const spectrogram = ref<SpectrogramPlugin | null>(null);
 const wsStore = inject(WSKey) as WSStore;
 const loaded = wsStore.loaded;
@@ -62,6 +68,8 @@ const init = (conf?: SpectrogramProps) => {
   if (wsStore) {
     const option = conf || props;
     const spec = Spectrogram.create(option);
+    spec.on('click', (relativeX) => emit('click', relativeX));
+    spec.on('ready', () => emit('ready'));
     wsStore.registerPlugin<SpectrogramPlugin>(spec);
     spectrogram.value = spec;
   }
@@ -69,12 +77,8 @@ const init = (conf?: SpectrogramProps) => {
 
 /** Spectrogram のレンダーを実行する */
 const render = () => {
-  if (spectrogram.value && loaded) {
-    try {
-      spectrogram.value.render();
-    } catch (e) {
-      console.error(e);
-    }
+  if (spectrogram.value) {
+    spectrogram.value.render();
   }
 };
 

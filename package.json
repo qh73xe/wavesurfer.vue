@@ -33,9 +33,11 @@
     "build": "vue-tsc && vite build",
     "test:storybook": "test-storybook",
     "build:storybook": "storybook build",
+    "build:storybook:docs": "storybook build --docs",
     "preview": "vite preview",
     "lint": "eslint ./src/**/*.{ts,vue}",
     "storybook": "storybook dev -p 6006",
+    "storybook:docs": "storybook dev --docs",
     "chromatic": "chromatic",
     "build-storybook": "storybook build",
     "prepare": "husky install"
