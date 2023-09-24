@@ -1,4 +1,4 @@
-:emoji: #issue @yourname : your messase
+:emoji: #{issue} @{username} : your messase
 
 # ==== Emojis ====
 # 🐛  :bug: バグ修正
