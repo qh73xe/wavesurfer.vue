@@ -8459,6 +8459,11 @@ pirates@^4.0.4, pirates@^4.0.5:
   resolved "https://registry.yarnpkg.com/pirates/-/pirates-4.0.6.tgz#3018ae32ecfcff6c29ba2267cbf21166ac1f36b9"
   integrity sha512-saLsH7WeYYPiD25LDuLRRY/i+6HaPYr6G1OUlN39otzkSTxKnubR9RTxS3/Kk50s1g2JTgFwWQDQyplC5/SHZg==
 
+pitchfinder@^2.3.2:
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/pitchfinder/-/pitchfinder-2.3.2.tgz#80debb4e0328255e02ab33cee567fa21413879bc"
+  integrity sha512-Mn3jcp/y1xmAUKI1lMIU8bIqE9AcSuKMFuvJI9C/36oNwVklUF167o0TH/H5fwxuSIaz+XfBD6vd2G5lnddpzw==
+
 pkg-dir@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/pkg-dir/-/pkg-dir-3.0.0.tgz#2749020f239ed990881b1f71210d51eb6523bea3"
