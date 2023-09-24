@@ -1,5 +1,12 @@
 import type { Preview } from '@storybook/vue3'
-import WaveSurferProvider from '../src/providers/WaveSurferProvider.vue';
+import withWsProvider from './decorators/withWsProvider';
+
+const sources = [
+  'stereo',
+  'mono',
+  'video',
+  'no source',
+];
 
 const preview: Preview = {
   parameters: {
@@ -11,12 +18,19 @@ const preview: Preview = {
       }
     }
   },
-  decorators: [
-    (story) => ({
-      components: { story, WaveSurferProvider },
-      template: '<WaveSurferProvider><story /></WaveSurferProvider>',
-    }),
-  ],
+  globalTypes: {
+    file: {
+      description: 'Global source for wavesurfer',
+      defaultValue: sources[0],
+      toolbar: {
+        title: 'Source',
+        icon: 'folder',
+        items: sources,
+        dynamicTitle: true,
+      },
+    },
+  },
+  decorators: [ withWsProvider ],
 }
 
 export default preview

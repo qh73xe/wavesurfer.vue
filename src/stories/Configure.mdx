@@ -19,49 +19,48 @@ export const RightArrow = () => <svg
   <path d="m11.1 7.35-5.5 5.5a.5.5 0 0 1-.7-.7L10.04 7 4.9 1.85a.5.5 0 1 1 .7-.7l5.5 5.5c.2.2.2.5 0 .7Z" />
 </svg>
 
-<Meta title="wavesurfer.vue" />
+<Meta title="Get started/Installation" />
 
-<div className="sb-container">
-  <div className='sb-section-title'>
-    # wavesurfer.vue
-    wavesurfer.vue は [wavesurfer.js](https://wavesurfer-js.org/) を vue で使用するためのラッパーです.
+# Get started with wavesurfer.vue
+wavesurfer.vue は [wavesurfer.js](https://wavesurfer-js.org/) を vue で使用するためのラッパーです.
 
-    Web Audio API および HTML5 Canvas の上に構築された
-    カスタマイズ可能な音声波形の視覚化を提供します.
-  </div>
-</div>
-<div className="sb-container">
-  <div className='sb-section-title'>
-    # quickstart
+Web Audio API および HTML5 Canvas の上に構築された
+カスタマイズ可能な音声波形の視覚化を提供します.
 
-    本コンポーネントをインストールするには以下のコマンドを実行してください:
+# Quickstart
 
-    ```
-    $ yarn add wavesurfer.vue
-    ```
+本コンポーネントをインストールするには以下のコマンドを実行してください:
 
-    `<wave-surfer>` コンポーネントは以下のように使用します:
+```bash
+$ yarn add wavesurfer.vue
+```
 
-    ```
-    <template>
-      <wave-surfer :source="source" />
-    </template>
+`wavesurfer.vue` はプラグインとして作成されています.
+利用を開始するには `main.ts` に以下の記述を行います.
 
-    <script>
-    import WaveSurfer from "wavesurfer.vue";
-    export default {
-      components: {
-        WaveSurfer
-      },
-      data: () => ({
-        source: "https://raw.githubusercontent.com/qh73xe/wavesurfer.vue/master/misc/demo.wav"
-      }),
-    };
-    </script>
-    ```
+```typescript
+import { createApp } from 'vue'
+import WaveSurfer from "wavesurfer.vue";
+import App from './App.vue'
 
-  </div>
-</div>
+const app = createApp(App)
+app.use(WaveSurfer)
+app.mount('#app')
+```
+
+`WaveSurfer` コンポーネントは以下のように利用します.
+
+```typescript
+<script setup lang="ts">
+const dataURL = 'https://raw.githubusercontent.com/qh73xe/wavesurfer.vue/master/misc';
+const source = `${dataURL}/demo.wav`
+</script>
+
+<template>
+  <wave-surfer :source="source" />
+</template>
+```
+
 
 <div className="sb-section sb-socials">
     <div className="sb-section-item">
@@ -83,10 +82,6 @@ export const RightArrow = () => <svg
 
 <style>
   {`
-  .sb-container {
-    margin-bottom: 48px;
-  }
-
   .sb-section {
     width: 100%;
     display: flex;

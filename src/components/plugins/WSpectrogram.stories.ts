@@ -1,6 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 import { ref, inject } from 'vue';
 
+import withWs from '../../../.storybook/decorators/withWs';
+import withWsMedia from '../../../.storybook/decorators/withWsMedia';
+
 import WSKey from '../../providers/WaveSurferProvider';
 import WaveSurfer from '../WaveSurfer.vue';
 import WSpectrogram from './WSpectrogram.vue';
@@ -17,58 +20,41 @@ const sourceOptions = [
 
 const meta = {
   component: WSpectrogram,
-  argTypes: {},
+  argTypes: {
+    onClick: { action: 'onClick' },
+    onReady: { action: 'onReady' },
+    windowFunc: {
+      options: [
+        "bartlett",
+        "bartlettHann",
+        "blackman",
+        "cosine",
+        "gauss",
+        "hamming",
+        "hann",
+        "lanczoz",
+        "rectangular",
+        "triangular"
+      ]
+    }
+  },
   tags: ['autodocs'],
 } satisfies Meta<typeof WSpectrogram>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
 
+type Story = StoryObj<typeof meta>;
 export const Basic: Story = {
+  decorators: [withWs],
   args: {
     labels: true,
     height: 128,
     splitChannels: false,
-  },
-  render: (args) => ({
-    components: { WaveSurfer, WSpectrogram },
-    setup() {
-      const wsStore = inject(WSKey) as WSStore;
-      const source = sourceOptions[4];
-      const onZoom = (event: Event) => {
-        if (event.target instanceof HTMLInputElement) {
-          const minPxPerSec = event.target.valueAsNumber;
-          if (wsStore) wsStore.zoom(minPxPerSec);
-        }
-      };
-
-      const onPlayPause = () => {
-        if (wsStore) wsStore.playPause();
-      };
-
-      return { source, args, onZoom, onPlayPause };
-    },
-    template: `
-      <WaveSurfer
-        interact
-        progressColor="#555"
-        cursorColor="#333"
-        :cursorWidth="1"
-        :source="source"
-      >
-        <label>
-          Zoom: <input type="range" min="10" max="1000" value="100" @input="onZoom" />
-        </label>
-        <div>
-          <button @click="onPlayPause">Play/Pause</button>
-        </div>
-        <WSpectrogram v-bind="args" />
-      </WaveSurfer>
-    `,
-  }),
+  }
 };
 
 export const Options: Story = {
+  decorators: [withWs],
   args: {
     fftSamples: 4 * 512,
     height: 128,
@@ -77,43 +63,20 @@ export const Options: Story = {
     labelsColor: "#fff500",
     labelsHzColor: "#0002f1",
     noverlap: 512,
-    windowFunc: "hamming",
+    windowFunc: meta.argTypes.windowFunc.options[0],
     frequencyMin: 0,
     frequencyMax: 4000,
     splitChannels: true,
-  },
-  render: Basic.render
+  }
 };
 
-export const Video: Story = {
+export const MediaElement: Story = {
+  decorators: [withWsMedia],
   args: {
     ...Basic.args,
     frequencyMax: 5000,
     splitChannels: false,
   },
-  render: (args) => ({
-    components: { WaveSurfer, WSpectrogram },
-    setup() {
-      const source = sourceOptions[1];
-      const media = ref<HTMLMediaElement>();
-
-      return { source, media, args };
-    },
-    template: `
-      <WaveSurfer
-        interact
-        autoScroll
-        progressColor="#555"
-        cursorColor="#333"
-        :minPxPerSec="200"
-        :cursorWidth="1"
-        :source="media"
-      >
-        <video ref="media" width=500 :src="source" controls playsinline />
-        <WSpectrogram v-bind="args" />
-      </WaveSurfer>
-    `,
-  }),
 };
 
 export const SlotExample: Story = {
@@ -126,10 +89,17 @@ export const SlotExample: Story = {
     components: { WaveSurfer, WSpectrogram },
     setup() {
       const source = ref('');
+      const wsStore = inject(WSKey) as WSStore;
+      const loaded = wsStore.loaded;
+
       const onClick = () => {
         source.value = sourceOptions[0];
       };
-      return { source, args, onClick };
+      const onReset = () => {
+        source.value = "";
+      };
+
+      return { source, args, loaded, onClick, onReset };
     },
     template: `
       <WaveSurfer
@@ -139,6 +109,7 @@ export const SlotExample: Story = {
         :cursorWidth="1"
         :source="source"
       >
+        <div v-if="loaded"><button @click="onReset">reset source</button></div>
         <WSpectrogram v-bind="args">
           <button @click="onClick">load source</button>
           <div>There is no source for Spectrogram...</div>

@@ -21,13 +21,18 @@ export default function useWaveSurfer() {
       wavesurfer.value.destroy();
     }
     const ws = WaveSurfer.create(option);
+    ws.on('load', () => {
+      loaded.value = true;
+    });
+    ws.on('destroy', () => {
+      loaded.value = false;
+    });
     wavesurfer.value = ws;
   };
 
   /** Unmount wavesurfer */
   const destroy = (): void => {
     if (wavesurfer.value) {
-      loaded.value = false;
       wavesurfer.value.unAll();
       wavesurfer.value.destroy();
       wavesurfer.value = null;
@@ -149,7 +154,6 @@ export default function useWaveSurfer() {
   const load = async (url: string, channelData?: WaveSurferOptions['peaks'], duration?: number) => {
     if (wavesurfer.value) {
       const result = await wavesurfer.value.load(url, channelData, duration);
-      loaded.value = true;
       return result;
     }
   };
@@ -158,7 +162,6 @@ export default function useWaveSurfer() {
   const loadBlob = async (blob: Blob, channelData?: WaveSurferOptions['peaks'], duration?: number) => {
     if (wavesurfer.value) {
       const result = await wavesurfer.value.loadBlob(blob, channelData, duration);
-      loaded.value = true;
       return result;
     }
   };
