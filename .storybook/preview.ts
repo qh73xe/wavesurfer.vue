@@ -1,14 +1,19 @@
 import { setup } from '@storybook/vue3';
 import type { Preview } from '@storybook/vue3';
 
-import '@mdi/font/css/materialdesignicons.css';
+import '@mdi/font/css/materialdesignicons.css'
 import 'vuetify/styles';
+
 import { createVuetify } from 'vuetify';
+import * as components from "vuetify/components";
+import * as directives from "vuetify/directives";
 
 import withWsProvider from './decorators/withWsProvider';
 import withVuetifyTheme from './decorators/withVutifyTheme';
 
 const vuetify = createVuetify({
+  components,
+  directives,
   theme: {
     themes: {
       light: {
