@@ -11,23 +11,23 @@ export interface WSControllerProps {
   /** zoom の基準値 */
   minPxPerSec?: number;
   /** vutify のテーマ */
-  theme?: string
+  theme?: string;
   /** 背景色 */
-  color?: string
+  color?: string;
   /** バーの大きさ */
-  density?: string
+  density?: string;
 }
 
 const props = withDefaults(defineProps<WSControllerProps>(), {
   skip: 1,
   longSkip: 5,
-  theme: "dark",
-  color: "blue-grey-darken-4",
-  density: "compact",
+  theme: 'dark',
+  color: 'blue-grey-darken-4',
+  density: 'compact',
 });
 
 const emit = defineEmits<{
-  "update:minPxPerSec": [event: number];
+  'update:minPxPerSec': [event: number];
 }>();
 
 const wsStore = inject(WSKey) as WSStore;
@@ -56,7 +56,7 @@ const onZoomIn = () => {
   if (wsStore) {
     const minPxPerSec = props.minPxPerSec || 100;
     wsStore.zoom(minPxPerSec + 10);
-    emit("update:minPxPerSec", minPxPerSec);
+    emit('update:minPxPerSec', minPxPerSec);
   }
 };
 
@@ -65,7 +65,7 @@ const onZoomOut = () => {
     const minPxPerSec = props.minPxPerSec || 100;
     const newValue = minPxPerSec - 10 > 1 ? minPxPerSec - 10 : 1;
     wsStore.zoom(newValue);
-    emit("update:minPxPerSec", newValue);
+    emit('update:minPxPerSec', newValue);
   }
 };
 </script>
