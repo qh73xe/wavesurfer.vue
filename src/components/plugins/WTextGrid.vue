@@ -23,7 +23,6 @@ const init = (conf?: TextGridProps) => {
   if (wsStore) {
     const option = conf || props;
     const tg = Plugin.create(option);
-    tg.on('click', (relativeX) => emit('click', relativeX));
     tg.on('ready', () => emit('ready'));
     wsStore.registerPlugin<Plugin>(tg);
   }
