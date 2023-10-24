@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 
 import WPichCounter from './WPichCounter.vue';
-import withWs from '../../../.storybook/decorators/withWs';
+import withWsControll from '../../../.storybook/decorators/withWsControll';
 
 const meta: Meta<typeof WPichCounter> = {
   component: WPichCounter,
@@ -12,7 +12,7 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 export const WPichCounterStory: Story = {
-  decorators: [withWs],
+  decorators: [withWsControll],
   args: {
     pitchColor: '#880E4F',
     height: 100,

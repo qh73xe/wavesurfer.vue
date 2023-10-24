@@ -11,6 +11,8 @@ export type TextGrid = Record<string, TierOptions>;
 export type TextGridPluginOptions = {
   /** Selector of element or element in which to render */
   container?: string | HTMLElement;
+  /** Allow/dissallow dragging the region */
+  drag?: boolean
   /** Height of the spectrogram view in CSS pixels */
   height?: number;
   /** ボーダーカラー */

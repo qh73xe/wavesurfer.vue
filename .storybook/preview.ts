@@ -1,12 +1,36 @@
-import type { Preview } from '@storybook/vue3'
-import withWsProvider from './decorators/withWsProvider';
+import { setup } from '@storybook/vue3';
+import type { Preview } from '@storybook/vue3';
 
-const sources = [
-  'stereo',
-  'mono',
-  'video',
-  'no source',
-];
+import '@mdi/font/css/materialdesignicons.css'
+import 'vuetify/styles';
+
+import { createVuetify } from 'vuetify';
+import * as components from "vuetify/components";
+import * as directives from "vuetify/directives";
+
+import withWsProvider from './decorators/withWsProvider';
+import withVuetifyTheme from './decorators/withVutifyTheme';
+
+const vuetify = createVuetify({
+  components,
+  directives,
+  theme: {
+    themes: {
+      light: {
+        colors: {
+          primary: '#1867C0',
+          secondary: '#5CBBF6',
+        },
+      },
+    },
+  },
+});
+
+setup((app) => {
+  app.use(vuetify);
+});
+
+const sources = ['stereo', 'mono', 'video', 'no source'];
 
 const preview: Preview = {
   parameters: {
@@ -14,9 +38,9 @@ const preview: Preview = {
     controls: {
       matchers: {
         color: /(background|color)$/i,
-        date: /Date$/
-      }
-    }
+        date: /Date$/,
+      },
+    },
   },
   globalTypes: {
     file: {
@@ -30,7 +54,7 @@ const preview: Preview = {
       },
     },
   },
-  decorators: [ withWsProvider ],
-}
+  decorators: [withWsProvider, withVuetifyTheme],
+};
 
-export default preview
+export default preview;

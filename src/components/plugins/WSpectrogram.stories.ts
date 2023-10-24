@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 import { ref, inject } from 'vue';
 
-import withWs from '../../../.storybook/decorators/withWs';
+import withWs from '../../../.storybook/decorators/withWsControll';
 import withWsMedia from '../../../.storybook/decorators/withWsMedia';
 
 import WSKey from '../../providers/WaveSurferProvider';
