@@ -40,12 +40,14 @@ const withWs: Decorator = (story, context) => {
     template: `
     <WaveSurfer
       interact
+      autoScroll
       autoCenter
       progressColor="#555"
       cursorColor="#333"
       :cursorWidth="1"
       :source="options.source"
       :hideScrollbar="false"
+      :minPxPerSec="100"
     >
       <div v-if="loaded">
         <label>
