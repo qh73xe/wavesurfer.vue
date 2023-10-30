@@ -273,6 +273,8 @@ class BaseTier extends EventEmitter<TierEvents> {
             x.style.color = this.tierActiveColor;
             if (this.type === "interval") {
               x.style.backgroundColor = this.tierActiveBackgroundColor;
+            } else {
+              console.log(x)
             }
           } else {
             x.style.color = "black";

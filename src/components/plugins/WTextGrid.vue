@@ -7,7 +7,14 @@ import Plugin from './textgrid'
 import type { TextGrid } from './textgrid';
 
 export interface TextGridProps {
-  tg?: TextGrid;
+  /** Allow/dissallow dragging the region */
+  drag?: boolean
+  /** Height of the spectrogram view in CSS pixels */
+  height?: number;
+  /** ボーダーカラー */
+  borderColor?: string;
+  /** レンダー対象のデータ形式 */
+  textGrid?: TextGrid;
 }
 const props = withDefaults(defineProps<TextGridProps>(), {});
 const emit = defineEmits<{

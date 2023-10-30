@@ -13,7 +13,7 @@ type Story = StoryObj<typeof meta>;
 export const WTextGridStory: Story = {
   decorators: [withWs],
   args: {
-    tg: {
+    textGrid: {
       test2: {
         name: "test",
         type: "point",

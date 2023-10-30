@@ -18,7 +18,7 @@ export type TextGridPluginOptions = {
   /** ボーダーカラー */
   borderColor?: string;
   /** レンダー対象のデータ形式 */
-  tg?: TextGrid;
+  textGrid?: TextGrid;
 };
 
 interface TierClickEvent {
@@ -40,7 +40,7 @@ class TextGridPlugin extends BasePlugin<
   height: number = 64;
   borderColor: string = "black";
   tiers: Record<string, Tier> = {};
-  tg: TextGrid | null = null;
+  textGrid: TextGrid | null = null;
   utils = {
     style: (
       el: HTMLElement,
@@ -66,7 +66,7 @@ class TextGridPlugin extends BasePlugin<
     } else {
       this.container = options.container;
     }
-    if (options.tg) this.tg = options.tg;
+    if (options.textGrid) this.textGrid = options.textGrid;
   }
 
   onInit() {
@@ -120,8 +120,8 @@ class TextGridPlugin extends BasePlugin<
   }
 
   redraw() {
-    if (this.tg) {
-      Object.entries(this.tg).forEach(([pk, x]) => {
+    if (this.textGrid) {
+      Object.entries(this.textGrid).forEach(([pk, x]) => {
         this.createCanvas(pk, x.name, x.type, x.items);
       });
     }
