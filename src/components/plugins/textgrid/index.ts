@@ -1,5 +1,5 @@
 import BasePlugin, { type BasePluginEvents } from "wavesurfer.js/dist/base-plugin.js";
-import BaseTier, { Tier, TierItem, TierType } from "./tier";
+import BaseTier, { Tier, TierItem, TierType, TierUiOptions, IntervalItem, HEIGHT, BORDERCOLOR } from "./tier";
 
 export interface TierOptions {
   name: string;
@@ -8,23 +8,17 @@ export interface TierOptions {
 }
 export type TextGrid = Record<string, TierOptions>;
 
-export type TextGridPluginOptions = {
+export interface TextGridPluginOptions extends TierUiOptions {
   /** Selector of element or element in which to render */
   container?: string | HTMLElement;
-  /** Allow/dissallow dragging the region */
-  drag?: boolean
-  /** Height of the spectrogram view in CSS pixels */
-  height?: number;
-  /** ボーダーカラー */
-  borderColor?: string;
   /** レンダー対象のデータ形式 */
   textGrid?: TextGrid;
-};
+}
 
 interface TierClickEvent {
-  name: string;
+  tierID: string;
   relativeX: number;
-  time: number;
+  item: IntervalItem;
 }
 export type TextGridPluginEvents = BasePluginEvents & {
   ready: [];
@@ -37,8 +31,7 @@ class TextGridPlugin extends BasePlugin<
 > {
   container?: HTMLElement;
   wrapper?: HTMLDivElement;
-  height: number = 64;
-  borderColor: string = "black";
+  options: TextGridPluginOptions;
   tiers: Record<string, Tier> = {};
   textGrid: TextGrid | null = null;
   utils = {
@@ -54,8 +47,10 @@ class TextGridPlugin extends BasePlugin<
 
   constructor(options: TextGridPluginOptions) {
     super(options);
-    this.height = options.height || this.height;
-    this.borderColor = options.borderColor || this.borderColor;
+    this.options = {
+      height: options.height || HEIGHT,
+      ...options,
+    };
     if (typeof options.container === "string") {
       const newContainer = document.querySelector(
         options.container,
@@ -95,27 +90,35 @@ class TextGridPlugin extends BasePlugin<
   }
 
   createWrapper() {
+    const borderColor = this.options.borderColor || BORDERCOLOR;
     this.wrapper = document.createElement("div");
     this.utils.style(this.wrapper, {
       display: "block",
       position: "relative",
-      borderBottom: `${this.borderColor} 1px solid`,
+      borderBottom: `${borderColor} 1px solid`,
       userSelect: "none",
     });
   }
 
   handleTierClick(
     vm: TextGridPlugin,
-    name: string,
+    tierID: string,
     event: MouseEvent,
+    index: number,
   ) {
     event.preventDefault();
     if (vm.wavesurfer) {
+      const item = vm.tiers[tierID].intervals[index];
       const offsetX = event.offsetX || 0;
       const width = vm.wavesurfer.getWrapper().offsetWidth || 0;
       const relativeX = offsetX / width || 0;
-      const time = vm.wavesurfer.getDuration() * relativeX;
-      vm.emit("tier-click", { name, relativeX, time });
+      vm.emit("tier-click", { tierID, relativeX, item });
+      if (this.options.drag) {
+        /** クリックした TIER 以外はアクティブ状態を戻す */
+        Object.keys(this.tiers).forEach((key) => {
+          if (key !== tierID) this.tiers[key].clearActiveItem();
+        })
+      }
     }
   }
 
@@ -133,23 +136,27 @@ class TextGridPlugin extends BasePlugin<
     type: TierType,
     items: TierItem[],
   ) {
-    const { height, borderColor, wrapper } = this;
+    const { options, wrapper } = this;
+    const height = options.height || HEIGHT;
+    const uiOption = {
+      ...options,
+      height,
+    } as TierUiOptions;
     if (wrapper) {
       const duration = this.wavesurfer?.getDuration();
       const canvasSize = Object.keys(this.tiers).length;
       const top = height * canvasSize;
-      this.tiers[name] = new BaseTier(wrapper, {
-        name,
+      this.tiers[id] = new BaseTier(wrapper, {
+        ...uiOption,
         id,
+        name,
         type,
         top,
-        height,
-        borderColor,
         items,
         duration,
       });
-      this.tiers[name].on("click", (e) => this.handleTierClick(this, name, e)),
-        this.utils.style(wrapper, { height: (canvasSize + 1) * this.height + "px" });
+      this.tiers[id].on("click", (e, index) => this.handleTierClick(this, id, e, index));
+      this.utils.style(wrapper, { height: (canvasSize + 1) * height + "px" });
     }
   }
 }

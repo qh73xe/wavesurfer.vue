@@ -29,19 +29,13 @@ export interface IntervalItem extends TierItem {
 }
 
 export type TierType = "interval" | "point";
-export type TierParams = {
-  /** The id of the region, any string */
-  id: string;
-  /** The name of the region, any string */
-  name: string;
-  /** Tier の種類 */
-  type: TierType;
+export type TierUiOptions = {
+  /** Tier 名を表示するか否か */
+  showLable?: boolean;
   /** Allow/dissallow dragging the region */
   drag?: boolean;
   /** Allow/dissallow resizing the region */
   resize?: boolean;
-  /** Top of the tier view in CSS pixels */
-  top?: number;
   /** Height of the tier view in CSS pixels */
   height?: number;
   /** ボーダーカラー */
@@ -54,19 +48,32 @@ export type TierParams = {
   tierActiveColor?: string;
   /** アクティブ時の背景色 */
   tierActiveBackgroundColor?: string;
+};
+export interface TierParams extends TierUiOptions {
+  /** The id of the region, any string */
+  id: string;
+  /** The name of the region, any string */
+  name: string;
+  /** Tier の種類 */
+  type: TierType;
   /** アノテーション結果 */
   items: TierItem[];
   /** 音声の持続時間 */
   duration?: number | null;
-};
+  /** Top of the tier view in CSS pixels */
+  top?: number;
+}
 type StyleOptions = Record<string, string>;
 
+export const HEIGHT = 64;
+export const BORDERCOLOR = "black";
 class BaseTier extends EventEmitter<TierEvents> {
   public wrapper: HTMLDivElement;
   public element?: HTMLDivElement;
   public id: string;
   public name: string;
   public type: TierType;
+  public showLable: boolean;
   public drag: boolean;
   public resize: boolean;
   public height: number;
@@ -92,26 +99,30 @@ class BaseTier extends EventEmitter<TierEvents> {
     this.id = params.id || `${Math.random().toString(32).slice(2)}`;
     this.name = params.name;
     this.type = params.type;
-    this.drag = params.drag ?? true;
-    this.resize = params.resize ?? true;
-    this.height = params.height || 64;
+    this.showLable = params.showLable === false ? false : true;
+    this.drag = params.drag === false ? false : true;
+    this.resize = params.resize === false ? false : true;
+    this.height = params.height || HEIGHT;
     this.top = params.top || 0;
-    this.borderColor = params.borderColor || "black";
+    this.borderColor = params.borderColor || BORDERCOLOR;
     this.tierBorderColor = params.tierBorderColor || "#1A237E";
     this.tierBorderWidth = params.tierBorderWidth || 4;
     this.tierActiveColor = params.tierActiveColor || "#E65100";
     this.tierActiveBackgroundColor = params.tierActiveBackgroundColor ||
       "#FFEB3B";
     this.duration = params.duration || null;
-    if (params.items) this.setCleanItems(params.items);
+    if (params.items) this.cleanItems(params.items);
     this.renderElement();
     this.renderTier();
   }
 
   /** items を時間毎にオーダリングし IntervalItem を設定 */
-  setCleanItems(items: TierItem[]) {
+  private cleanItems(items: TierItem[]) {
+    /** item を時間毎に並び替える */
     this.items = items;
     this.items.sort((a, b) => a.time - b.time);
+
+    /** item.time を開始時間とし, 次の時間もしくは duration を endTime とする */
     this.intervals = this.items.map((x, i) => {
       const next = this.items[i + 1];
       return {
@@ -120,6 +131,7 @@ class BaseTier extends EventEmitter<TierEvents> {
         endTime: next ? next.time : this.duration || 0,
       };
     });
+    /** 最初が 0 でない場合に挿入する */
     if (this.intervals[0].startTime !== 0) {
       this.intervals.unshift({
         time: 0,
@@ -131,12 +143,13 @@ class BaseTier extends EventEmitter<TierEvents> {
   }
 
   /** 層を表現する Div 要素を生成 */
-  renderElement() {
+  private renderElement() {
     const canvas = document.createElement("div");
     if (this.wrapper) {
       canvas.setAttribute("id", `tier-${this.id}`);
       this.utils.style(canvas, {
-        position: "absolute",
+        zIndex: "5",
+        position: "reletive",
         display: "flex",
         "flex-direction": "row",
         left: "0px",
@@ -144,7 +157,6 @@ class BaseTier extends EventEmitter<TierEvents> {
         width: "100%",
         "border-top": this.top === 0 ? `${this.borderColor} 1px solid` : "none",
         "border-bottom": `${this.borderColor} 1px solid`,
-        "z-index": "4",
       });
       this.wrapper.appendChild(canvas);
     }
@@ -152,12 +164,87 @@ class BaseTier extends EventEmitter<TierEvents> {
   }
 
   /** 転記情報を表現する Div 要素を生成 */
-  renderTier() {
+  private renderTier() {
+    if (this.showLable) {
+      this.renderLabel();
+    }
     if (this.type === "interval") {
       this.renderIntervals();
     } else {
       this.renderPoints();
     }
+  }
+
+  /** ラベル名を表現する Div 要素を生成 */
+  private renderLabel() {
+    if (this.element) {
+      const itemEl = document.createElement("div");
+      this.utils.style(itemEl, {
+        left: "0px",
+        height: `${this.height}px`,
+        position: "absolute",
+        overflow: "hidden",
+        display: "flex",
+        "align-items": "center",
+        backgroundColor: this.tierBorderColor,
+        color: "white",
+        zIndex: "15",
+      });
+      const textEl = document.createElement("div");
+      this.utils.style(textEl, { "writing-mode": "vertical-lr" });
+      textEl.appendChild(document.createTextNode(this.name));
+      itemEl.appendChild(textEl);
+      itemEl.setAttribute("id", `tier-label-${this.id}`);
+      this.element.appendChild(itemEl);
+    }
+  }
+
+  private renderIntervals() {
+    this.intervals.forEach((x, i) => {
+      const frameEl = this.createFrame(x);
+      frameEl.setAttribute("id", `tier-${this.id}-${i}`);
+      this.initMouseEvents(frameEl, i);
+
+      const borderWidth = this.tierBorderWidth / 2;
+      if (x.startTime !== 0) {
+        const leftHandle = this.createHandle({ width: `${borderWidth}px` });
+        leftHandle.setAttribute("data-resize", "left");
+        frameEl.appendChild(leftHandle);
+      }
+      const textEl = this.createTextEl(x.text);
+      textEl.setAttribute("data-resize", "main");
+      frameEl.appendChild(textEl);
+
+      const rightHandle = this.createHandle({ width: `${borderWidth}px` });
+      rightHandle.setAttribute("data-resize", "right");
+      frameEl.appendChild(rightHandle);
+
+      if (this.element) this.element.appendChild(frameEl);
+    });
+  }
+
+  private renderPoints() {
+    this.intervals.forEach((x, i) => {
+      const frameEl = this.createFrame(x, { "flex-direction": "column" });
+      frameEl.setAttribute("id", `tier-${this.id}-${i}`);
+      this.initMouseEvents(frameEl, i);
+      if (x.text) {
+        const topHandle = this.createHandle({ height: "30%" });
+        topHandle.setAttribute("data-resize", "top");
+        topHandle.setAttribute("id", `tier-${this.id}-top-handle-${i}`);
+        frameEl.appendChild(topHandle);
+
+        const textEl = this.createTextEl(x.text, { "justify-content": "flex-start" });
+        textEl.setAttribute("data-resize", "main");
+        frameEl.appendChild(textEl);
+
+        const bottomHandle = this.createHandle({ height: "30%" });
+        bottomHandle.setAttribute("data-resize", "bottom");
+        bottomHandle.setAttribute("id", `tier-${this.id}-bottom-handle-${i}`);
+        frameEl.appendChild(bottomHandle);
+      }
+      if (this.element) this.element.appendChild(frameEl);
+    });
   }
 
   private calsWidth(time: number) {
@@ -175,6 +262,7 @@ class BaseTier extends EventEmitter<TierEvents> {
       display: "flex",
       width: `${width}px`,
       height: `${this.height}px`,
+      zIndex: "10",
       ...sx,
     });
     itemEl.setAttribute("part", `tier-${this.id}`);
@@ -211,57 +299,39 @@ class BaseTier extends EventEmitter<TierEvents> {
     return textEl;
   }
 
-  private renderIntervals() {
-    this.intervals.forEach((x, i) => {
-      const frameEl = this.createFrame(x);
-      frameEl.setAttribute("id", `tier-${this.id}-${i}`);
-      this.initMouseEvents(frameEl, i);
-
-      const borderWidth = this.tierBorderWidth / 2;
-      if (x.startTime !== 0) {
-        const leftHandle = this.createHandle({ width: `${borderWidth}px` });
-        leftHandle.setAttribute("data-resize", "left");
-        frameEl.appendChild(leftHandle);
-      }
-      const textEl = this.createTextEl(x.text);
-      textEl.setAttribute("data-resize", "main");
-      frameEl.appendChild(textEl);
-
-      const rightHandle = this.createHandle({ width: `${borderWidth}px` });
-      rightHandle.setAttribute("data-resize", "right");
-      frameEl.appendChild(rightHandle);
-
-      if (this.element) this.element.appendChild(frameEl);
-    });
-  }
-
-  private renderPoints() {
-    this.intervals.forEach((x, i) => {
-      const frameEl = this.createFrame(x, { "flex-direction": "column" });
-      frameEl.setAttribute("id", `tier-${this.id}-${i}`);
-      this.initMouseEvents(frameEl, i);
-      if (x.text) {
-        const topHandle = this.createHandle({ height: "30%" });
-        topHandle.setAttribute("data-resize", "top");
-        frameEl.appendChild(topHandle);
-
-        const textEl = this.createTextEl(x.text, { "justify-content": "flex-start" });
-        textEl.setAttribute("data-resize", "main");
-        frameEl.appendChild(textEl);
-
-        const bottomHandle = this.createHandle({ height: "30%" });
-        bottomHandle.setAttribute("data-resize", "bottom");
-        frameEl.appendChild(bottomHandle);
-      }
-      if (this.element) this.element.appendChild(frameEl);
-    });
-  }
 
   destroy() {
     this.unAll();
     if (this.element) this.element.remove();
   }
 
+  private renderActiveItem(div: HTMLDivElement, index: number) {
+    div.style.color = this.tierActiveColor;
+    if (this.type === "interval") {
+      div.style.backgroundColor = this.tierActiveBackgroundColor;
+      div.style.zIndex = '10';
+    } else {
+      Array.from(div.children).forEach((el) => {
+        if (!(el instanceof HTMLDivElement)) return;
+        if (el.id.includes(`handle-${index}`)) {
+          el.style.backgroundColor = this.tierActiveColor;
+        }
+      });
+    }
+  }
+  private renderDisableItem(div: HTMLDivElement) {
+    div.style.color = "black";
+    if (this.type === "interval") {
+      div.style.backgroundColor = "transparent";
+    } else {
+      Array.from(div.children).forEach((el) => {
+        if (!(el instanceof HTMLDivElement)) return;
+        if (el.id.includes("handle")) {
+          el.style.backgroundColor = this.tierBorderColor;
+        }
+      });
+    }
+  }
   setActiveItem(index: number) {
     this.activeItem = this.intervals[index];
     if (this.element) {
@@ -269,24 +339,30 @@ class BaseTier extends EventEmitter<TierEvents> {
       const children = this.element.childNodes;
       children.forEach((x) => {
         if (x instanceof HTMLDivElement) {
-          if (x.getAttribute("id") === pk) {
-            x.style.color = this.tierActiveColor;
-            if (this.type === "interval") {
-              x.style.backgroundColor = this.tierActiveBackgroundColor;
+          if (x.id !== `tier-label-${this.id}`) {
+            if (x.getAttribute("id") === pk) {
+              this.renderActiveItem(x, index);
             } else {
-              console.log(x)
-            }
-          } else {
-            x.style.color = "black";
-            if (this.type === "interval") {
-              x.style.backgroundColor = "transparent";
+              this.renderDisableItem(x)
             }
           }
         }
       });
     }
   }
-
+  clearActiveItem() {
+    this.activeItem = undefined;
+    if (this.element) {
+      const children = this.element.childNodes;
+      children.forEach((x) => {
+        if (x instanceof HTMLDivElement) {
+          if (x.id !== `tier-label-${this.id}`) {
+            this.renderDisableItem(x)
+          }
+        }
+      });
+    }
+  }
   private initMouseEvents(element: HTMLDivElement, index: number) {
     element.addEventListener("click", (e: MouseEvent) => {
       if (this.drag) this.setActiveItem(index);
