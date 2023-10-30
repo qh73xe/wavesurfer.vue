@@ -87,6 +87,7 @@ class BaseTier extends EventEmitter<TierEvents> {
   public items: TierItem[] = [];
   public intervals: IntervalItem[] = [];
   public activeItem?: IntervalItem;
+  private moveing: boolean = false;
 
   utils = {
     style: (el: HTMLElement, styles: Record<string, string>) =>
@@ -160,6 +161,7 @@ class BaseTier extends EventEmitter<TierEvents> {
       });
       this.wrapper.appendChild(canvas);
     }
+    this.initCanvasMouseEvents(canvas);
     this.element = canvas;
   }
 
@@ -172,6 +174,14 @@ class BaseTier extends EventEmitter<TierEvents> {
       this.renderIntervals();
     } else {
       this.renderPoints();
+    }
+  }
+
+  private clearTier() {
+    if (this.element) {
+      Array.from(this.element.children).forEach((el) => {
+        this.element?.removeChild(el);
+      });
     }
   }
 
@@ -299,7 +309,6 @@ class BaseTier extends EventEmitter<TierEvents> {
     return textEl;
   }
 
-
   destroy() {
     this.unAll();
     if (this.element) this.element.remove();
@@ -309,7 +318,7 @@ class BaseTier extends EventEmitter<TierEvents> {
     div.style.color = this.tierActiveColor;
     if (this.type === "interval") {
       div.style.backgroundColor = this.tierActiveBackgroundColor;
-      div.style.zIndex = '10';
+      div.style.zIndex = "10";
     } else {
       Array.from(div.children).forEach((el) => {
         if (!(el instanceof HTMLDivElement)) return;
@@ -343,7 +352,7 @@ class BaseTier extends EventEmitter<TierEvents> {
             if (x.getAttribute("id") === pk) {
               this.renderActiveItem(x, index);
             } else {
-              this.renderDisableItem(x)
+              this.renderDisableItem(x);
             }
           }
         }
@@ -357,20 +366,75 @@ class BaseTier extends EventEmitter<TierEvents> {
       children.forEach((x) => {
         if (x instanceof HTMLDivElement) {
           if (x.id !== `tier-label-${this.id}`) {
-            this.renderDisableItem(x)
+            this.renderDisableItem(x);
           }
         }
       });
     }
   }
+
+  private handleClick(e: MouseEvent, index: number) {
+    e.preventDefault();
+    if (this.drag) {
+      this.setActiveItem(index);
+      this.moveing = !this.moveing;
+    }
+    this.emit("click", e, index);
+  }
+
+  private updateInterval(index: number, newTime: number) {
+    // items 及び intervals を更新
+    const newItems = this.items.map((
+      x,
+      i,
+    ) => (i === index ? { ...x, time: newTime } : x));
+    this.cleanItems(newItems);
+    this.items = newItems;
+    // レンダリング
+    this.clearTier();
+    this.renderTier();
+  }
+
+  private handleMouseMove(e: MouseEvent) {
+    try {
+      if (this.moveing) {
+        if (this.element && this.duration && this.activeItem) {
+          const currentIdx = this.items.findIndex((x) =>
+            x.time === this.activeItem?.endTime
+          );
+          if (e.clientX >= 0 && currentIdx >= -1) {
+            // 移動先の時刻を計算
+            const reletiveX = e.clientX / this.element.clientWidth;
+            const newTime = reletiveX * this.duration;
+            if (this.type === "interval") {
+              this.updateInterval(currentIdx, newTime);
+              // アクティブなアイテムを再設定
+              const activeIdx = this.intervals.findIndex((x) =>
+                x.endTime === newTime
+              );
+              this.setActiveItem(activeIdx);
+            }
+          }
+        }
+      }
+    } catch (e) {
+      console.log("handleMouseMove", e);
+    }
+    e.preventDefault();
+  }
+
   private initMouseEvents(element: HTMLDivElement, index: number) {
     element.addEventListener("click", (e: MouseEvent) => {
-      if (this.drag) this.setActiveItem(index);
-      this.emit("click", e, index);
+      this.handleClick(e, index);
     });
     element.addEventListener("mouseenter", (e) => this.emit("over", e));
     element.addEventListener("mouseleave", (e) => this.emit("leave", e));
     element.addEventListener("dblclick", (e) => this.emit("dblclick", e));
+  }
+  private initCanvasMouseEvents(element: HTMLDivElement) {
+    element.addEventListener("mousemove", (e: MouseEvent) => {
+      this.handleMouseMove(e);
+    });
   }
 }
 
