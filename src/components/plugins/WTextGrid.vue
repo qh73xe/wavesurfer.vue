@@ -15,8 +15,13 @@ export interface TextGridProps {
   borderColor?: string;
   /** レンダー対象のデータ形式 */
   textGrid?: TextGrid;
+  /** Tier 名を表示するか否か */
+  showLabel?: boolean;
 }
-const props = withDefaults(defineProps<TextGridProps>(), {});
+const props = withDefaults(defineProps<TextGridProps>(), {
+  drag: true,
+  showLabel: true,
+});
 const emit = defineEmits<{
   ready: [];
   click: [relativeX: number];

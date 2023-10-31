@@ -31,7 +31,7 @@ export interface IntervalItem extends TierItem {
 export type TierType = "interval" | "point";
 export type TierUiOptions = {
   /** Tier 名を表示するか否か */
-  showLable?: boolean;
+  showLabel?: boolean;
   /** Allow/dissallow dragging the region */
   drag?: boolean;
   /** Allow/dissallow resizing the region */
@@ -73,7 +73,7 @@ class BaseTier extends EventEmitter<TierEvents> {
   public id: string;
   public name: string;
   public type: TierType;
-  public showLable: boolean;
+  public showLabel: boolean;
   public drag: boolean;
   public resize: boolean;
   public height: number;
@@ -100,7 +100,7 @@ class BaseTier extends EventEmitter<TierEvents> {
     this.id = params.id || `${Math.random().toString(32).slice(2)}`;
     this.name = params.name;
     this.type = params.type;
-    this.showLable = params.showLable === false ? false : true;
+    this.showLabel = params.showLabel === false ? false : true;
     this.drag = params.drag === false ? false : true;
     this.resize = params.resize === false ? false : true;
     this.height = params.height || HEIGHT;
@@ -167,7 +167,7 @@ class BaseTier extends EventEmitter<TierEvents> {
 
   /** 転記情報を表現する Div 要素を生成 */
   private renderTier() {
-    if (this.showLable) {
+    if (this.showLabel) {
       this.renderLabel();
     }
     if (this.type === "interval") {
@@ -219,6 +219,9 @@ class BaseTier extends EventEmitter<TierEvents> {
       if (x.startTime !== 0) {
         const leftHandle = this.createHandle({ width: `${borderWidth}px` });
         leftHandle.setAttribute("data-resize", "left");
+        leftHandle.addEventListener("mousedown", (e: MouseEvent) => {
+          this.handleMouseDown(e, i - 1)
+        });
         frameEl.appendChild(leftHandle);
       }
       const textEl = this.createTextEl(x.text);
@@ -227,8 +230,13 @@ class BaseTier extends EventEmitter<TierEvents> {
 
       const rightHandle = this.createHandle({ width: `${borderWidth}px` });
       rightHandle.setAttribute("data-resize", "right");
+      // 最終要素以外は編集用のイベントを設定
+      if (i + 1 !== this.intervals.length) {
+        rightHandle.addEventListener("mousedown", (e: MouseEvent) => {
+          this.handleMouseDown(e, i)
+        });
+      }
       frameEl.appendChild(rightHandle);
-
       if (this.element) this.element.appendChild(frameEl);
     });
   }
@@ -242,15 +250,24 @@ class BaseTier extends EventEmitter<TierEvents> {
         const topHandle = this.createHandle({ height: "30%" });
         topHandle.setAttribute("data-resize", "top");
         topHandle.setAttribute("id", `tier-${this.id}-top-handle-${i}`);
+        topHandle.addEventListener("mousedown", (e: MouseEvent) => {
+          this.handleMouseDown(e, i - 1)
+        });
         frameEl.appendChild(topHandle);
 
         const textEl = this.createTextEl(x.text, { "justify-content": "flex-start" });
         textEl.setAttribute("data-resize", "main");
+        textEl.addEventListener("mousedown", (e: MouseEvent) => {
+          this.handleMouseDown(e, i - 1)
+        });
         frameEl.appendChild(textEl);
 
         const bottomHandle = this.createHandle({ height: "30%" });
         bottomHandle.setAttribute("data-resize", "bottom");
         bottomHandle.setAttribute("id", `tier-${this.id}-bottom-handle-${i}`);
+        bottomHandle.addEventListener("mousedown", (e: MouseEvent) => {
+          this.handleMouseDown(e, i - 1)
+        });
         frameEl.appendChild(bottomHandle);
       }
       if (this.element) this.element.appendChild(frameEl);
@@ -341,6 +358,17 @@ class BaseTier extends EventEmitter<TierEvents> {
       });
     }
   }
+  setMoving(moveing: boolean) {
+    if (this.element) {
+      this.moveing = moveing;
+      if (moveing) {
+        this.utils.style(this.element, { "cursor": "ew-resize" })
+      } else {
+        this.utils.style(this.element, { "cursor": "default" })
+      }
+    }
+
+  }
   setActiveItem(index: number) {
     this.activeItem = this.intervals[index];
     if (this.element) {
@@ -374,54 +402,72 @@ class BaseTier extends EventEmitter<TierEvents> {
   }
 
   private handleClick(e: MouseEvent, index: number) {
-    e.preventDefault();
     if (this.drag) {
       this.setActiveItem(index);
-      this.moveing = !this.moveing;
+      if (this.moveing) this.setMoving(false);
     }
+    e.stopPropagation();
     this.emit("click", e, index);
   }
 
-  private updateInterval(index: number, newTime: number) {
-    // items 及び intervals を更新
+  // Interval の更新及びサイレンダリング
+  private updateTier(index: number, newTime: number) {
     const newItems = this.items.map((
       x,
       i,
     ) => (i === index ? { ...x, time: newTime } : x));
     this.cleanItems(newItems);
     this.items = newItems;
-    // レンダリング
     this.clearTier();
     this.renderTier();
   }
 
+  /** 境界時刻のマウス操作変更 */
   private handleMouseMove(e: MouseEvent) {
-    try {
-      if (this.moveing) {
-        if (this.element && this.duration && this.activeItem) {
-          const currentIdx = this.items.findIndex((x) =>
-            x.time === this.activeItem?.endTime
-          );
-          if (e.clientX >= 0 && currentIdx >= -1) {
-            // 移動先の時刻を計算
-            const reletiveX = e.clientX / this.element.clientWidth;
-            const newTime = reletiveX * this.duration;
-            if (this.type === "interval") {
-              this.updateInterval(currentIdx, newTime);
-              // アクティブなアイテムを再設定
-              const activeIdx = this.intervals.findIndex((x) =>
-                x.endTime === newTime
-              );
-              this.setActiveItem(activeIdx);
-            }
+    // レンダー済みの場合のみドラッグ処理を実行
+    if (this.element && this.duration) {
+      const offsetX = e.clientX - this.element.getBoundingClientRect().left
+      // アクティブなインターバルが存在しドラッグ中である場合のみ処理を実行
+      if (this.moveing && this.activeItem) {
+        const currentIdx = this.items.findIndex((x) =>
+          x.time === this.activeItem?.endTime
+        );
+        if (e.clientX >= 0 && currentIdx >= -1) {
+          // 移動先の時刻を計算
+          const reletiveX = offsetX / this.element.clientWidth;
+          const newTime = reletiveX * this.duration;
+          const minTime = currentIdx === 0 ? 0 : this.items[currentIdx - 1].time;
+          const maxTime = currentIdx + 1 === this.items.length ? this.duration : this.items[currentIdx + 1].time;
+          if (newTime > minTime && newTime < maxTime) {
+            this.updateTier(currentIdx, newTime);
+            // アクティブなアイテムを再設定
+            const activeIdx = this.intervals.findIndex((x) =>
+              x.endTime === newTime
+            );
+            this.setActiveItem(activeIdx);
           }
         }
       }
-    } catch (e) {
-      console.log("handleMouseMove", e);
+      e.stopPropagation();
     }
-    e.preventDefault();
   }
+  /** ハンドルのマウス操作開始 */
+  private handleMouseDown(e: MouseEvent, index: number) {
+    if (this.drag) {
+      this.setActiveItem(index);
+      this.setMoving(true);
+      if (this.element) {
+        this.utils.style(this.element, { "cursor": "ew-resize" })
+      }
+    }
+    e.stopPropagation();
+  }
+  /** ハンドルのマウス操作停止 */
+  private handleMouseUp(e: MouseEvent) {
+    if (this.drag) this.setMoving(false);
+    e.stopPropagation();
+  }
+
 
   private initMouseEvents(element: HTMLDivElement, index: number) {
     element.addEventListener("click", (e: MouseEvent) => {
@@ -434,6 +480,12 @@ class BaseTier extends EventEmitter<TierEvents> {
   private initCanvasMouseEvents(element: HTMLDivElement) {
     element.addEventListener("mousemove", (e: MouseEvent) => {
       this.handleMouseMove(e);
+    });
+    element.addEventListener("mouseup", (e: MouseEvent) => {
+      this.handleMouseUp(e);
+    });
+    document.addEventListener("mouseup", (e: MouseEvent) => {
+      this.handleMouseUp(e);
     });
   }
 }

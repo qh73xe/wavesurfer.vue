@@ -56,5 +56,13 @@ export const WTextGridStory: Story = {
         ],
       },
     },
+    showLabel: true,
+  },
+};
+export const WithoutLabelStory: Story = {
+  decorators: [withWs],
+  args: {
+    ...WTextGridStory.args,
+    showLabel: false,
   },
 };
