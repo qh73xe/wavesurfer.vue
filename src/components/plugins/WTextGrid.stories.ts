@@ -5,6 +5,10 @@ import withWs from "../../../.storybook/decorators/withWsControll";
 
 const meta: Meta<typeof WTextGrid> = {
   component: WTextGrid,
+  argTypes: {
+    onReady: { action: "onReady" },
+    onClick: { action: 'onClick' },
+  },
   tags: ["autodocs"],
 } satisfies Meta<typeof WTextGrid>;
 export default meta;
@@ -14,7 +18,7 @@ export const WTextGridStory: Story = {
   decorators: [withWs],
   args: {
     drag: true,
-    textGrid: {
+    data: {
       test2: {
         name: "test",
         type: "point",

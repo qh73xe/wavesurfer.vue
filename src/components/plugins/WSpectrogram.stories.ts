@@ -10,33 +10,31 @@ import WSpectrogram from './WSpectrogram.vue';
 import type { WSStore } from '../../providers/WaveSurferProvider';
 
 const dataURL = 'https://raw.githubusercontent.com/qh73xe/wavesurfer.vue/master/misc';
-const sourceOptions = [
-  `${dataURL}/demo.wav`,
-  `${dataURL}/nasa.mp4`,
-  `${dataURL}/demo_video.mp4`,
-  `${dataURL}/speech.wav`,
-  `${dataURL}/stereo.mp3`,
-];
+const sourceOption = {
+ "mono": `${dataURL}/demo.wav`,
+ "stereo": `${dataURL}/stereo.mp3`,
+ "video": `${dataURL}/nasa.mp4`,
+ "speech": `${dataURL}/speech.wav`,
+} as const;
+const windowFuncOption = {
+  "bartlett": "bartlett",
+  "bartlettHann": "bartlettHann",
+  "blackman": "blackman",
+  "cosine": "cosine",
+  "gauss": "gauss",
+  "hamming": "hamming",
+  "hann": "hann",
+  "lanczoz": "lanczoz",
+  "rectangular": "rectangular",
+  "triangular": "triangular"
+} as const;
 
 const meta = {
   component: WSpectrogram,
   argTypes: {
     onClick: { action: 'onClick' },
     onReady: { action: 'onReady' },
-    windowFunc: {
-      options: [
-        "bartlett",
-        "bartlettHann",
-        "blackman",
-        "cosine",
-        "gauss",
-        "hamming",
-        "hann",
-        "lanczoz",
-        "rectangular",
-        "triangular"
-      ]
-    }
+    windowFunc: { options: Object.values(windowFuncOption) }
   },
   tags: ['autodocs'],
 } satisfies Meta<typeof WSpectrogram>;
@@ -44,7 +42,7 @@ const meta = {
 export default meta;
 
 type Story = StoryObj<typeof meta>;
-export const Basic: Story = {
+export const BasicStory: Story = {
   decorators: [withWs],
   args: {
     labels: true,
@@ -63,7 +61,7 @@ export const Options: Story = {
     labelsColor: "#fff500",
     labelsHzColor: "#0002f1",
     noverlap: 512,
-    windowFunc: meta.argTypes.windowFunc.options[0],
+    windowFunc: windowFuncOption.bartlett,
     frequencyMin: 0,
     frequencyMax: 4000,
     splitChannels: true,
@@ -73,7 +71,7 @@ export const Options: Story = {
 export const MediaElement: Story = {
   decorators: [withWsMedia],
   args: {
-    ...Basic.args,
+    ...BasicStory.args,
     frequencyMax: 5000,
     splitChannels: false,
   },
@@ -93,7 +91,7 @@ export const SlotExample: Story = {
       const loaded = wsStore.loaded;
 
       const onClick = () => {
-        source.value = sourceOptions[0];
+        source.value = sourceOption.mono
       };
       const onReset = () => {
         source.value = "";

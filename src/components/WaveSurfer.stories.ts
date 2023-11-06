@@ -6,17 +6,18 @@ import WSKey from '../providers/WaveSurferProvider';
 import type { WSStore } from '../providers/WaveSurferProvider';
 
 const dataURL = 'https://raw.githubusercontent.com/qh73xe/wavesurfer.vue/master/misc';
-const sourceOptions = [
-  `${dataURL}/demo.wav`,
-  `${dataURL}/nasa.mp4`,
-  `${dataURL}/demo_video.mp4`,
-  `${dataURL}/speech.wav`,
-  `${dataURL}/stereo.mp3`,
-];
+const sourceOption = {
+ "mono": `${dataURL}/demo.wav`,
+ "stereo": `${dataURL}/stereo.mp3`,
+ "video": `${dataURL}/nasa.mp4`,
+ "speech": `${dataURL}/speech.wav`,
+} as const;
+const options = Object.values(sourceOption);
+
 const meta = {
   component: WaveSurfer,
   argTypes: {
-    source: { options: sourceOptions },
+    source: { options },
     onAudioprocess: { action: 'onAudioProcess' },
     onClick: { action: 'onClick' },
     onDecode: { action: 'onDecode' },
@@ -42,11 +43,13 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Basic: Story = { args: { source: sourceOptions[0] } };
+/** WaveSurfer コンポーネントの利用例です. */
+export const BasicStory: Story = { args: { source: sourceOption.mono } };
 
-export const Options: Story = {
+/** WaveSurfer コンポーネントのオプショナルな設定を定義した例です. */
+export const OptionsStory: Story = {
   args: {
-    source: sourceOptions[0],
+    source: sourceOption.mono,
     height: 128,
     waveColor: '#ff4e00',
     progressColor: '#dd5e98',
@@ -68,11 +71,22 @@ export const Options: Story = {
     autoScroll: true,
     autoCenter: true,
     sampleRate: 8000,
+    splitChannels: true,
   },
 };
 
-export const Zoom: Story = {
-  args: { ...Basic.args },
+/** WaveSurfer コンポーネントのオプショナルな設定を定義した例です. */
+export const SplitChannelsStory: Story = {
+  args: {
+    ...BasicStory.args,
+    source: sourceOption.stereo,
+    splitChannels: true,
+  },
+};
+
+
+export const ZoomStory: Story = {
+  args: { ...BasicStory.args },
   render: (args) => ({
     components: { WaveSurfer },
     setup() {
@@ -121,10 +135,10 @@ export const Zoom: Story = {
   }),
 };
 
-export const Video: Story = {
+export const VideoStory: Story = {
   args: {
-    ...Basic.args,
-    source: sourceOptions[1],
+    ...BasicStory.args,
+    source: sourceOption.video,
     autoCenter: true,
   },
   render: (args) => ({
@@ -149,9 +163,9 @@ export const Video: Story = {
   }),
 };
 
-export const Bars: Story = {
+export const BarsStory: Story = {
   args: {
-    ...Basic.args,
+    ...BasicStory.args,
     waveColor: 'rgb(200, 0, 200)',
     progressColor: 'rgb(100, 0, 100)',
     barWidth: 2,

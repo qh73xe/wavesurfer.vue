@@ -40,6 +40,7 @@ export interface WaveSurferProps {
   sampleRate?: number;
   normalize?: boolean;
   keymaps?: KeyMap[];
+  splitChannels?: boolean;
 }
 
 const props = withDefaults(defineProps<WaveSurferProps>(), {
@@ -49,6 +50,7 @@ const props = withDefaults(defineProps<WaveSurferProps>(), {
   cursorWidth: 1,
   cursorColor: '#333',
   fillParent: true,
+  splitChannels: true,
 });
 
 const emit = defineEmits<{
@@ -111,6 +113,18 @@ const wsOptions = computed(
     autoCenter: props.autoCenter,
     sampleRate: props.sampleRate,
     normalize: props.normalize,
+    splitChannels: props.splitChannels && props.source ? [
+      {
+        container: waveform.value || '',
+        waveColor: props.waveColor,
+        progressColor: props.progressColor,
+      },
+      {
+        container: waveform.value || '',
+        waveColor: props.waveColor,
+        progressColor: props.progressColor,
+      },
+    ] : undefined,
     media: media.value,
   }),
 );

@@ -5,6 +5,7 @@ export interface TierOptions {
   name: string;
   type: TierType;
   items: TierItem[];
+  order?: number;
 }
 export type TextGrid = Record<string, TierOptions>;
 
@@ -12,10 +13,10 @@ export interface TextGridPluginOptions extends TierUiOptions {
   /** Selector of element or element in which to render */
   container?: string | HTMLElement;
   /** レンダー対象のデータ形式 */
-  textGrid?: TextGrid;
+  data?: TextGrid;
 }
 
-interface TierClickEvent {
+export interface TierClickEvent {
   tierID: string;
   relativeX: number;
   item: IntervalItem;
@@ -33,7 +34,7 @@ class TextGridPlugin extends BasePlugin<
   wrapper?: HTMLDivElement;
   options: TextGridPluginOptions;
   tiers: Record<string, Tier> = {};
-  textGrid: TextGrid | null = null;
+  data: TextGrid | null = null;
   utils = {
     style: (
       el: HTMLElement,
@@ -61,7 +62,7 @@ class TextGridPlugin extends BasePlugin<
     } else {
       this.container = options.container;
     }
-    if (options.textGrid) this.textGrid = options.textGrid;
+    if (options.data) this.data = options.data;
   }
 
   onInit() {
@@ -74,18 +75,18 @@ class TextGridPlugin extends BasePlugin<
       this.container.appendChild(this.wrapper);
     }
     this.subscriptions.push(
-      this.wavesurfer.on("ready", () => this.redraw()),
+      this.wavesurfer.once("ready", () => this.redraw()),
     );
   }
 
   destroy() {
-    this.unAll();
     Object.values(this.tiers).forEach((x) => {
       x.destroy();
     });
     if (this.wrapper) {
       this.wrapper.remove();
     }
+    this.unAll();
     super.destroy();
   }
 
@@ -122,9 +123,20 @@ class TextGridPlugin extends BasePlugin<
     }
   }
 
+  public setData(data: TextGrid) {
+    if (data) this.data = data;
+    this.redraw();
+  }
+
   redraw() {
-    if (this.textGrid) {
-      Object.entries(this.textGrid).forEach(([pk, x]) => {
+    if (this.data) {
+      if (this.tiers) {
+        Object.values(this.tiers).forEach((x) => {
+          x.destroy();
+        });
+        this.tiers = {};
+      }
+      Object.entries(this.data).forEach(([pk, x]) => {
         this.createCanvas(pk, x.name, x.type, x.items);
       });
     }

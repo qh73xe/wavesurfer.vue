@@ -133,7 +133,14 @@ class BaseTier extends EventEmitter<TierEvents> {
       };
     });
     /** 最初が 0 でない場合に挿入する */
-    if (this.intervals[0].startTime !== 0) {
+    if (this.intervals.length === 0) {
+      this.intervals.unshift({
+        time: 0,
+        startTime: 0,
+        endTime: this.duration || 0,
+        text: "",
+      });
+    } else if (this.intervals[0].startTime !== 0) {
       this.intervals.unshift({
         time: 0,
         startTime: 0,
@@ -327,8 +334,10 @@ class BaseTier extends EventEmitter<TierEvents> {
   }
 
   destroy() {
+    if (this.element) {
+      this.element.remove();
+    }
     this.unAll();
-    if (this.element) this.element.remove();
   }
 
   private renderActiveItem(div: HTMLDivElement, index: number) {

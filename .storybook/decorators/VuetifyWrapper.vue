@@ -1,8 +1,4 @@
 <template>
-  <v-app>
-    <v-main>
-      <slot name="story"></slot>
-    </v-main>
-  </v-app>
+  <slot name="story"></slot>
 </template>
 <script></script>
