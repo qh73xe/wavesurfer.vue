@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref } from 'vue';
 import TEDialog from "./TEDialog.vue"
 
 
@@ -12,9 +12,9 @@ export interface RenameTierDialogProps {
   modelValue: boolean;
   initialValue?: InitialProps
 }
-const props = withDefaults(defineProps<RenameTierDialogProps>(), {
-  initialValue: () => ({ tierName: "" })
-});
+const props = withDefaults(defineProps<RenameTierDialogProps>(),
+  { initialValue: () => ({ tierName: "" }) }
+);
 const emit = defineEmits<{
   'update:modelValue': [event: boolean];
   'cancel': [];

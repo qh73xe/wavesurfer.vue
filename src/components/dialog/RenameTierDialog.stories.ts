@@ -37,8 +37,6 @@ export const RenameTierDialogStory: Story = { args: { modelValue: true } };
 export const IniticalValueStory: Story = {
   args: { 
     modelValue: true,
-    initialValue: {
-      tierName: 'Tier 1',
-    }
+    initialValue: { tierName: 'Tier 1' }
   },
 };
