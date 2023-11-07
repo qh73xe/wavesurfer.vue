@@ -5,7 +5,6 @@ export interface TierOptions {
   name: string;
   type: TierType;
   items: TierItem[];
-  order?: number;
 }
 export type TextGrid = Record<string, TierOptions>;
 
@@ -16,14 +15,38 @@ export interface TextGridPluginOptions extends TierUiOptions {
   data?: TextGrid;
 }
 
-export interface TierClickEvent {
+export interface ItemEventProps {
+  vm: TextGridPlugin;
   tierID: string;
-  relativeX: number;
+  index: number;
+}
+
+export interface ItemMouseEventProps extends ItemEventProps {
+  event: MouseEvent;
+}
+
+export interface TierEvent {
+  tierID: string;
   item: IntervalItem;
 }
+
+export interface TierUpdateEvent extends TierEvent{
+  index: number;
+}
+
+export interface TierMouseEvent extends TierEvent{
+  relativeX: number;
+}
+
 export type TextGridPluginEvents = BasePluginEvents & {
   ready: [];
-  "tier-click": [event: TierClickEvent];
+  "tier-remove": [tierID: string];
+  "tier-update": [event: TierUpdateEvent];
+  "tier-update-end": [event: TierUpdateEvent];
+  "tier-click": [event: TierMouseEvent];
+  "tier-dblclick": [event: TierMouseEvent];
+  "tier-mouseenter": [event: MouseEvent, index: number];
+  "tier-mouseleave": [event: MouseEvent, index: number];
 };
 
 class TextGridPlugin extends BasePlugin<
@@ -69,14 +92,23 @@ class TextGridPlugin extends BasePlugin<
     if (!this.wavesurfer) {
       throw Error("WaveSurfer is not initialized");
     }
-    this.createWrapper();
-    if (this.wavesurfer && this.wrapper) {
-      this.container = this.container || this.wavesurfer.getWrapper();
-      this.container.appendChild(this.wrapper);
-    }
+    // 表示領域の作成及び WS 表示領域への追加
+    this.container = this.container || this.wavesurfer.getWrapper();
+    this.wrapper = this.createWrapper();
+    this.container.appendChild(this.wrapper);
+
+    // WS イベントの監視
     this.subscriptions.push(
       this.wavesurfer.once("ready", () => this.redraw()),
+      this.wavesurfer.on("zoom", () => this.redraw()),
+      this.wavesurfer.on("destroy", () => this.destroy()),
     );
+    this.emit("ready");
+  }
+
+  public setData(data: TextGrid) {
+    if (data) this.data = data;
+    this.redraw();
   }
 
   destroy() {
@@ -90,45 +122,19 @@ class TextGridPlugin extends BasePlugin<
     super.destroy();
   }
 
-  createWrapper() {
+  private createWrapper(): HTMLDivElement {
     const borderColor = this.options.borderColor || BORDERCOLOR;
-    this.wrapper = document.createElement("div");
-    this.utils.style(this.wrapper, {
+    const wrapper = document.createElement("div");
+    this.utils.style(wrapper, {
       display: "block",
       position: "relative",
       borderBottom: `${borderColor} 1px solid`,
       userSelect: "none",
     });
+    return wrapper;
   }
 
-  handleTierClick(
-    vm: TextGridPlugin,
-    tierID: string,
-    event: MouseEvent,
-    index: number,
-  ) {
-    event.preventDefault();
-    if (vm.wavesurfer) {
-      const item = vm.tiers[tierID].intervals[index];
-      const offsetX = event.offsetX || 0;
-      const width = vm.wavesurfer.getWrapper().offsetWidth || 0;
-      const relativeX = offsetX / width || 0;
-      vm.emit("tier-click", { tierID, relativeX, item });
-      if (this.options.drag) {
-        /** クリックした TIER 以外はアクティブ状態を戻す */
-        Object.keys(this.tiers).forEach((key) => {
-          if (key !== tierID) this.tiers[key].clearActiveItem();
-        })
-      }
-    }
-  }
-
-  public setData(data: TextGrid) {
-    if (data) this.data = data;
-    this.redraw();
-  }
-
-  redraw() {
+  private redraw() {
     if (this.data) {
       if (this.tiers) {
         Object.values(this.tiers).forEach((x) => {
@@ -139,6 +145,44 @@ class TextGridPlugin extends BasePlugin<
       Object.entries(this.data).forEach(([pk, x]) => {
         this.createCanvas(pk, x.name, x.type, x.items);
       });
+    }
+  }
+
+  private getTierEvent(tierID: string, index: number) {
+    const item = this.tiers[tierID].intervals[index];
+    return {tierID, item}
+  }
+
+  private getTierMouseEvent( tierID: string, event: MouseEvent, index: number) {
+    if (this.wavesurfer) {
+      const offsetX = event.offsetX || 0;
+      const width = this.wavesurfer.getWrapper().offsetWidth || 0;
+      const relativeX = offsetX / width || 0;
+      const tierEvent = this.getTierEvent(tierID, index)
+      return {...tierEvent, relativeX}
+    }
+    return null
+  }
+
+  private onItemClick(args: ItemMouseEventProps) {
+    const { vm, tierID, event, index } = args;
+    if (vm.wavesurfer) {
+      const tierEvent = vm.getTierMouseEvent(tierID, event, index);
+      if (tierEvent) vm.emit("tier-click", tierEvent);
+      if (this.options.drag) {
+        /** クリックした TIER 以外はアクティブ状態を戻す */
+        Object.keys(this.tiers).forEach((key) => {
+          if (key !== tierID) this.tiers[key].clearActiveItem();
+        })
+      }
+    }
+  }
+
+  private onItemDblClick(args: ItemMouseEventProps) {
+    const { vm, tierID, event, index } = args;
+    if (vm.wavesurfer) {
+      const tierEvent = vm.getTierMouseEvent(tierID, event, index);
+      if (tierEvent) vm.emit("tier-dblclick", tierEvent);
     }
   }
 
@@ -167,7 +211,23 @@ class TextGridPlugin extends BasePlugin<
         items,
         duration,
       });
-      this.tiers[id].on("click", (e, index) => this.handleTierClick(this, id, e, index));
+      this.tiers[id].on("remove", () => this.emit("tier-remove", id));
+      this.tiers[id].on("click", (e, index) => this.onItemClick(
+        {vm: this, tierID: id, event: e, index}
+      ));
+      this.tiers[id].on("dblclick", (e, index) => this.onItemDblClick(
+        {vm: this, tierID: id, event: e, index}
+      ));
+      this.tiers[id].on(
+        "update",
+        (index, item) => this.emit("tier-update", {tierID: id, index, item})
+      );
+      this.tiers[id].on(
+        "update-end", 
+        (index, item) => this.emit("tier-update-end", {tierID: id, index, item})
+      );
+      this.tiers[id].on("over", (e, index) => this.emit("tier-mouseenter", e, index));
+      this.tiers[id].on("leave", (e, index) => this.emit("tier-mouseleave", e, index));
       this.utils.style(wrapper, { height: (canvasSize + 1) * height + "px" });
     }
   }

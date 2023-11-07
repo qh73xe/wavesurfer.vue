@@ -8,6 +8,11 @@ const meta: Meta<typeof WTextGrid> = {
   argTypes: {
     onReady: { action: "onReady" },
     onClick: { action: 'onClick' },
+    onDblclick: { action: 'onDblclick' },
+    onMouseenter: { action: 'onMouseenter' },
+    onMouseleave: { action: 'onMouseleave' },
+    onUpdate: { action: 'onUpdate' },
+    onUpdated: { action: 'onUpdated' },
   },
   tags: ["autodocs"],
 } satisfies Meta<typeof WTextGrid>;

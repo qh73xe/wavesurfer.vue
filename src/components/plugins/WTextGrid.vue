@@ -4,7 +4,7 @@ import WSKey from '../../providers/WaveSurferProvider';
 
 import type { WSStore } from '../../providers/WaveSurferProvider';
 import Plugin from './textgrid'
-import type { TextGrid, TierClickEvent } from './textgrid';
+import type { TextGrid, TierUpdateEvent, TierMouseEvent } from './textgrid';
 
 export interface TextGridProps {
   /** Allow/dissallow dragging the region */
@@ -24,7 +24,12 @@ const props = withDefaults(defineProps<TextGridProps>(), {
 });
 const emit = defineEmits<{
   ready: [event: Plugin];
-  click: [event: TierClickEvent];
+  click: [event: TierMouseEvent];
+  dblclick: [event: TierMouseEvent];
+  update: [event: TierUpdateEvent];
+  updated: [event: TierUpdateEvent];
+  mouseenter: [event: MouseEvent, index: number];
+  mouseleave: [event: MouseEvent, index: number];
 }>();
 const textgrid = ref<Plugin | null>(null);
 const wsStore = inject(WSKey) as WSStore;
@@ -40,7 +45,12 @@ const init = (conf?: TextGridProps) => {
     const option = conf || props;
     const tg = Plugin.create(option);
     tg.on('ready', () => emit('ready', tg));
-    tg.on('tier-click', (event: TierClickEvent) => emit('click', event));
+    tg.on('tier-click', (event: TierMouseEvent) => emit('click', event));
+    tg.on('tier-dblclick', (event: TierMouseEvent) => emit('dblclick', event));
+    tg.on('tier-mouseenter', (event: MouseEvent, index: number) => emit('mouseenter', event, index));
+    tg.on('tier-mouseleave', (event: MouseEvent, index: number) => emit('mouseleave', event, index));
+    tg.on('tier-update', (event: TierUpdateEvent) => emit('update', event));
+    tg.on('tier-update-end', (event: TierUpdateEvent) => emit('updated', event));
     wsStore.registerPlugin<Plugin>(tg);
     textgrid.value = tg;
   }

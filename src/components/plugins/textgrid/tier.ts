@@ -1,24 +1,5 @@
 import EventEmitter from "wavesurfer.js/dist/event-emitter.js";
 
-export type TierEvents = {
-  /** Before the region is removed */
-  remove: [];
-  /** When the region's parameters are being updated */
-  update: [];
-  /** When dragging or resizing is finished */
-  "update-end": [];
-  /** On play */
-  play: [];
-  /** On mouse click */
-  click: [event: MouseEvent, index: number];
-  /** Double click */
-  dblclick: [event: MouseEvent];
-  /** Mouse over */
-  over: [event: MouseEvent];
-  /** Mouse leave */
-  leave: [event: MouseEvent];
-};
-
 export interface TierItem {
   time: number;
   text: string;
@@ -27,6 +8,24 @@ export interface IntervalItem extends TierItem {
   startTime: number;
   endTime: number;
 }
+
+export type TierEvents = {
+  /** Before the region is removed */
+  remove: [];
+  /** When the region's parameters are being updated */
+  update: [index: number, item: TierItem];
+  /** When dragging or resizing is finished */
+  "update-end": [index: number, item: TierItem];
+  /** On mouse click */
+  click: [event: MouseEvent, index: number];
+  /** Double click */
+  dblclick: [event: MouseEvent, index: number];
+  /** Mouse over */
+  over: [event: MouseEvent, index: number];
+  /** Mouse leave */
+  leave: [event: MouseEvent, index: number];
+};
+
 
 export type TierType = "interval" | "point";
 export type TierUiOptions = {
@@ -335,6 +334,7 @@ class BaseTier extends EventEmitter<TierEvents> {
 
   destroy() {
     if (this.element) {
+      this.emit("remove")
       this.element.remove();
     }
     this.unAll();
@@ -374,6 +374,15 @@ class BaseTier extends EventEmitter<TierEvents> {
         this.utils.style(this.element, { "cursor": "ew-resize" })
       } else {
         this.utils.style(this.element, { "cursor": "default" })
+        if (this.activeItem) {
+          const index = this.items.findIndex((x) =>
+            x.time === this.activeItem?.endTime
+          );
+          if (index !== -1) {
+            const item = this.items[index];
+            this.emit("update-end", index, item);
+          }
+        }
       }
     }
 
@@ -396,6 +405,7 @@ class BaseTier extends EventEmitter<TierEvents> {
       });
     }
   }
+
   clearActiveItem() {
     this.activeItem = undefined;
     if (this.element) {
@@ -410,16 +420,7 @@ class BaseTier extends EventEmitter<TierEvents> {
     }
   }
 
-  private handleClick(e: MouseEvent, index: number) {
-    if (this.drag) {
-      this.setActiveItem(index);
-      if (this.moveing) this.setMoving(false);
-    }
-    e.stopPropagation();
-    this.emit("click", e, index);
-  }
-
-  // Interval の更新及びサイレンダリング
+  // Interval の更新及び再レンダリング
   private updateTier(index: number, newTime: number) {
     const newItems = this.items.map((
       x,
@@ -429,6 +430,17 @@ class BaseTier extends EventEmitter<TierEvents> {
     this.items = newItems;
     this.clearTier();
     this.renderTier();
+    this.emit("update", index, newItems[index]);
+  }
+
+  /** Tier クリック時のイベントハンドラ */
+  private handleClick(e: MouseEvent, index: number) {
+    if (this.drag) {
+      this.setActiveItem(index);
+      if (this.moveing) this.setMoving(false);
+    }
+    e.stopPropagation();
+    this.emit("click", e, index);
   }
 
   /** 境界時刻のマウス操作変更 */
@@ -473,7 +485,9 @@ class BaseTier extends EventEmitter<TierEvents> {
   }
   /** ハンドルのマウス操作停止 */
   private handleMouseUp(e: MouseEvent) {
-    if (this.drag) this.setMoving(false);
+    if (this.drag) {
+      this.setMoving(false);
+    }
     e.stopPropagation();
   }
 
@@ -482,18 +496,16 @@ class BaseTier extends EventEmitter<TierEvents> {
     element.addEventListener("click", (e: MouseEvent) => {
       this.handleClick(e, index);
     });
-    element.addEventListener("mouseenter", (e) => this.emit("over", e));
-    element.addEventListener("mouseleave", (e) => this.emit("leave", e));
-    element.addEventListener("dblclick", (e) => this.emit("dblclick", e));
+    element.addEventListener("dblclick", (e) => this.emit("dblclick", e, index));
+    element.addEventListener("mouseenter", (e) => this.emit("over", e, index));
+    element.addEventListener("mouseleave", (e) => this.emit("leave", e, index));
   }
+
   private initCanvasMouseEvents(element: HTMLDivElement) {
     element.addEventListener("mousemove", (e: MouseEvent) => {
       this.handleMouseMove(e);
     });
     element.addEventListener("mouseup", (e: MouseEvent) => {
-      this.handleMouseUp(e);
-    });
-    document.addEventListener("mouseup", (e: MouseEvent) => {
       this.handleMouseUp(e);
     });
   }
