@@ -1,5 +1,5 @@
 import BasePlugin, { type BasePluginEvents } from "wavesurfer.js/dist/base-plugin.js";
-import BaseTier, { Tier, TierItem, TierType, TierUiOptions, IntervalItem, HEIGHT, BORDERCOLOR } from "./tier";
+import BaseTier, { Tier, TierItem, TierType, TierUiOptions, HEIGHT, BORDERCOLOR } from "./tier";
 
 export interface TierOptions {
   name: string;
@@ -27,7 +27,7 @@ export interface ItemMouseEventProps extends ItemEventProps {
 
 export interface TierEvent {
   tierID: string;
-  item: IntervalItem;
+  item: TierItem;
 }
 
 export interface TierUpdateEvent extends TierEvent{
