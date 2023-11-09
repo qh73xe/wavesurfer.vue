@@ -30,6 +30,7 @@
   ],
   "scripts": {
     "dev": "vite",
+    "test": "vitest",
     "build": "vue-tsc && vite build",
     "test:storybook": "test-storybook",
     "build:storybook": "storybook build",
@@ -79,6 +80,7 @@
     "vite": "^4.4.5",
     "vite-plugin-checker": "^0.6.2",
     "vite-plugin-dts": "^3.5.3",
+    "vitest": "^0.34.6",
     "vue-tsc": "^1.8.5"
   },
   "resolutions": {

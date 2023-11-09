@@ -5,7 +5,7 @@ import { resolve } from 'path';
 import dts from 'vite-plugin-dts';
 
 // https://vitejs.dev/config/
-export default defineConfig({
+export default defineConfig((env) => ({
   build: {
     lib: {
       entry: resolve(__dirname, './src/main.ts'),
@@ -21,9 +21,9 @@ export default defineConfig({
   plugins: [
     dts(),
     vue(),
-    checker({
+    env.mode !== "test" && checker({
       vueTsc: true,
       eslint: { lintCommand: 'eslint "./src/**/*.{ts,vue}"' },
     }),
   ],
-});
+}));

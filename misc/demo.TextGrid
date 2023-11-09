@@ -27,7 +27,7 @@ item []:
         intervals [1]:
             xmin = 0 
             xmax = 1.3149387755102044 
-            text = "silent" 
+            text = "" 
         intervals [2]:
             xmin = 1.3149387755102044 
             xmax = 20.466938775510208 

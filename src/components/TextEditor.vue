@@ -5,13 +5,22 @@ import WSKey from '../providers/WaveSurferProvider';
 import type { WSStore } from '../providers/WaveSurferProvider';
 
 import useTiers from '../hooks/useTiers';
+import { text2url, downloadURL } from '../io/file';
+import { dumpTextGrid } from '../io/textgrid';
 import WSToolbar from './controller/WSToolbar.vue';
+import FileUploadDialog, { FileSubmitEvent } from './dialog/FileUploadDialog.vue';
+import FileDownloadDialog from './dialog/FileDownloadDialog.vue';
 import AddTierDialog, { NewTierProps } from './dialog/AddTierDialog.vue';
 import RenameTierDialog from './dialog/RenameTierDialog.vue';
 import WaveSurfer from './WaveSurfer.vue';
 import WSpectrogram from './plugins/WSpectrogram.vue';
 import WTextGrid from './plugins/WTextGrid.vue';
-import type { TextGrid, TierEvent, TierUpdateEvent, TierMouseEvent } from './plugins/textgrid';
+import type {
+  TextGrid,
+  TierEvent,
+  TierUpdateEvent,
+  TierMouseEvent,
+} from './plugins/textgrid';
 
 export interface KeyMap {
   key: string;
@@ -64,10 +73,9 @@ export interface SpectrogramProps {
   splitChannels?: boolean;
 }
 
-
 export interface TextGridProps {
   /** Allow/dissallow dragging the region */
-  drag?: boolean
+  drag?: boolean;
   /** Height of the spectrogram view in CSS pixels */
   height?: number;
   /** ボーダーカラー */
@@ -121,7 +129,7 @@ const props = withDefaults(defineProps<TextEditorProps>(), {
   labels: true,
   height: 128,
   splitChannels: true,
-  spectrogram: () => ({ 
+  spectrogram: () => ({
     height: 256,
     frequencyMax: 5000,
     splitChannels: false,
@@ -130,11 +138,22 @@ const props = withDefaults(defineProps<TextEditorProps>(), {
 
 const wsStore = inject(WSKey) as WSStore;
 
+/** 表示対象のファイル */
+const source = ref<string | HTMLMediaElement>(props.source);
+
 /** 音声波形の表示幅 */
 const minPxPerSec = ref<number>(props.minPxPerSec);
 
 /** アノテーションデータ */
-const textGridData = ref<TextGrid>(props.textgrid?.data || {});
+const textGridData = ref<TextGrid>(
+  props.textgrid?.data || {},
+);
+
+/** ファイル読み込みダイアログ開閉フラク */
+const fileUploadDialog = ref<boolean>(false);
+
+/** ファイル保存ダイアログ開閉フラク */
+const fileDownloadDialog = ref<boolean>(false);
 
 /** INTERVAL TIER 追加ダイアログの開閉フラク */
 const addIntervalTierDialog = ref<boolean>(false);
@@ -149,7 +168,7 @@ const duplicateTierDialog = ref<boolean>(false);
 const renameTierDialog = ref<boolean>(false);
 
 /** TIER ITEM の Text 変更フィールド文字列 */
-const intervalText = ref<string>("");
+const intervalText = ref<string>('');
 
 /** 選択された TIER ITEM の 時刻情報 */
 const activeTierItemTime = ref<number | null>(null);
@@ -157,7 +176,7 @@ const activeTierItemTime = ref<number | null>(null);
 const textfield = ref<HTMLInputElement | null>(null);
 
 /** TIER 操作フック */
-const { 
+const {
   setActiveTierID,
   createTier,
   duplicateActiveTier,
@@ -170,34 +189,54 @@ const {
 
 /** ツールバーからの関数発火 */
 const onToolbarClick = (name: string) => {
-  if (name === "zoom-in") {
+  if (name === 'read-from-file') {
+    fileUploadDialog.value = true;
+  } else if (name === 'save-text-grid') {
+    fileDownloadDialog.value = true;
+  } else if (name === 'zoom-in') {
     onZoomIn();
-  } else if (name === "zoom-out") {
+  } else if (name === 'zoom-out') {
     onZoomOut();
-  } else if (name === "add-interval-tier") {
+  } else if (name === 'add-interval-tier') {
     addIntervalTierDialog.value = true;
-  } else if (name === "add-point-tier") {
+  } else if (name === 'add-point-tier') {
     addPointTierDialog.value = true;
-  } else if (name === "duplicate-tier") {
+  } else if (name === 'duplicate-tier') {
     duplicateTierDialog.value = true;
-  } else if (name === "rename-tier") {
+  } else if (name === 'rename-tier') {
     renameTierDialog.value = true;
-  } else if (name === "remove-all-text-from-tier") {
-      onRemoveAllTextFromTier();
-  } else if (name === "remove-entire-tier") {
-      onRemoveEntireTier();
+  } else if (name === 'remove-all-text-from-tier') {
+    onRemoveAllTextFromTier();
+  } else if (name === 'remove-entire-tier') {
+    onRemoveEntireTier();
   } else {
-    console.log(name)
+    console.log(name);
   }
 };
 
+/** ファイル更新ハンドラ  */
+const onFileUpload = (event: FileSubmitEvent) => {
+  source.value = event.file;
+};
+/** 現在の TextGrid 情報をファイルにし保存させる  */
+const onSaveTextGrid = (filename: string) => {
+  if (wsStore && textGridData && filename) {
+    const duration = wsStore.getDuration();
+    const tgString = dumpTextGrid(textGridData.value, duration);
+    const url = text2url(tgString)
+    downloadURL(url, `${filename}.TextGrid`);
+  }
+}
+
+/** 拡大処理ハンドラ  */
 const onZoomIn = () => {
   if (wsStore) {
     minPxPerSec.value = minPxPerSec.value + 10;
     wsStore.zoom(minPxPerSec.value);
   }
-}
+};
 
+/** 縮小処理ハンドラ  */
 const onZoomOut = () => {
   if (wsStore) {
     const newValue = minPxPerSec.value - 10;
@@ -206,78 +245,123 @@ const onZoomOut = () => {
       wsStore.zoom(minPxPerSec.value);
     }
   }
-}
+};
 
-
+/** TIER 削除処理ハンドラ  */
 const onRemoveEntireTier = () => {
   textGridData.value = removeActiveTier(textGridData.value);
   setActiveTierID(null);
-}
+};
 
+/** TIER 文字列初期化処理ハンドラ  */
 const onRemoveAllTextFromTier = () => {
-  textGridData.value = removeActiveTierTexts(textGridData.value)
+  textGridData.value = removeActiveTierTexts(
+    textGridData.value,
+  );
   setActiveTierID(null);
-}
+};
 
 /** TIER 新規/コピーダイアログ承認時の動作  */
 const onTierDialogSubmit = (newItem: NewTierProps) => {
   const name = newItem.tierName;
   const type = newItem.tierType;
   if (name) {
-    if (type === "duplicate") {
-      textGridData.value = duplicateActiveTier(name, textGridData.value);
+    if (type === 'duplicate') {
+      textGridData.value = duplicateActiveTier(
+        name,
+        textGridData.value,
+      );
       setActiveTierID(null);
     } else {
-      textGridData.value = createTier({ name, type }, textGridData.value);
+      textGridData.value = createTier(
+        { name, type },
+        textGridData.value,
+      );
       setActiveTierID(null);
     }
   }
-}
+};
 
 /** TIER 名変更ダイアログ承認時の動作  */
 const onTierRenameDialogSubmit = (newName: string) => {
-  textGridData.value = renameActiveTier(newName, textGridData.value)
-}
+  textGridData.value = renameActiveTier(
+    newName,
+    textGridData.value,
+  );
+};
 
 const setActiveItem = (event: TierEvent) => {
   // アクティブな TIER を決定
   setActiveTierID(event.tierID);
   activeTierItemTime.value = event.item.time;
-  if(textfield.value) {
+  if (textfield.value) {
     // テキスト入力フィールドにテキストをセット
     intervalText.value = event.item.text;
     textfield.value.focus();
   }
-}
+};
 
 const onChangeTextGrid = (event: TierUpdateEvent) => {
   setActiveItem(event);
-  textGridData.value = updateTierItem(event.tierID, event.index, event.item, textGridData.value);
-}
-
+  textGridData.value = updateTierItem(
+    event.tierID,
+    event.index,
+    event.item,
+    textGridData.value,
+  );
+};
 
 /** TIER 選択時の動作  */
 const onTextGridClick = (event: TierMouseEvent) => {
   setActiveItem(event);
-}
+};
 
 const onUpdateText = (text: string) => {
   intervalText.value = text;
   const time = activeTierItemTime.value;
   if (time) {
-    const newItem = { time, text }
-    textGridData.value = updateActiveTierItemText(newItem, textGridData.value);
+    const newItem = { time, text };
+    textGridData.value = updateActiveTierItemText(
+      newItem,
+      textGridData.value,
+    );
   }
-}
+};
 </script>
 
 <template>
   <v-card>
     <w-s-toolbar @click="onToolbarClick" />
-    <add-tier-dialog @submit="onTierDialogSubmit" v-model="addIntervalTierDialog" tier-type="interval"/>
-    <add-tier-dialog @submit="onTierDialogSubmit" v-model="addPointTierDialog" tier-type="point"/>
-    <add-tier-dialog @submit="onTierDialogSubmit" v-model="duplicateTierDialog" tier-type="duplicate"/>
-    <rename-tier-dialog @submit="onTierRenameDialogSubmit" v-model="renameTierDialog" />
+    <file-upload-dialog
+      @submit="onFileUpload"
+      v-model="fileUploadDialog"
+    />
+    <file-download-dialog
+      @submit="onSaveTextGrid"
+      v-model="fileDownloadDialog"
+      title="Save TextGrid as Text file..."
+      suffix=".TextGrid"
+      :initial-value="{name: 'Download'}"
+    />
+    <add-tier-dialog
+      @submit="onTierDialogSubmit"
+      v-model="addIntervalTierDialog"
+      tier-type="interval"
+    />
+    <add-tier-dialog
+      @submit="onTierDialogSubmit"
+      v-model="addPointTierDialog"
+      tier-type="point"
+    />
+    <add-tier-dialog
+      @submit="onTierDialogSubmit"
+      v-model="duplicateTierDialog"
+      tier-type="duplicate"
+    />
+    <rename-tier-dialog
+      @submit="onTierRenameDialogSubmit"
+      v-model="renameTierDialog"
+    />
     <v-text-field
       :model-value="intervalText"
       @update:modelValue="onUpdateText"
@@ -314,7 +398,7 @@ const onUpdateText = (text: string) => {
       :splitChannels="splitChannels"
     >
       <slot />
-      <w-spectrogram 
+      <w-spectrogram
         :fftSamples="spectrogram?.fftSamples"
         :height="spectrogram?.height"
         :labels="spectrogram?.labels"
@@ -329,7 +413,7 @@ const onUpdateText = (text: string) => {
         :colorMap="spectrogram?.colorMap"
         :splitChannels="spectrogram?.splitChannels"
       />
-      <w-text-grid 
+      <w-text-grid
         :drag="textgrid?.drag"
         :height="textgrid?.height"
         :borderColor="textgrid?.borderColor"
