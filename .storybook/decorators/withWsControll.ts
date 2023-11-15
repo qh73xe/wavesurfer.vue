@@ -1,6 +1,7 @@
 import { shallowReactive } from 'vue';
 import type { Decorator } from '@storybook/vue3';
 import WaveSurfer from '../../src/components/WaveSurfer.vue';
+import WSController from "../../src/components/controller/WSController.vue";
 
 const getSource = (file: string) => {
   const dataURL = 'https://raw.githubusercontent.com/qh73xe/wavesurfer.vue/master/misc';
@@ -12,10 +13,10 @@ const getSource = (file: string) => {
 
 const options = shallowReactive({source : ""});
 
-const withWs: Decorator = (story, context) => {
+const withWsControll: Decorator = (story, context) => {
   options.source = getSource(context.globals.file || "");
   return {
-    components: { story, WaveSurfer },
+    components: { story, WaveSurfer, WSController },
     setup() {
       return { options };
     },
@@ -31,10 +32,11 @@ const withWs: Decorator = (story, context) => {
       :hideScrollbar="false"
       :minPxPerSec="100"
     >
+      <WSController />
       <story />
     </WaveSurfer>
   `,
   };
 };
 
-export default withWs;
+export default withWsControll;
