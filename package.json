@@ -1,7 +1,7 @@
 {
   "name": "wavesurfer.vue",
   "private": false,
-  "version": "0.2.1",
+  "version": "0.2.2",
   "type": "module",
   "license": "MIT",
   "author": "qh73xe <takuya.waseda.1119@gmail.com>",
