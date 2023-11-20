@@ -1,4 +1,4 @@
-import type { App } from 'vue';
+import { App } from 'vue';
 import '@mdi/font/css/materialdesignicons.css';
 import 'vuetify/styles';
 
@@ -21,9 +21,8 @@ import WaveSurferProvider from './providers/WaveSurferProvider.vue';
 export { default as WSKey } from './providers/WaveSurferProvider';
 export type { WSStore } from './providers/WaveSurferProvider';
 
-
-export default {
-  install(app: App) {
+const plugin: any = {
+  install: (app: App<any>, options?: { [key: string]: any }): any => {
     app.component('TextEditor', TextEditor);
     app.component('WaveSurfer', WaveSurfer);
     app.component('WSpectrogram', WSpectrogram);
@@ -39,5 +38,8 @@ export default {
     app.component('FileDownloadDialog', FileDownloadDialog);
     app.component('AddTierDialog', AddTierDialog);
     app.component('RenameTierDialog', RenameTierDialog);
+    app.provide('$wavesurfer', options);
   },
 };
+
+export default plugin;
