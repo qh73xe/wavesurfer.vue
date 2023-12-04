@@ -27,14 +27,25 @@ app.mount('#app')
 `WaveSurfer` コンポーネントは以下のように利用します.
 
 ```vue
-<script setup lang="ts">
+<template>
+  <WaveSurferProvider>
+    <wave-surfer
+      interact
+      autoScroll
+      progressColor="#555"
+      cursorColor="#333"
+      :cursorWidth="1"
+      :hideScrollbar="false"
+      :minPxPerSec="100"
+      :source="source"
+    />
+  </WaveSurferProvider>
+</template>
+
+<script lang="ts" setup>
 const dataURL = 'https://raw.githubusercontent.com/qh73xe/wavesurfer.vue/master/misc';
 const source = `${dataURL}/demo.wav`
 </script>
-
-<template>
-  <wave-surfer :source="source" />
-</template>
 ```
 
 ## 開発者用情報
