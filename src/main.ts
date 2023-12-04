@@ -1,7 +1,4 @@
 import { App } from 'vue';
-import '@mdi/font/css/materialdesignicons.css';
-import 'vuetify/styles';
-
 import TextEditor from './components/TextEditor.vue';
 import WaveSurfer from './components/WaveSurfer.vue';
 import WSpectrogram from './components/plugins/WSpectrogram.vue';

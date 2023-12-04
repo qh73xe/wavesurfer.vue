@@ -48,6 +48,81 @@ const source = `${dataURL}/demo.wav`
 </script>
 ```
 
+### Vuetify3 と共に利用する
+
+このライブラリで用意しているいくつかのコンポーネントには
+`Vutify3` という UI キットを利用しています.
+
+これらのツールを利用する場合,
+以下のコマンドから環境構築を行うことがおすすめされています.
+
+```{bash}
+yarn create vuetify
+```
+
+これを前提に利用を開始する場合には,
+まず, `src/plugins/vutify.ts` において,
+Vutify3 の全ての機能を有効にする必要があります.
+
+具体的には以下のように設定を行ってください.
+
+```{typescript}
+/**
+ * plugins/vuetify.ts
+ *
+ * Framework documentation: https://vuetifyjs.com`
+ */
+
+// Styles
+import '@mdi/font/css/materialdesignicons.css'
+import 'vuetify/styles'
+import * as components from "vuetify/components";
+import * as directives from "vuetify/directives";
+
+// Composables
+import { createVuetify } from 'vuetify'
+
+// https://vuetifyjs.com/en/introduction/why-vuetify/#feature-guides
+export default createVuetify({
+  components,
+  directives,
+  theme: {
+    themes: {
+      light: {
+        colors: {
+          primary: '#1867C0',
+          secondary: '#5CBBF6',
+        },
+      },
+    },
+  },
+})
+```
+
+その上で, `src/plugins/index.ts` において,
+Wavsurfer.vue を有効にします.
+
+```{typescript}
+/**
+ * plugins/index.ts
+ *
+ * Automatically included in `./src/main.ts`
+ */
+
+// Plugins
+import WaveSurfer from "wavesurfer.vue";
+import vuetify from './vuetify'
+...
+
+export function registerPlugins (app: App) {
+  app
+    .use(vuetify)
+    ...
+    .use(WaveSurfer)
+}
+```
+
+
 ## 開発者用情報
 
 ### Project setup
