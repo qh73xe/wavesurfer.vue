@@ -1,7 +1,7 @@
 {
   "name": "wavesurfer.vue",
   "private": false,
-  "version": "0.2.3",
+  "version": "0.2.31",
   "type": "module",
   "license": "MIT",
   "author": "qh73xe <takuya.waseda.1119@gmail.com>",
@@ -41,7 +41,8 @@
     "storybook:docs": "storybook dev --docs",
     "chromatic": "chromatic",
     "build-storybook": "storybook build",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "gen:components": "hygen component new"
   },
   "dependencies": {
     "lodash": "^4.17.21",
@@ -72,6 +73,7 @@
     "eslint-plugin-storybook": "^0.6.15",
     "eslint-plugin-vue": "^9.17.0",
     "husky": "^8.0.0",
+    "hygen": "^6.2.11",
     "prettier": "^3.0.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

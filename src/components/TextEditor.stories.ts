@@ -81,9 +81,4 @@ export const StereoSoundStory: Story = {
 };
 
 /** 動画が渡された際の表示例です. */
-export const VideoStory: Story = { 
-  args: { 
-    ...BasicStory.args,
-    source: sourceOption.video,
-  }
-};
+export const VideoStory: Story = {args: {source: sourceOption.video,}};

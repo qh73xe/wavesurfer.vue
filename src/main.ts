@@ -13,6 +13,8 @@ import FileUploadDialog from './components/dialog/FileUploadDialog.vue';
 import FileDownloadDialog from './components/dialog/FileDownloadDialog.vue';
 import AddTierDialog from './components/dialog/AddTierDialog.vue'
 import RenameTierDialog from './components/dialog/RenameTierDialog.vue';
+import WVideo from './components/video/WVideo.vue';
+import WVideoArray from './components/video/WVideoArray.vue';
 
 import WaveSurferProvider from './providers/WaveSurferProvider.vue';
 export { default as WSKey } from './providers/WaveSurferProvider';
@@ -35,6 +37,8 @@ const plugin: any = {
     app.component('FileDownloadDialog', FileDownloadDialog);
     app.component('AddTierDialog', AddTierDialog);
     app.component('RenameTierDialog', RenameTierDialog);
+    app.component('WVideo', WVideo);
+    app.component('WVideoArray', WVideoArray);
     app.provide('$wavesurfer', options);
   },
 };
