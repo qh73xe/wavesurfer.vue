@@ -148,6 +148,16 @@ const minPxPerSec = ref<number>(props.minPxPerSec);
 const textGridData = ref<TextGrid>(
   props.textgrid?.data || {},
 );
+/** UNDO 用のアノテーション保存先 */
+const undoTextGridData = ref<TextGrid>(
+  props.textgrid?.data || {},
+);
+/** REDO 用のアノテーション保存先 */
+const redoTextGridData = ref<TextGrid>(
+  props.textgrid?.data || {},
+);
+
+
 
 /** ファイル読み込みダイアログ開閉フラク */
 const fileUploadDialog = ref<boolean>(false);
@@ -193,6 +203,11 @@ const onToolbarClick = (name: string) => {
     fileUploadDialog.value = true;
   } else if (name === 'save-text-grid') {
     fileDownloadDialog.value = true;
+  } else if (name === 'undo') {
+    redoTextGridData.value = textGridData.value;
+    textGridData.value = undoTextGridData.value;
+  } else if (name === 'redo') {
+    textGridData.value = redoTextGridData.value;
   } else if (name === 'zoom-in') {
     onZoomIn();
   } else if (name === 'zoom-out') {
@@ -218,6 +233,7 @@ const onToolbarClick = (name: string) => {
 const onFileUpload = (event: FileSubmitEvent) => {
   source.value = event.file;
 };
+
 /** 現在の TextGrid 情報をファイルにし保存させる  */
 const onSaveTextGrid = (filename: string) => {
   if (wsStore && textGridData && filename) {
@@ -249,15 +265,19 @@ const onZoomOut = () => {
 
 /** TIER 削除処理ハンドラ  */
 const onRemoveEntireTier = () => {
+  undoTextGridData.value = textGridData.value;
   textGridData.value = removeActiveTier(textGridData.value);
+  redoTextGridData.value = textGridData.value;
   setActiveTierID(null);
 };
 
 /** TIER 文字列初期化処理ハンドラ  */
 const onRemoveAllTextFromTier = () => {
+  undoTextGridData.value = textGridData.value;
   textGridData.value = removeActiveTierTexts(
     textGridData.value,
   );
+  redoTextGridData.value = textGridData.value;
   setActiveTierID(null);
 };
 
@@ -267,16 +287,20 @@ const onTierDialogSubmit = (newItem: NewTierProps) => {
   const type = newItem.tierType;
   if (name) {
     if (type === 'duplicate') {
+      undoTextGridData.value = textGridData.value;
       textGridData.value = duplicateActiveTier(
         name,
         textGridData.value,
       );
+      redoTextGridData.value = textGridData.value;
       setActiveTierID(null);
     } else {
+      undoTextGridData.value = textGridData.value;
       textGridData.value = createTier(
         { name, type },
         textGridData.value,
       );
+      redoTextGridData.value = textGridData.value;
       setActiveTierID(null);
     }
   }
@@ -284,10 +308,12 @@ const onTierDialogSubmit = (newItem: NewTierProps) => {
 
 /** TIER 名変更ダイアログ承認時の動作  */
 const onTierRenameDialogSubmit = (newName: string) => {
+  undoTextGridData.value = textGridData.value;
   textGridData.value = renameActiveTier(
     newName,
     textGridData.value,
   );
+  redoTextGridData.value = textGridData.value;
 };
 
 const setActiveItem = (event: TierEvent) => {
@@ -303,12 +329,14 @@ const setActiveItem = (event: TierEvent) => {
 
 const onChangeTextGrid = (event: TierUpdateEvent) => {
   setActiveItem(event);
+  undoTextGridData.value = textGridData.value;
   textGridData.value = updateTierItem(
     event.tierID,
     event.index,
     event.item,
     textGridData.value,
   );
+  redoTextGridData.value = textGridData.value;
 };
 
 /** TIER 選択時の動作  */
@@ -321,10 +349,12 @@ const onUpdateText = (text: string) => {
   const time = activeTierItemTime.value;
   if (time) {
     const newItem = { time, text };
+    undoTextGridData.value = textGridData.value;
     textGridData.value = updateActiveTierItemText(
       newItem,
       textGridData.value,
     );
+    redoTextGridData.value = textGridData.value;
   }
 };
 </script>
@@ -341,7 +371,7 @@ const onUpdateText = (text: string) => {
       v-model="fileDownloadDialog"
       title="Save TextGrid as Text file..."
       suffix=".TextGrid"
-      :initial-value="{name: 'Download'}"
+      :initial-value="{ name: 'Download' }"
     />
     <add-tier-dialog
       @submit="onTierDialogSubmit"
