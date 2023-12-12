@@ -10931,9 +10931,9 @@ vue@^3.3.4:
     "@vue/shared" "3.3.10"
 
 vuetify@^3.3.17:
-  version "3.4.4"
-  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-3.4.4.tgz#0819d03cbd554b27be25427773cbf2ebf9976e53"
-  integrity sha512-qnQy3iPOLMcyKUAb5Oi2hw+2qjc9NQK/M2i95ZUvjpHEF5mTBvGwCJ2xXV4Yn9eaGhuUtWBqgR/3Op42S3d41g==
+  version "3.4.6"
+  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-3.4.6.tgz#2ea7e9d97bb90a856a96b9e83f14c01d69792025"
+  integrity sha512-Zp6BjKkNcnyHlOmr01Y/Rc4d686PORO+hcpfM76qRaDMIU4H1GnP0JIF3jwxI1q3Uj/2bHKLwn81oCLJZd+8sg==
 
 wait-on@^7.0.0:
   version "7.2.0"
@@ -10971,9 +10971,9 @@ watchpack@^2.2.0:
     graceful-fs "^4.1.2"
 
 wavesurfer.js@^7.2.1:
-  version "7.5.0"
-  resolved "https://registry.yarnpkg.com/wavesurfer.js/-/wavesurfer.js-7.5.0.tgz#46811af622106a1fdaa1aa75a0bdd68221e54a04"
-  integrity sha512-1wDn0c9wJfZNZTYzEW1NvWJrTXHFqJahWpUZDbj4HGdz+/dfme0kw6LBh9AFkKYfYX/UnkxqNA/nJYWnBfJN8g==
+  version "7.5.1"
+  resolved "https://registry.yarnpkg.com/wavesurfer.js/-/wavesurfer.js-7.5.1.tgz#2cc784c9d75bdf32f65ebf7dee78d98e5ab9ec35"
+  integrity sha512-lFDzf9+4TLCiDoGTrwrhO7zzOG3FvDSA2uo2aE19TpTGL1tSaB0tDuRM9VyeQXJyKujHNgibWhn+pCbj6oa8UA==
 
 wcwidth@^1.0.1:
   version "1.0.1"
