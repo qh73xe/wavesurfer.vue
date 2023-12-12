@@ -3175,6 +3175,16 @@
     "@types/qs" "*"
     "@types/serve-static" "*"
 
+"@types/ffmpeg.js@^3.1.6":
+  version "3.1.6"
+  resolved "https://registry.yarnpkg.com/@types/ffmpeg.js/-/ffmpeg.js-3.1.6.tgz#6e8e337e929f8121a6c76da3167be8b237d029c8"
+  integrity sha512-Rgci0DA3ukWo6N5oYMvgvn4ozLTLPKfYDAC65Yox0Ywm3mfJWvzBmZO5rV9a4Asdk6wUMQoNKSe5tGYn2c9M0g==
+
+"@types/ffmpeg@^1.0.7":
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/@types/ffmpeg/-/ffmpeg-1.0.7.tgz#18cc804f16650e1653f0285cd25872d197a44cac"
+  integrity sha512-7Pw61IDG9Tj+gXGNshJ7JIM2fhDe0IrK7/F+b8midmsiljiugWKbW5KoNmhtZS3pPXWVfVHP3wOwquF/wbVxiw==
+
 "@types/find-cache-dir@^3.2.1":
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/@types/find-cache-dir/-/find-cache-dir-3.2.1.tgz#7b959a4b9643a1e6a1a5fe49032693cc36773501"
@@ -5804,6 +5814,11 @@ fetch-retry@^5.0.2:
   version "5.0.6"
   resolved "https://registry.yarnpkg.com/fetch-retry/-/fetch-retry-5.0.6.tgz#17d0bc90423405b7a88b74355bf364acd2a7fa56"
   integrity sha512-3yurQZ2hD9VISAhJJP9bpYFNQrHHBXE2JxxjY5aLEcDi46RmAzJE2OC9FAde0yis5ElW0jTTzs0zfg/Cca4XqQ==
+
+ffmpeg.js@^4.2.9003:
+  version "4.2.9003"
+  resolved "https://registry.yarnpkg.com/ffmpeg.js/-/ffmpeg.js-4.2.9003.tgz#3a97d53c35eaee5c27cd7d0edf7c57ccec4a059d"
+  integrity sha512-l1JBr8HwnnJEaSwg5p8K3Ifbom8O2IDHsZp7UVyr6MzQ7gc32tt/2apoOuQAr/j76c+uDOjla799VSsBnRvSTg==
 
 file-entry-cache@^6.0.1:
   version "6.0.1"

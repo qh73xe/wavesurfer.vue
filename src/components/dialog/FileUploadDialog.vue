@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import TEDialog from './TEDialog.vue';
-import { toBase64 } from '../../io/file';
+import { toBase64, info, initVideoObject, VideoObject } from '../../io/file';
 
 export interface FileSubmitEvent {
   /** 登録するファイル  */
@@ -10,6 +10,8 @@ export interface FileSubmitEvent {
   name: string;
   /** 登録するファイルの MineType  */
   type: string;
+  /** メディアファイルの詳細情報  */
+  option: VideoObject;
 }
 export interface FileUploadDialogProps {
   /** ダイアログの開閉 */
@@ -41,12 +43,23 @@ const name = ref(props.initialValue.name);
 /** ファイル実態 */
 const file = ref(props.initialValue.file);
 const type = ref(props.initialValue.type);
+const fileOption = ref(initVideoObject())
 
 const onUpdate = async (files: File[]) => {
   if (files.length > 0) {
     name.value = files[0].name;
     type.value = files[0].type;
     file.value = await toBase64(files[0]);
+
+    const reader = new FileReader();
+    reader.readAsArrayBuffer(files[0]);
+    reader.onload = () => {
+      if (reader.result instanceof ArrayBuffer) {
+        info(reader.result, files[0].name, (event: VideoObject) => {
+          fileOption.value = event;
+        });
+      }
+    }
   }
 };
 const onCancel = () => {
@@ -60,6 +73,7 @@ const onSubmit = () => {
       file: file.value,
       name: name.value,
       type: type.value,
+      option: fileOption.value,
     }
     emit('submit', event);
   }

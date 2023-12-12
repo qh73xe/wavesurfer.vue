@@ -45,6 +45,9 @@
     "gen:components": "hygen component new"
   },
   "dependencies": {
+    "@types/ffmpeg": "^1.0.7",
+    "@types/ffmpeg.js": "^3.1.6",
+    "ffmpeg.js": "^4.2.9003",
     "lodash": "^4.17.21",
     "pitchfinder": "^2.3.2",
     "vue": "^3.3.4",

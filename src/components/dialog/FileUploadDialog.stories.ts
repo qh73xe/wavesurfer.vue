@@ -15,22 +15,23 @@ const meta: Meta<typeof FileUploadDialog> = {
     setup() {
       const modelValue = ref(args.modelValue)
       const name = ref("")
-      const file = ref("")
       const type = ref("")
+      const options = ref({})
 
       const updateModel = (event: boolean) => modelValue.value = event
       const onSubmit = (event: FileSubmitEvent) => {
         name.value = event.name
-        file.value = event.file
         type.value = event.type
+        options.value = event.option
       }
-      return { args, modelValue, updateModel, onSubmit, name, file, type };
+      return { args, modelValue, updateModel, onSubmit, name, type, options };
     },
     template: `
       <div>
         <p v-if="name">name: {{ name }}</p>
         <p v-if="type">type: {{ type }}</p>
         <p v-if="file">file: {{ file }}</p>
+        <pre v-if="options">file: {{ options }}</pre>
         <file-upload-dialog
           v-bind="args"
           :modelValue="modelValue"
