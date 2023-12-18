@@ -51,14 +51,12 @@ const onLoadeddata = (event: HTMLVideoElement) => {
         muted
         flat
         :source="props.source"
-        @loadeddata="onPrevLoadeddata"
       >
         <slot name="prev" />
       </w-video>
     </v-col>
     <v-col class="pa-0">
       <w-video
-        muted
         flat
         :source="props.source"
         @loadeddata="onLoadeddata"
@@ -71,7 +69,6 @@ const onLoadeddata = (event: HTMLVideoElement) => {
         muted
         flat
         :source="props.source"
-        @loadeddata="onNextLoadeddata"
       >
         <slot name="next" />
       </w-video>

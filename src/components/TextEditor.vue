@@ -15,6 +15,7 @@ import RenameTierDialog from './dialog/RenameTierDialog.vue';
 import WaveSurfer from './WaveSurfer.vue';
 import WSpectrogram from './plugins/WSpectrogram.vue';
 import WTextGrid from './plugins/WTextGrid.vue';
+import WVideoArray from '../components/video/WVideoArray.vue';
 import type {
   TextGrid,
   TierEvent,
@@ -87,32 +88,60 @@ export interface TextGridProps {
 }
 
 export interface TextEditorProps {
-  source: string | HTMLMediaElement;
+  /** Audio URL */
+  source: string;
+  /** The height of the waveform in pixels, or "auto" to fill the container height */
   height?: number | 'auto';
+  /** The color of the waveform */
   waveColor?: string | string[] | CanvasGradient;
+  /** The color of the progress mask */
   progressColor?: string | string[] | CanvasGradient;
+  /** The color of the playpack cursor */
   cursorColor?: string;
+  /** The cursor width */
   cursorWidth?: number;
+  /** If set, the waveform will be rendered with bars like this: ▁ ▂ ▇ ▃ ▅ ▂ */
   barWidth?: number;
+  /** Spacing between bars in pixels */
   barGap?: number;
+  /** Rounded borders for bars */
   barRadius?: number;
+  /** A vertical scaling factor for the waveform */
   barHeight?: number;
+  /** Vertical bar alignment */
   barAlign?: 'center' | 'top' | 'bottom';
+  /** Minimum pixels per second of audio (i.e. the zoom level) */
   minPxPerSec?: number;
+  /** Stretch the waveform to fill the container, true by default */
   fillParent?: boolean;
+  /** Pre-computed audio data, arrays of floats for each channel */
   mediaControls?: boolean;
+  /** Pass false to disable clicks on the waveform */
   interact?: boolean;
+  /** Allow to drag the cursor to seek to a new position */
   dragToSeek?: boolean;
+  /** Hide the scrollbar */
   hideScrollbar?: boolean;
+  /** Audio rate, i.e. the playback speed */
   audioRate?: number;
+  /** Automatically scroll the container to keep the current position in viewport */
   autoScroll?: boolean;
+  /** If autoScroll is enabled, keep the cursor in the center of the waveform during playback */
   autoCenter?: boolean;
+  /** Decoding sample rate. Doesn't affect the playback. Defaults to 8000 */
   sampleRate?: number;
+  /** Stretch the waveform to the full height */
   normalize?: boolean;
+  /** キー操作用の設定 */
   keymaps?: KeyMap[];
+  /** チャンネルデータを分けて表示するか否か */
   splitChannels?: boolean;
+  /** スペクトルプラグイン用の設定 */
   spectrogram?: SpectrogramProps;
+  /** 転記データ用の設定 */
   textgrid?: TextGridProps;
+  /** Video データか否か */
+  isVideo?: boolean;
 }
 
 const props = withDefaults(defineProps<TextEditorProps>(), {
@@ -129,6 +158,7 @@ const props = withDefaults(defineProps<TextEditorProps>(), {
   labels: true,
   height: 128,
   splitChannels: true,
+  isVideo: false,
   spectrogram: () => ({
     height: 256,
     frequencyMax: 5000,
@@ -138,8 +168,15 @@ const props = withDefaults(defineProps<TextEditorProps>(), {
 
 const wsStore = inject(WSKey) as WSStore;
 
-/** 表示対象のファイル */
-const source = ref<string | HTMLMediaElement>(props.source);
+/** 表示対象のファイル
+ * props.source が設定されており, props.isVideo が false の場合は
+ * HTMLMediaElement を入れるため, 初期値は null とする
+ */
+const source = ref<null | string | HTMLMediaElement>(
+  props.source && props.isVideo === false
+    ? props.source
+    : null,
+);
 
 /** 音声波形の表示幅 */
 const minPxPerSec = ref<number>(props.minPxPerSec);
@@ -156,8 +193,6 @@ const undoTextGridData = ref<TextGrid>(
 const redoTextGridData = ref<TextGrid>(
   props.textgrid?.data || {},
 );
-
-
 
 /** ファイル読み込みダイアログ開閉フラク */
 const fileUploadDialog = ref<boolean>(false);
@@ -229,20 +264,32 @@ const onToolbarClick = (name: string) => {
   }
 };
 
+/** MediaElement 更新ハンドラ  */
+const onLoadeddata = (event: HTMLVideoElement) => {
+  source.value = event;
+};
+
 /** ファイル更新ハンドラ  */
 const onFileUpload = (event: FileSubmitEvent) => {
-  source.value = event.file;
+  if (props.isVideo) {
+    source.value = null;
+  } else {
+    source.value = event.file;
+  }
 };
 
 /** 現在の TextGrid 情報をファイルにし保存させる  */
 const onSaveTextGrid = (filename: string) => {
   if (wsStore && textGridData && filename) {
     const duration = wsStore.getDuration();
-    const tgString = dumpTextGrid(textGridData.value, duration);
-    const url = text2url(tgString)
+    const tgString = dumpTextGrid(
+      textGridData.value,
+      duration,
+    );
+    const url = text2url(tgString);
     downloadURL(url, `${filename}.TextGrid`);
   }
-}
+};
 
 /** 拡大処理ハンドラ  */
 const onZoomIn = () => {
@@ -360,8 +407,8 @@ const onUpdateText = (text: string) => {
 </script>
 
 <template>
+  <w-s-toolbar @click="onToolbarClick" />
   <v-card>
-    <w-s-toolbar @click="onToolbarClick" />
     <file-upload-dialog
       @submit="onFileUpload"
       v-model="fileUploadDialog"
@@ -392,7 +439,31 @@ const onUpdateText = (text: string) => {
       @submit="onTierRenameDialogSubmit"
       v-model="renameTierDialog"
     />
+    <v-layout >
+      <v-row>
+        <v-col cols="7">
+          <w-video-array
+            v-if="isVideo"
+            :source="props.source"
+            @loadeddata="onLoadeddata"
+          >
+            <template v-slot:prev>
+              <slot name="prevVideo" />
+            </template>
+            <template v-slot:current>
+              <slot name="currentVideo" />
+            </template>
+            <template v-slot:next>
+              <slot name="nextVideo" />
+            </template>
+          </w-video-array>
+        </v-col>
+        <v-col cols="5">
+        </v-col>
+      </v-row>
+    </v-layout >
     <v-text-field
+      v-if="source"
       :model-value="intervalText"
       @update:modelValue="onUpdateText"
       ref="textfield"
@@ -402,6 +473,7 @@ const onUpdateText = (text: string) => {
       hide-details
     />
     <wave-surfer
+      v-if="source"
       :source="source"
       :height="height"
       :waveColor="waveColor"
