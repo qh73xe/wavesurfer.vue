@@ -5,13 +5,13 @@ export interface WVideoProps {
   /** 表示対象の video ソース */
   source: string;
   /** 音声のミュート設定 */
-  muted: boolean;
+  muted?: boolean;
   /** 見た目を flat にするか否か */
-  flat: boolean;
+  flat?: boolean;
   /** 角を丸めるか否か */
-  tile: boolean;
+  tile?: boolean;
   /** Video 操作用コントロールを表示するか否か */
-  controls: boolean;
+  controls?: boolean;
 }
 export interface ResizeEvent {
   width: number;
@@ -101,27 +101,26 @@ const onPlayClick = () => {
   }
 };
 
-const secTostring = (seconds: number):string =>{
-  const date = new Date(seconds * 1000).toUTCString()
-  const result = date.match(/(\d\d:\d\d:\d\d)/)
+const secTostring = (seconds: number): string => {
+  const date = new Date(seconds * 1000).toUTCString();
+  const result = date.match(/(\d\d:\d\d:\d\d)/);
   if (result) return result[0];
   return '00:00:00';
-}
+};
 
 const durationText = computed(() => {
   if (duration.value) {
     return secTostring(duration.value);
   }
   return '00:00:00';
-})
+});
 
 const currentTimeText = computed(() => {
   if (currentTime.value) {
     return secTostring(currentTime.value);
   }
   return '00:00:00';
-})
-
+});
 </script>
 
 <template>

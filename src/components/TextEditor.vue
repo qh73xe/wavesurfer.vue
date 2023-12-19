@@ -2,26 +2,30 @@
 import { inject, ref } from 'vue';
 
 import WSKey from '../providers/WaveSurferProvider';
-import type { WSStore } from '../providers/WaveSurferProvider';
-
-import useTiers from '../hooks/useTiers';
-import { text2url, downloadURL } from '../io/file';
-import { dumpTextGrid } from '../io/textgrid';
-import WSToolbar from './controller/WSToolbar.vue';
-import FileUploadDialog, { FileSubmitEvent } from './dialog/FileUploadDialog.vue';
-import FileDownloadDialog from './dialog/FileDownloadDialog.vue';
-import AddTierDialog, { NewTierProps } from './dialog/AddTierDialog.vue';
-import RenameTierDialog from './dialog/RenameTierDialog.vue';
-import WaveSurfer from './WaveSurfer.vue';
 import WSpectrogram from './plugins/WSpectrogram.vue';
 import WTextGrid from './plugins/WTextGrid.vue';
-import WVideoArray from '../components/video/WVideoArray.vue';
+import WaveSurfer from './WaveSurfer.vue';
+import type { WSStore } from '../providers/WaveSurferProvider';
 import type {
   TextGrid,
   TierEvent,
   TierUpdateEvent,
   TierMouseEvent,
 } from './plugins/textgrid';
+import useTiers from '../hooks/useTiers';
+
+import { dumpTextGrid } from '../io/textgrid';
+import { text2url, downloadURL } from '../io/file';
+
+import WTextGridField from './inputs/WTextGridField.vue';
+
+import AddTierDialog, { NewTierProps } from './dialog/AddTierDialog.vue';
+import FileDownloadDialog from './dialog/FileDownloadDialog.vue';
+import FileUploadDialog, { FileSubmitEvent } from './dialog/FileUploadDialog.vue';
+import RenameTierDialog from './dialog/RenameTierDialog.vue';
+
+import WSToolbar from './controller/WSToolbar.vue';
+import WVideoArray from './video/WVideoArray.vue';
 
 export interface KeyMap {
   key: string;
@@ -142,6 +146,10 @@ export interface TextEditorProps {
   textgrid?: TextGridProps;
   /** Video データか否か */
   isVideo?: boolean;
+  // どの程度前後をずらすか?
+  frameOffset?: number;
+  // 1秒あたりのフレーム数
+  frameRate?: number;
 }
 
 const props = withDefaults(defineProps<TextEditorProps>(), {
@@ -158,13 +166,20 @@ const props = withDefaults(defineProps<TextEditorProps>(), {
   labels: true,
   height: 128,
   splitChannels: true,
-  isVideo: false,
   spectrogram: () => ({
     height: 256,
     frequencyMax: 5000,
     splitChannels: false,
   }),
+  isVideo: false,
+  frameOffset: 1,
+  frameRate: 1/30,
 });
+const emit = defineEmits<{
+  timeupdate: [time: number];
+  'timeupdate:prev': [time: number];
+  'timeupdate:next': [time: number];
+}>();
 
 const wsStore = inject(WSKey) as WSStore;
 
@@ -212,13 +227,21 @@ const duplicateTierDialog = ref<boolean>(false);
 /** TIER 名称変更ダイアログの開閉フラク */
 const renameTierDialog = ref<boolean>(false);
 
+/** TIER ITEM の編集用エレメント */
+const textfield = ref<HTMLInputElement | null>(null);
+
 /** TIER ITEM の Text 変更フィールド文字列 */
 const intervalText = ref<string>('');
 
 /** 選択された TIER ITEM の 時刻情報 */
 const activeTierItemTime = ref<number | null>(null);
 
-const textfield = ref<HTMLInputElement | null>(null);
+/** 動画を前後に何フレームずらすか */
+const frameOffset = ref<number>(props.frameOffset || 1);
+
+/** 動画フレームレート */
+const frameRate = ref<number>(props.frameRate || 30);
+
 
 /** TIER 操作フック */
 const {
@@ -391,6 +414,19 @@ const onTextGridClick = (event: TierMouseEvent) => {
   setActiveItem(event);
 };
 
+/** 中央フレーム更新時に前後フレーム時刻を変更 */
+const onTimeupdate = (time: number) => {
+  emit('timeupdate', time);
+};
+/** 前フレーム更新時に親要素に通達 */
+const onPrevTimeupdate = (time: number) => {
+  emit('timeupdate:prev', time);
+};
+/** 後フレーム更新時に親要素に通達 */
+const onNextTimeupdate = (time: number) => {
+  emit('timeupdate:next', time);
+};
+
 const onUpdateText = (text: string) => {
   intervalText.value = text;
   const time = activeTierItemTime.value;
@@ -439,13 +475,20 @@ const onUpdateText = (text: string) => {
       @submit="onTierRenameDialogSubmit"
       v-model="renameTierDialog"
     />
-    <v-layout >
+    <v-layout>
       <v-row>
         <v-col cols="7">
           <w-video-array
             v-if="isVideo"
+            flat
+            :muted="false"
             :source="props.source"
+            :frame-offset="frameOffset"
+            :frame-rate="frameRate"
             @loadeddata="onLoadeddata"
+            @timeupdate="onTimeupdate"
+            @timeupdate:prev="onPrevTimeupdate"
+            @timeupdate:next="onNextTimeupdate"
           >
             <template v-slot:prev>
               <slot name="prevVideo" />
@@ -458,19 +501,14 @@ const onUpdateText = (text: string) => {
             </template>
           </w-video-array>
         </v-col>
-        <v-col cols="5">
-        </v-col>
+        <v-col cols="5"> </v-col>
       </v-row>
-    </v-layout >
-    <v-text-field
+    </v-layout>
+    <w-text-grid-field
       v-if="source"
       :model-value="intervalText"
       @update:modelValue="onUpdateText"
       ref="textfield"
-      density="compact"
-      variant="solo"
-      single-line
-      hide-details
     />
     <wave-surfer
       v-if="source"
@@ -527,3 +565,9 @@ const onUpdateText = (text: string) => {
     </wave-surfer>
   </v-card>
 </template>
+
+<style scoped>
+.v-text-field ::v-deep(.v-field) {
+  border-radius: 0px;
+}
+</style>
